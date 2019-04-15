@@ -1,0 +1,28 @@
+{
+	"required": true,
+	"package": "virtuoel.pehkui.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins":
+	[
+		"EntityMixin",
+		"EntityTrackerEntryMixin",
+		"LivingEntityMixin",
+		"PlayerEntityMixin",
+		"PortalBlockMixin",
+		"ProjectileEntityMixin",
+		"ServerPlayNetworkHandlerMixin",
+		"ThrownEntityMixin"
+	],
+	"client":
+	[
+		"CameraMixin",
+		"ClientPlayerInteractionManagerMixin",
+		"EntityRenderDispatcherMixin",
+		"EntityRendererMixin",
+		"GameRendererMixin"
+	],
+	"injectors":
+	{
+		"defaultRequire": 1
+	}
+}

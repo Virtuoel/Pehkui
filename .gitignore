@@ -23,3 +23,18 @@ bin/
 # fabric
 
 run/
+
+# eclipse
+
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# other
+
+.mixin.out
+libs
+*.kate-swp

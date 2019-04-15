@@ -1,36 +1,41 @@
 {
-  "schemaVersion": 1,
-  "id": "modid",
-  "version": "${version}",
-
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
-  "authors": [
-    "Me!"
-  ],
-  "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
-  },
-
-  "license": "CC0-1.0",
-  "icon": "assets/modid/icon.png",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "net.fabricmc.example.ExampleMod"
-    ]
-  },
-  "mixins": [
-    "modid.mixins.json"
-  ],
-
-  "requires": {
-    "fabricloader": ">=0.4.0",
-    "fabric": "*"
-  },
-  "suggests": {
-    "flamingo": "*"
-  }
+	"schemaVersion": 1,
+	"id": "pehkui",
+	"name": "Pehkui",
+	"version": "${version}",
+	"side": "universal",
+	"description": "Fabric mod that allows resizing of any entity.",
+	"license": "MIT",
+	"contact":
+	{
+		"homepage": "https://minecraft.curseforge.com/projects/pehkui",
+		"issues": "https://github.com/Virtuoel/Pehkui/issues",
+		"sources": "https://github.com/Virtuoel/Pehkui"
+	},
+	"authors":
+	[
+		"Virtuoel"
+	],
+	"requires":
+	{
+		"fabricloader": ">=0.4.0",
+		"fabric": "*"
+	},
+	"icon": "assets/pehkui/icon.png",
+	"environment": "*",
+	"entrypoints":
+	{
+		"main":
+		[
+			"virtuoel.pehkui.Pehkui"
+		],
+		"client":
+		[
+			"virtuoel.pehkui.PehkuiClient"
+		]
+	},
+	"mixins":
+	[
+		"pehkui.mixins.json"
+	]
 }
