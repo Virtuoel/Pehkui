@@ -17,7 +17,7 @@ public class GameRendererMixin
 	public void bobViewTranslatefProxy(float x, float y, float z)
 	{
 		final MinecraftClient mc = MinecraftClient.getInstance();
-		final float scale = ((ResizableEntity) mc.getCameraEntity()).getScaleLerp(mc.getTickDelta());
+		final float scale = ((ResizableEntity) mc.getCameraEntity()).getScale(mc.getTickDelta());
 		GlStateManager.translatef(x * scale, y * scale, z * scale);
 	}
 }

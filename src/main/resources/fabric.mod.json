@@ -4,7 +4,7 @@
 	"name": "Pehkui",
 	"version": "${version}",
 	"side": "universal",
-	"description": "Fabric mod that allows resizing of any entity.",
+	"description": "Fabric mod that allows resizing of most entities.",
 	"license": "MIT",
 	"contact":
 	{

@@ -9,7 +9,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin(EntityRenderer.class)
@@ -28,7 +27,7 @@ public abstract class EntityRendererMixin
 	public void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float float_1, float float_2)
 	{
 		final float shadowSize_old = field_4673;
-		final float scale = MathHelper.lerp(float_2, ((ResizableEntity) entity).getPrevScale(), ((ResizableEntity) entity).getScale());
+		final float scale = ((ResizableEntity) entity).getScale(float_2);
 		
 		field_4673 *= scale;
 		

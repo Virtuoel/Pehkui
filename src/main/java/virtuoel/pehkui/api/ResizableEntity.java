@@ -21,9 +21,10 @@ public interface ResizableEntity
 	
 	float getPrevScale();
 	
-	default float getScaleLerp(float delta)
+	default float getScale(float delta)
 	{
-		return MathHelper.lerp(delta, getPrevScale(), getScale());
+		final float scale = getScale();
+		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
 	}
 	
 	void scheduleScaleUpdate();
