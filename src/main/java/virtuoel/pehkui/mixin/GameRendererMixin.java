@@ -13,7 +13,7 @@ import virtuoel.pehkui.api.ResizableEntity;
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
 {
-	@Redirect(method = "bobView", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/platform/GlStateManager.translatef(FFF)V"))
+	@Redirect(method = "bobView", at = @At(value = "INVOKE", target = "com/mojang/blaze3d/platform/GlStateManager.translatef(FFF)V", remap = false))
 	public void bobViewTranslatefProxy(float x, float y, float z)
 	{
 		final MinecraftClient mc = MinecraftClient.getInstance();
