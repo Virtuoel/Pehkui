@@ -38,3 +38,4 @@ bin
 .mixin.out
 libs
 *.kate-swp
+changelog.txt
