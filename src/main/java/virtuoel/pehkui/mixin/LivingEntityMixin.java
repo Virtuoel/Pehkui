@@ -1,10 +1,9 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
@@ -16,10 +15,13 @@ import virtuoel.pehkui.api.ResizableEntity;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin
 {
-	@Inject(at = @At("RETURN"), method = "getEyeHeight", cancellable = true)
-	private void onGetEyeHeight(EntityPose entityPose_1, EntitySize entitySize_1, CallbackInfoReturnable<Float> info)
+	@Shadow abstract float getActiveEyeHeight(EntityPose entityPose_1, EntitySize entitySize_1);
+	
+	@Redirect(method = "getEyeHeight", at = @At(value = "INVOKE", target = "net/minecraft/entity/LivingEntity.getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntitySize;)F"))
+	public float onGetEyeHeightGetActiveEyeHeightProxy(LivingEntity obj, EntityPose entityPose_1, EntitySize entitySize_1)
 	{
-		info.setReturnValue(info.getReturnValue() * getScale());
+		final float scale = getScale();
+		return getActiveEyeHeight(entityPose_1, entitySize_1.scaled(1.0F / scale)) * scale;
 	}
 	
 	@Redirect(method = "updatePostDeath", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
