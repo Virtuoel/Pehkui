@@ -36,6 +36,8 @@ dependencies {
 	
 	implementation "com.google.code.findbugs:jsr305:${findbugs_version}"
 	
+	compile "org.lwjgl:lwjgl-jemalloc:3.2.1"
+	
 	modCompile "io.github.prospector.modmenu:ModMenu:${modmenu_version}"
 }
 
