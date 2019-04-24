@@ -40,7 +40,6 @@
 	],
 	"custom":
 	{
-		"modmenu:api": true,
-		"modmenu:alpha": true
+		"modmenu:api": true
 	}
 }
