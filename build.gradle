@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "0.2.1-SNAPSHOT"
+	id "fabric-loom" version "0.2.2-SNAPSHOT"
 	id "maven-publish"
 	id "com.matthewprenger.cursegradle" version "1.1.2"
 }
@@ -46,7 +46,6 @@ processResources {
 	
 	from(sourceSets.main.resources.srcDirs) {
 		include "fabric.mod.json"
-		
 		expand "version": project.version
 	}
 	
@@ -87,7 +86,9 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			artifact(jar)
+			artifact(jar) {
+				builtBy remapJar
+			}
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
 			}
