@@ -26,20 +26,27 @@ public abstract class EntityRendererMixin
 	@Redirect(method = "postRender(Lnet/minecraft/entity/Entity;DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderer;renderShadow(Lnet/minecraft/entity/Entity;DDDFF)V"))
 	public void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float float_1, float float_2)
 	{
-		final float shadowSize_old = field_4673;
 		final float scale = ((ResizableEntity) entity).getScale(float_2);
-		
-		field_4673 *= scale;
-		
-		GlStateManager.pushMatrix();
-		GlStateManager.translated(0, -0.0155, 0);
-		GlStateManager.pushMatrix();
-		
-		renderShadow(entity, x, y, z, float_1, float_2);
-		
-		GlStateManager.popMatrix();
-		GlStateManager.popMatrix();
-		
-		field_4673 = shadowSize_old;
+		if(scale != 1.0F)
+		{
+			final float shadowSize_old = field_4673;
+			
+			field_4673 *= scale;
+			
+			GlStateManager.pushMatrix();
+			GlStateManager.translated(0, -0.0155, 0);
+			GlStateManager.pushMatrix();
+			
+			renderShadow(entity, x, y, z, float_1, float_2);
+			
+			GlStateManager.popMatrix();
+			GlStateManager.popMatrix();
+			
+			field_4673 = shadowSize_old;
+		}
+		else
+		{
+			renderShadow(entity, x, y, z, float_1, float_2);
+		}
 	}
 }
