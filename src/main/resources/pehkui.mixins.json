@@ -4,9 +4,13 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins":
 	[
+		"AbstractDonkeyEntityMixin",
+		"BoatEntityMixin",
 		"EnderCrystalEntityMixin",
 		"EntityMixin",
+		"EntityMountedHeightOffsetMixin",
 		"EntityTrackerEntryMixin",
+		"EntityVehicleHeightOffsetMixin",
 		"ExplosionMixin",
 		"ExplosiveProjectileEntityMixin",
 		"FireballEntityMixin",
@@ -16,6 +20,8 @@
 		"PreEntityTickMixin",
 		"ProjectileEntityMixin",
 		"ServerPlayNetworkHandlerMixin",
+		"ShootFireballGoalMixin",
+		"SkeletonHorseEntityMixin",
 		"ThrownEntityMixin"
 	],
 	"client":
