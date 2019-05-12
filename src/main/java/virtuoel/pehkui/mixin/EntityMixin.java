@@ -1,5 +1,7 @@
 package virtuoel.pehkui.mixin;
 
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +28,8 @@ import virtuoel.pehkui.PehkuiClient;
 import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ResizableEntity
+@Implements(@Interface(iface = ResizableEntity.class, prefix = "pehkui$"))
+public abstract class EntityMixin
 {
 	@Shadow World world;
 	@Shadow double x;
@@ -65,7 +68,7 @@ public abstract class EntityMixin implements ResizableEntity
 			
 			if(scale != 1.0F)
 			{
-				scheduleScaleUpdate();
+				pehkui$scheduleScaleUpdate();
 			}
 		}
 	}
@@ -75,9 +78,9 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		final CompoundTag scaleData = new CompoundTag();
 		
-		scaleData.putFloat("scale", getScale());
-		scaleData.putFloat("initial", getInitialScale());
-		scaleData.putFloat("target", getTargetScale());
+		scaleData.putFloat("scale", pehkui$getScale());
+		scaleData.putFloat("initial", pehkui$getInitialScale());
+		scaleData.putFloat("target", pehkui$getTargetScale());
 		scaleData.putInt("ticks", this.scaleTicks);
 		scaleData.putInt("total_ticks", this.totalScaleTicks);
 		
@@ -92,21 +95,21 @@ public abstract class EntityMixin implements ResizableEntity
 	
 	protected void tickScaleHook()
 	{
-		final float currScale = getScale();
-		if(currScale != getTargetScale())
+		final float currScale = pehkui$getScale();
+		if(currScale != pehkui$getTargetScale())
 		{
 			this.prevScale = currScale;
 			if(this.scaleTicks >= this.totalScaleTicks)
 			{
 				this.fromScale = this.toScale;
 				this.scaleTicks = 0;
-				setScale(this.toScale);
+				pehkui$setScale(this.toScale);
 			}
 			else
 			{
 				this.scaleTicks++;
 				final float nextScale = this.scale + ((this.toScale - this.fromScale) / (float) this.totalScaleTicks);
-				setScale(nextScale);
+				pehkui$setScale(nextScale);
 			}
 		}
 		else if(this.prevScale != currScale)
@@ -118,16 +121,16 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
 	private void onOnStartedTrackingBy(ServerPlayerEntity serverPlayerEntity_1, CallbackInfo info)
 	{
-		if(getScale() != 1.0F)
+		if(pehkui$getScale() != 1.0F)
 		{
-			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(PehkuiClient.SCALE_PACKET, scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
+			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(PehkuiClient.SCALE_PACKET, pehkui$scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
 		}
 	}
 	
 	@Inject(at = @At("RETURN"), method = "getSize", cancellable = true)
 	private void onGetSize(EntityPose entityPose_1, CallbackInfoReturnable<EntitySize> info)
 	{
-		final float scale = getScale();
+		final float scale = pehkui$getScale();
 		if(scale != 1.0F)
 		{
 			info.setReturnValue(info.getReturnValue().scaled(scale));
@@ -137,7 +140,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Redirect(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
 	public void onDropStackSetToDefaultPickupDelayProxy(ItemEntity obj)
 	{
-		final float scale = getScale();
+		final float scale = pehkui$getScale();
 		if(scale != 1.0F)
 		{
 			((ResizableEntity) obj).setScale(scale);
@@ -151,13 +154,13 @@ public abstract class EntityMixin implements ResizableEntity
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.clipSneakingMovement(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
 	public Vec3d onMoveClipSneakingMovementProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
 	{
-		return clipSneakingMovement(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(getScale()) : vec3d_1, movementType_1);
+		return clipSneakingMovement(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui$getScale()) : vec3d_1, movementType_1);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
 	private void onSpawnSprintingParticles(CallbackInfo info)
 	{
-		if(getScale() < 1.0F)
+		if(pehkui$getScale() < 1.0F)
 		{
 			info.cancel();
 		}
@@ -166,71 +169,62 @@ public abstract class EntityMixin implements ResizableEntity
 	@Redirect(method = "clipSneakingMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	public float onClipSneakingMovementStepHeightProxy(Entity obj)
 	{
-		return stepHeight * getScale();
+		return stepHeight * pehkui$getScale();
 	}
 	
 	@Redirect(method = "method_17835", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	public float onMethod_17835StepHeightProxy(Entity obj)
 	{
-		return stepHeight * getScale();
+		return stepHeight * pehkui$getScale();
 	}
 	
 	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
 	
-	@Override
-	public float getScale()
+	public float pehkui$getScale()
 	{
 		return this.scale;
 	}
 	
-	@Override
-	public void setScale(float scale)
+	public void pehkui$setScale(float scale)
 	{
 		this.prevScale = this.scale;
 		this.scale = scale;
 		refreshSize();
 	}
 	
-	@Override
-	public float getInitialScale()
+	public float pehkui$getInitialScale()
 	{
 		return this.fromScale;
 	}
 	
-	@Override
-	public float getTargetScale()
+	public float pehkui$getTargetScale()
 	{
 		return this.toScale;
 	}
 	
-	@Override
-	public void setTargetScale(float targetScale)
+	public void pehkui$setTargetScale(float targetScale)
 	{
 		this.fromScale = this.scale;
 		this.toScale = targetScale;
 		this.scaleTicks = 0;
 	}
 	
-	@Override
-	public int getScaleTickDelay()
+	public int pehkui$getScaleTickDelay()
 	{
 		return this.totalScaleTicks;
 	}
 	
-	@Override
-	public void setScaleTickDelay(int ticks)
+	public void pehkui$setScaleTickDelay(int ticks)
 	{
 		this.totalScaleTicks = ticks;
 	}
 	
-	@Override
-	public float getPrevScale()
+	public float pehkui$getPrevScale()
 	{
 		return this.prevScale;
 	}
 	
-	@Override
-	public void scheduleScaleUpdate()
+	public void pehkui$scheduleScaleUpdate()
 	{
 		if(world != null && !world.isClient)
 		{
@@ -238,14 +232,12 @@ public abstract class EntityMixin implements ResizableEntity
 		}
 	}
 	
-	@Override
-	public boolean shouldSyncScale()
+	public boolean pehkui$shouldSyncScale()
 	{
 		return this.scaleModified;
 	}
 	
-	@Override
-	public PacketByteBuf scaleToPacketByteBuf(PacketByteBuf buffer)
+	public PacketByteBuf pehkui$scaleToPacketByteBuf(PacketByteBuf buffer)
 	{
 		scaleModified = false;
 		buffer.writeFloat(this.scale)
@@ -257,8 +249,7 @@ public abstract class EntityMixin implements ResizableEntity
 		return buffer;
 	}
 	
-	@Override
-	public void scaleFromPacketByteBuf(PacketByteBuf buffer)
+	public void pehkui$scaleFromPacketByteBuf(PacketByteBuf buffer)
 	{
 		this.scale = buffer.readFloat();
 		this.prevScale = buffer.readFloat();

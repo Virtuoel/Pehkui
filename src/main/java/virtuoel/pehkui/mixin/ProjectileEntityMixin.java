@@ -36,8 +36,8 @@ public abstract class ProjectileEntityMixin extends EntityMixin
 			final float scale = ((ResizableEntity) entity_1).getScale();
 			if(scale != 1.0F)
 			{
-				setScale(scale);
-				setTargetScale(scale);
+				pehkui$setScale(scale);
+				pehkui$setTargetScale(scale);
 			}
 		}
 	}

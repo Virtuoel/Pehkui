@@ -22,8 +22,8 @@ public abstract class ExplosiveProjectileEntityMixin extends EntityMixin
 		
 		if(scale != 1.0F)
 		{
-			setScale(scale);
-			setTargetScale(scale);
+			pehkui$setScale(scale);
+			pehkui$setTargetScale(scale);
 		}
 	}
 }

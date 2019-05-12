@@ -23,8 +23,8 @@ public abstract class ThrownEntityMixin extends EntityMixin
 		{
 			setPosition(this.x, this.y + ((1.0F - scale) * 0.1D), this.z);
 			
-			setScale(scale);
-			setTargetScale(scale);
+			pehkui$setScale(scale);
+			pehkui$setTargetScale(scale);
 		}
 	}
 }

@@ -20,7 +20,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@Redirect(method = "getEyeHeight", at = @At(value = "INVOKE", target = "net/minecraft/entity/LivingEntity.getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntitySize;)F"))
 	public float onGetEyeHeightGetActiveEyeHeightProxy(LivingEntity obj, EntityPose entityPose_1, EntitySize entitySize_1)
 	{
-		final float scale = getScale();
+		final float scale = pehkui$getScale();
 		return getActiveEyeHeight(entityPose_1, entitySize_1.scaled(1.0F / scale)) * scale;
 	}
 	
@@ -29,7 +29,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	{
 		final boolean ret = obj.spawnEntity(entity_1);
 		
-		final float scale = getScale();
+		final float scale = pehkui$getScale();
 		if(scale != 1.0F)
 		{
 			((ResizableEntity) entity_1).setScale(scale);

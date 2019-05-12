@@ -18,13 +18,13 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@Inject(at = @At("RETURN"), method = "getSize", cancellable = true)
 	private void onGetSize(EntityPose entityPose_1, CallbackInfoReturnable<EntitySize> info)
 	{
-		info.setReturnValue(info.getReturnValue().scaled(getScale()));
+		info.setReturnValue(info.getReturnValue().scaled(pehkui$getScale()));
 	}
 	
 	@Redirect(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
 	public void onDropItemSetPickupDelayProxy(ItemEntity obj, int int_1)
 	{
-		final float scale = getScale();
+		final float scale = pehkui$getScale();
 		if(scale != 1.0F)
 		{
 			((ResizableEntity) obj).setScale(scale);
