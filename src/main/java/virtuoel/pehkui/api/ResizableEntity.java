@@ -5,6 +5,8 @@ import net.minecraft.util.math.MathHelper;
 
 public interface ResizableEntity
 {
+	void tickScale();
+	
 	float getScale();
 	
 	void setScale(float scale);

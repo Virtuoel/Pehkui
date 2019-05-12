@@ -90,10 +90,10 @@ public abstract class EntityMixin
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		tickScaleHook();
+		pehkui$tickScale();
 	}
 	
-	protected void tickScaleHook()
+	public void pehkui$tickScale()
 	{
 		final float currScale = pehkui$getScale();
 		if(currScale != pehkui$getTargetScale())
