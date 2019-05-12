@@ -4,9 +4,12 @@
 	"compatibilityLevel": "JAVA_8",
 	"mixins":
 	[
+		"EnderCrystalEntityMixin",
 		"EntityMixin",
 		"EntityTrackerEntryMixin",
+		"ExplosionMixin",
 		"ExplosiveProjectileEntityMixin",
+		"FireballEntityMixin",
 		"LivingEntityMixin",
 		"PlayerEntityMixin",
 		"PortalBlockMixin",
