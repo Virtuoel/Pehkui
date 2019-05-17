@@ -16,7 +16,7 @@ public abstract class ShootFireballGoalMixin
 {
 	@Shadow @Final BlazeEntity blaze;
 	
-	@Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	@Redirect(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	public boolean onSpawnEntityProxy(World obj, Entity entity_1)
 	{
 		final float scale = ((ResizableEntity) blaze).getScale();
