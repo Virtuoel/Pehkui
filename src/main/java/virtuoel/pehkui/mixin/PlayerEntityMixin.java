@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.BoundingBox;
 import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin(PlayerEntity.class)
@@ -31,5 +32,19 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 			((ResizableEntity) obj).setTargetScale(scale);
 		}
 		obj.setPickupDelay(int_1);
+	}
+	
+	@Redirect(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BoundingBox;expand(DDD)Lnet/minecraft/util/math/BoundingBox;"))
+	public BoundingBox onTickMovementExpandProxy(BoundingBox obj, double double_1, double double_2, double double_3)
+	{
+		final float scale = pehkui$getScale();
+		return obj.expand(double_1 * scale, double_2 * scale, double_3 * scale);
+	}
+	
+	@Redirect(method = "attack(Lnet/minecraft/entity/Entity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BoundingBox;expand(DDD)Lnet/minecraft/util/math/BoundingBox;"))
+	public BoundingBox onAttackProxy(BoundingBox obj, double double_1, double double_2, double double_3)
+	{
+		final float scale = pehkui$getScale();
+		return obj.expand(double_1 * scale, double_2 * scale, double_3 * scale);
 	}
 }
