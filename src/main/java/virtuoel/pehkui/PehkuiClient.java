@@ -6,6 +6,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ResizableEntity;
 
@@ -17,14 +18,31 @@ public class PehkuiClient implements ClientModInitializer
 		ClientSidePacketRegistry.INSTANCE.register(SCALE_PACKET, (packetContext, packetByteBuf) ->
 		{
 			final MinecraftClient client = MinecraftClient.getInstance();
+			final UUID uuid = packetByteBuf.readUuid();
+			
+			final float scale = packetByteBuf.readFloat();
+			final float prevScale = packetByteBuf.readFloat();
+			final float fromScale = packetByteBuf.readFloat();
+			final float toScale = packetByteBuf.readFloat();
+			final int scaleTicks = packetByteBuf.readInt();
+			final int totalScaleTicks = packetByteBuf.readInt();
+			
+			final CompoundTag scaleData = new CompoundTag();
+			
+			scaleData.putFloat("scale", scale);
+			scaleData.putFloat("previous", prevScale);
+			scaleData.putFloat("initial", fromScale);
+			scaleData.putFloat("target", toScale);
+			scaleData.putInt("ticks", scaleTicks);
+			scaleData.putInt("total_ticks", totalScaleTicks);
+			
 			client.execute(() ->
 			{
-				final UUID uuid = packetByteBuf.readUuid();
 				for(final Entity e : client.world.getEntities())
 				{
 					if(e.getUuid().equals(uuid))
 					{
-						((ResizableEntity) e).scaleFromPacketByteBuf(packetByteBuf);
+						((ResizableEntity) e).scaleFromCompoundTag(scaleData);
 						break;
 					}
 				}

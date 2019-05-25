@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "0.2.2-SNAPSHOT"
+	id "fabric-loom" version "0.2.3-SNAPSHOT"
 	id "maven-publish"
 	id "com.matthewprenger.cursegradle" version "1.1.2"
 }
@@ -32,11 +32,9 @@ dependencies {
 	mappings "net.fabricmc:yarn:${yarn_mappings}"
 	
 	modCompile "net.fabricmc:fabric-loader:${loader_version}"
-	modCompile "net.fabricmc:fabric:${fabric_version}"
+	modCompile "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 	
 	implementation "com.google.code.findbugs:jsr305:${findbugs_version}"
-	
-	compile "org.lwjgl:lwjgl-jemalloc:3.2.1"
 	
 	modCompile "io.github.prospector.modmenu:ModMenu:${modmenu_version}"
 }

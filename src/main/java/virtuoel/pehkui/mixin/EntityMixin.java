@@ -55,16 +55,7 @@ public abstract class EntityMixin
 	{
 		if(compoundTag_1.containsKey(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
-			final CompoundTag scaleData = compoundTag_1.getCompound(Pehkui.MOD_ID + ":scale_data");
-			
-			this.scale = scaleData.containsKey("scale") ? scaleData.getFloat("scale") : 1.0F;
-			this.prevScale = this.scale;
-			this.fromScale = scaleData.containsKey("initial") ? scaleData.getFloat("initial") : this.scale;
-			this.toScale = scaleData.containsKey("target") ? scaleData.getFloat("target") : this.scale;
-			this.scaleTicks = scaleData.containsKey("ticks") ? scaleData.getInt("ticks") : 0;
-			this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : DEFAULT_SCALING_TICK_TIME;
-			
-			refreshSize();
+			pehkui$scaleFromCompoundTag(compoundTag_1.getCompound(Pehkui.MOD_ID + ":scale_data"));
 			
 			if(scale != 1.0F)
 			{
@@ -249,6 +240,19 @@ public abstract class EntityMixin
 		return buffer;
 	}
 	
+	public void pehkui$scaleFromCompoundTag(CompoundTag scaleData)
+	{
+		this.scale = scaleData.containsKey("scale") ? scaleData.getFloat("scale") : 1.0F;
+		this.prevScale = scaleData.containsKey("previous") ? scaleData.getFloat("previous") : this.scale;
+		this.fromScale = scaleData.containsKey("initial") ? scaleData.getFloat("initial") : this.scale;
+		this.toScale = scaleData.containsKey("target") ? scaleData.getFloat("target") : this.scale;
+		this.scaleTicks = scaleData.containsKey("ticks") ? scaleData.getInt("ticks") : 0;
+		this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : DEFAULT_SCALING_TICK_TIME;
+		
+		refreshSize();
+	}
+	
+	@Deprecated
 	public void pehkui$scaleFromPacketByteBuf(PacketByteBuf buffer)
 	{
 		this.scale = buffer.readFloat();
@@ -257,6 +261,7 @@ public abstract class EntityMixin
 		this.toScale = buffer.readFloat();
 		this.scaleTicks = buffer.readInt();
 		this.totalScaleTicks = buffer.readInt();
+		
 		refreshSize();
 	}
 }
