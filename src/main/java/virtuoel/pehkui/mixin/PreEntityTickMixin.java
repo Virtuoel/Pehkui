@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.PrimedTntEntity;
+import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.EnderCrystalEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
@@ -17,7 +17,7 @@ import virtuoel.pehkui.api.ResizableEntity;
 	AbstractMinecartEntity.class,
 	EnderCrystalEntity.class,
 	FallingBlockEntity.class,
-	PrimedTntEntity.class
+	TntEntity.class
 })
 public abstract class PreEntityTickMixin implements ResizableEntity
 {
