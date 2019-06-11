@@ -31,7 +31,7 @@ public abstract class PortalBlockMixin extends Block
 	@Inject(at = @At("HEAD"), method = "onEntityCollision", cancellable = true)
 	private void onOnEntityCollision(BlockState blockState_1, World world_1, BlockPos blockPos_1, Entity entity_1, CallbackInfo info)
 	{
-		if(!entity_1.getBoundingBox().intersects((blockState_1.get(Properties.AXIS_XZ) == Direction.Axis.Z ? Z_SHAPE : X_SHAPE).getBoundingBox().offset(blockPos_1)))
+		if(!entity_1.getBoundingBox().intersects((blockState_1.get(Properties.HORIZONTAL_AXIS) == Direction.Axis.Z ? Z_SHAPE : X_SHAPE).getBoundingBox().offset(blockPos_1)))
 		{
 			info.cancel();
 		}
