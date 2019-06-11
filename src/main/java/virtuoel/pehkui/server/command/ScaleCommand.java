@@ -5,6 +5,7 @@ import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 
 import net.minecraft.command.arguments.EntityArgumentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -20,15 +21,19 @@ public class ScaleCommand
 			{
 				return commandSource.hasPermissionLevel(2);
 			})
-			.then(CommandManager.argument("entity", EntityArgumentType.entity())
+			.then(CommandManager.argument("targets", EntityArgumentType.entities())
 				.then(CommandManager.argument("scale", FloatArgumentType.floatArg())
 					.executes(context ->
 					{
 						try
 						{
-							final ResizableEntity entity = (ResizableEntity) EntityArgumentType.getEntity(context, "entity");
-							entity.setTargetScale(FloatArgumentType.getFloat(context, "scale"));
-							entity.scheduleScaleUpdate();
+							final float scale = FloatArgumentType.getFloat(context, "scale");
+							for(final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								final ResizableEntity entity = (ResizableEntity) e;
+								entity.setTargetScale(scale);
+								entity.scheduleScaleUpdate();
+							}
 						}
 						catch(Exception e)
 						{
@@ -46,15 +51,19 @@ public class ScaleCommand
 			{
 				return commandSource.hasPermissionLevel(2);
 			})
-			.then(CommandManager.argument("entity", EntityArgumentType.entity())
+			.then(CommandManager.argument("targets", EntityArgumentType.entities())
 				.then(CommandManager.argument("ticks", IntegerArgumentType.integer())
 					.executes(context ->
 					{
 						try
 						{
-							final ResizableEntity entity = (ResizableEntity) EntityArgumentType.getEntity(context, "entity");
-							entity.setScaleTickDelay(IntegerArgumentType.getInteger(context, "ticks"));
-							entity.scheduleScaleUpdate();
+							final int ticks = IntegerArgumentType.getInteger(context, "ticks");
+							for(final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								final ResizableEntity entity = (ResizableEntity) e;
+								entity.setScaleTickDelay(ticks);
+								entity.scheduleScaleUpdate();
+							}
 						}
 						catch(Exception e)
 						{
@@ -75,7 +84,7 @@ public class ScaleCommand
 			.then(CommandManager.argument("entity", EntityArgumentType.entity())
 				.executes(context ->
 				{
-					float scale = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScale();
+					final float scale = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScale();
 					context.getSource().sendFeedback(new TextComponent("Scale: " + scale), false);
 					return 1;
 				})
@@ -90,7 +99,7 @@ public class ScaleCommand
 			.then(CommandManager.argument("entity", EntityArgumentType.entity())
 				.executes(context ->
 				{
-					int ticks = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
+					final int ticks = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
 					context.getSource().sendFeedback(new TextComponent("Delay: " + ticks + " ticks"), false);
 					return 1;
 				})
