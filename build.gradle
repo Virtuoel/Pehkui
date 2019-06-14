@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "0.2.2-SNAPSHOT"
+	id "fabric-loom" version "0.2.4-SNAPSHOT"
 	id "maven-publish"
 	id "com.matthewprenger.cursegradle" version "1.2.0"
 }
@@ -84,8 +84,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			artifact(jar) {
-				builtBy remapJar
+			afterEvaluate {
+				artifact(remapJar.output) {
+					builtBy remapJar
+				}
 			}
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
@@ -124,7 +126,7 @@ curseforge {
 		project {
 			id = project.properties.curseforge_id
 			addGameVersion "${release_version}"
-			mainArtifact(jar) {
+			mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")) {
 				displayName = "${mod_name}-${minecraft_version}-${mod_version}.jar"
 				relations {
 					requiredDependency "fabric"
@@ -140,20 +142,13 @@ curseforge {
 			addArtifact(sourcesJar) {
 				displayName = "${mod_name}-${minecraft_version}-${mod_version}-sources.jar"
 			}
+			
+			afterEvaluate {
+				uploadTask.dependsOn remapJar, remapSourcesJar
+			}
 		}
 		options {
 			forgeGradleIntegration = false
-		}
-	}
-}
-
-afterEvaluate {
-	if(project.hasProperty("curseforge_id")) {
-		tasks.each {
-			if(it.name == "curseforge${curseforge_id}") {
-				it.dependsOn remapJar, remapSourcesJar
-				it.mustRunAfter remapJar, remapSourcesJar
-			}
 		}
 	}
 }
