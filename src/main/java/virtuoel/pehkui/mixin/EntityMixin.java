@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Interface.Remap;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -28,7 +29,7 @@ import virtuoel.pehkui.PehkuiClient;
 import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin(Entity.class)
-@Implements(@Interface(iface = ResizableEntity.class, prefix = "pehkui$"))
+@Implements(@Interface(iface = ResizableEntity.class, prefix = "pehkui$", remap = Remap.NONE))
 public abstract class EntityMixin
 {
 	@Shadow World world;
