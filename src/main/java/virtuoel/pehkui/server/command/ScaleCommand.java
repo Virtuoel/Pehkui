@@ -6,9 +6,9 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 
 import net.minecraft.command.arguments.EntityArgumentType;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.LiteralText;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ResizableEntity;
 
@@ -85,7 +85,7 @@ public class ScaleCommand
 				.executes(context ->
 				{
 					final float scale = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScale();
-					context.getSource().sendFeedback(new TextComponent("Scale: " + scale), false);
+					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 					return 1;
 				})
 			)
@@ -100,7 +100,7 @@ public class ScaleCommand
 				.executes(context ->
 				{
 					final int ticks = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
-					context.getSource().sendFeedback(new TextComponent("Delay: " + ticks + " ticks"), false);
+					context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
 					return 1;
 				})
 			)

@@ -14,14 +14,14 @@ import virtuoel.pehkui.api.ResizableEntity;
 public abstract class CameraMixin
 {
 	@Shadow Entity focusedEntity;
-	@Shadow abstract double method_19318(double distance);
+	@Shadow abstract double clipToSpace(double distance);
 	@Shadow abstract void moveBy(double x, double y, double z);
 	
-	@Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;method_19318(D)D"))
-	public double onUpdateMethod_19318Proxy(Camera obj, double distance)
+	@Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
+	public double onUpdateClipToSpaceProxy(Camera obj, double distance)
 	{
 		final float scale = ((ResizableEntity) focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
-		return method_19318(distance * scale);
+		return clipToSpace(distance * scale);
 	}
 	
 	@Redirect(method = "update", at = @At(value = "INVOKE", ordinal = 2, target = "Lnet/minecraft/client/render/Camera;moveBy(DDD)V"))

@@ -2,9 +2,9 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
+import org.spongepowered.asm.mixin.Interface.Remap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Interface.Remap;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -15,8 +15,8 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.client.network.packet.CustomPayloadS2CPacket;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.CompoundTag;
@@ -37,9 +37,9 @@ public abstract class EntityMixin
 	@Shadow double y;
 	@Shadow double z;
 	@Shadow float stepHeight;
-	@Shadow EntitySize size;
+	@Shadow EntityDimensions dimensions;
 	
-	@Shadow public abstract void refreshSize();
+	@Shadow public abstract void calculateDimensions();
 	
 	private static final int DEFAULT_SCALING_TICK_TIME = 20;
 	
@@ -119,8 +119,8 @@ public abstract class EntityMixin
 		}
 	}
 	
-	@Inject(at = @At("RETURN"), method = "getSize", cancellable = true)
-	private void onGetSize(EntityPose entityPose_1, CallbackInfoReturnable<EntitySize> info)
+	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
+	private void onGetDimensions(EntityPose entityPose_1, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		final float scale = pehkui$getScale();
 		if(scale != 1.0F)
@@ -181,7 +181,7 @@ public abstract class EntityMixin
 	{
 		this.prevScale = this.scale;
 		this.scale = scale;
-		refreshSize();
+		calculateDimensions();
 	}
 	
 	public float pehkui$getInitialScale()
@@ -250,7 +250,7 @@ public abstract class EntityMixin
 		this.scaleTicks = scaleData.containsKey("ticks") ? scaleData.getInt("ticks") : 0;
 		this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : DEFAULT_SCALING_TICK_TIME;
 		
-		refreshSize();
+		calculateDimensions();
 	}
 	
 	@Deprecated
@@ -263,6 +263,6 @@ public abstract class EntityMixin
 		this.scaleTicks = buffer.readInt();
 		this.totalScaleTicks = buffer.readInt();
 		
-		refreshSize();
+		calculateDimensions();
 	}
 }
