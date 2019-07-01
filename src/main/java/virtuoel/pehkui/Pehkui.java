@@ -27,4 +27,6 @@ public class Pehkui implements ModInitializer
 	{
 		return new Identifier(MOD_ID, name);
 	}
+	
+	public static final Identifier SCALE_PACKET = id("scale");
 }

@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.util.PacketByteBuf;
-import virtuoel.pehkui.PehkuiClient;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin(EntityTrackerEntry.class)
@@ -28,7 +28,7 @@ public abstract class EntityTrackerEntryMixin
 		final ResizableEntity e = ((ResizableEntity) entity);
 		if(e.shouldSyncScale())
 		{
-			method_18758(new CustomPayloadS2CPacket(PehkuiClient.SCALE_PACKET, e.scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(entity.getUuid()))));
+			method_18758(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, e.scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(entity.getUuid()))));
 		}
 	}
 }

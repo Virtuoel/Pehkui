@@ -7,7 +7,6 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ResizableEntity;
 
 public class PehkuiClient implements ClientModInitializer
@@ -15,7 +14,7 @@ public class PehkuiClient implements ClientModInitializer
 	@Override
 	public void onInitializeClient()
 	{
-		ClientSidePacketRegistry.INSTANCE.register(SCALE_PACKET, (packetContext, packetByteBuf) ->
+		ClientSidePacketRegistry.INSTANCE.register(Pehkui.SCALE_PACKET, (packetContext, packetByteBuf) ->
 		{
 			final MinecraftClient client = MinecraftClient.getInstance();
 			final UUID uuid = packetByteBuf.readUuid();
@@ -36,7 +35,7 @@ public class PehkuiClient implements ClientModInitializer
 			scaleData.putInt("ticks", scaleTicks);
 			scaleData.putInt("total_ticks", totalScaleTicks);
 			
-			client.execute(() ->
+			packetContext.getTaskQueue().execute(() ->
 			{
 				for(final Entity e : client.world.getEntities())
 				{
@@ -49,6 +48,4 @@ public class PehkuiClient implements ClientModInitializer
 			});
 		});
 	}
-	
-	public static final Identifier SCALE_PACKET = Pehkui.id("scale");
 }

@@ -25,7 +25,6 @@ import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
-import virtuoel.pehkui.PehkuiClient;
 import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin(Entity.class)
@@ -115,7 +114,7 @@ public abstract class EntityMixin
 	{
 		if(pehkui$getScale() != 1.0F)
 		{
-			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(PehkuiClient.SCALE_PACKET, pehkui$scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
+			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, pehkui$scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
 		}
 	}
 	
