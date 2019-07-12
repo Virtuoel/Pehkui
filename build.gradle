@@ -113,7 +113,7 @@ String generateHTMLChangelog() {
 		}
 		changelog_text += "<p>&nbsp;</p>\n"
 	}
-	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric-Loader <code>${loader_version}</code></p>\n<p><a href=\"https://minecraft.curseforge.com/projects/fabric/files/\" rel=\"nofollow\">Fabric API <code>${fabric_version}</code></a></p>\n"
+	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric-Loader <code>${loader_version}</code></p>\n<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files\" rel=\"nofollow\">Fabric API <code>${fabric_version}</code></a></p>\n"
 	return changelog_text
 }
 
@@ -129,7 +129,7 @@ curseforge {
 			mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")) {
 				displayName = "${mod_name}-${minecraft_version}-${mod_version}.jar"
 				relations {
-					requiredDependency "fabric"
+					requiredDependency "fabric-api"
 				}
 				
 				changelogType = "html"
