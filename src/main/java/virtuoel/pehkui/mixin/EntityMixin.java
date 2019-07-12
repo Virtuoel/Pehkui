@@ -163,8 +163,8 @@ public abstract class EntityMixin
 		return stepHeight * pehkui$getScale();
 	}
 	
-	@Redirect(method = "method_17835", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
-	public float onMethod_17835StepHeightProxy(Entity obj)
+	@Redirect(method = "handleCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
+	public float onHandleCollisionsStepHeightProxy(Entity obj)
 	{
 		return stepHeight * pehkui$getScale();
 	}

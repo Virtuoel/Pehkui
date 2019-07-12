@@ -36,7 +36,7 @@ dependencies {
 	
 	implementation "com.google.code.findbugs:jsr305:${findbugs_version}"
 	
-	modCompile "io.github.prospector.modmenu:ModMenu:${modmenu_version}"
+	modCompile "io.github.prospector:modmenu:${modmenu_version}"
 }
 
 processResources {
