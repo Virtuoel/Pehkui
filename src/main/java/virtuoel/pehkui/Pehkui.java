@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
 import net.minecraft.util.Identifier;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class Pehkui implements ModInitializer
@@ -13,6 +14,11 @@ public class Pehkui implements ModInitializer
 	public static final String MOD_ID = "pehkui";
 	
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	
+	public Pehkui()
+	{
+		PehkuiConfig.DATA.getClass();
+	}
 	
 	@Override
 	public void onInitialize()
