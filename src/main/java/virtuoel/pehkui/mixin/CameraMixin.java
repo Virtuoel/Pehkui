@@ -23,11 +23,4 @@ public abstract class CameraMixin
 		final float scale = ((ResizableEntity) focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
 		return clipToSpace(distance * scale);
 	}
-	
-	@Redirect(method = "update", at = @At(value = "INVOKE", ordinal = 2, target = "Lnet/minecraft/client/render/Camera;moveBy(DDD)V"))
-	public void onUpdateMoveByProxy(Camera obj, double x, double y, double z)
-	{
-		final float scale = ((ResizableEntity) focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
-		moveBy(x * scale, y, z);
-	}
 }
