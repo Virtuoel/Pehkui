@@ -35,9 +35,8 @@ public abstract class EntityMixin implements ResizableEntity
 	@Shadow double y;
 	@Shadow double z;
 	@Shadow float stepHeight;
-	@Shadow EntityDimensions dimensions;
 	
-	ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
+	public ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
 	
 	@Inject(at = @At("HEAD"), method = "fromTag")
 	private void onFromTag(CompoundTag compoundTag_1, CallbackInfo info)
