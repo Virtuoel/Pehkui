@@ -30,13 +30,22 @@ import virtuoel.pehkui.api.ScaleData;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements ResizableEntity
 {
-	@Shadow World world;
 	@Shadow double x;
 	@Shadow double y;
 	@Shadow double z;
+	@Shadow World world;
 	@Shadow float stepHeight;
 	
+	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
+	
 	public ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
+	
+	@Deprecated
+	@Override
+	public ScaleData pehkui_getScaleData()
+	{
+		return pehkui_scaleData;
+	}
 	
 	@Inject(at = @At("HEAD"), method = "fromTag")
 	private void onFromTag(CompoundTag compoundTag_1, CallbackInfo info)
@@ -50,13 +59,6 @@ public abstract class EntityMixin implements ResizableEntity
 				pehkui_scaleData.markForSync();
 			}
 		}
-	}
-	
-	@Deprecated
-	@Override
-	public ScaleData pehkui_getScaleData()
-	{
-		return pehkui_scaleData;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "toTag")
@@ -132,6 +134,4 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		return stepHeight * pehkui_scaleData.getScale();
 	}
-	
-	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
 }
