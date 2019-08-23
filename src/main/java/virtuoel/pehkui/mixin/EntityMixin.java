@@ -53,6 +53,7 @@ public abstract class EntityMixin implements ResizableEntity
 		}
 	}
 	
+	@Deprecated
 	@Override
 	public ScaleData pehkui_getScaleData()
 	{
@@ -134,5 +135,4 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
-	
 }

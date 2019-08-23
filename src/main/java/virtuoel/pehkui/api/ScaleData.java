@@ -9,14 +9,11 @@ import net.minecraft.util.math.MathHelper;
 
 public class ScaleData
 {
+	public static final ScaleData IDENTITY = new ImmutableScaleData(1.0F);
+	
 	public static ScaleData of(Entity entity)
 	{
-		return of((ResizableEntity) entity);
-	}
-	
-	public static ScaleData of(ResizableEntity entity)
-	{
-		return entity.pehkui_getScaleData();
+		return ((ResizableEntity) entity).pehkui_getScaleData();
 	}
 	
 	private static final int DEFAULT_SCALING_TICK_TIME = 20;
@@ -153,5 +150,53 @@ public class ScaleData
 		tag.putInt("ticks", this.scaleTicks);
 		tag.putInt("total_ticks", this.totalScaleTicks);
 		return tag;
+	}
+	
+	public static class ImmutableScaleData extends ScaleData
+	{
+		public ImmutableScaleData(float scale)
+		{
+			super(Optional.empty());
+			this.scale = scale;
+			this.prevScale = scale;
+			this.fromScale = scale;
+			this.toScale = scale;
+		}
+		
+		@Override
+		public void tick()
+		{
+			
+		}
+		
+		@Override
+		public void setScale(float scale)
+		{
+			
+		}
+		
+		@Override
+		public void setTargetScale(float targetScale)
+		{
+			
+		}
+		
+		@Override
+		public void setScaleTickDelay(int ticks)
+		{
+			
+		}
+		
+		@Override
+		public void markForSync()
+		{
+			
+		}
+		
+		@Override
+		public void fromTag(CompoundTag scaleData)
+		{
+			
+		}
 	}
 }

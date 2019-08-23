@@ -4,22 +4,17 @@ import java.util.function.Supplier;
 
 import com.google.gson.JsonObject;
 
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Lazy;
+import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.util.JsonConfigHandler;
 
 public class PehkuiConfig
 {
-	public static final String NAMESPACE = "pehkui";
-	
 	public static final Supplier<JsonObject> HANDLER =
-		!FabricLoader.getInstance().isModLoaded(NAMESPACE) ?
-		new Lazy<JsonObject>(JsonObject::new)::get :
-		((Supplier<Supplier<Supplier<JsonObject>>>)() ->
-		(() -> new virtuoel.pehkui.util.JsonConfigHandler(
-			NAMESPACE,
-			NAMESPACE + "/config.json",
+		new JsonConfigHandler(
+			Pehkui.MOD_ID,
+			Pehkui.MOD_ID + "/config.json",
 			PehkuiConfig::createDefaultConfig
-		))).get().get();
+		);
 	
 	public static final JsonObject DATA = HANDLER.get();
 	
