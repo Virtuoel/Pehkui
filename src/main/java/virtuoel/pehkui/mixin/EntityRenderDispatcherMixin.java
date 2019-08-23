@@ -10,7 +10,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin
@@ -18,7 +18,7 @@ public class EntityRenderDispatcherMixin
 	@Redirect(method = "render(Lnet/minecraft/entity/Entity;DDDFFZ)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderer;render(Lnet/minecraft/entity/Entity;DDDFF)V"))
 	public void onRenderEntityRendererRenderProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float float_1, float float_2)
 	{
-		final float scale = MathHelper.lerp(float_2, ((ResizableEntity) entity).getPrevScale(), ((ResizableEntity) entity).getScale());
+		final float scale = MathHelper.lerp(float_2, ScaleData.of(entity).getPrevScale(), ScaleData.of(entity).getScale());
 		
 		GlStateManager.pushMatrix();
 		GlStateManager.scalef(scale, scale, scale);

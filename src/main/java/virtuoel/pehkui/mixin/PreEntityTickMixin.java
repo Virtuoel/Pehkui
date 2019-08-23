@@ -10,7 +10,6 @@ import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.EnderCrystalEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import virtuoel.pehkui.api.ResizableEntity;
 
 @Mixin({
 	AbstractDecorationEntity.class,
@@ -19,11 +18,11 @@ import virtuoel.pehkui.api.ResizableEntity;
 	FallingBlockEntity.class,
 	TntEntity.class
 })
-public abstract class PreEntityTickMixin implements ResizableEntity
+public abstract class PreEntityTickMixin extends EntityMixin
 {
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		tickScale();
+		pehkui_scaleData.tick();
 	}
 }

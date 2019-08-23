@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.world.World;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(ExplosiveProjectileEntity.class)
 public abstract class ExplosiveProjectileEntityMixin extends EntityMixin
@@ -18,12 +18,12 @@ public abstract class ExplosiveProjectileEntityMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;DDDLnet/minecraft/world/World;)V")
 	public void onConstruct(EntityType<? extends ProjectileEntity> entityType_1, LivingEntity livingEntity_1, double double_1, double double_2, double double_3, World world_1, CallbackInfo info)
 	{
-		final float scale = ((ResizableEntity) livingEntity_1).getScale();
+		final float scale = ScaleData.of(livingEntity_1).getScale();
 		
 		if(scale != 1.0F)
 		{
-			pehkui$setScale(scale);
-			pehkui$setTargetScale(scale);
+			pehkui_scaleData.setScale(scale);
+			pehkui_scaleData.setTargetScale(scale);
 		}
 	}
 }

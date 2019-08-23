@@ -10,7 +10,7 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import virtuoel.pehkui.Pehkui;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 public class ScaleCommand
 {
@@ -30,9 +30,9 @@ public class ScaleCommand
 							final float scale = FloatArgumentType.getFloat(context, "scale");
 							for(final Entity e : EntityArgumentType.getEntities(context, "targets"))
 							{
-								final ResizableEntity entity = (ResizableEntity) e;
-								entity.setTargetScale(scale);
-								entity.scheduleScaleUpdate();
+								final ScaleData data = ScaleData.of(e);
+								data.setTargetScale(scale);
+								data.markForSync();
 							}
 						}
 						catch(Exception e)
@@ -60,9 +60,9 @@ public class ScaleCommand
 							final int ticks = IntegerArgumentType.getInteger(context, "ticks");
 							for(final Entity e : EntityArgumentType.getEntities(context, "targets"))
 							{
-								final ResizableEntity entity = (ResizableEntity) e;
-								entity.setScaleTickDelay(ticks);
-								entity.scheduleScaleUpdate();
+								final ScaleData data = ScaleData.of(e);
+								data.setScaleTickDelay(ticks);
+								data.markForSync();
 							}
 						}
 						catch(Exception e)
@@ -84,7 +84,7 @@ public class ScaleCommand
 			.then(CommandManager.argument("entity", EntityArgumentType.entity())
 				.executes(context ->
 				{
-					final float scale = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScale();
+					final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getScale();
 					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 					return 1;
 				})
@@ -99,7 +99,7 @@ public class ScaleCommand
 			.then(CommandManager.argument("entity", EntityArgumentType.entity())
 				.executes(context ->
 				{
-					final int ticks = ((ResizableEntity) EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
+					final int ticks = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
 					context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
 					return 1;
 				})

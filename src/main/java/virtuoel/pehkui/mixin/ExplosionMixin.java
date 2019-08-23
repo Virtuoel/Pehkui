@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(Explosion.class)
 public abstract class ExplosionMixin
@@ -25,7 +25,7 @@ public abstract class ExplosionMixin
 	{
 		if(entity_1 != null)
 		{
-			final float scale = ((ResizableEntity) entity_1).getScale();
+			final float scale = ScaleData.of(entity_1).getScale();
 			if(scale != 1.0F)
 			{
 				power *= scale;

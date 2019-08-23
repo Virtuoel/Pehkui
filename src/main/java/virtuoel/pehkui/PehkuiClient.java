@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 public class PehkuiClient implements ClientModInitializer
 {
@@ -41,7 +41,7 @@ public class PehkuiClient implements ClientModInitializer
 				{
 					if(e.getUuid().equals(uuid))
 					{
-						((ResizableEntity) e).scaleFromCompoundTag(scaleData);
+						ScaleData.of(e).fromTag(scaleData);
 						break;
 					}
 				}

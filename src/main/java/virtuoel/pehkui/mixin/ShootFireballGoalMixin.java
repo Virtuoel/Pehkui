@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.world.World;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(targets = "net.minecraft.entity.mob.BlazeEntity$ShootFireballGoal")
 public abstract class ShootFireballGoalMixin
@@ -19,7 +19,7 @@ public abstract class ShootFireballGoalMixin
 	@Redirect(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	public boolean onSpawnEntityProxy(World obj, Entity entity_1)
 	{
-		final float scale = ((ResizableEntity) blaze).getScale();
+		final float scale = ScaleData.of(blaze).getScale();
 		if(scale != 1.0F)
 		{
 			entity_1.y -= ((1.0D - scale) * 0.5D);

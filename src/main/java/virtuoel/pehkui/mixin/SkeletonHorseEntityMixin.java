@@ -13,7 +13,7 @@ public abstract class SkeletonHorseEntityMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = pehkui$getScale();
+		final float scale = pehkui_scaleData.getScale();
 		if(scale != 1.0F)
 		{
 			info.setReturnValue(info.getReturnValue() + ((1.0F - scale) * 0.1875D));

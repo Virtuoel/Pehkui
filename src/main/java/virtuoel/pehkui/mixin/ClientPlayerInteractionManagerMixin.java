@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin
@@ -21,7 +21,7 @@ public class ClientPlayerInteractionManagerMixin
 	{
 		if(client.player != null)
 		{
-			final float scale = ((ResizableEntity) client.player).getScale();
+			final float scale = ScaleData.of(client.player).getScale();
 			if(scale != 1.0F)
 			{
 				info.setReturnValue(info.getReturnValue() * scale);

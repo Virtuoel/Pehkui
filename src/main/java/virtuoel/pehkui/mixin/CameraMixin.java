@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin
@@ -20,7 +20,7 @@ public abstract class CameraMixin
 	@Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
 	public double onUpdateClipToSpaceProxy(Camera obj, double distance)
 	{
-		final float scale = ((ResizableEntity) focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
+		final float scale = ScaleData.of(focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
 		return clipToSpace(distance * scale);
 	}
 }

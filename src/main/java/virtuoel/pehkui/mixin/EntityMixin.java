@@ -1,8 +1,7 @@
 package virtuoel.pehkui.mixin;
 
-import org.spongepowered.asm.mixin.Implements;
-import org.spongepowered.asm.mixin.Interface;
-import org.spongepowered.asm.mixin.Interface.Remap;
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,10 +25,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(Entity.class)
-@Implements(@Interface(iface = ResizableEntity.class, prefix = "pehkui$", remap = Remap.NONE))
-public abstract class EntityMixin
+public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow World world;
 	@Shadow double x;
@@ -38,90 +37,54 @@ public abstract class EntityMixin
 	@Shadow float stepHeight;
 	@Shadow EntityDimensions dimensions;
 	
-	@Shadow public abstract void calculateDimensions();
-	
-	private static final int DEFAULT_SCALING_TICK_TIME = 20;
-	
-	float scale = 1.0F;
-	float prevScale = 1.0F;
-	float fromScale = 1.0F;
-	float toScale = 1.0F;
-	int scaleTicks = 0;
-	int totalScaleTicks = DEFAULT_SCALING_TICK_TIME;
-	boolean scaleModified = false;
+	ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
 	
 	@Inject(at = @At("HEAD"), method = "fromTag")
 	private void onFromTag(CompoundTag compoundTag_1, CallbackInfo info)
 	{
 		if(compoundTag_1.containsKey(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
-			pehkui$scaleFromCompoundTag(compoundTag_1.getCompound(Pehkui.MOD_ID + ":scale_data"));
+			pehkui_scaleData.fromTag(compoundTag_1.getCompound(Pehkui.MOD_ID + ":scale_data"));
 			
-			if(scale != 1.0F)
+			if(pehkui_scaleData.getScale() != 1.0F && world != null && !world.isClient)
 			{
-				pehkui$scheduleScaleUpdate();
+				pehkui_scaleData.markForSync();
 			}
 		}
+	}
+	
+	@Override
+	public ScaleData pehkui_getScaleData()
+	{
+		return pehkui_scaleData;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "toTag")
 	private void onToTag(CompoundTag compoundTag_1, CallbackInfoReturnable<CompoundTag> info)
 	{
-		final CompoundTag scaleData = new CompoundTag();
-		
-		scaleData.putFloat("scale", pehkui$getScale());
-		scaleData.putFloat("initial", pehkui$getInitialScale());
-		scaleData.putFloat("target", pehkui$getTargetScale());
-		scaleData.putInt("ticks", this.scaleTicks);
-		scaleData.putInt("total_ticks", this.totalScaleTicks);
-		
-		compoundTag_1.put(Pehkui.MOD_ID + ":scale_data", scaleData);
+		compoundTag_1.put(Pehkui.MOD_ID + ":scale_data", pehkui_scaleData.toTag(new CompoundTag()));
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		pehkui$tickScale();
-	}
-	
-	public void pehkui$tickScale()
-	{
-		final float currScale = pehkui$getScale();
-		if(currScale != pehkui$getTargetScale())
-		{
-			this.prevScale = currScale;
-			if(this.scaleTicks >= this.totalScaleTicks)
-			{
-				this.fromScale = this.toScale;
-				this.scaleTicks = 0;
-				pehkui$setScale(this.toScale);
-			}
-			else
-			{
-				this.scaleTicks++;
-				final float nextScale = this.scale + ((this.toScale - this.fromScale) / (float) this.totalScaleTicks);
-				pehkui$setScale(nextScale);
-			}
-		}
-		else if(this.prevScale != currScale)
-		{
-			this.prevScale = currScale;
-		}
+		pehkui_scaleData.tick();
 	}
 	
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
 	private void onOnStartedTrackingBy(ServerPlayerEntity serverPlayerEntity_1, CallbackInfo info)
 	{
-		if(pehkui$getScale() != 1.0F)
+		if(pehkui_scaleData.getScale() != 1.0F)
 		{
-			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, pehkui$scaleToPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
+			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, pehkui_scaleData.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
+			pehkui_scaleData.scaleModified = false;
 		}
 	}
 	
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose entityPose_1, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float scale = pehkui$getScale();
+		final float scale = pehkui_scaleData.getScale();
 		if(scale != 1.0F)
 		{
 			info.setReturnValue(info.getReturnValue().scaled(scale));
@@ -131,11 +94,12 @@ public abstract class EntityMixin
 	@Redirect(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
 	public void onDropStackSetToDefaultPickupDelayProxy(ItemEntity obj)
 	{
-		final float scale = pehkui$getScale();
+		final float scale = pehkui_scaleData.getScale();
 		if(scale != 1.0F)
 		{
-			((ResizableEntity) obj).setScale(scale);
-			((ResizableEntity) obj).setTargetScale(scale);
+			final ScaleData data = ScaleData.of(obj);
+			data.setScale(scale);
+			data.setTargetScale(scale);
 		}
 		obj.setToDefaultPickupDelay();
 	}
@@ -145,13 +109,13 @@ public abstract class EntityMixin
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.clipSneakingMovement(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
 	public Vec3d onMoveClipSneakingMovementProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
 	{
-		return clipSneakingMovement(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui$getScale()) : vec3d_1, movementType_1);
+		return clipSneakingMovement(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui_scaleData.getScale()) : vec3d_1, movementType_1);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
 	private void onSpawnSprintingParticles(CallbackInfo info)
 	{
-		if(pehkui$getScale() < 1.0F)
+		if(pehkui_scaleData.getScale() < 1.0F)
 		{
 			info.cancel();
 		}
@@ -160,108 +124,15 @@ public abstract class EntityMixin
 	@Redirect(method = "clipSneakingMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	public float onClipSneakingMovementStepHeightProxy(Entity obj)
 	{
-		return stepHeight * pehkui$getScale();
+		return stepHeight * pehkui_scaleData.getScale();
 	}
 	
 	@Redirect(method = "handleCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	public float onHandleCollisionsStepHeightProxy(Entity obj)
 	{
-		return stepHeight * pehkui$getScale();
+		return stepHeight * pehkui_scaleData.getScale();
 	}
 	
 	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
 	
-	public float pehkui$getScale()
-	{
-		return this.scale;
-	}
-	
-	public void pehkui$setScale(float scale)
-	{
-		this.prevScale = this.scale;
-		this.scale = scale;
-		calculateDimensions();
-	}
-	
-	public float pehkui$getInitialScale()
-	{
-		return this.fromScale;
-	}
-	
-	public float pehkui$getTargetScale()
-	{
-		return this.toScale;
-	}
-	
-	public void pehkui$setTargetScale(float targetScale)
-	{
-		this.fromScale = this.scale;
-		this.toScale = targetScale;
-		this.scaleTicks = 0;
-	}
-	
-	public int pehkui$getScaleTickDelay()
-	{
-		return this.totalScaleTicks;
-	}
-	
-	public void pehkui$setScaleTickDelay(int ticks)
-	{
-		this.totalScaleTicks = ticks;
-	}
-	
-	public float pehkui$getPrevScale()
-	{
-		return this.prevScale;
-	}
-	
-	public void pehkui$scheduleScaleUpdate()
-	{
-		if(world != null && !world.isClient)
-		{
-			this.scaleModified = true;
-		}
-	}
-	
-	public boolean pehkui$shouldSyncScale()
-	{
-		return this.scaleModified;
-	}
-	
-	public PacketByteBuf pehkui$scaleToPacketByteBuf(PacketByteBuf buffer)
-	{
-		scaleModified = false;
-		buffer.writeFloat(this.scale)
-		.writeFloat(this.prevScale)
-		.writeFloat(this.fromScale)
-		.writeFloat(this.toScale)
-		.writeInt(this.scaleTicks)
-		.writeInt(this.totalScaleTicks);
-		return buffer;
-	}
-	
-	public void pehkui$scaleFromCompoundTag(CompoundTag scaleData)
-	{
-		this.scale = scaleData.containsKey("scale") ? scaleData.getFloat("scale") : 1.0F;
-		this.prevScale = scaleData.containsKey("previous") ? scaleData.getFloat("previous") : this.scale;
-		this.fromScale = scaleData.containsKey("initial") ? scaleData.getFloat("initial") : this.scale;
-		this.toScale = scaleData.containsKey("target") ? scaleData.getFloat("target") : this.scale;
-		this.scaleTicks = scaleData.containsKey("ticks") ? scaleData.getInt("ticks") : 0;
-		this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : DEFAULT_SCALING_TICK_TIME;
-		
-		calculateDimensions();
-	}
-	
-	@Deprecated
-	public void pehkui$scaleFromPacketByteBuf(PacketByteBuf buffer)
-	{
-		this.scale = buffer.readFloat();
-		this.prevScale = buffer.readFloat();
-		this.fromScale = buffer.readFloat();
-		this.toScale = buffer.readFloat();
-		this.scaleTicks = buffer.readInt();
-		this.totalScaleTicks = buffer.readInt();
-		
-		calculateDimensions();
-	}
 }

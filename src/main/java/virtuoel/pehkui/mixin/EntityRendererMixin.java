@@ -9,7 +9,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin
@@ -20,13 +20,13 @@ public abstract class EntityRendererMixin
 	@Redirect(method = "renderLabel(Lnet/minecraft/entity/Entity;Ljava/lang/String;DDDI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getHeight()F"))
 	public float onRenderLabelGetHeightProxy(Entity entity)
 	{
-		return (entity.getHeight() / ((ResizableEntity) entity).getScale());
+		return (entity.getHeight() / ScaleData.of(entity).getScale());
 	}
 	
 	@Redirect(method = "postRender(Lnet/minecraft/entity/Entity;DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderer;renderShadow(Lnet/minecraft/entity/Entity;DDDFF)V"))
 	public void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float float_1, float float_2)
 	{
-		final float scale = ((ResizableEntity) entity).getScale(float_2);
+		final float scale = ScaleData.of(entity).getScale(float_2);
 		if(scale != 1.0F)
 		{
 			final float shadowSize_old = field_4673;

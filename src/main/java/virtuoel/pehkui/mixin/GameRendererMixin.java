@@ -8,7 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
-import virtuoel.pehkui.api.ResizableEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
@@ -17,7 +17,7 @@ public class GameRendererMixin
 	public void bobViewTranslatefProxy(float x, float y, float z)
 	{
 		final MinecraftClient mc = MinecraftClient.getInstance();
-		final float scale = ((ResizableEntity) mc.getCameraEntity()).getScale(mc.getTickDelta());
+		final float scale = ScaleData.of(mc.getCameraEntity()).getScale(mc.getTickDelta());
 		GlStateManager.translatef(x * scale, y * scale, z * scale);
 	}
 }
