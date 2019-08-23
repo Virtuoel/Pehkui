@@ -1,7 +1,7 @@
 plugins {
-	id "fabric-loom" version "0.2.4-SNAPSHOT"
+	id "fabric-loom" version "0.2.5-SNAPSHOT"
 	id "maven-publish"
-	id "com.matthewprenger.cursegradle" version "1.3.0"
+	id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 repositories {
@@ -32,7 +32,9 @@ dependencies {
 	mappings "net.fabricmc:yarn:${yarn_mappings}"
 	
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+	if(project.hasProperty("fabric_version")) {
+		modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+	}
 	
 	implementation "com.google.code.findbugs:jsr305:${findbugs_version}"
 	
@@ -84,10 +86,8 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			afterEvaluate {
-				artifact(remapJar.output) {
-					builtBy remapJar
-				}
+			artifact(remapJar) {
+				builtBy remapJar
 			}
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
@@ -102,6 +102,7 @@ publishing {
 
 String generateHTMLChangelog() {
 	String changelog_text = ""
+	
 	File file = file("changelog.txt")
 	if(file.exists())
 	{
@@ -113,7 +114,13 @@ String generateHTMLChangelog() {
 		}
 		changelog_text += "<p>&nbsp;</p>\n"
 	}
-	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric-Loader <code>${loader_version}</code></p>\n<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files\" rel=\"nofollow\">Fabric API <code>${fabric_version}</code></a></p>\n"
+	
+	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric-Loader <code>${loader_version}</code></p>\n"
+	
+	if(project.hasProperty("fabric_version")) {
+		changelog_text += "<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all\" rel=\"nofollow\">Fabric API <code>${fabric_version}</code></a></p>\n"
+	}
+	
 	return changelog_text
 }
 
@@ -125,8 +132,12 @@ curseforge {
 	if(project.hasProperty("curseforge_id")) {
 		project {
 			id = project.properties.curseforge_id
-			addGameVersion "${release_version}"
-			mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar")) {
+			
+			releaseType = project.release_type
+			addGameVersion project.release_version
+			addGameVersion "Fabric"
+			
+			mainArtifact(remapJar) {
 				displayName = "${mod_name}-${minecraft_version}-${mod_version}.jar"
 				relations {
 					requiredDependency "fabric-api"
@@ -136,15 +147,12 @@ curseforge {
 				changelog = project.generateHTMLChangelog()
 			}
 			
-			releaseType = project.release_type
-			addGameVersion project.release_version
-			
 			addArtifact(sourcesJar) {
 				displayName = "${mod_name}-${minecraft_version}-${mod_version}-sources.jar"
 			}
 			
 			afterEvaluate {
-				uploadTask.dependsOn remapJar, remapSourcesJar
+				uploadTask.dependsOn remapSourcesJar
 			}
 		}
 		options {
