@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.MathHelper;
+import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleData
 {
@@ -16,14 +17,12 @@ public class ScaleData
 		return ((ResizableEntity) entity).pehkui_getScaleData();
 	}
 	
-	private static final int DEFAULT_SCALING_TICK_TIME = 20;
-	
-	float scale = 1.0F;
-	float prevScale = 1.0F;
-	float fromScale = 1.0F;
-	float toScale = 1.0F;
-	int scaleTicks = 0;
-	int totalScaleTicks = DEFAULT_SCALING_TICK_TIME;
+	protected float scale = 1.0F;
+	protected float prevScale = 1.0F;
+	protected float fromScale = 1.0F;
+	protected float toScale = 1.0F;
+	protected int scaleTicks = 0;
+	protected int totalScaleTicks = 20;
 	
 	public boolean scaleModified = false;
 	
@@ -137,7 +136,7 @@ public class ScaleData
 		this.fromScale = scaleData.containsKey("initial") ? scaleData.getFloat("initial") : this.scale;
 		this.toScale = scaleData.containsKey("target") ? scaleData.getFloat("target") : this.scale;
 		this.scaleTicks = scaleData.containsKey("ticks") ? scaleData.getInt("ticks") : 0;
-		this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : DEFAULT_SCALING_TICK_TIME;
+		this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : 20;
 		
 		calculateDimensions.ifPresent(Runnable::run);
 	}

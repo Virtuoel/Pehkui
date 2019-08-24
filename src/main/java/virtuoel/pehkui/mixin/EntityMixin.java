@@ -24,8 +24,8 @@ import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
-import virtuoel.pehkui.api.ResizableEntity;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.entity.ResizableEntity;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements ResizableEntity
