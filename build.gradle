@@ -1,11 +1,18 @@
 plugins {
-	id "fabric-loom" version "0.2.5-SNAPSHOT"
+	id "fabric-loom" version "0.2.6-SNAPSHOT"
+	id "eclipse"
 	id "maven-publish"
+	id "com.github.breadmoirai.github-release" version "2.2.9"
+	id "org.ajoberstar.grgit" version "3.1.1"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 repositories {
 	mavenLocal()
+	maven {
+		name = "Fabric"
+		url = "https://maven.fabricmc.net/"
+	}
 	maven {
 		name = "CurseForge"
 		url = "https://minecraft.curseforge.com/api/maven"
@@ -14,31 +21,65 @@ repositories {
 		name = "JitPack"
 		url = "https://jitpack.io"
 	}
+	maven {
+		name = "GitHub"
+		url = "https://maven.pkg.github.com"
+	}
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
+def ENV = System.getenv()
+
 group = project.maven_group
+archivesBaseName = project.archives_base_name
+version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + project.minecraft_version
 
 minecraft {
-	
+	refmapName = "${archives_base_name}-refmap.json"
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
-	mappings "net.fabricmc:yarn:${yarn_mappings}"
+	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
 	
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 	if(project.hasProperty("fabric_version")) {
-		modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+		modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 	}
 	
-	implementation "com.google.code.findbugs:jsr305:${findbugs_version}"
+	if(project.hasProperty("fabric_modules")) {
+		project.fabric_modules.split(", ").each { String module ->
+			modCompileOnly "net.fabricmc.fabric-api:${module}"
+		}
+	}
 	
-	modImplementation "io.github.prospector:modmenu:${modmenu_version}"
+	if(project.hasProperty("api_fabric_modules")) {
+		project.api_fabric_modules.split(", ").each { String module ->
+			modApi "net.fabricmc.fabric-api:${module}"
+		}
+	}
+	
+	if(project.hasProperty("impl_fabric_modules")) {
+		project.impl_fabric_modules.split(", ").each { String module ->
+			modImplementation "net.fabricmc.fabric-api:${module}"
+		}
+	}
+	
+	if(project.hasProperty("included_fabric_modules")) {
+		project.included_fabric_modules.split(", ").each { String module ->
+			include "net.fabricmc.fabric-api:${module}"
+		}
+	}
+	
+	compileOnly "com.google.code.findbugs:jsr305:${jsr305_version}"
+	
+	if(project.hasProperty("modmenu_version")) {
+		modCompileOnly("io.github.prospector:modmenu:${modmenu_version}") {
+			exclude group: "net.fabricmc.fabric-api"
+		}
+	}
 }
 
 processResources {
@@ -51,6 +92,14 @@ processResources {
 	
 	from(sourceSets.main.resources.srcDirs) {
 		exclude "fabric.mod.json"
+	}
+}
+
+eclipse {
+	project {
+		name = archives_base_name
+		buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
+		natures "org.eclipse.buildship.core.gradleprojectnature"
 	}
 }
 
@@ -90,6 +139,7 @@ publishing {
 				builtBy remapJar
 			}
 			artifact(sourcesJar) {
+				classifier = "sources"
 				builtBy remapSourcesJar
 			}
 		}
@@ -97,7 +147,34 @@ publishing {
 	
 	repositories {
 		mavenLocal()
+		if(project.hasProperty("github_maven_owner")) {
+			maven {
+				url = "https://maven.pkg.github.com/${github_maven_owner}"
+				
+				credentials {
+					username project.properties.github_username
+					password project.properties.github_packages_token
+				}
+			}
+		}
 	}
+}
+
+githubRelease {
+	token project.hasProperty("github_releases_token") ? project.github_releases_token : ""
+	if(project.hasProperty("github_repository_owner")) {
+		owner project.github_repository_owner
+	}
+	if(project.hasProperty("github_repository")) {
+		repo project.github_repository
+	}
+	
+	tagName project.version
+	targetCommitish { org.ajoberstar.grgit.Grgit.open(dir: ".").branch.current().name }
+	releaseName project.version
+	
+	FilenameFilter filter = { dir, filename -> filename.contains(project.version) && !filename.contains("-dev.jar") }
+	releaseAssets = jar.destinationDir.listFiles filter
 }
 
 String generateHTMLChangelog() {
@@ -138,9 +215,40 @@ curseforge {
 			addGameVersion "Fabric"
 			
 			mainArtifact(remapJar) {
-				displayName = "${mod_name}-${minecraft_version}-${mod_version}.jar"
-				relations {
-					requiredDependency "fabric-api"
+				displayName = "${archives_base_name}-${project.version}.jar"
+				
+				if(project.hasProperty("required_dep_slugs") || project.hasProperty("embedded_lib_slugs") || project.hasProperty("optional_dep_slugs") || project.hasProperty("compatible_tool_slugs") || project.hasProperty("incompatible_slugs")) {
+					relations {
+						if(project.hasProperty("required_dep_slugs")) {
+							project.required_dep_slugs.split(", ").each { String slug ->
+								requiredDependency slug
+							}
+						}
+						
+						if(project.hasProperty("embedded_lib_slugs")) {
+							project.embedded_lib_slugs.split(", ").each { String slug ->
+								embeddedLibrary slug
+							}
+						}
+						
+						if(project.hasProperty("optional_dep_slugs")) {
+							project.optional_dep_slugs.split(", ").each { String slug ->
+								optionalDependency slug
+							}
+						}
+						
+						if(project.hasProperty("compatible_tool_slugs")) {
+							project.compatible_tool_slugs.split(", ").each { String slug ->
+								tool slug
+							}
+						}
+						
+						if(project.hasProperty("incompatible_slugs")) {
+							project.incompatible_slugs.split(", ").each { String slug ->
+								incompatible slug
+							}
+						}
+					}
 				}
 				
 				changelogType = "html"
@@ -148,7 +256,7 @@ curseforge {
 			}
 			
 			addArtifact(sourcesJar) {
-				displayName = "${mod_name}-${minecraft_version}-${mod_version}-sources.jar"
+				displayName = "${archives_base_name}-${project.version}-sources.jar"
 			}
 			
 			afterEvaluate {

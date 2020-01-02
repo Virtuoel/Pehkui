@@ -3,26 +3,25 @@
 	"id": "pehkui",
 	"name": "Pehkui",
 	"version": "${version}",
-	"side": "universal",
 	"description": "Fabric mod that allows resizing of most entities.",
-	"license": "MIT",
-	"contact":
-	{
-		"homepage": "https://minecraft.curseforge.com/projects/pehkui",
-		"issues": "https://github.com/Virtuoel/Pehkui/issues",
-		"sources": "https://github.com/Virtuoel/Pehkui"
-	},
 	"authors":
 	[
 		"Virtuoel"
 	],
+	"contact":
+	{
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/pehkui",
+		"issues": "https://github.com/Virtuoel/Pehkui/issues",
+		"sources": "https://github.com/Virtuoel/Pehkui"
+	},
+	"license": "MIT",
+	"icon": "assets/pehkui/icon.png",
+	"environment": "*",
 	"depends":
 	{
 		"fabricloader": ">=0.4.0",
 		"fabric": "*"
 	},
-	"icon": "assets/pehkui/icon.png",
-	"environment": "*",
 	"entrypoints":
 	{
 		"main":
