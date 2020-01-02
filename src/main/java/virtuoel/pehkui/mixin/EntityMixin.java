@@ -50,7 +50,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "fromTag")
 	private void onFromTag(CompoundTag compoundTag_1, CallbackInfo info)
 	{
-		if(compoundTag_1.containsKey(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
+		if(compoundTag_1.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
 			pehkui_scaleData.fromTag(compoundTag_1.getCompound(Pehkui.MOD_ID + ":scale_data"));
 			
@@ -106,12 +106,12 @@ public abstract class EntityMixin implements ResizableEntity
 		obj.setToDefaultPickupDelay();
 	}
 	
-	@Shadow abstract Vec3d clipSneakingMovement(Vec3d vec3d_1, MovementType movementType_1);
+	@Shadow abstract Vec3d adjustMovementForSneaking(Vec3d vec3d_1, MovementType movementType_1);
 	
-	@Redirect(method = "move", at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.clipSneakingMovement(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
-	public Vec3d onMoveClipSneakingMovementProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
+	@Redirect(method = "move", at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
+	public Vec3d onMoveadjustMovementForSneakingProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
 	{
-		return clipSneakingMovement(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui_scaleData.getScale()) : vec3d_1, movementType_1);
+		return adjustMovementForSneaking(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui_scaleData.getScale()) : vec3d_1, movementType_1);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
@@ -123,14 +123,8 @@ public abstract class EntityMixin implements ResizableEntity
 		}
 	}
 	
-	@Redirect(method = "clipSneakingMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
-	public float onClipSneakingMovementStepHeightProxy(Entity obj)
-	{
-		return stepHeight * pehkui_scaleData.getScale();
-	}
-	
-	@Redirect(method = "handleCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
-	public float onHandleCollisionsStepHeightProxy(Entity obj)
+	@Redirect(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
+	public float adjustMovementForCollisionsStepHeightProxy(Entity obj)
 	{
 		return stepHeight * pehkui_scaleData.getScale();
 	}

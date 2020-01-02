@@ -131,12 +131,12 @@ public class ScaleData
 	
 	public void fromTag(CompoundTag scaleData)
 	{
-		this.scale = scaleData.containsKey("scale") ? scaleData.getFloat("scale") : 1.0F;
-		this.prevScale = scaleData.containsKey("previous") ? scaleData.getFloat("previous") : this.scale;
-		this.fromScale = scaleData.containsKey("initial") ? scaleData.getFloat("initial") : this.scale;
-		this.toScale = scaleData.containsKey("target") ? scaleData.getFloat("target") : this.scale;
-		this.scaleTicks = scaleData.containsKey("ticks") ? scaleData.getInt("ticks") : 0;
-		this.totalScaleTicks = scaleData.containsKey("total_ticks") ? scaleData.getInt("total_ticks") : 20;
+		this.scale = scaleData.contains("scale") ? scaleData.getFloat("scale") : 1.0F;
+		this.prevScale = scaleData.contains("previous") ? scaleData.getFloat("previous") : this.scale;
+		this.fromScale = scaleData.contains("initial") ? scaleData.getFloat("initial") : this.scale;
+		this.toScale = scaleData.contains("target") ? scaleData.getFloat("target") : this.scale;
+		this.scaleTicks = scaleData.contains("ticks") ? scaleData.getInt("ticks") : 0;
+		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : 20;
 		
 		calculateDimensions.ifPresent(Runnable::run);
 	}
