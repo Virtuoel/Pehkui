@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(PlayerEntity.class)
@@ -20,6 +21,13 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	private void onGetDimensions(EntityPose entityPose_1, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		info.setReturnValue(info.getReturnValue().scaled(pehkui_scaleData.getScale()));
+	}
+	
+	@Redirect(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getVelocity()Lnet/minecraft/util/math/Vec3d;"))
+	public Vec3d onTickMovementGetVelocityProxy(PlayerEntity obj)
+	{
+		final float scale = pehkui_scaleData.getScale();
+		return obj.getVelocity().multiply(scale);
 	}
 	
 	@Redirect(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
@@ -32,6 +40,8 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 			data.setScale(scale);
 			data.setTargetScale(scale);
 		}
+		
+		obj.setPosition(obj.getX(), obj.getY() + ((1.0F - scale) * 0.3D), obj.getZ());
 		obj.setPickupDelay(int_1);
 	}
 	
