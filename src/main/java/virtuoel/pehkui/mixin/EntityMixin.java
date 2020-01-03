@@ -30,9 +30,6 @@ import virtuoel.pehkui.entity.ResizableEntity;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements ResizableEntity
 {
-	@Shadow double x;
-	@Shadow double y;
-	@Shadow double z;
 	@Shadow World world;
 	@Shadow float stepHeight;
 	

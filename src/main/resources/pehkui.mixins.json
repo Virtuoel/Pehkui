@@ -30,7 +30,8 @@
 		"ClientPlayerInteractionManagerMixin",
 		"EntityRenderDispatcherMixin",
 		"EntityRendererMixin",
-		"GameRendererMixin"
+		"GameRendererMixin",
+		"PlayerEntityRendererMixin"
 	],
 	"injectors":
 	{

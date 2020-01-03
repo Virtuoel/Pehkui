@@ -21,7 +21,8 @@ public abstract class ThrownEntityMixin extends EntityMixin
 		
 		if(scale != 1.0F)
 		{
-			setPosition(this.x, this.y + ((1.0F - scale) * 0.1D), this.z);
+			final ThrownEntity self = ((ThrownEntity) (Object) this);
+			setPosition(self.getX(), self.getY() + ((1.0F - scale) * 0.1D), self.getZ());
 			
 			pehkui_scaleData.setScale(scale);
 			pehkui_scaleData.setTargetScale(scale);
