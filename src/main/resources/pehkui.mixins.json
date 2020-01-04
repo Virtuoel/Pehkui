@@ -26,13 +26,13 @@
 	],
 	"client":
 	[
-		"CameraMixin",
-		"ClientPlayerInteractionManagerMixin",
-		"EntityRenderDispatcherMixin",
-		"EntityRendererMixin",
-		"GameRendererMixin",
-		"ItemFrameEntityRendererMixin",
-		"PlayerEntityRendererMixin"
+		"client.CameraMixin",
+		"client.ClientPlayerInteractionManagerMixin",
+		"client.EntityRenderDispatcherMixin",
+		"client.EntityRendererMixin",
+		"client.GameRendererMixin",
+		"client.ItemFrameEntityRendererMixin",
+		"client.PlayerEntityRendererMixin"
 	],
 	"injectors":
 	{
