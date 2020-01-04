@@ -31,7 +31,6 @@ import virtuoel.pehkui.entity.ResizableEntity;
 public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow World world;
-	@Shadow float stepHeight;
 	
 	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
 	
@@ -91,7 +90,7 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Redirect(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
-	public void onDropStackSetToDefaultPickupDelayProxy(ItemEntity obj)
+	private void onDropStackSetToDefaultPickupDelayProxy(ItemEntity obj)
 	{
 		final float scale = pehkui_scaleData.getScale();
 		if(scale != 1.0F)
@@ -106,7 +105,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Shadow abstract Vec3d adjustMovementForSneaking(Vec3d vec3d_1, MovementType movementType_1);
 	
 	@Redirect(method = "move", at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
-	public Vec3d onMoveadjustMovementForSneakingProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
+	private Vec3d onMoveadjustMovementForSneakingProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
 	{
 		return adjustMovementForSneaking(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui_scaleData.getScale()) : vec3d_1, movementType_1);
 	}
@@ -121,8 +120,8 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Redirect(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
-	public float adjustMovementForCollisionsStepHeightProxy(Entity obj)
+	private float adjustMovementForCollisionsStepHeightProxy(Entity obj)
 	{
-		return stepHeight * pehkui_scaleData.getScale();
+		return obj.stepHeight * pehkui_scaleData.getScale();
 	}
 }
