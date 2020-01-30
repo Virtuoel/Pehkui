@@ -22,7 +22,7 @@ public abstract class ShootFireballGoalMixin
 		final float scale = ScaleData.of(blaze).getScale();
 		if(scale != 1.0F)
 		{
-			entity_1.setPosition(entity_1.getX(), entity_1.getY() - ((1.0D - scale) * 0.5D), entity_1.getZ());
+			entity_1.updatePosition(entity_1.getX(), entity_1.getY() - ((1.0D - scale) * 0.5D), entity_1.getZ());
 		}
 		return obj.spawnEntity(entity_1);
 	}

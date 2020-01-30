@@ -32,7 +32,7 @@ public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow World world;
 	
-	@Shadow abstract void setPosition(double double_1, double double_2, double double_3);
+	@Shadow abstract void updatePosition(double double_1, double double_2, double double_3);
 	
 	public ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
 	

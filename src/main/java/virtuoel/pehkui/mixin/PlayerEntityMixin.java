@@ -47,7 +47,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 			data.setTargetScale(scale);
 		}
 		
-		obj.setPosition(obj.getX(), obj.getY() + ((1.0F - scale) * 0.3D), obj.getZ());
+		obj.updatePosition(obj.getX(), obj.getY() + ((1.0F - scale) * 0.3D), obj.getZ());
 		obj.setPickupDelay(int_1);
 	}
 	

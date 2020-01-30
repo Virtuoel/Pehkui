@@ -24,8 +24,8 @@ public abstract class LivingEntityMixin extends EntityMixin
 		return getActiveEyeHeight(entityPose_1, entitySize_1.scaled(1.0F / scale)) * scale;
 	}
 	
-	@Redirect(method = "method_23883", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	public boolean method_23883SpawnEntityProxy(World obj, Entity entity_1)
+	@Redirect(method = "dropXp", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	public boolean dropXpSpawnEntityProxy(World obj, Entity entity_1)
 	{
 		final boolean ret = obj.spawnEntity(entity_1);
 		
@@ -40,8 +40,8 @@ public abstract class LivingEntityMixin extends EntityMixin
 		return ret;
 	}
 	
-	@Redirect(method = "method_23733", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	public boolean method_23733SpawnEntityProxy(World obj, Entity entity_1)
+	@Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	public boolean onKilledBySpawnEntityProxy(World obj, Entity entity_1)
 	{
 		final boolean ret = obj.spawnEntity(entity_1);
 		

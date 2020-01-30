@@ -25,7 +25,7 @@ public abstract class ProjectileEntityMixin extends EntityMixin
 		if(scale != 1.0F)
 		{
 			final ProjectileEntity self = ((ProjectileEntity) (Object) this);
-			setPosition(self.getX(), self.getY() + ((1.0F - scale) * 0.1D), self.getZ());
+			updatePosition(self.getX(), self.getY() + ((1.0F - scale) * 0.1D), self.getZ());
 		}
 	}
 	
