@@ -11,7 +11,7 @@ import virtuoel.pehkui.api.ScaleData;
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin
 {
-	@Redirect(method = "renderLabelIfPresent(Lnet/minecraft/entity/Entity;Ljava/lang/String;DDDI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getHeight()F"))
+	@Redirect(method = "renderLabelIfPresent(Lnet/minecraft/entity/Entity;Ljava/lang/String;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getHeight()F"))
 	public float renderLabelIfPresentGetHeightProxy(Entity entity)
 	{
 		return (entity.getHeight() / ScaleData.of(entity).getScale());
