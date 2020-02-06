@@ -177,6 +177,10 @@ githubRelease {
 	releaseAssets = jar.destinationDir.listFiles filter
 }
 
+if(project.hasProperty("fabric_version")) {
+	ext.changelog_fabric_version = project.fabric_version
+}
+
 String generateHTMLChangelog() {
 	String changelog_text = ""
 	
@@ -192,10 +196,10 @@ String generateHTMLChangelog() {
 		changelog_text += "<p>&nbsp;</p>\n"
 	}
 	
-	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric-Loader <code>${loader_version}</code></p>\n"
+	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric Loader <code>${loader_version}</code></p>\n"
 	
-	if(project.hasProperty("fabric_version")) {
-		changelog_text += "<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all\" rel=\"nofollow\">Fabric API <code>${fabric_version}</code></a></p>\n"
+	if(project.hasProperty("changelog_fabric_version")) {
+		changelog_text += "<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all\" rel=\"nofollow\">Fabric API <code>${changelog_fabric_version}</code></a></p>\n"
 	}
 	
 	return changelog_text
