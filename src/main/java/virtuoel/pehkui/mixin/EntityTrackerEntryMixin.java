@@ -8,9 +8,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.client.network.packet.CustomPayloadS2CPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.util.PacketByteBuf;
 import virtuoel.pehkui.Pehkui;
