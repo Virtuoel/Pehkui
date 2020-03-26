@@ -44,26 +44,33 @@ dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
 	
+	def excludeLoader = { exclude group: "net.fabricmc", module: "fabric-loader" }
+	def excludeApi = { exclude group: "net.fabricmc.fabric-api" }
+	def excludeFabric = {
+		exclude group: "net.fabricmc", module: "fabric-loader"
+		exclude group: "net.fabricmc.fabric-api"
+	}
+	
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 	if(project.hasProperty("fabric_version")) {
-		modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
+		modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
 	}
 	
 	if(project.hasProperty("fabric_modules")) {
 		project.fabric_modules.split(", ").each { String module ->
-			modCompileOnly "net.fabricmc.fabric-api:${module}"
+			modCompileOnly "net.fabricmc.fabric-api:${module}", excludeLoader
 		}
 	}
 	
 	if(project.hasProperty("api_fabric_modules")) {
 		project.api_fabric_modules.split(", ").each { String module ->
-			modApi "net.fabricmc.fabric-api:${module}"
+			modApi "net.fabricmc.fabric-api:${module}", excludeLoader
 		}
 	}
 	
 	if(project.hasProperty("impl_fabric_modules")) {
 		project.impl_fabric_modules.split(", ").each { String module ->
-			modImplementation "net.fabricmc.fabric-api:${module}"
+			modImplementation "net.fabricmc.fabric-api:${module}", excludeLoader
 		}
 	}
 	
@@ -76,9 +83,7 @@ dependencies {
 	compileOnly "com.google.code.findbugs:jsr305:${jsr305_version}"
 	
 	if(project.hasProperty("modmenu_version")) {
-		modCompileOnly("io.github.prospector:modmenu:${modmenu_version}") {
-			exclude group: "net.fabricmc.fabric-api"
-		}
+		modCompileOnly "io.github.prospector:modmenu:${modmenu_version}", excludeFabric
 	}
 }
 
@@ -215,8 +220,11 @@ curseforge {
 			id = project.properties.curseforge_id
 			
 			releaseType = project.release_type
-			addGameVersion project.release_version
-			addGameVersion "Fabric"
+			if(project.hasProperty("release_versions")) {
+				project.release_versions.split(", ").each { String gameVersion ->
+					addGameVersion gameVersion
+				}
+			}
 			
 			mainArtifact(remapJar) {
 				displayName = "${archives_base_name}-${project.version}.jar"
