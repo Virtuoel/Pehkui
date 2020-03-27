@@ -3,7 +3,7 @@ package virtuoel.pehkui.mixin.client;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
@@ -14,13 +14,10 @@ import virtuoel.pehkui.api.ScaleData;
 public abstract class CameraMixin
 {
 	@Shadow Entity focusedEntity;
-	@Shadow abstract double clipToSpace(double distance);
-	@Shadow abstract void moveBy(double x, double y, double z);
 	
-	@Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
-	public double onUpdateClipToSpaceProxy(Camera obj, double distance)
+	@ModifyArg(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
+	public double onUpdateClipToSpaceProxy(double distance)
 	{
-		final float scale = ScaleData.of(focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
-		return clipToSpace(distance * scale);
+		return distance * ScaleData.of(focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
 	}
 }

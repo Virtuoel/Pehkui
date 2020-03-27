@@ -19,10 +19,11 @@ public class ClientPlayerInteractionManagerMixin
 	@Inject(at = @At("RETURN"), method = "getReachDistance", cancellable = true)
 	public void onGetReachDistance(CallbackInfoReturnable<Float> info)
 	{
-		if(client.player != null)
+		if (client.player != null)
 		{
 			final float scale = ScaleData.of(client.player).getScale();
-			if(scale != 1.0F)
+			
+			if (scale != 1.0F)
 			{
 				info.setReturnValue(info.getReturnValue() * scale);
 			}

@@ -18,11 +18,11 @@ import virtuoel.pehkui.api.ScaleData;
 public abstract class ProjectileEntityMixin extends EntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V")
-	public void onConstruct(EntityType<? extends ProjectileEntity> entityType_1, LivingEntity livingEntity_1, World world_1, CallbackInfo info)
+	public void onConstruct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, CallbackInfo info)
 	{
-		final float scale = ScaleData.of(livingEntity_1).getScale();
+		final float scale = ScaleData.of(owner).getScale();
 		
-		if(scale != 1.0F)
+		if (scale != 1.0F)
 		{
 			final ProjectileEntity self = ((ProjectileEntity) (Object) this);
 			updatePosition(self.getX(), self.getY() + ((1.0F - scale) * 0.1D), self.getZ());
@@ -30,15 +30,17 @@ public abstract class ProjectileEntityMixin extends EntityMixin
 	}
 	
 	@Inject(at = @At("HEAD"), method = "setOwner")
-	protected void onSetOwner(@Nullable Entity entity_1, CallbackInfo info)
+	protected void onSetOwner(@Nullable Entity entity, CallbackInfo info)
 	{
-		if(entity_1 != null)
+		if (entity != null)
 		{
-			final float scale = ScaleData.of(entity_1).getScale();
-			if(scale != 1.0F)
+			final float scale = ScaleData.of(entity).getScale();
+			
+			if (scale != 1.0F)
 			{
 				pehkui_scaleData.setScale(scale);
 				pehkui_scaleData.setTargetScale(scale);
+				pehkui_scaleData.markForSync();
 			}
 		}
 	}

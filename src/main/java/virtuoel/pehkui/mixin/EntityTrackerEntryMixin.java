@@ -26,7 +26,8 @@ public abstract class EntityTrackerEntryMixin
 	private void onTick(CallbackInfo info)
 	{
 		final ScaleData data = ScaleData.of(entity);
-		if(data.shouldSync())
+		
+		if (data.shouldSync())
 		{
 			sendSyncPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, data.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(entity.getUuid()))));
 		}

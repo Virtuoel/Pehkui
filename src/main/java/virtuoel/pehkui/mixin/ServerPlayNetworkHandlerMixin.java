@@ -6,14 +6,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.google.gson.JsonElement;
 
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.Box;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 
@@ -22,11 +21,11 @@ public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@Redirect(method = "onVehicleMove", at = @At(value = "INVOKE", target = "net/minecraft/util/math/Box.contract(D)Lnet/minecraft/util/math/Box;"))
-	public Box onVehicleMoveContractProxy(Box obj, double double_1)
+	@ModifyArg(method = "onVehicleMove", at = @At(value = "INVOKE", target = "net/minecraft/util/math/Box.contract(D)Lnet/minecraft/util/math/Box;"))
+	public double onVehicleMoveContractProxy(double value)
 	{
 		final float scale = ScaleData.of(player).getScale();
-		return obj.contract(scale < 1.0F ? double_1 * scale : double_1);
+		return scale < 1.0F ? value * scale : value;
 	}
 	
 	@ModifyConstant(method = "onVehicleMove", constant = @Constant(doubleValue = 0.0625D, ordinal = 1))

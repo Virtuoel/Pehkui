@@ -37,9 +37,9 @@ public class PehkuiClient implements ClientModInitializer
 			
 			packetContext.getTaskQueue().execute(() ->
 			{
-				for(final Entity e : client.world.getEntities())
+				for (final Entity e : client.world.getEntities())
 				{
-					if(e.getUuid().equals(uuid))
+					if (e.getUuid().equals(uuid))
 					{
 						ScaleData.of(e).fromTag(scaleData);
 						break;

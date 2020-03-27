@@ -2,18 +2,28 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.util.math.Box;
 
 @Mixin(BoatEntity.class)
 public abstract class BoatEntityMixin extends EntityMixin
 {
-	@Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	public Box onTickExpandProxy(Box obj, double double_1, double double_2, double double_3)
+	@ModifyArg(method = "tick", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onTickMovementExpandXProxy(double value)
 	{
-		final float scale = pehkui_scaleData.getScale();
-		return obj.expand(double_1 * scale, double_2 * scale, double_3 * scale);
+		return value * pehkui_scaleData.getScale();
+	}
+	
+	@ModifyArg(method = "tick", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onTickMovementExpandYProxy(double value)
+	{
+		return value * pehkui_scaleData.getScale();
+	}
+	
+	@ModifyArg(method = "tick", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onTickMovementExpandZProxy(double value)
+	{
+		return value * pehkui_scaleData.getScale();
 	}
 }

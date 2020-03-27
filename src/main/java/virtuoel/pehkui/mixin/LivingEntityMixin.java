@@ -1,58 +1,69 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.World;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin
 {
-	@Shadow abstract float getActiveEyeHeight(EntityPose entityPose_1, EntityDimensions entitySize_1);
-	
-	@Redirect(method = "getEyeHeight", at = @At(value = "INVOKE", target = "net/minecraft/entity/LivingEntity.getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
-	public float onGetEyeHeightGetActiveEyeHeightProxy(LivingEntity obj, EntityPose entityPose_1, EntityDimensions entitySize_1)
+	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
+	private EntityDimensions onGetEyeHeightDimensionsProxy(EntityDimensions dimensions)
 	{
-		final float scale = pehkui_scaleData.getScale();
-		return getActiveEyeHeight(entityPose_1, entitySize_1.scaled(1.0F / scale)) * scale;
+		return dimensions.scaled(1.0F / pehkui_scaleData.getScale());
 	}
 	
-	@Redirect(method = "dropXp", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	public boolean dropXpSpawnEntityProxy(World obj, Entity entity_1)
+	@Inject(method = "getEyeHeight", at = @At("RETURN"), cancellable = true)
+	private void onGetEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
 	{
-		final boolean ret = obj.spawnEntity(entity_1);
-		
-		final float scale = pehkui_scaleData.getScale();
-		if(scale != 1.0F)
+		if (pose != EntityPose.SLEEPING)
 		{
-			final ScaleData data = ScaleData.of(entity_1);
-			data.setScale(scale);
-			data.setTargetScale(scale);
+			final float scale = pehkui_scaleData.getScale();
+			
+			if (scale != 1.0F)
+			{
+				info.setReturnValue(info.getReturnValueF() * scale);
+			}
 		}
-		
-		return ret;
 	}
 	
-	@Redirect(method = "onKilledBy", at = @At(value = "INVOKE", target = "net/minecraft/world/World.spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	public boolean onKilledBySpawnEntityProxy(World obj, Entity entity_1)
+	@ModifyArg(method = "dropXp", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	private Entity dropXpSpawnEntityProxy(Entity entity)
 	{
-		final boolean ret = obj.spawnEntity(entity_1);
-		
 		final float scale = pehkui_scaleData.getScale();
-		if(scale != 1.0F)
+		
+		if (scale != 1.0F)
 		{
-			final ScaleData data = ScaleData.of(entity_1);
+			final ScaleData data = ScaleData.of(entity);
 			data.setScale(scale);
 			data.setTargetScale(scale);
+			data.markForSync();
 		}
 		
-		return ret;
+		return entity;
+	}
+	
+	@ModifyArg(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	private Entity onKilledBySpawnEntityProxy(Entity entity)
+	{
+		final float scale = pehkui_scaleData.getScale();
+		
+		if (scale != 1.0F)
+		{
+			final ScaleData data = ScaleData.of(entity);
+			data.setScale(scale);
+			data.setTargetScale(scale);
+			data.markForSync();
+		}
+		
+		return entity;
 	}
 }

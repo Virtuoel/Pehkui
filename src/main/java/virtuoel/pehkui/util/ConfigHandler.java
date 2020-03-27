@@ -1,42 +1,31 @@
 package virtuoel.pehkui.util;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.loader.api.FabricLoader;
 
-public class ConfigHandler<S> implements Supplier<S>
+public abstract class ConfigHandler<S> implements Supplier<S>
 {
 	private final String namespace;
 	protected final Logger logger;
-	private final File configFile;
+	private final Path configFile;
 	protected final Supplier<S> defaultConfig;
-	private final Function<Reader, S> configReader;
-	private final BiConsumer<Writer, S> configWriter;
-	private final BiFunction<S, S, S> configMerger;
 	private S cachedConfig = null;
 	
-	public ConfigHandler(String namespace, String path, Supplier<S> defaultConfig, Function<Reader, S> configReader, BiConsumer<Writer, S> configWriter, BiFunction<S, S, S> configMerger)
+	public ConfigHandler(String namespace, String path, Supplier<S> defaultConfig)
 	{
 		this.namespace = namespace;
 		logger = LogManager.getLogger(namespace);
-		configFile = new File(FabricLoader.getInstance().getConfigDirectory(), path);
+		configFile = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(path);
 		this.defaultConfig = defaultConfig;
-		this.configReader = configReader;
-		this.configWriter = configWriter;
-		this.configMerger = configMerger;
 	}
 	
 	public String getNamespace()
@@ -52,33 +41,28 @@ public class ConfigHandler<S> implements Supplier<S>
 	
 	public S load()
 	{
-		return load(logger, configFile, defaultConfig, configReader, configWriter, configMerger);
-	}
-	
-	public static <T> T load(Logger logger, File configFile, Supplier<T> defaultConfig, Function<Reader, T> configReader, BiConsumer<Writer, T> configWriter, BiFunction<T, T, T> configMerger)
-	{
-		T configData = null;
-		configFile.getParentFile().mkdirs();
-		if(configFile.exists())
+		S configData = null;
+		try
 		{
-			try(final FileReader reader = new FileReader(configFile))
+			Files.createDirectories(configFile.getParent());
+			if (Files.exists(configFile))
 			{
-				configData = configReader.apply(reader);
-			}
-			catch(IOException e)
-			{
-				logger.catching(e);
+				configData = readConfig(Files.lines(configFile));
 			}
 		}
-		
-		final T defaultData = defaultConfig.get();
-		if(!Objects.equals(configData, defaultData))
+		catch (IOException e)
 		{
-			final T mergedData = configData == null ? defaultData : configMerger.apply(configData, defaultData);
-			if(!Objects.equals(configData, mergedData))
+			logger.catching(e);
+		}
+		
+		final S defaultData = defaultConfig.get();
+		if (!Objects.equals(configData, defaultData))
+		{
+			final S mergedData = configData == null ? defaultData : mergeConfigs(configData, defaultData);
+			if (!Objects.equals(configData, mergedData))
 			{
 				configData = mergedData;
-				save(logger, configData, configFile, configWriter);
+				save(configData);
 			}
 		}
 		
@@ -87,19 +71,25 @@ public class ConfigHandler<S> implements Supplier<S>
 	
 	public void save()
 	{
-		save(logger, get(), configFile, configWriter);
+		save(get());
 	}
 	
-	public static <T> void save(Logger logger, T configData, File configFile, BiConsumer<Writer, T> configWriter)
+	public void save(S configData)
 	{
-		try(final FileWriter writer = new FileWriter(configFile))
+		try
 		{
-			configWriter.accept(writer, configData);
+			Files.write(configFile, writeConfig(configData));
 		}
-		catch(IOException e)
+		catch (IOException e)
 		{
 			logger.warn("Failed to write config.");
 			logger.catching(e);
 		}
 	}
+	
+	protected abstract S readConfig(Stream<String> lines);
+	
+	protected abstract Iterable<? extends CharSequence> writeConfig(S configData);
+	
+	protected abstract S mergeConfigs(S configData, S defaultData);
 }

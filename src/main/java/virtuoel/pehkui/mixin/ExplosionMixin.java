@@ -21,12 +21,13 @@ public abstract class ExplosionMixin
 	@Shadow @Final @Mutable float power;
 	
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)V")
-	public void onConstruct(World world_1, @Nullable Entity entity_1, double double_1, double double_2, double double_3, float float_1, boolean boolean_1, Explosion.DestructionType explosion$DestructionType_1, CallbackInfo info)
+	public void onConstruct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
 	{
-		if(entity_1 != null)
+		if (entity != null)
 		{
-			final float scale = ScaleData.of(entity_1).getScale();
-			if(scale != 1.0F)
+			final float scale = ScaleData.of(entity).getScale();
+			
+			if (scale != 1.0F)
 			{
 				power *= scale;
 			}

@@ -14,7 +14,8 @@ public abstract class AbstractDonkeyEntityMixin extends EntityMixin
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final float scale = pehkui_scaleData.getScale();
-		if(scale != 1.0F)
+		
+		if (scale != 1.0F)
 		{
 			info.setReturnValue(info.getReturnValue() + ((1.0F - scale) * 0.25D));
 		}

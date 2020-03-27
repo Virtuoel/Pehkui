@@ -6,9 +6,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.util.NbtType;
@@ -17,6 +19,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -32,7 +35,7 @@ public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow World world;
 	
-	@Shadow abstract void updatePosition(double double_1, double double_2, double double_3);
+	@Shadow abstract void updatePosition(double x, double y, double z);
 	
 	public ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
 	
@@ -44,13 +47,13 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Inject(at = @At("HEAD"), method = "fromTag")
-	private void onFromTag(CompoundTag compoundTag_1, CallbackInfo info)
+	private void onFromTag(CompoundTag tag, CallbackInfo info)
 	{
-		if(compoundTag_1.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
+		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
-			pehkui_scaleData.fromTag(compoundTag_1.getCompound(Pehkui.MOD_ID + ":scale_data"));
+			pehkui_scaleData.fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
 			
-			if(pehkui_scaleData.getScale() != 1.0F && world != null && !world.isClient)
+			if (pehkui_scaleData.getScale() != 1.0F && world != null && !world.isClient)
 			{
 				pehkui_scaleData.markForSync();
 			}
@@ -58,9 +61,9 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Inject(at = @At("HEAD"), method = "toTag")
-	private void onToTag(CompoundTag compoundTag_1, CallbackInfoReturnable<CompoundTag> info)
+	private void onToTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
 	{
-		compoundTag_1.put(Pehkui.MOD_ID + ":scale_data", pehkui_scaleData.toTag(new CompoundTag()));
+		tag.put(Pehkui.MOD_ID + ":scale_data", pehkui_scaleData.toTag(new CompoundTag()));
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")
@@ -70,50 +73,50 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
-	private void onOnStartedTrackingBy(ServerPlayerEntity serverPlayerEntity_1, CallbackInfo info)
+	private void onOnStartedTrackingBy(ServerPlayerEntity player, CallbackInfo info)
 	{
-		if(pehkui_scaleData.getScale() != 1.0F)
+		if (pehkui_scaleData.getScale() != 1.0F)
 		{
-			serverPlayerEntity_1.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, pehkui_scaleData.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
+			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, pehkui_scaleData.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
 			pehkui_scaleData.scaleModified = false;
 		}
 	}
 	
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void onGetDimensions(EntityPose entityPose_1, CallbackInfoReturnable<EntityDimensions> info)
+	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		final float scale = pehkui_scaleData.getScale();
-		if(scale != 1.0F)
+		
+		if (scale != 1.0F)
 		{
 			info.setReturnValue(info.getReturnValue().scaled(scale));
 		}
 	}
 	
-	@Redirect(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
-	private void onDropStackSetToDefaultPickupDelayProxy(ItemEntity obj)
+	@Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
+	private void onDropStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> info, ItemEntity entity)
 	{
 		final float scale = pehkui_scaleData.getScale();
-		if(scale != 1.0F)
+		
+		if (scale != 1.0F)
 		{
-			final ScaleData data = ScaleData.of(obj);
+			final ScaleData data = ScaleData.of(entity);
 			data.setScale(scale);
 			data.setTargetScale(scale);
+			data.markForSync();
 		}
-		obj.setToDefaultPickupDelay();
 	}
 	
-	@Shadow abstract Vec3d adjustMovementForSneaking(Vec3d vec3d_1, MovementType movementType_1);
-	
-	@Redirect(method = "move", at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
-	private Vec3d onMoveadjustMovementForSneakingProxy(Entity obj, Vec3d vec3d_1, MovementType movementType_1)
+	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
+	private Vec3d onMoveAdjustMovementForSneakingProxy(Vec3d movement, MovementType type)
 	{
-		return adjustMovementForSneaking(movementType_1 == MovementType.SELF || movementType_1 == MovementType.PLAYER ? vec3d_1.multiply(pehkui_scaleData.getScale()) : vec3d_1, movementType_1);
+		return type == MovementType.SELF || type == MovementType.PLAYER ? movement.multiply(pehkui_scaleData.getScale()) : movement;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
 	private void onSpawnSprintingParticles(CallbackInfo info)
 	{
-		if(pehkui_scaleData.getScale() < 1.0F)
+		if (pehkui_scaleData.getScale() < 1.0F)
 		{
 			info.cancel();
 		}

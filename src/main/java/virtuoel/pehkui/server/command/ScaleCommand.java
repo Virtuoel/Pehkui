@@ -28,14 +28,14 @@ public class ScaleCommand
 						try
 						{
 							final float scale = FloatArgumentType.getFloat(context, "scale");
-							for(final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 							{
 								final ScaleData data = ScaleData.of(e);
 								data.setTargetScale(scale);
 								data.markForSync();
 							}
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							Pehkui.LOGGER.catching(e);
 							throw e;
@@ -58,14 +58,14 @@ public class ScaleCommand
 						try
 						{
 							final int ticks = IntegerArgumentType.getInteger(context, "ticks");
-							for(final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 							{
 								final ScaleData data = ScaleData.of(e);
 								data.setScaleTickDelay(ticks);
 								data.markForSync();
 							}
 						}
-						catch(Exception e)
+						catch (Exception e)
 						{
 							Pehkui.LOGGER.catching(e);
 							throw e;

@@ -3,14 +3,15 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Box;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.ScaleData;
 
@@ -18,50 +19,72 @@ import virtuoel.pehkui.api.ScaleData;
 public abstract class PlayerEntityMixin extends LivingEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void onGetDimensions(EntityPose entityPose_1, CallbackInfoReturnable<EntityDimensions> info)
+	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		info.setReturnValue(info.getReturnValue().scaled(pehkui_scaleData.getScale()));
 	}
 	
-	@Redirect(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;getVelocity()Lnet/minecraft/util/math/Vec3d;"))
-	private Vec3d onTickMovementGetVelocityProxy(PlayerEntity obj)
+	@ModifyArg(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;squaredHorizontalLength(Lnet/minecraft/util/math/Vec3d;)D"))
+	private Vec3d onTickMovementGetVelocityProxy(Vec3d velocity)
 	{
-		final float scale = pehkui_scaleData.getScale();
-		return obj.getVelocity().multiply(scale);
+		return velocity.multiply(pehkui_scaleData.getScale());
 	}
 	
-	@Redirect(method = "adjustMovementForSneaking", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;stepHeight:F"))
-	private float adjustMovementForSneakingStepHeightProxy(PlayerEntity obj)
+	@ModifyArg(method = "adjustMovementForSneaking", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;offset(DDD)Lnet/minecraft/util/math/Box;"))
+	private double adjustMovementForSneakingStepHeightProxy(double stepHeight)
 	{
-		return obj.stepHeight * pehkui_scaleData.getScale();
+		return stepHeight * pehkui_scaleData.getScale();
 	}
 	
-	@Redirect(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
-	private void onDropItemSetPickupDelayProxy(ItemEntity obj, int int_1)
+	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
+	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info, double y, ItemEntity entity)
 	{
 		final float scale = pehkui_scaleData.getScale();
-		if(scale != 1.0F)
+		
+		if (scale != 1.0F)
 		{
-			final ScaleData data = ScaleData.of(obj);
+			final ScaleData data = ScaleData.of(entity);
 			data.setScale(scale);
 			data.setTargetScale(scale);
+			data.markForSync();
+			
+			entity.updatePosition(entity.getX(), y + ((1.0F - scale) * 0.3D), entity.getZ());
 		}
-		
-		obj.updatePosition(obj.getX(), obj.getY() + ((1.0F - scale) * 0.3D), obj.getZ());
-		obj.setPickupDelay(int_1);
 	}
 	
-	@Redirect(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private Box onTickMovementExpandProxy(Box obj, double double_1, double double_2, double double_3)
+	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onTickMovementExpandXProxy(double value)
 	{
-		final float scale = pehkui_scaleData.getScale();
-		return obj.expand(double_1 * scale, double_2 * scale, double_3 * scale);
+		return value * pehkui_scaleData.getScale();
 	}
 	
-	@Redirect(method = "attack(Lnet/minecraft/entity/Entity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private Box onAttackProxy(Box obj, double double_1, double double_2, double double_3)
+	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onTickMovementExpandYProxy(double value)
 	{
-		final float scale = pehkui_scaleData.getScale();
-		return obj.expand(double_1 * scale, double_2 * scale, double_3 * scale);
+		return value * pehkui_scaleData.getScale();
+	}
+	
+	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onTickMovementExpandZProxy(double value)
+	{
+		return value * pehkui_scaleData.getScale();
+	}
+	
+	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onAttackExpandXProxy(double value)
+	{
+		return value * pehkui_scaleData.getScale();
+	}
+	
+	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onAttackExpandYProxy(double value)
+	{
+		return value * pehkui_scaleData.getScale();
+	}
+	
+	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double onAttackExpandZProxy(double value)
+	{
+		return value * pehkui_scaleData.getScale();
 	}
 }

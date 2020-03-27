@@ -36,10 +36,10 @@ public class ScaleData
 	public void tick()
 	{
 		final float currScale = getScale();
-		if(currScale != getTargetScale())
+		if (currScale != getTargetScale())
 		{
 			this.prevScale = currScale;
-			if(this.scaleTicks >= this.totalScaleTicks)
+			if (this.scaleTicks >= this.totalScaleTicks)
 			{
 				this.fromScale = this.toScale;
 				this.scaleTicks = 0;
@@ -52,7 +52,7 @@ public class ScaleData
 				setScale(nextScale);
 			}
 		}
-		else if(this.prevScale != currScale)
+		else if (this.prevScale != currScale)
 		{
 			this.prevScale = currScale;
 		}
