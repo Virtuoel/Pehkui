@@ -17,7 +17,7 @@ public class ClientPlayerInteractionManagerMixin
 	@Shadow @Final MinecraftClient client;
 	
 	@Inject(at = @At("RETURN"), method = "getReachDistance", cancellable = true)
-	public void onGetReachDistance(CallbackInfoReturnable<Float> info)
+	private void onGetReachDistance(CallbackInfoReturnable<Float> info)
 	{
 		if (client.player != null)
 		{

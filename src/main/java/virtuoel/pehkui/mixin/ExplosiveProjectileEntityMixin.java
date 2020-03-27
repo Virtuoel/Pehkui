@@ -15,7 +15,7 @@ import virtuoel.pehkui.api.ScaleData;
 public abstract class ExplosiveProjectileEntityMixin extends EntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;DDDLnet/minecraft/world/World;)V")
-	public void onConstruct(EntityType<? extends ExplosiveProjectileEntity> type, LivingEntity owner, double directionX, double directionY, double directionZ, World world, CallbackInfo info)
+	private void onConstruct(EntityType<? extends ExplosiveProjectileEntity> type, LivingEntity owner, double directionX, double directionY, double directionZ, World world, CallbackInfo info)
 	{
 		final float scale = ScaleData.of(owner).getScale();
 		

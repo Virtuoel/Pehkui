@@ -19,7 +19,7 @@ import virtuoel.pehkui.api.ScaleData;
 public abstract class PersistentProjectileEntityMixin extends EntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V")
-	public void onConstruct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, CallbackInfo info)
+	private void onConstruct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, CallbackInfo info)
 	{
 		final float scale = ScaleData.of(owner).getScale();
 		
@@ -31,7 +31,7 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 	}
 	
 	@Inject(at = @At("HEAD"), method = "setOwner")
-	protected void onSetOwner(@Nullable Entity entity, CallbackInfo info)
+	private void onSetOwner(@Nullable Entity entity, CallbackInfo info)
 	{
 		if (entity != null)
 		{

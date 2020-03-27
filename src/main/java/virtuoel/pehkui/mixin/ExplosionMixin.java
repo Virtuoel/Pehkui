@@ -21,7 +21,7 @@ public abstract class ExplosionMixin
 	@Shadow @Final @Mutable float power;
 	
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)V")
-	public void onConstruct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
+	private void onConstruct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
 	{
 		if (entity != null)
 		{

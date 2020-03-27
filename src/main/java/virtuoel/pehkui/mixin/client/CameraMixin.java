@@ -16,7 +16,7 @@ public abstract class CameraMixin
 	@Shadow Entity focusedEntity;
 	
 	@ModifyArg(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
-	public double onUpdateClipToSpaceProxy(double distance)
+	private double onUpdateClipToSpaceProxy(double distance)
 	{
 		return distance * ScaleData.of(focusedEntity).getScale(MinecraftClient.getInstance().getTickDelta());
 	}
