@@ -2,6 +2,7 @@
 	"required": true,
 	"package": "virtuoel.pehkui.mixin",
 	"compatibilityLevel": "JAVA_8",
+	"plugin": "virtuoel.pehkui.mixin.PehkuiMixinConfigPlugin",
 	"mixins":
 	[
 		"AbstractDonkeyEntityMixin",
@@ -13,7 +14,6 @@
 		"EntityVehicleHeightOffsetMixin",
 		"ExplosionMixin",
 		"ExplosiveProjectileEntityMixin",
-		"FireballEntityMixin",
 		"LivingEntityMixin",
 		"PersistentProjectileEntityMixin",
 		"PlayerEntityMixin",
@@ -22,7 +22,9 @@
 		"ServerPlayNetworkHandlerMixin",
 		"ShootFireballGoalMixin",
 		"SkeletonHorseEntityMixin",
-		"ThrownEntityMixin"
+		"ThrownEntityMixin",
+		"compat115.FireballEntityMixin",
+		"compat116plus.FireballEntityMixin"
 	],
 	"client":
 	[
@@ -32,7 +34,8 @@
 		"client.EntityRendererMixin",
 		"client.GameRendererMixin",
 		"client.ItemFrameEntityRendererMixin",
-		"client.PlayerEntityRendererMixin"
+		"client.PlayerEntityRendererMixin",
+		"client.compat115.EntityRenderDispatcherMixin"
 	],
 	"injectors":
 	{
