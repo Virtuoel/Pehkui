@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.thrown.ThrownEntity;
+import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.world.World;
 import virtuoel.pehkui.api.ScaleData;
 

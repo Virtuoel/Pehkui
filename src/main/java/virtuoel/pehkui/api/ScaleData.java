@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.entity.ResizableEntity;
 

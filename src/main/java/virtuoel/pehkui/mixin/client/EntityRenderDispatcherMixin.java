@@ -3,10 +3,8 @@ package virtuoel.pehkui.mixin.client;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -43,11 +41,5 @@ public class EntityRenderDispatcherMixin
 		final float scale = MathHelper.lerp(tickDelta, ScaleData.of(entity).getPrevScale(), ScaleData.of(entity).getScale());
 		
 		return size * scale;
-	}
-	
-	@ModifyConstant(method = "renderShadowPart", constant = @Constant(doubleValue = 0.015625D))
-	private static double renderShadowPartModifyShadowHeight(double value)
-	{
-		return value - 0.0155D;
 	}
 }
