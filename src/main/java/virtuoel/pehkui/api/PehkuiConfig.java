@@ -24,6 +24,7 @@ public class PehkuiConfig
 		
 		config.addProperty("playerMovedWronglyMax", 0.0625D);
 		config.addProperty("vehicleMovedWronglyMax", 0.0625D);
+		config.addProperty("scaledFallDamage", true);
 		
 		return config;
 	}
