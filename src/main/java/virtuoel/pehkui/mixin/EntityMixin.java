@@ -5,8 +5,10 @@ import java.util.Optional;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -125,6 +127,16 @@ public abstract class EntityMixin implements ResizableEntity
 	@Redirect(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	private float adjustMovementForCollisionsStepHeightProxy(Entity obj)
 	{
-		return obj.stepHeight * pehkui_scaleData.getScale();
+		final float scale = pehkui_scaleData.getScale();
+		
+		return scale != 1.0F ? obj.stepHeight * scale : obj.stepHeight;
+	}
+	
+	@ModifyConstant(method = "isInsideWall", constant = @Constant(floatValue = 0.1F))
+	private float isInsideWallModifyOffset(float value)
+	{
+		final float scale = pehkui_scaleData.getScale();
+		
+		return scale != 1.0F ? value * scale : value;
 	}
 }

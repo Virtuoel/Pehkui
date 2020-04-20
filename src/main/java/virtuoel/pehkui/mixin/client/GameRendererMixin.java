@@ -1,19 +1,24 @@
 package virtuoel.pehkui.mixin.client;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
 {
-	@Shadow
+	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
 	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;horizontalSpeed:F"))
@@ -28,5 +33,23 @@ public class GameRendererMixin
 	{
 		final float scale = ScaleData.of(obj).getScale(client.getTickDelta());
 		return obj.prevHorizontalSpeed / scale;
+	}
+	
+	@ModifyConstant(method = "getBasicProjectionMatrix", constant = @Constant(floatValue = 0.05F))
+	private float getBasicProjectionMatrixModifyDepth(float value)
+	{
+		final Entity entity = client.getCameraEntity();
+		
+		if (entity != null)
+		{
+			final float scale = ScaleData.of(entity).getScale(client.getTickDelta());
+			
+			if (scale < 1.0F)
+			{
+				return Math.max(0.001F, value * scale);
+			}
+		}
+		
+		return value;
 	}
 }
