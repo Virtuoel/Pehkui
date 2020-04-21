@@ -1,5 +1,6 @@
 package virtuoel.pehkui.api;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import net.minecraft.entity.Entity;
@@ -149,6 +150,35 @@ public class ScaleData
 		tag.putInt("ticks", this.scaleTicks);
 		tag.putInt("total_ticks", this.totalScaleTicks);
 		return tag;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(fromScale, prevScale, scale, scaleTicks, toScale, totalScaleTicks);
+	}
+	
+	@Override
+	public boolean equals(final Object obj)
+	{
+		if (this == obj)
+		{
+			return true;
+		}
+		
+		if (!(obj instanceof ScaleData))
+		{
+			return false;
+		}
+		
+		final ScaleData other = (ScaleData) obj;
+		
+		return Float.floatToIntBits(scale) == Float.floatToIntBits(other.scale) &&
+			Float.floatToIntBits(prevScale) == Float.floatToIntBits(other.prevScale) &&
+			Float.floatToIntBits(fromScale) == Float.floatToIntBits(other.fromScale) &&
+			Float.floatToIntBits(toScale) == Float.floatToIntBits(other.toScale) &&
+			scaleTicks == other.scaleTicks &&
+			totalScaleTicks == other.totalScaleTicks;
 	}
 	
 	public static class ImmutableScaleData extends ScaleData
