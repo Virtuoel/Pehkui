@@ -22,8 +22,6 @@ public class PehkuiConfig
 	{
 		final JsonObject config = new JsonObject();
 		
-		config.addProperty("playerMovedWronglyMax", 0.0625D);
-		config.addProperty("vehicleMovedWronglyMax", 0.0625D);
 		config.addProperty("scaledFallDamage", true);
 		
 		return config;
