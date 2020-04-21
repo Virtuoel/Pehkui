@@ -29,7 +29,7 @@ public abstract class ExplosionMixin
 			
 			if (scale != 1.0F)
 			{
-				power *= scale;
+				this.power *= scale;
 			}
 		}
 	}
