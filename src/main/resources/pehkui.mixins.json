@@ -32,12 +32,13 @@
 		"client.CameraMixin",
 		"client.ClientPlayerInteractionManagerMixin",
 		"client.EntityRenderDispatcherMixin",
-		"client.EntityRendererMixin",
 		"client.GameRendererMixin",
 		"client.InGameOverlayRendererMixin",
 		"client.ItemFrameEntityRendererMixin",
 		"client.PlayerEntityRendererMixin",
-		"client.compat115.EntityRenderDispatcherMixin"
+		"client.compat115.EntityRenderDispatcherMixin",
+		"client.compat115.EntityRendererMixin",
+		"client.compat116plus.EntityRendererMixin"
 	],
 	"injectors":
 	{
