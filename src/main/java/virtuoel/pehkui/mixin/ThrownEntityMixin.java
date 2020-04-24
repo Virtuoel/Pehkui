@@ -5,9 +5,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.api.ScaleData;
 
@@ -21,8 +23,9 @@ public abstract class ThrownEntityMixin extends EntityMixin
 		
 		if (scale != 1.0F)
 		{
-			final ThrownEntity self = ((ThrownEntity) (Object) this);
-			updatePosition(self.getX(), self.getY() + ((1.0F - scale) * 0.1D), self.getZ());
+			final Vec3d pos = ((Entity) (Object) this).getPos();
+			
+			updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
 			
 			pehkui_scaleData.setScale(scale);
 			pehkui_scaleData.setTargetScale(scale);

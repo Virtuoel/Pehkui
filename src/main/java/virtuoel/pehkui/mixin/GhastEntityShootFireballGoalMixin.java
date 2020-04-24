@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.GhastEntity;
+import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(targets = "net.minecraft.entity.mob.GhastEntity$ShootFireballGoal")
@@ -22,7 +23,9 @@ public abstract class GhastEntityShootFireballGoalMixin
 		
 		if (scale != 1.0F)
 		{
-			entity.updatePosition(entity.getX(), entity.getY() - ((1.0D - scale) * 0.5D), entity.getZ());
+			final Vec3d pos = entity.getPos();
+			
+			entity.updatePosition(pos.x, pos.y - ((1.0D - scale) * 0.5D), pos.z);
 		}
 		
 		return entity;

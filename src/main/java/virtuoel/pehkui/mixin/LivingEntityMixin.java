@@ -13,12 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin
@@ -60,37 +58,5 @@ public abstract class LivingEntityMixin extends EntityMixin
 				info.setReturnValue(info.getReturnValueF() * scale);
 			}
 		}
-	}
-	
-	@ModifyArg(method = "dropXp", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private Entity dropXpSpawnEntityProxy(Entity entity)
-	{
-		final float scale = pehkui_scaleData.getScale();
-		
-		if (scale != 1.0F)
-		{
-			final ScaleData data = ScaleData.of(entity);
-			data.setScale(scale);
-			data.setTargetScale(scale);
-			data.markForSync();
-		}
-		
-		return entity;
-	}
-	
-	@ModifyArg(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private Entity onKilledBySpawnEntityProxy(Entity entity)
-	{
-		final float scale = pehkui_scaleData.getScale();
-		
-		if (scale != 1.0F)
-		{
-			final ScaleData data = ScaleData.of(entity);
-			data.setScale(scale);
-			data.setTargetScale(scale);
-			data.markForSync();
-		}
-		
-		return entity;
 	}
 }

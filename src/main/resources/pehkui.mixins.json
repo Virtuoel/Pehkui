@@ -25,7 +25,9 @@
 		"ServerPlayNetworkHandlerMixin",
 		"SkeletonHorseEntityMixin",
 		"ThrownEntityMixin",
+		"compat114.LivingEntityMixin",
 		"compat115.FireballEntityMixin",
+		"compat115plus.LivingEntityMixin",
 		"compat115plus.PlayerEntityMixin",
 		"compat116plus.FireballEntityMixin"
 	],
@@ -33,14 +35,17 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerInteractionManagerMixin",
-		"client.GameRendererMixin",
-		"client.InGameOverlayRendererMixin",
-		"client.ItemFrameEntityRendererMixin",
-		"client.PlayerEntityRendererMixin",
+		"client.compat114.EntityRenderDispatcherMixin",
 		"client.compat114.EntityRendererMixin",
+		"client.compat114.GameRendererMixin",
+		"client.compat114.HeldItemRendererMixin",
 		"client.compat115.EntityRenderDispatcherMixin",
 		"client.compat115.EntityRendererMixin",
 		"client.compat115plus.EntityRenderDispatcherMixin",
+		"client.compat115plus.GameRendererMixin",
+		"client.compat115plus.InGameOverlayRendererMixin",
+		"client.compat115plus.ItemFrameEntityRendererMixin",
+		"client.compat115plus.PlayerEntityRendererMixin",
 		"client.compat116plus.EntityRendererMixin"
 	],
 	"injectors":

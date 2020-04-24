@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.api.ScaleData;
 
@@ -25,8 +26,9 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 		
 		if (scale != 1.0F)
 		{
-			final ProjectileEntity self = ((ProjectileEntity) (Object) this);
-			updatePosition(self.getX(), self.getY() + ((1.0F - scale) * 0.1D), self.getZ());
+			final Vec3d pos = ((Entity) (Object) this).getPos();
+			
+			updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
 		}
 	}
 	

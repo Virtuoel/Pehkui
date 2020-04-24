@@ -1,11 +1,10 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
@@ -31,14 +30,14 @@ public abstract class EntityRendererMixin
 			
 			field_4673 *= scale;
 			
-			GlStateManager.pushMatrix();
-			GlStateManager.translated(0, -0.0155, 0);
-			GlStateManager.pushMatrix();
+			GL11.glPushMatrix();
+			GL11.glTranslated(0, -0.0155, 0);
+			GL11.glPushMatrix();
 			
 			method_3934(entity, x, y, z, opacity, tickDelta);
 			
-			GlStateManager.popMatrix();
-			GlStateManager.popMatrix();
+			GL11.glPopMatrix();
+			GL11.glPopMatrix();
 			
 			field_4673 = temp;
 		}

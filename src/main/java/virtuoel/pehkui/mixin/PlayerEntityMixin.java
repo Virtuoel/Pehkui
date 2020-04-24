@@ -42,7 +42,9 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 			data.setTargetScale(scale);
 			data.markForSync();
 			
-			entity.updatePosition(entity.getX(), y + ((1.0F - scale) * 0.3D), entity.getZ());
+			final Vec3d pos = entity.getPos();
+			
+			entity.updatePosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
 		}
 	}
 	
