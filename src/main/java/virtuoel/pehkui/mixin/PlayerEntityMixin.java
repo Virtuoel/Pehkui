@@ -30,12 +30,6 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		return velocity.multiply(pehkui_scaleData.getScale());
 	}
 	
-	@ModifyArg(method = "adjustMovementForSneaking", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;offset(DDD)Lnet/minecraft/util/math/Box;"))
-	private double adjustMovementForSneakingStepHeightProxy(double stepHeight)
-	{
-		return stepHeight * pehkui_scaleData.getScale();
-	}
-	
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
 	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info, double y, ItemEntity entity)
 	{

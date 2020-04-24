@@ -26,6 +26,7 @@
 		"SkeletonHorseEntityMixin",
 		"ThrownEntityMixin",
 		"compat115.FireballEntityMixin",
+		"compat115plus.PlayerEntityMixin",
 		"compat116plus.FireballEntityMixin"
 	],
 	"client":
