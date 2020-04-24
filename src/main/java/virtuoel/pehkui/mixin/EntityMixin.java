@@ -14,6 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
@@ -29,6 +32,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.entity.ResizableEntity;
 
@@ -107,6 +111,25 @@ public abstract class EntityMixin implements ResizableEntity
 			data.setTargetScale(scale);
 			data.markForSync();
 		}
+	}
+	
+	@ModifyArg(method = "fall", index = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
+	private float onFallModifyFallDistance(float distance)
+	{
+		final float scale = pehkui_scaleData.getScale();
+		
+		if (scale != 1.0F)
+		{
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledFallDistance"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
+			{
+				return distance / scale;
+			}
+		}
+		
+		return distance;
 	}
 	
 	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))

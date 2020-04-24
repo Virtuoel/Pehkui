@@ -4,8 +4,10 @@ import java.util.Optional;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.google.gson.JsonElement;
@@ -27,23 +29,23 @@ public abstract class LivingEntityMixin extends EntityMixin
 		return dimensions.scaled(1.0F / pehkui_scaleData.getScale());
 	}
 	
-	@ModifyArg(method = "handleFallDamage", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;computeFallDamage(FF)I"))
-	private float onHandleFallDamageFallDistanceProxy(float fallDistance)
+	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
+	private float travelModifyFallDistance(float value)
 	{
-		final double scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_scaleData.getScale();
 		
-		if (scale != 1.0D)
+		if (scale != 1.0F)
 		{
 			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledFallDistance"))
 				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
 				.orElse(true))
 			{
-				return (float) (fallDistance / scale);
+				return value * scale;
 			}
 		}
 		
-		return fallDistance;
+		return value;
 	}
 	
 	@Inject(method = "getEyeHeight", at = @At("RETURN"), cancellable = true)
