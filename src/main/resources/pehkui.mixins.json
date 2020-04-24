@@ -7,6 +7,7 @@
 	"mixins":
 	[
 		"AbstractDonkeyEntityMixin",
+		"BlazeEntityShootFireballGoalMixin",
 		"BoatEntityMixin",
 		"EnderCrystalEntityMixin",
 		"EntityMixin",
@@ -15,13 +16,13 @@
 		"EntityVehicleHeightOffsetMixin",
 		"ExplosionMixin",
 		"ExplosiveProjectileEntityMixin",
+		"GhastEntityShootFireballGoalMixin",
 		"LivingEntityMixin",
 		"PersistentProjectileEntityMixin",
 		"PlayerEntityMixin",
 		"PortalBlockMixin",
 		"PreEntityTickMixin",
 		"ServerPlayNetworkHandlerMixin",
-		"ShootFireballGoalMixin",
 		"SkeletonHorseEntityMixin",
 		"ThrownEntityMixin",
 		"compat115.FireballEntityMixin",
