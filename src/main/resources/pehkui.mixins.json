@@ -35,6 +35,7 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerInteractionManagerMixin",
+		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
 		"client.compat114.EntityRendererMixin",
 		"client.compat114.GameRendererMixin",
