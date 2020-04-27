@@ -32,6 +32,7 @@ public abstract class EntityTrackerEntryMixin
 		if (data.shouldSync())
 		{
 			sendSyncPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, data.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(entity.getUuid()))));
+			data.scaleModified = false;
 		}
 	}
 	
