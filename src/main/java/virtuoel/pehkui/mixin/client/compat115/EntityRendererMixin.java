@@ -14,6 +14,6 @@ public abstract class EntityRendererMixin
 	@Redirect(method = "method_3926(Lnet/minecraft/class_1297;Ljava/lang/String;Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1297;method_17682()F", remap = false), remap = false)
 	private float renderLabelIfPresentGetHeightProxy(Entity entity)
 	{
-		return (entity.getHeight() / ScaleData.of(entity).getScale());
+		return entity.getHeight() / ScaleData.of(entity).getScale();
 	}
 }
