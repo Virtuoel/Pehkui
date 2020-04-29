@@ -2,9 +2,12 @@ package virtuoel.pehkui.mixin;
 
 import java.util.Optional;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -22,6 +25,7 @@ import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
@@ -29,6 +33,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
@@ -144,6 +149,21 @@ public abstract class EntityMixin implements ResizableEntity
 		if (pehkui_scaleData.getScale() < 1.0F)
 		{
 			info.cancel();
+		}
+	}
+	
+	@Shadow @Final @Mutable EntityType<?> type;
+	@Shadow abstract void move(MovementType type, Vec3d movement);
+	
+	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, ordinal = 1, target = "Lnet/minecraft/entity/Entity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
+	private void calculateDimensionsMoveProxy(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current, Box box)
+	{
+		if (this.world.isClient && type == EntityType.PLAYER && current.width > previous.width)
+		{
+			final float scale = pehkui_scaleData.getScale();
+			final float dist = (previous.width - current.width) / 2.0F;
+			
+			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));
 		}
 	}
 	
