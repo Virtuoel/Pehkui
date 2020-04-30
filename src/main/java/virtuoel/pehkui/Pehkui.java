@@ -4,7 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.registry.CommandRegistry;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.server.command.ScaleCommand;
@@ -23,7 +23,7 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		CommandRegistry.INSTANCE.register(false, commandDispatcher ->
+		CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
 		{
 			ScaleCommand.register(commandDispatcher);
 		});
