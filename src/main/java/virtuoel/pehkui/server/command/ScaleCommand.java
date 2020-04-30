@@ -14,7 +14,7 @@ import virtuoel.pehkui.api.ScaleData;
 
 public class ScaleCommand
 {
-	public static void register(CommandDispatcher<ServerCommandSource> commandDispatcher)
+	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher, final boolean dedicated)
 	{
 		commandDispatcher.register(
 			CommandManager.literal("setscale").requires(commandSource ->

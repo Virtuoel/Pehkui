@@ -23,10 +23,7 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
-		{
-			ScaleCommand.register(commandDispatcher);
-		});
+		CommandRegistrationCallback.EVENT.register(ScaleCommand::register);
 	}
 	
 	public static Identifier id(String name)
