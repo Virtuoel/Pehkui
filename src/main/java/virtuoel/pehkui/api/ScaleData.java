@@ -152,6 +152,18 @@ public class ScaleData
 		return tag;
 	}
 	
+	public void fromScale(ScaleData scaleData)
+	{
+		this.scale = scaleData.getScale();
+		this.prevScale = scaleData.prevScale;
+		this.fromScale = scaleData.getInitialScale();
+		this.toScale = scaleData.getTargetScale();
+		this.scaleTicks = scaleData.scaleTicks;
+		this.totalScaleTicks = scaleData.totalScaleTicks;
+		
+		calculateDimensions.ifPresent(Runnable::run);
+	}
+	
 	@Override
 	public int hashCode()
 	{
@@ -224,6 +236,12 @@ public class ScaleData
 		
 		@Override
 		public void fromTag(CompoundTag scaleData)
+		{
+			
+		}
+		
+		@Override
+		public void fromScale(ScaleData scaleData)
 		{
 			
 		}

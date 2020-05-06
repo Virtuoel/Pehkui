@@ -27,6 +27,7 @@
 		"ThrownEntityMixin",
 		"compat114.LivingEntityMixin",
 		"compat115.FireballEntityMixin",
+		"compat115minus.PlayerManagerMixin",
 		"compat115plus.LivingEntityMixin",
 		"compat115plus.PlayerEntityMixin",
 		"compat116plus.FireballEntityMixin"
@@ -47,6 +48,7 @@
 		"client.compat115plus.InGameOverlayRendererMixin",
 		"client.compat115plus.ItemFrameEntityRendererMixin",
 		"client.compat115plus.PlayerEntityRendererMixin",
+		"client.compat116plus.ClientPlayNetworkHandlerMixin",
 		"client.compat116plus.EntityRendererMixin"
 	],
 	"injectors":
