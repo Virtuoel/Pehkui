@@ -27,9 +27,11 @@
 		"ThrownEntityMixin",
 		"compat114.LivingEntityMixin",
 		"compat115.FireballEntityMixin",
+		"compat115minus.BlockStateMixin",
 		"compat115minus.PlayerManagerMixin",
 		"compat115plus.LivingEntityMixin",
 		"compat115plus.PlayerEntityMixin",
+		"compat116plus.AbstractBlockStateMixin",
 		"compat116plus.FireballEntityMixin"
 	],
 	"client":
