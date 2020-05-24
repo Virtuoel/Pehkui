@@ -154,6 +154,11 @@ public class ScaleData
 	
 	public void fromScale(ScaleData scaleData)
 	{
+		fromScale(scaleData, true);
+	}
+	
+	public ScaleData fromScale(ScaleData scaleData, boolean calculateDimensions)
+	{
 		this.scale = scaleData.getScale();
 		this.prevScale = scaleData.prevScale;
 		this.fromScale = scaleData.getInitialScale();
@@ -161,7 +166,12 @@ public class ScaleData
 		this.scaleTicks = scaleData.scaleTicks;
 		this.totalScaleTicks = scaleData.totalScaleTicks;
 		
-		calculateDimensions.ifPresent(Runnable::run);
+		if (calculateDimensions)
+		{
+			this.calculateDimensions.ifPresent(Runnable::run);
+		}
+		
+		return this;
 	}
 	
 	@Override

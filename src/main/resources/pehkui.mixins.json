@@ -41,6 +41,7 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerInteractionManagerMixin",
+		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
 		"client.compat114.EntityRendererMixin",
