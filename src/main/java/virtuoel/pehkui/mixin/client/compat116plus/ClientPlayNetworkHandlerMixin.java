@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.dimension.DimensionType;
 import virtuoel.pehkui.api.ScaleData;
 
@@ -16,9 +17,9 @@ import virtuoel.pehkui.api.ScaleData;
 public class ClientPlayNetworkHandlerMixin
 {
 	@Inject(method = "onPlayerRespawn", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"))
-	private void onOnPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
+	private void onOnPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, RegistryKey<DimensionType> registryKey, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
 	{
-		if (packet.method_27904())
+		if (packet.shouldKeepPlayerAttributes())
 		{
 			ScaleData.of(newPlayer).fromScale(ScaleData.of(oldPlayer));
 		}
