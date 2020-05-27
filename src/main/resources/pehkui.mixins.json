@@ -8,7 +8,9 @@
 	[
 		"AbstractDonkeyEntityMixin",
 		"BlazeEntityShootFireballGoalMixin",
+		"BlockEntityUseDistanceMixin",
 		"BoatEntityMixin",
+		"EnderChestBlockEntityMixin",
 		"EnderCrystalEntityMixin",
 		"EntityMixin",
 		"EntityMountedHeightOffsetMixin",
@@ -25,8 +27,10 @@
 		"PlayerEntityMixin",
 		"PortalBlockMixin",
 		"PreEntityTickMixin",
+		"ServerPlayerInteractionManagerMixin",
 		"ServerPlayNetworkHandlerMixin",
 		"SkeletonHorseEntityMixin",
+		"StorageMinecartEntityMixin",
 		"ThrownEntityMixin",
 		"compat114.LivingEntityMixin",
 		"compat115.FireballEntityMixin",
@@ -41,6 +45,7 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerInteractionManagerMixin",
+		"client.GameRendererMixin",
 		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
