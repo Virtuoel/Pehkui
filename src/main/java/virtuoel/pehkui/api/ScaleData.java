@@ -68,8 +68,7 @@ public class ScaleData
 	
 	public float getScale(float delta)
 	{
-		final float scale = getScale();
-		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
+		return delta == 1.0F ? this.scale : MathHelper.lerp(delta, getPrevScale(), this.scale);
 	}
 	
 	public void setScale(float scale)
