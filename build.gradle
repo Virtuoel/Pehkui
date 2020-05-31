@@ -53,30 +53,34 @@ dependencies {
 	
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 	if(project.hasProperty("fabric_version")) {
-		modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
-	}
-	
-	if(project.hasProperty("fabric_modules")) {
-		project.fabric_modules.split(", ").each { String module ->
-			modCompileOnly "net.fabricmc.fabric-api:${module}", excludeLoader
+		if(!project.hasProperty("fabric_modules") && project.hasProperty("api_fabric_modules") && project.hasProperty("impl_fabric_modules")) {
+			modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
+			modRuntime "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
 		}
-	}
-	
-	if(project.hasProperty("api_fabric_modules")) {
-		project.api_fabric_modules.split(", ").each { String module ->
-			modApi "net.fabricmc.fabric-api:${module}", excludeLoader
+		
+		if(project.hasProperty("fabric_modules")) {
+			project.fabric_modules.split(", ").each { String module ->
+				modCompileOnly fabricApi.module(module, project.fabric_version), excludeLoader
+				modRuntime fabricApi.module(module, project.fabric_version), excludeLoader
+			}
 		}
-	}
-	
-	if(project.hasProperty("impl_fabric_modules")) {
-		project.impl_fabric_modules.split(", ").each { String module ->
-			modImplementation "net.fabricmc.fabric-api:${module}", excludeLoader
+		
+		if(project.hasProperty("api_fabric_modules")) {
+			project.api_fabric_modules.split(", ").each { String module ->
+				modApi fabricApi.module(module, project.fabric_version), excludeLoader
+			}
 		}
-	}
-	
-	if(project.hasProperty("included_fabric_modules")) {
-		project.included_fabric_modules.split(", ").each { String module ->
-			include "net.fabricmc.fabric-api:${module}"
+		
+		if(project.hasProperty("impl_fabric_modules")) {
+			project.impl_fabric_modules.split(", ").each { String module ->
+				modImplementation fabricApi.module(module, project.fabric_version), excludeLoader
+			}
+		}
+		
+		if(project.hasProperty("included_fabric_modules")) {
+			project.included_fabric_modules.split(", ").each { String module ->
+				include fabricApi.module(module, project.fabric_version)
+			}
 		}
 	}
 	
