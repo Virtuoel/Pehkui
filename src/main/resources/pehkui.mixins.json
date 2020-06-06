@@ -60,8 +60,7 @@
 		"client.compat115plus.ItemFrameEntityRendererMixin",
 		"client.compat115plus.PlayerEntityRendererMixin",
 		"client.compat116plus.ClientPlayNetworkHandlerMixin",
-		"client.compat116plus.EntityRendererMixin",
-		"client.compat116plus.MinecraftClientMixin"
+		"client.compat116plus.EntityRendererMixin"
 	],
 	"injectors":
 	{
