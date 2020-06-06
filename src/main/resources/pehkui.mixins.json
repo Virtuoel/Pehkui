@@ -27,6 +27,7 @@
 		"PlayerEntityMixin",
 		"PortalBlockMixin",
 		"PreEntityTickMixin",
+		"ServerPlayerEntityMixin",
 		"ServerPlayerInteractionManagerMixin",
 		"ServerPlayNetworkHandlerMixin",
 		"SkeletonHorseEntityMixin",
