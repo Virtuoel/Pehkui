@@ -44,7 +44,9 @@
 		"reach.PlayerEntityMixin",
 		"reach.ServerPlayerInteractionManagerMixin",
 		"reach.ServerPlayNetworkHandlerMixin",
-		"reach.compat.ReachEntityAttributesMixin"
+		"reach.compat.ReachEntityAttributesMixin",
+		"step_height.EntityMixin",
+		"step_height.compat.StepHeightEntityAttributeMainMixin"
 	],
 	"client":
 	[

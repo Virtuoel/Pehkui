@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -165,14 +164,6 @@ public abstract class EntityMixin implements ResizableEntity
 			
 			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));
 		}
-	}
-	
-	@Redirect(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
-	private float adjustMovementForCollisionsStepHeightProxy(Entity obj)
-	{
-		final float scale = pehkui_scaleData.getScale();
-		
-		return scale != 1.0F ? obj.stepHeight * scale : obj.stepHeight;
 	}
 	
 	@ModifyConstant(method = "isInsideWall", constant = @Constant(floatValue = 0.1F))
