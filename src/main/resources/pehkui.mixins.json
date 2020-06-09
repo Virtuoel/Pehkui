@@ -29,7 +29,6 @@
 		"PortalBlockMixin",
 		"PreEntityTickMixin",
 		"ServerPlayerEntityMixin",
-		"ServerPlayerInteractionManagerMixin",
 		"ServerPlayNetworkHandlerMixin",
 		"SkeletonHorseEntityMixin",
 		"StorageMinecartEntityMixin",
@@ -41,7 +40,11 @@
 		"compat115plus.LivingEntityMixin",
 		"compat115plus.PlayerEntityMixin",
 		"compat116plus.AbstractBlockStateMixin",
-		"compat116plus.FireballEntityMixin"
+		"compat116plus.FireballEntityMixin",
+		"reach.PlayerEntityMixin",
+		"reach.ServerPlayerInteractionManagerMixin",
+		"reach.ServerPlayNetworkHandlerMixin",
+		"reach.compat.ReachEntityAttributesMixin"
 	],
 	"client":
 	[

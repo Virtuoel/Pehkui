@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import net.fabricmc.loader.api.FabricLoader;
 import virtuoel.pehkui.util.VersionData;
 
 public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
@@ -29,6 +30,8 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	{
 		return null;
 	}
+	
+	private static final boolean REACH_ATTRIBUTES_LOADED = FabricLoader.getInstance().isModLoaded("reach-entity-attributes");
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -56,6 +59,11 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		)
 		{
 			return false;
+		}
+		
+		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))
+		{
+			return REACH_ATTRIBUTES_LOADED == mixinClassName.equals(MIXIN_PACKAGE + ".reach.compat.ReachEntityAttributesMixin");
 		}
 		
 		return true;

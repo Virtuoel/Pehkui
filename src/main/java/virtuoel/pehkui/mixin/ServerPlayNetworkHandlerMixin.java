@@ -3,9 +3,7 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.MovementType;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -35,19 +33,5 @@ public class ServerPlayNetworkHandlerMixin
 	private Vec3d onPlayerMoveMoveProxy(MovementType type, Vec3d movement)
 	{
 		return movement.multiply(1.0F / ScaleData.of(player).getScale());
-	}
-	
-	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
-	private double onPlayerInteractBlockModifyDistance(double value)
-	{
-		final float scale = ScaleData.of(player).getScale();
-		return scale > 1.0F ? scale * scale * value : value;
-	}
-	
-	@ModifyConstant(method = "onPlayerInteractEntity", constant = @Constant(doubleValue = 36.0D))
-	private double onPlayerInteractEntityModifyDistance(double value)
-	{
-		final float scale = ScaleData.of(player).getScale();
-		return scale > 1.0F ? scale * scale * value : value;
 	}
 }
