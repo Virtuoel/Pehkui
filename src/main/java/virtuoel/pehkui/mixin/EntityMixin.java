@@ -8,10 +8,8 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -164,13 +162,5 @@ public abstract class EntityMixin implements ResizableEntity
 			
 			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));
 		}
-	}
-	
-	@ModifyConstant(method = "isInsideWall", constant = @Constant(floatValue = 0.1F))
-	private float isInsideWallModifyOffset(float value)
-	{
-		final float scale = pehkui_scaleData.getScale();
-		
-		return scale != 1.0F ? value * scale : value;
 	}
 }
