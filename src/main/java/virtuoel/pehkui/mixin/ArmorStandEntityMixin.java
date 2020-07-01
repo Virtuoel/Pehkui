@@ -12,7 +12,7 @@ public abstract class ArmorStandEntityMixin extends EntityMixin
 	@ModifyArg(method = "getDimensions", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityDimensions;scaled(F)Lnet/minecraft/entity/EntityDimensions;"))
 	private float onGetDimensionsModifyScale(float value)
 	{
-		final float scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		return scale != 1.0F ? value * scale : value;
 	}

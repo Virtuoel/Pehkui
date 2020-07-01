@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "method_6078", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private Entity onDeathModifyEntity(Entity entity)
 	{
-		final float scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{
@@ -31,7 +31,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "method_6108", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private Entity updatePostDeathModifyEntity(Entity entity)
 	{
-		final float scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{

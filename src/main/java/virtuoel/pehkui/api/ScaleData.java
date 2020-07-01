@@ -15,7 +15,7 @@ public class ScaleData
 	
 	public static ScaleData of(Entity entity)
 	{
-		return ((ResizableEntity) entity).pehkui_getScaleData();
+		return ResizableEntity.getScaleData(entity);
 	}
 	
 	protected float scale = 1.0F;

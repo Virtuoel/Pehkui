@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.server.network.ServerPlayerEntity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.entity.ResizableEntity;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class ServerPlayerEntityMixin extends EntityMixin
@@ -16,7 +16,7 @@ public abstract class ServerPlayerEntityMixin extends EntityMixin
 	{
 		if (alive)
 		{
-			pehkui_scaleData.fromScale(ScaleData.of(oldPlayer));
+			pehkui_getScaleData().fromScale(ResizableEntity.getScaleData(oldPlayer));
 		}
 	}
 }

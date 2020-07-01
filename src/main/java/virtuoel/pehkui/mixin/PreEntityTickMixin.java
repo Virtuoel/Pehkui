@@ -23,6 +23,6 @@ public abstract class PreEntityTickMixin extends EntityMixin
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		pehkui_scaleData.tick();
+		pehkui_getScaleData().tick();
 	}
 }

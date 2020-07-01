@@ -13,6 +13,6 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@ModifyArg(method = "adjustMovementForSneaking", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;offset(DDD)Lnet/minecraft/util/math/Box;"))
 	private double adjustMovementForSneakingStepHeightProxy(double stepHeight)
 	{
-		return stepHeight * pehkui_scaleData.getScale();
+		return stepHeight * pehkui_getScaleData().getScale();
 	}
 }

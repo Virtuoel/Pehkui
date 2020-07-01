@@ -24,13 +24,13 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
 	private EntityDimensions onGetEyeHeightDimensionsProxy(EntityDimensions dimensions)
 	{
-		return dimensions.scaled(1.0F / pehkui_scaleData.getScale());
+		return dimensions.scaled(1.0F / pehkui_getScaleData().getScale());
 	}
 	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
 	private float travelModifyFallDistance(float value)
 	{
-		final float scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{
@@ -51,7 +51,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	{
 		if (pose != EntityPose.SLEEPING)
 		{
-			final float scale = pehkui_scaleData.getScale();
+			final float scale = pehkui_getScaleData().getScale();
 			
 			if (scale != 1.0F)
 			{

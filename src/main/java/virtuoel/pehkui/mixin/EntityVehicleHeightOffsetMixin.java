@@ -29,7 +29,7 @@ public abstract class EntityVehicleHeightOffsetMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
 	private void onGetHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{

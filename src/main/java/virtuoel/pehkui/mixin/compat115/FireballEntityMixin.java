@@ -13,6 +13,6 @@ public abstract class FireballEntityMixin extends EntityMixin
 	@ModifyArg(method = "method_7469", index = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1937;method_8537(Lnet/minecraft/class_1297;DDDFZLnet/minecraft/class_1927$class_4179;)Lnet/minecraft/class_1927;", remap = false), remap = false)
 	private float onOnCollisionCreateExplosionProxy(float power)
 	{
-		return power * pehkui_scaleData.getScale();
+		return power * pehkui_getScaleData().getScale();
 	}
 }

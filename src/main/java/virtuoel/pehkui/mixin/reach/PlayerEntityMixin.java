@@ -13,7 +13,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "attack", constant = @Constant(doubleValue = 9.0D))
 	private double attackModifyDistance(double value)
 	{
-		final float scale = pehkui_scaleData.getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		return scale > 1.0F ? scale * scale * value : value;
 	}
 }

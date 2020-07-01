@@ -27,9 +27,11 @@ public abstract class ThrownEntityMixin extends EntityMixin
 			
 			updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
 			
-			pehkui_scaleData.setScale(scale);
-			pehkui_scaleData.setTargetScale(scale);
-			pehkui_scaleData.markForSync();
+			final ScaleData scaleData = pehkui_getScaleData();
+			
+			scaleData.setScale(scale);
+			scaleData.setTargetScale(scale);
+			scaleData.markForSync();
 		}
 	}
 }

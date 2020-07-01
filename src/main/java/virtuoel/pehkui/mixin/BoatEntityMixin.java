@@ -12,18 +12,18 @@ public abstract class BoatEntityMixin extends EntityMixin
 	@ModifyArg(method = "tick", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandXProxy(double value)
 	{
-		return value * pehkui_scaleData.getScale();
+		return value * pehkui_getScaleData().getScale();
 	}
 	
 	@ModifyArg(method = "tick", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandYProxy(double value)
 	{
-		return value * pehkui_scaleData.getScale();
+		return value * pehkui_getScaleData().getScale();
 	}
 	
 	@ModifyArg(method = "tick", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandZProxy(double value)
 	{
-		return value * pehkui_scaleData.getScale();
+		return value * pehkui_getScaleData().getScale();
 	}
 }
