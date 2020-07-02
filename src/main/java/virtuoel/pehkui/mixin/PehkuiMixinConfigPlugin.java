@@ -33,6 +33,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	
 	private static final boolean REACH_ATTRIBUTES_LOADED = FabricLoader.getInstance().isModLoaded("reach-entity-attributes");
 	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = FabricLoader.getInstance().isModLoaded("step-height-entity-attribute");
+	private static final boolean IDENTITY_LOADED = FabricLoader.getInstance().isModLoaded("identity");
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -69,6 +70,10 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".step_height"))
 		{
 			return STEP_HEIGHT_ATTRIBUTES_LOADED == mixinClassName.equals(MIXIN_PACKAGE + ".step_height.compat.StepHeightEntityAttributeMainMixin");
+		}
+		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".compat.identity"))
+		{
+			return IDENTITY_LOADED;
 		}
 		
 		return true;

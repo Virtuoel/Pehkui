@@ -16,7 +16,7 @@ public abstract class ServerPlayerEntityMixin extends EntityMixin
 	{
 		if (alive)
 		{
-			pehkui_getScaleData().fromScale(ResizableEntity.getScaleData(oldPlayer));
+			pehkui_getScaleData().fromScale(((ResizableEntity) oldPlayer).pehkui_getScaleData());
 		}
 	}
 }

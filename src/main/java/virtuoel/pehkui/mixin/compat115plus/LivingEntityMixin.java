@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity onKilledBySpawnEntityProxy(Entity entity)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = ScaleData.of((Entity) (Object) this).getScale();
 		
 		if (scale != 1.0F)
 		{
@@ -31,7 +31,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "dropXp", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity dropXpModifyEntity(Entity entity)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = ScaleData.of((Entity) (Object) this).getScale();
 		
 		if (scale != 1.0F)
 		{

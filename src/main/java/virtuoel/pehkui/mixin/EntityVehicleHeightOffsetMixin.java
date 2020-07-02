@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ArmorStandEntity;
 import net.minecraft.entity.mob.AbstractSkeletonEntity;
 import net.minecraft.entity.mob.EndermiteEntity;
@@ -13,6 +14,7 @@ import net.minecraft.entity.mob.SilverfishEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import virtuoel.pehkui.api.ScaleData;
 
 @Mixin({
 	ArmorStandEntity.class,
@@ -29,7 +31,7 @@ public abstract class EntityVehicleHeightOffsetMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
 	private void onGetHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = ScaleData.of((Entity) (Object) this).getScale();
 		
 		if (scale != 1.0F)
 		{
