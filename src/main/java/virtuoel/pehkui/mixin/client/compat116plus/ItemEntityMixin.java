@@ -8,13 +8,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.mixin.EntityMixin;
 
 @Mixin(ItemEntity.class)
-public class ItemEntityMixin
+public abstract class ItemEntityMixin extends EntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/ItemEntity;)V")
 	private void onConstruct(ItemEntity entity, CallbackInfo info)
 	{
-		ScaleData.of((Entity) (Object) this).fromScale(ScaleData.of(entity), false);
+		pehkui_getScaleData().fromScale(ScaleData.of(entity), false);
 	}
 }

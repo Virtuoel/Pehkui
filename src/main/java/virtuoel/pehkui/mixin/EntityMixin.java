@@ -58,11 +58,11 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
-			pehkui_scaleData.fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
+			pehkui_getScaleData().fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
 			
-			if (pehkui_scaleData.getScale() != 1.0F && world != null && !world.isClient)
+			if (pehkui_getScaleData().getScale() != 1.0F && world != null && !world.isClient)
 			{
-				pehkui_scaleData.markForSync();
+				pehkui_getScaleData().markForSync();
 			}
 		}
 	}
@@ -70,13 +70,13 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "toTag")
 	private void onToTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
 	{
-		tag.put(Pehkui.MOD_ID + ":scale_data", pehkui_scaleData.toTag(new CompoundTag()));
+		tag.put(Pehkui.MOD_ID + ":scale_data", pehkui_getScaleData().toTag(new CompoundTag()));
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		ScaleData.of((Entity) (Object) this).tick();
+		pehkui_getScaleData().tick();
 	}
 	
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
@@ -94,7 +94,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float scale = ScaleData.of((Entity) (Object) this).getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{
@@ -105,7 +105,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
 	private void onDropStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> info, ItemEntity entity)
 	{
-		final float scale = ScaleData.of((Entity) (Object) this).getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{
@@ -119,7 +119,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@ModifyArg(method = "fall", index = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private float onFallModifyFallDistance(float distance)
 	{
-		final float scale = ScaleData.of((Entity) (Object) this).getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
 		{
@@ -138,13 +138,13 @@ public abstract class EntityMixin implements ResizableEntity
 	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
 	private Vec3d onMoveAdjustMovementForSneakingProxy(Vec3d movement, MovementType type)
 	{
-		return type == MovementType.SELF || type == MovementType.PLAYER ? movement.multiply(ScaleData.of((Entity) (Object) this).getScale()) : movement;
+		return type == MovementType.SELF || type == MovementType.PLAYER ? movement.multiply(pehkui_getScaleData().getScale()) : movement;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
 	private void onSpawnSprintingParticles(CallbackInfo info)
 	{
-		if (ScaleData.of((Entity) (Object) this).getScale() < 1.0F)
+		if (pehkui_getScaleData().getScale() < 1.0F)
 		{
 			info.cancel();
 		}
@@ -158,7 +158,7 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		if (this.world.isClient && type == EntityType.PLAYER && current.width > previous.width)
 		{
-			final float scale = ScaleData.of((Entity) (Object) this).getScale();
+			final float scale = pehkui_getScaleData().getScale();
 			final float dist = (previous.width - current.width) / 2.0F;
 			
 			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));
