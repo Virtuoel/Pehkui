@@ -64,7 +64,7 @@ public class IdentityCompatibility
 		}
 	}
 	
-	public Optional<LivingEntity> getIdentity(PlayerEntity entity)
+	public LivingEntity getIdentity(PlayerEntity entity)
 	{
 		if (this.enabled)
 		{
@@ -84,10 +84,10 @@ public class IdentityCompatibility
 						}
 					});
 				});
-			});
+			}).orElse(null);
 		}
 		
-		return Optional.empty();
+		return null;
 	}
 	
 	private static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)

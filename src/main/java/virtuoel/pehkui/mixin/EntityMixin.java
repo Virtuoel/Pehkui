@@ -45,7 +45,7 @@ public abstract class EntityMixin implements ResizableEntity
 	
 	@Shadow abstract void updatePosition(double x, double y, double z);
 	
-	private ScaleData pehkui_scaleData = new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
+	private ScaleData pehkui_scaleData = pehkui_constructScaleData();
 	
 	@Override
 	public ScaleData pehkui_getScaleData()
