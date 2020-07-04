@@ -43,6 +43,7 @@
 		"compat116plus.AbstractBlockStateMixin",
 		"compat116plus.EntityMixin",
 		"compat116plus.FireballEntityMixin",
+		"compat.identity.IdentityComponentMixin",
 		"compat.identity.PlayerEntityMixin",
 		"reach.PlayerEntityMixin",
 		"reach.ServerPlayerInteractionManagerMixin",
