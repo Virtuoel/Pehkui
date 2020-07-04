@@ -5,15 +5,15 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.entity.ResizableEntity;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin
+public abstract class EntityMixin implements ResizableEntity
 {
 	@ModifyConstant(method = "isInsideWall()Z", constant = @Constant(doubleValue = 0.10000000149011612D))
 	private double isInsideWallModifyOffset(double value)
 	{
-		final float scale = ScaleData.of((Entity) (Object) this).getScale();
+		final float scale = pehkui_getScaleData().getScale();
 		
 		return scale != 1.0F ? value * scale : value;
 	}

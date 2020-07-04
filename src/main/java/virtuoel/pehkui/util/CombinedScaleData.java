@@ -8,18 +8,18 @@ import virtuoel.pehkui.api.ScaleData;
 
 public class CombinedScaleData extends ScaleData
 {
-	final Supplier<ScaleData[]> data;
+	final Supplier<ScaleData[]> otherData;
 	
-	public CombinedScaleData(Optional<Runnable> calculateDimensions, Supplier<ScaleData[]> data)
+	public CombinedScaleData(Optional<Runnable> calculateDimensions, Supplier<ScaleData[]> otherData)
 	{
 		super(calculateDimensions);
 		
-		this.data = data;
+		this.otherData = otherData;
 	}
 	
-	ScaleData[] getData()
+	protected ScaleData[] getData()
 	{
-		return data.get();
+		return otherData.get();
 	}
 	
 	@Override
