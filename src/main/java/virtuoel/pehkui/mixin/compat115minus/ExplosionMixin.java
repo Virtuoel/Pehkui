@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.compat115minus;
 
 import javax.annotation.Nullable;
 
@@ -18,9 +18,12 @@ import virtuoel.pehkui.api.ScaleData;
 @Mixin(Explosion.class)
 public abstract class ExplosionMixin
 {
-	@Shadow @Final @Mutable float power;
+	@Shadow(remap = false)
+	@Final
+	@Mutable
+	float field_9190;
 	
-	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)V")
+	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/class_1937;Lnet/minecraft/class_1297;DDDFZLnet/minecraft/class_1927$class_4179;)V", remap = false)
 	private void onConstruct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
 	{
 		if (entity != null)
@@ -29,7 +32,7 @@ public abstract class ExplosionMixin
 			
 			if (scale != 1.0F)
 			{
-				this.power *= scale;
+				this.field_9190 *= scale;
 			}
 		}
 	}
