@@ -56,7 +56,7 @@ dependencies {
 	
 	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
 	if(project.hasProperty("fabric_version")) {
-		if(!project.hasProperty("fabric_modules") && project.hasProperty("api_fabric_modules") && project.hasProperty("impl_fabric_modules")) {
+		if(!project.hasProperty("fabric_modules") && !project.hasProperty("api_fabric_modules") && !project.hasProperty("impl_fabric_modules")) {
 			modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
 			modRuntime "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
 		}
