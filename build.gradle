@@ -87,7 +87,7 @@ dependencies {
 		}
 	}
 	
-	compileOnly "com.google.code.findbugs:jsr305:${jsr305_version}"
+	compileOnly "org.jetbrains:annotations:${jetbrains_annotations_version}"
 	
 	if(project.hasProperty("modmenu_version")) {
 		modCompileOnly "io.github.prospector:modmenu:${modmenu_version}", excludeFabric
