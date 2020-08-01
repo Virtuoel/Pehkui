@@ -34,6 +34,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean REACH_ATTRIBUTES_LOADED = FabricLoader.getInstance().isModLoaded("reach-entity-attributes");
 	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = FabricLoader.getInstance().isModLoaded("step-height-entity-attribute");
 	private static final boolean IDENTITY_LOADED = FabricLoader.getInstance().isModLoaded("identity");
+	private static final boolean OPTIFABRIC_LOADED = FabricLoader.getInstance().isModLoaded("optifabric");
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -61,6 +62,11 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		)
 		{
 			return false;
+		}
+		
+		if (mixinClassName.endsWith("InGameOverlayRendererMixin"))
+		{
+			return OPTIFABRIC_LOADED == mixinClassName.contains(".optifine.compat.");
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))
