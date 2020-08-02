@@ -5,9 +5,12 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.minecraft.command.arguments.ArgumentTypes;
+import net.minecraft.command.arguments.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
 
 public class Pehkui implements ModInitializer
 {
@@ -23,6 +26,8 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
+		ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
+		
 		CommandRegistrationCallback.EVENT.register(ScaleCommand::register);
 	}
 	

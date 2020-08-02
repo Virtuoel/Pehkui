@@ -11,10 +11,122 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
 
 public class ScaleCommand
 {
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher, final boolean dedicated)
+	{
+		commandDispatcher.register(
+			CommandManager.literal("scale").requires(commandSource ->
+			{
+				return commandSource.hasPermissionLevel(2);
+			})
+			.then(CommandManager.argument("operation", ScaleOperationArgumentType.operation())
+				.then(CommandManager.argument("value", FloatArgumentType.floatArg())
+					.then(CommandManager.argument("targets", EntityArgumentType.entities())
+						.executes(context ->
+						{
+							final float scale = FloatArgumentType.getFloat(context, "value");
+							
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								final ScaleData data = ScaleData.of(e);
+								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+								
+								data.setTargetScale(operation.apply(data.getScale(), scale));
+								data.markForSync();
+							}
+							
+							return 1;
+						})
+					)
+				)
+				.executes(context ->
+				{
+					final float scale = FloatArgumentType.getFloat(context, "value");
+					
+					final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
+					final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+					
+					data.setTargetScale(operation.apply(data.getScale(), scale));
+					data.markForSync();
+					
+					return 1;
+				})
+			)
+			.then(CommandManager.literal("get")
+				.then(CommandManager.argument("entity", EntityArgumentType.entity())
+					.executes(context ->
+					{
+						final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getScale();
+						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						return 1;
+					})
+				)
+				.executes(context ->
+				{
+					final float scale = ScaleData.of(context.getSource().getEntityOrThrow()).getScale();
+					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+					return 1;
+				})
+			)
+			.then(CommandManager.literal("delay")
+				.then(CommandManager.literal("set")
+					.then(CommandManager.argument("ticks", IntegerArgumentType.integer())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								final int ticks = IntegerArgumentType.getInteger(context, "ticks");
+								
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleData data = ScaleData.of(e);
+									
+									data.setScaleTickDelay(ticks);
+									data.markForSync();
+								}
+								
+								return 1;
+							})
+						)
+					)
+					.executes(context ->
+					{
+						final int ticks = IntegerArgumentType.getInteger(context, "ticks");
+						
+						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
+						
+						data.setScaleTickDelay(ticks);
+						data.markForSync();
+						
+						return 1;
+					})
+				)
+				.then(CommandManager.literal("get")
+					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.executes(context ->
+						{
+							final int ticks = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
+							context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						final int ticks = ScaleData.of(context.getSource().getEntityOrThrow()).getScaleTickDelay();
+						context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
+						return 1;
+					})
+				)
+			)
+		);
+		
+		registerOldCommands(commandDispatcher);
+	}
+	
+	@Deprecated
+	private static void registerOldCommands(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
 		commandDispatcher.register(
 			CommandManager.literal("setscale").requires(commandSource ->
