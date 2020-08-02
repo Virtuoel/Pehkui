@@ -41,19 +41,19 @@ public class ScaleCommand
 							return 1;
 						})
 					)
+					.executes(context ->
+					{
+						final float scale = FloatArgumentType.getFloat(context, "value");
+						
+						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
+						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+						
+						data.setTargetScale(operation.apply(data.getScale(), scale));
+						data.markForSync();
+						
+						return 1;
+					})
 				)
-				.executes(context ->
-				{
-					final float scale = FloatArgumentType.getFloat(context, "value");
-					
-					final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
-					final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
-					
-					data.setTargetScale(operation.apply(data.getScale(), scale));
-					data.markForSync();
-					
-					return 1;
-				})
 			)
 			.then(CommandManager.literal("get")
 				.then(CommandManager.argument("entity", EntityArgumentType.entity())
@@ -90,18 +90,18 @@ public class ScaleCommand
 								return 1;
 							})
 						)
+						.executes(context ->
+						{
+							final int ticks = IntegerArgumentType.getInteger(context, "ticks");
+							
+							final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
+							
+							data.setScaleTickDelay(ticks);
+							data.markForSync();
+							
+							return 1;
+						})
 					)
-					.executes(context ->
-					{
-						final int ticks = IntegerArgumentType.getInteger(context, "ticks");
-						
-						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
-						
-						data.setScaleTickDelay(ticks);
-						data.markForSync();
-						
-						return 1;
-					})
 				)
 				.then(CommandManager.literal("get")
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
