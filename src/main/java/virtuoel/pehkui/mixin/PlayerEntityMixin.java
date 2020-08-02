@@ -1,5 +1,7 @@
 package virtuoel.pehkui.mixin;
 
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -7,12 +9,16 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(PlayerEntity.class)
@@ -27,7 +33,15 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@ModifyArg(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;squaredHorizontalLength(Lnet/minecraft/util/math/Vec3d;)D"))
 	private Vec3d onTickMovementGetVelocityProxy(Vec3d velocity)
 	{
-		return velocity.multiply(pehkui_getScaleData().getScale());
+		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledMotion"))
+			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+			.orElse(true))
+		{
+			return velocity.multiply(pehkui_getScaleData().getScale());
+		}
+		
+		return velocity;
 	}
 	
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
@@ -36,11 +50,11 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
-		{
-			final ScaleData data = ScaleData.of(entity);
-			data.setScale(scale);
-			data.setTargetScale(scale);
-			data.markForSync();
+			{
+				final ScaleData data = ScaleData.of(entity);
+				data.setScale(scale);
+				data.setTargetScale(scale);
+				data.markForSync();
 			
 			final Vec3d pos = entity.getPos();
 			

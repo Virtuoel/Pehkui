@@ -138,7 +138,18 @@ public abstract class EntityMixin implements ResizableEntity
 	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
 	private Vec3d onMoveAdjustMovementForSneakingProxy(Vec3d movement, MovementType type)
 	{
-		return type == MovementType.SELF || type == MovementType.PLAYER ? movement.multiply(pehkui_getScaleData().getScale()) : movement;
+		if (type == MovementType.SELF || type == MovementType.PLAYER)
+		{
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledMotion"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
+			{
+				return movement.multiply(pehkui_getScaleData().getScale());
+			}
+		}
+		
+		return movement;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
