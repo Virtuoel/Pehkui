@@ -1,9 +1,14 @@
 package virtuoel.pehkui.mixin;
 
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,6 +16,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(ThrownEntity.class)
@@ -26,12 +32,18 @@ public abstract class ThrownEntityMixin extends EntityMixin
 			final Vec3d pos = ((Entity) (Object) this).getPos();
 			
 			updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
-			
-			final ScaleData scaleData = pehkui_getScaleData();
-			
-			scaleData.setScale(scale);
-			scaleData.setTargetScale(scale);
-			scaleData.markForSync();
+
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledProjectiles"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
+			{
+				final ScaleData scaleData = pehkui_getScaleData();
+				
+				scaleData.setScale(scale);
+				scaleData.setTargetScale(scale);
+				scaleData.markForSync();
+			}
 		}
 	}
 }

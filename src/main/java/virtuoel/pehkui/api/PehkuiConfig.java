@@ -26,6 +26,7 @@ public class PehkuiConfig
 		config.addProperty("scaledMotion", true);
 		config.addProperty("scaledReach", true);
 		config.addProperty("scaledItemDrops", true);
+		config.addProperty("scaledProjectiles", true);
 		config.addProperty("accurateNetherPortals", true);
 		
 		return config;
