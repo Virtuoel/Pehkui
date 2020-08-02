@@ -23,6 +23,7 @@ public class PehkuiConfig
 		final JsonObject config = new JsonObject();
 		
 		config.addProperty("scaledFallDamage", true);
+		config.addProperty("accurateNetherPortals", true);
 		
 		return config;
 	}
