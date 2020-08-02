@@ -109,10 +109,16 @@ public abstract class EntityMixin implements ResizableEntity
 		
 		if (scale != 1.0F)
 		{
-			final ScaleData data = ScaleData.of(entity);
-			data.setScale(scale);
-			data.setTargetScale(scale);
-			data.markForSync();
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledItemDrops"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
+			{
+				final ScaleData data = ScaleData.of(entity);
+				data.setScale(scale);
+				data.setTargetScale(scale);
+				data.markForSync();
+			}
 		}
 	}
 	

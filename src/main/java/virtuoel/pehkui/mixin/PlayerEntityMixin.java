@@ -50,11 +50,17 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		final float scale = pehkui_getScaleData().getScale();
 		
 		if (scale != 1.0F)
+		{
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledItemDrops"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
 			{
 				final ScaleData data = ScaleData.of(entity);
 				data.setScale(scale);
 				data.setTargetScale(scale);
 				data.markForSync();
+			}
 			
 			final Vec3d pos = entity.getPos();
 			
