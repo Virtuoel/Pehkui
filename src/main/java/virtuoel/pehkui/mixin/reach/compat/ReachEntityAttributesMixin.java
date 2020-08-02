@@ -1,12 +1,18 @@
 package virtuoel.pehkui.mixin.reach.compat;
 
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
 import net.minecraft.entity.LivingEntity;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 
 @Pseudo
@@ -20,7 +26,13 @@ public class ReachEntityAttributesMixin
 		
 		if (scale > 1.0F)
 		{
-			info.setReturnValue(scale * info.getReturnValueD());
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledReach"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
+			{
+				info.setReturnValue(scale * info.getReturnValueD());
+			}
 		}
 	}
 	
@@ -31,7 +43,13 @@ public class ReachEntityAttributesMixin
 		
 		if (scale > 1.0F)
 		{
-			info.setReturnValue(scale * scale * info.getReturnValueD());
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledReach"))
+				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+				.orElse(true))
+			{
+				info.setReturnValue(scale * scale * info.getReturnValueD());
+			}
 		}
 	}
 }
