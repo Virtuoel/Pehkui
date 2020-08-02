@@ -34,7 +34,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 		
 		if (scale != 1.0F)
 		{
-			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledFallDistance"))
+			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledFallDamage"))
 				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
 				.orElse(true))
