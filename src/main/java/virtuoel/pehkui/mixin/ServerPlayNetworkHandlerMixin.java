@@ -32,7 +32,15 @@ public class ServerPlayNetworkHandlerMixin
 	@ModifyArg(method = "onVehicleMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"))
 	private Vec3d onVehicleMoveMoveProxy(MovementType type, Vec3d movement)
 	{
-		return movement.multiply(1.0F / ScaleData.of(player.getRootVehicle()).getScale());
+		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledMotion"))
+			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+			.orElse(true))
+		{
+			return movement.multiply(1.0F / ScaleData.of(player.getRootVehicle()).getScale());
+		}
+		
+		return movement;
 	}
 	
 	@ModifyArg(method = "onPlayerMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;move(Lnet/minecraft/entity/MovementType;Lnet/minecraft/util/math/Vec3d;)V"))
