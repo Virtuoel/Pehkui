@@ -1,5 +1,7 @@
 package virtuoel.pehkui.mixin.compat116plus;
 
+import java.util.Optional;
+
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -9,11 +11,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 import net.minecraft.world.explosion.ExplosionBehavior;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 
 @Mixin(Explosion.class)
@@ -30,7 +36,13 @@ public abstract class ExplosionMixin
 			
 			if (scale != 1.0F)
 			{
-				this.power *= scale;
+				if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledExplosions"))
+					.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+					.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
+					.orElse(true))
+				{
+					this.power *= scale;
+				}
 			}
 		}
 	}
