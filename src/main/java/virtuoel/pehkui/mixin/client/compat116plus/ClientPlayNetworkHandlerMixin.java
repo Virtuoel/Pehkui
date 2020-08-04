@@ -34,7 +34,9 @@ public class ClientPlayNetworkHandlerMixin
 		
 		if (shouldCopyScale)
 		{
-			ScaleData.of(newPlayer).fromScale(ScaleData.of(oldPlayer));
+			final ScaleData scaleData = ScaleData.of(newPlayer);
+			scaleData.fromScale(ScaleData.of(oldPlayer));
+			scaleData.markForSync();
 		}
 	}
 }

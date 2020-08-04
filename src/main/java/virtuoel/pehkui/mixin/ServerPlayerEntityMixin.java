@@ -12,6 +12,7 @@ import com.google.gson.JsonPrimitive;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.entity.ResizableEntity;
 
 @Mixin(ServerPlayerEntity.class)
@@ -27,7 +28,9 @@ public abstract class ServerPlayerEntityMixin extends EntityMixin
 		
 		if (alive)
 		{
-			pehkui_getScaleData().fromScale(((ResizableEntity) oldPlayer).pehkui_getScaleData());
+			final ScaleData scaleData = pehkui_getScaleData();
+			scaleData.fromScale(((ResizableEntity) oldPlayer).pehkui_getScaleData());
+			scaleData.markForSync();
 		}
 	}
 }
