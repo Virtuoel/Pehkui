@@ -28,6 +28,7 @@ public class PehkuiConfig
 		config.addProperty("scaledItemDrops", true);
 		config.addProperty("scaledProjectiles", true);
 		config.addProperty("scaledExplosions", true);
+		config.addProperty("keepScaleOnRespawn", false);
 		config.addProperty("accurateNetherPortals", true);
 		
 		return config;
