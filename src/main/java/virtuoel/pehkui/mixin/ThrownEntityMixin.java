@@ -32,7 +32,7 @@ public abstract class ThrownEntityMixin extends EntityMixin
 			final Vec3d pos = ((Entity) (Object) this).getPos();
 			
 			updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
-
+			
 			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledProjectiles"))
 				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
