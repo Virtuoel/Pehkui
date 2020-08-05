@@ -10,6 +10,8 @@ import net.minecraft.util.Identifier;
 
 public class ScaleType
 {
+	public static final Map<Identifier, ScaleType> REGISTRY = new Object2ObjectOpenHashMap<>();
+	
 	public static final ScaleType BASE = registerDimensionScale("base");
 	public static final ScaleType WIDTH = registerDimensionScale("width");
 	public static final ScaleType HEIGHT = registerDimensionScale("height");
@@ -18,8 +20,6 @@ public class ScaleType
 	public static final ScaleType DROPS = register("drops");
 	public static final ScaleType PROJECTILES = register("projectiles");
 	public static final ScaleType EXPLOSIONS = register("explosions");
-	
-	public static final Map<Identifier, ScaleType> REGISTRY = new Object2ObjectOpenHashMap<>();
 	
 	public static ScaleType register(Identifier id, ScaleType entry)
 	{

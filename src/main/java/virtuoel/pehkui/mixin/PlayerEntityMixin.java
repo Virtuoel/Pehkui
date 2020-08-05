@@ -1,12 +1,15 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
@@ -61,21 +64,31 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		return value * ScaleUtils.getMotionScale(this);
 	}
 	
+	@Unique private static final ThreadLocal<Float> WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
+	@Unique private static final ThreadLocal<Float> HEIGHT_SCALE = ThreadLocal.withInitial(() -> 1.0F);
+	
+	@Inject(method = "attack", at = @At("HEAD"))
+	private void onAttack(Entity target, CallbackInfo info)
+	{
+		WIDTH_SCALE.set(ScaleUtils.getWidthScale(target));
+		HEIGHT_SCALE.set(ScaleUtils.getHeightScale(target));
+	}
+	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onAttackExpandXProxy(double value)
 	{
-		return value * ScaleUtils.getWidthScale(this);
+		return value * WIDTH_SCALE.get();
 	}
 	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onAttackExpandYProxy(double value)
 	{
-		return value * ScaleUtils.getHeightScale(this);
+		return value * HEIGHT_SCALE.get();
 	}
 	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onAttackExpandZProxy(double value)
 	{
-		return value * ScaleUtils.getWidthScale(this);
+		return value * WIDTH_SCALE.get();
 	}
 }
