@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ScaleData;
-import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Camera.class)
 public abstract class CameraMixin
@@ -19,6 +18,6 @@ public abstract class CameraMixin
 	@ModifyArg(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
 	private double onUpdateClipToSpaceProxy(double distance)
 	{
-		return distance * ScaleData.of(focusedEntity, ScaleType.HEIGHT).getScale(MinecraftClient.getInstance().getTickDelta());
+		return distance * ScaleUtils.getHeightScale(focusedEntity, MinecraftClient.getInstance().getTickDelta());
 	}
 }

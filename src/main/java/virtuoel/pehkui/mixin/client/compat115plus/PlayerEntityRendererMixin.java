@@ -8,8 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.util.math.Vec3d;
-import virtuoel.pehkui.api.ScaleData;
-import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin
@@ -20,7 +19,7 @@ public abstract class PlayerEntityRendererMixin
 		final Vec3d ret = info.getReturnValue();
 		if (ret != Vec3d.ZERO)
 		{
-			info.setReturnValue(ret.multiply(ScaleData.of(entity, ScaleType.HEIGHT).getScale(tickDelta)));
+			info.setReturnValue(ret.multiply(ScaleUtils.getHeightScale(entity, tickDelta)));
 		}
 	}
 }
