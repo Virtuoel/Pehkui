@@ -9,6 +9,7 @@ import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleType;
 
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin
@@ -19,7 +20,7 @@ public abstract class PlayerEntityRendererMixin
 		final Vec3d ret = info.getReturnValue();
 		if (ret != Vec3d.ZERO)
 		{
-			info.setReturnValue(ret.multiply(ScaleData.of(entity).getScale(tickDelta)));
+			info.setReturnValue(ret.multiply(ScaleData.of(entity, ScaleType.HEIGHT).getScale(tickDelta)));
 		}
 	}
 }

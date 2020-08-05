@@ -1,5 +1,7 @@
 package virtuoel.pehkui.mixin;
 
+import java.util.Map.Entry;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -15,8 +17,11 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.EntityTrackerEntry;
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityTrackerEntry.class)
 public abstract class EntityTrackerEntryMixin
@@ -27,19 +32,29 @@ public abstract class EntityTrackerEntryMixin
 	@Inject(at = @At("TAIL"), method = "tick")
 	private void onTick(CallbackInfo info)
 	{
-		final ScaleData data = ScaleData.of(entity);
-		
-		if (data.shouldSync())
+		ScaleData scaleData;
+		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
 		{
-			sendSyncPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, data.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(entity.getUuid()))));
-			data.scaleModified = false;
+			scaleData = ScaleData.of(entity, entry.getValue());
+			
+			if (scaleData.shouldSync())
+			{
+				sendSyncPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
+					scaleData.toPacketByteBuf(
+						new PacketByteBuf(Unpooled.buffer())
+						.writeUuid(entity.getUuid())
+						.writeIdentifier(entry.getKey())
+					)
+				));
+				scaleData.scaleModified = false;
+			}
 		}
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 7.62939453125E-6D))
 	private double tickModifyMinimumSquaredDistance(double value)
 	{
-		final double scale = ScaleData.of(entity).getScale();
+		final double scale = ScaleUtils.getMotionScale(entity);
 		
 		return scale < 1.0D ? value * scale * scale : value;
 	}

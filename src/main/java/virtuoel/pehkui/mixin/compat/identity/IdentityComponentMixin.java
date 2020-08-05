@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Pseudo
 @Mixin(targets = "draylar.identity.cca.IdentityComponent", remap = false)
@@ -24,14 +24,7 @@ public class IdentityComponentMixin
 	{
 		if (identity != null)
 		{
-			final ScaleData playerScale = ScaleData.of(this.player);
-			final ScaleData scaleData = ScaleData.of(identity);
-			
-			scaleData.fromScale(playerScale);
-			playerScale.fromScale(playerScale);
-			
-			playerScale.markForSync();
-			scaleData.markForSync();
+			ScaleUtils.loadScale(player, identity, true);
 		}
 	}
 	
@@ -40,14 +33,7 @@ public class IdentityComponentMixin
 	{
 		if (this.identity != null)
 		{
-			final ScaleData playerScale = ScaleData.of(this.player);
-			final ScaleData scaleData = ScaleData.of(this.identity);
-			
-			scaleData.fromScale(playerScale);
-			playerScale.fromScale(playerScale);
-			
-			playerScale.markForSync();
-			scaleData.markForSync();
+			ScaleUtils.loadScale(player, identity, true);
 		}
 	}
 }

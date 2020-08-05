@@ -13,7 +13,7 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ServerPlayNetworkHandler.class)
 public class ServerPlayNetworkHandlerMixin
@@ -23,7 +23,7 @@ public class ServerPlayNetworkHandlerMixin
 	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
 	private double onPlayerInteractBlockModifyDistance(double value)
 	{
-		final float scale = ScaleData.of(player).getScale();
+		final float scale = ScaleUtils.getReachScale(player);
 		
 		if (scale > 1.0F)
 		{
@@ -42,7 +42,7 @@ public class ServerPlayNetworkHandlerMixin
 	@ModifyConstant(method = "onPlayerInteractEntity", constant = @Constant(doubleValue = 36.0D))
 	private double onPlayerInteractEntityModifyDistance(double value)
 	{
-		final float scale = ScaleData.of(player).getScale();
+		final float scale = ScaleUtils.getReachScale(player);
 		
 		if (scale > 1.0F)
 		{

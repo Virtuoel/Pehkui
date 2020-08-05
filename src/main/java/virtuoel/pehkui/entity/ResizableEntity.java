@@ -1,18 +1,17 @@
 package virtuoel.pehkui.entity;
 
-import java.util.Optional;
-
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleType;
 
 public interface ResizableEntity
 {
-	default ScaleData pehkui_constructScaleData()
+	default ScaleData pehkui_constructScaleData(ScaleType type)
 	{
-		return new ScaleData(Optional.of(((Entity) (Object) this)::calculateDimensions));
+		return new ScaleData(type.changeListenerFactory.apply((Entity) (Object) this));
 	}
 	
-	default ScaleData pehkui_getScaleData()
+	default ScaleData pehkui_getScaleData(ScaleType type)
 	{
 		return ScaleData.IDENTITY;
 	}

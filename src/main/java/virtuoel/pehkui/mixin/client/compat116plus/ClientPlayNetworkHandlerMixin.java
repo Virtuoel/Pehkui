@@ -18,7 +18,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public class ClientPlayNetworkHandlerMixin
@@ -34,9 +34,7 @@ public class ClientPlayNetworkHandlerMixin
 		
 		if (shouldCopyScale)
 		{
-			final ScaleData scaleData = ScaleData.of(newPlayer);
-			scaleData.fromScale(ScaleData.of(oldPlayer));
-			scaleData.markForSync();
+			ScaleUtils.loadScale(newPlayer, oldPlayer, true);
 		}
 	}
 }

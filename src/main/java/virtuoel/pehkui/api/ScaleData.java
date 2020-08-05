@@ -13,9 +13,14 @@ public class ScaleData
 {
 	public static final ScaleData IDENTITY = new ImmutableScaleData(1.0F);
 	
+	public static ScaleData of(Entity entity, ScaleType type)
+	{
+		return ((ResizableEntity) entity).pehkui_getScaleData(type);
+	}
+	
 	public static ScaleData of(Entity entity)
 	{
-		return ((ResizableEntity) entity).pehkui_getScaleData();
+		return of(entity, ScaleType.BASE);
 	}
 	
 	protected float scale = 1.0F;
@@ -27,11 +32,11 @@ public class ScaleData
 	
 	public boolean scaleModified = false;
 	
-	protected Optional<Runnable> calculateDimensions;
+	protected Optional<Runnable> changeListener;
 	
-	public ScaleData(Optional<Runnable> calculateDimensions)
+	public ScaleData(Optional<Runnable> changeListener)
 	{
-		this.calculateDimensions = calculateDimensions;
+		this.changeListener = changeListener;
 	}
 	
 	public void tick()
@@ -75,7 +80,7 @@ public class ScaleData
 	{
 		this.prevScale = this.scale;
 		this.scale = scale;
-		calculateDimensions.ifPresent(Runnable::run);
+		changeListener.ifPresent(Runnable::run);
 	}
 	
 	public float getInitialScale()
@@ -140,7 +145,7 @@ public class ScaleData
 		this.scaleTicks = scaleData.contains("ticks") ? scaleData.getInt("ticks") : 0;
 		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : 20;
 		
-		calculateDimensions.ifPresent(Runnable::run);
+		changeListener.ifPresent(Runnable::run);
 	}
 	
 	public CompoundTag toTag(CompoundTag tag)
@@ -158,7 +163,7 @@ public class ScaleData
 		fromScale(scaleData, true);
 	}
 	
-	public ScaleData fromScale(ScaleData scaleData, boolean calculateDimensions)
+	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
 		this.scale = scaleData.getScale();
 		this.prevScale = scaleData.prevScale;
@@ -167,9 +172,9 @@ public class ScaleData
 		this.scaleTicks = scaleData.scaleTicks;
 		this.totalScaleTicks = scaleData.totalScaleTicks;
 		
-		if (calculateDimensions)
+		if (notifyListener)
 		{
-			this.calculateDimensions.ifPresent(Runnable::run);
+			this.changeListener.ifPresent(Runnable::run);
 		}
 		
 		return this;

@@ -7,7 +7,9 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleType;
 
 public class PehkuiClient implements ClientModInitializer
 {
@@ -18,6 +20,7 @@ public class PehkuiClient implements ClientModInitializer
 		{
 			final MinecraftClient client = MinecraftClient.getInstance();
 			final UUID uuid = packetByteBuf.readUuid();
+			final Identifier typeId = packetByteBuf.readIdentifier();
 			
 			final float scale = packetByteBuf.readFloat();
 			final float prevScale = packetByteBuf.readFloat();
@@ -25,6 +28,11 @@ public class PehkuiClient implements ClientModInitializer
 			final float toScale = packetByteBuf.readFloat();
 			final int scaleTicks = packetByteBuf.readInt();
 			final int totalScaleTicks = packetByteBuf.readInt();
+			
+			if (!ScaleType.REGISTRY.containsKey(typeId))
+			{
+				return;
+			}
 			
 			final CompoundTag scaleData = new CompoundTag();
 			
@@ -41,7 +49,7 @@ public class PehkuiClient implements ClientModInitializer
 				{
 					if (e.getUuid().equals(uuid))
 					{
-						ScaleData.of(e).fromTag(scaleData);
+						ScaleData.of(e, ScaleType.REGISTRY.get(typeId)).fromTag(scaleData);
 						break;
 					}
 				}

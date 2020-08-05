@@ -12,6 +12,7 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleType;
 
 @Mixin(ItemPickupParticle.class)
 public class ItemPickupParticleMixin
@@ -21,7 +22,7 @@ public class ItemPickupParticleMixin
 	@ModifyConstant(method = "buildGeometry", constant = @Constant(doubleValue = 0.5D))
 	private double buildGeometryModifyOffset(double value, VertexConsumer vertexConsumer, Camera camera, float tickDelta)
 	{
-		final float scale = ScaleData.of(interactingEntity).getScale(tickDelta);
+		final float scale = ScaleData.of(interactingEntity, ScaleType.HEIGHT).getScale(tickDelta);
 		
 		if (scale != 1.0F)
 		{

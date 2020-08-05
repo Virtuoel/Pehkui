@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.entity.BoatEntityRenderer;
 import net.minecraft.entity.vehicle.BoatEntity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(BoatEntityRenderer.class)
 public abstract class BoatEntityRendererMixin
@@ -17,12 +17,13 @@ public abstract class BoatEntityRendererMixin
 	@Inject(method = "method_3887(Lnet/minecraft/class_1690;DDDFF)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_554;method_2836(Lnet/minecraft/class_1297;FFFFFF)V", remap = false), remap = false)
 	private void onRenderPreRender(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
-		final float scale = ScaleData.of(boatEntity).getScale(tickDelta);
-
+		final float widthScale = ScaleUtils.getWidthScale(boatEntity, tickDelta);
+		final float heightScale = ScaleUtils.getHeightScale(boatEntity, tickDelta);
+		
 		GL11.glPushMatrix();
-		GL11.glTranslatef(0.0F, 0.375F * (1.0F - scale), 0.0F);
+		GL11.glTranslatef(0.0F, 0.375F * (1.0F - heightScale), 0.0F);
 		GL11.glPushMatrix();
-		GL11.glScalef(scale, scale, scale);
+		GL11.glScalef(widthScale, heightScale, widthScale);
 		GL11.glPushMatrix();
 	}
 	

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.BlazeEntity;
 import net.minecraft.util.math.Vec3d;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(targets = "net.minecraft.entity.mob.BlazeEntity$ShootFireballGoal")
 public abstract class BlazeEntityShootFireballGoalMixin
@@ -19,7 +19,7 @@ public abstract class BlazeEntityShootFireballGoalMixin
 	@ModifyArg(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity tickSpawnEntityProxy(Entity entity)
 	{
-		final float scale = ScaleData.of(blaze).getScale();
+		final float scale = ScaleUtils.getHeightScale(blaze);
 		
 		if (scale != 1.0F)
 		{

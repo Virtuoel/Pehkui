@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin
@@ -22,7 +22,7 @@ public abstract class EntityRendererMixin
 	@Redirect(method = "method_3939(Lnet/minecraft/class_1297;DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_897;method_3934(Lnet/minecraft/class_1297;DDDFF)V", remap = false), remap = false)
 	private void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
 	{
-		final float scale = ScaleData.of(entity).getScale(tickDelta);
+		final float scale = ScaleUtils.getWidthScale(entity, tickDelta);
 		
 		if (scale != 1.0F)
 		{

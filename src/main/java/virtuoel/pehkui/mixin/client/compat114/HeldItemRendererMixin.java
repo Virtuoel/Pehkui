@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.client.MinecraftClient;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(targets = "net.minecraft.class_759", remap = false)
 public abstract class HeldItemRendererMixin
@@ -17,7 +17,7 @@ public abstract class HeldItemRendererMixin
 	@ModifyConstant(method = "method_3232(F)V", constant = @Constant(floatValue = 0.1F))
 	private float renderOverlaysModifyOffset(float value)
 	{
-		final float scale = ScaleData.of(field_4050.player).getScale();
+		final float scale = ScaleUtils.getHeightScale(field_4050.player);
 		
 		return scale != 1.0F ? value * scale : value;
 	}

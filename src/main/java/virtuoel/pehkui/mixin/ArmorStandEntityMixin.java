@@ -2,18 +2,20 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.decoration.ArmorStandEntity;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ArmorStandEntity.class)
 public abstract class ArmorStandEntityMixin extends EntityMixin
 {
-	@ModifyArg(method = "getDimensions", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityDimensions;scaled(F)Lnet/minecraft/entity/EntityDimensions;"))
-	private float onGetDimensionsModifyScale(float value)
+	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
+	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float scale = pehkui_getScaleData().getScale();
-		
-		return scale != 1.0F ? value * scale : value;
+		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale(this), ScaleUtils.getHeightScale(this)));
 	}
 }

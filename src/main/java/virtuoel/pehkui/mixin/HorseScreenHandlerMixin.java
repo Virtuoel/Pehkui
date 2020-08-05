@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.passive.HorseBaseEntity;
 import net.minecraft.screen.HorseScreenHandler;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(HorseScreenHandler.class)
 public class HorseScreenHandlerMixin
@@ -19,7 +19,7 @@ public class HorseScreenHandlerMixin
 	@ModifyConstant(method = "canUse", constant = @Constant(floatValue = 8.0F))
 	private float canUseModifyDistance(float value)
 	{
-		final float scale = ScaleData.of(entity).getScale();
+		final float scale = ScaleUtils.getReachScale(entity);
 		
 		if (scale != 1.0F)
 		{

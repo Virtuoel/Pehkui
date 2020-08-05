@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.block.entity.EnderChestBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EnderChestBlockEntity.class)
 public abstract class EnderChestBlockEntityMixin
@@ -20,7 +20,7 @@ public abstract class EnderChestBlockEntityMixin
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 64.0D))
 	private double canPlayerUseModifyDistance(double value, PlayerEntity player)
 	{
-		final float scale = ScaleData.of(player).getScale();
+		final float scale = ScaleUtils.getReachScale(player);
 		return scale != 1.0F ? scale * scale * value : value;
 	}
 }

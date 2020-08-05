@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.entity.mob.RavagerEntity;
 import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin({
 	BoatEntity.class,
@@ -19,7 +20,7 @@ public abstract class EntityMountedHeightOffsetMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = ScaleUtils.getHeightScale(this);
 		
 		if (scale != 1.0F)
 		{

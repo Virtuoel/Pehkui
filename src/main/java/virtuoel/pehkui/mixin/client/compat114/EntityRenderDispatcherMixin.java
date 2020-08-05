@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin
@@ -17,11 +17,12 @@ public class EntityRenderDispatcherMixin
 	@Inject(method = "method_3954(Lnet/minecraft/class_1297;DDDFFZ)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_897;method_3936(Lnet/minecraft/class_1297;DDDFF)V", remap = false), remap = false)
 	private <E extends Entity> void onRenderPreRender(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
 	{
-		final float scale = ScaleData.of(entity).getScale(tickDelta);
+		final float widthScale = ScaleUtils.getWidthScale(entity, tickDelta);
+		final float heightScale = ScaleUtils.getHeightScale(entity, tickDelta);
 		
 		GL11.glPushMatrix();
-		GL11.glScalef(scale, scale, scale);
-		GL11.glTranslated((x / scale) - x, (y / scale) - y, (z / scale) - z);
+		GL11.glScalef(widthScale, heightScale, widthScale);
+		GL11.glTranslated((x / widthScale) - x, (y / heightScale) - y, (z / widthScale) - z);
 		GL11.glPushMatrix();
 	}
 	

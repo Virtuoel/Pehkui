@@ -1,5 +1,7 @@
 package virtuoel.pehkui.mixin;
 
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.spongepowered.asm.mixin.Final;
@@ -18,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -30,13 +33,16 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.entity.ResizableEntity;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin implements ResizableEntity
@@ -45,24 +51,55 @@ public abstract class EntityMixin implements ResizableEntity
 	
 	@Shadow abstract void updatePosition(double x, double y, double z);
 	
-	private ScaleData pehkui_scaleData = pehkui_constructScaleData();
+	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	
 	@Override
-	public ScaleData pehkui_getScaleData()
+	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
-		return pehkui_scaleData;
+		if (!pehkui_scaleTypes.containsKey(type))
+		{
+			pehkui_scaleTypes.put(type, pehkui_constructScaleData(type));
+		}
+		
+		return pehkui_scaleTypes.get(type);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "fromTag")
 	private void onFromTag(CompoundTag tag, CallbackInfo info)
 	{
+		final boolean isServerWorld = world != null && !world.isClient;
+		
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
-			pehkui_getScaleData().fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
+			final ScaleData scaleData = pehkui_getScaleData(ScaleType.BASE);
+			scaleData.fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
 			
-			if (pehkui_getScaleData().getScale() != 1.0F && world != null && !world.isClient)
+			if (scaleData.getScale() != 1.0F && isServerWorld)
 			{
-				pehkui_getScaleData().markForSync();
+				scaleData.markForSync();
+			}
+		}
+		
+		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND))
+		{
+			final CompoundTag typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
+			
+			String key;
+			ScaleData scaleData;
+			for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+			{
+				key = entry.getKey().toString();
+				
+				if (typeData.contains(key, NbtType.COMPOUND))
+				{
+					scaleData = pehkui_getScaleData(entry.getValue());
+					scaleData.fromTag(typeData.getCompound(key));
+					
+					if (scaleData.getScale() != 1.0F && isServerWorld)
+					{
+						scaleData.markForSync();
+					}
+				}
 			}
 		}
 	}
@@ -70,62 +107,75 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "toTag")
 	private void onToTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
 	{
-		tag.put(Pehkui.MOD_ID + ":scale_data", pehkui_getScaleData().toTag(new CompoundTag()));
+		final CompoundTag typeData = new CompoundTag();
+		
+		String key;
+		ScaleData scaleData;
+		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+		{
+			key = entry.getKey().toString();
+			scaleData = pehkui_getScaleData(entry.getValue());
+			
+			typeData.put(key, scaleData.toTag(new CompoundTag()));
+		}
+		
+		tag.put(Pehkui.MOD_ID + ":scale_data_types", typeData);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		pehkui_getScaleData().tick();
+		for (ScaleType type : ScaleType.REGISTRY.values())
+		{
+			pehkui_getScaleData(type).tick();
+		}
 	}
 	
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
 	private void onOnStartedTrackingBy(ServerPlayerEntity player, CallbackInfo info)
 	{
-		final ScaleData scaleData = pehkui_getScaleData();
-		
-		if (scaleData.getScale() != 1.0F)
+		ScaleData scaleData;
+		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
 		{
-			player.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, scaleData.toPacketByteBuf(new PacketByteBuf(Unpooled.buffer()).writeUuid(((Entity) (Object) this).getUuid()))));
-			scaleData.scaleModified = false;
+			scaleData = pehkui_getScaleData(entry.getValue());
+			
+			if (scaleData.getScale() != 1.0F)
+			{
+				player.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
+					scaleData.toPacketByteBuf(
+						new PacketByteBuf(Unpooled.buffer())
+						.writeUuid(((Entity) (Object) this).getUuid())
+						.writeIdentifier(entry.getKey())
+					)
+				));
+				scaleData.scaleModified = false;
+			}
 		}
 	}
 	
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = pehkui_getScaleData(ScaleType.BASE).getScale();
+		final float widthScale = scale * pehkui_getScaleData(ScaleType.WIDTH).getScale();
+		final float heightScale = scale * pehkui_getScaleData(ScaleType.HEIGHT).getScale();
 		
-		if (scale != 1.0F)
+		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
-			info.setReturnValue(info.getReturnValue().scaled(scale));
+			info.setReturnValue(info.getReturnValue().scaled(widthScale, heightScale));
 		}
 	}
 	
 	@Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
 	private void onDropStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> info, ItemEntity entity)
 	{
-		final float scale = pehkui_getScaleData().getScale();
-		
-		if (scale != 1.0F)
-		{
-			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledItemDrops"))
-				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-				.orElse(true))
-			{
-				final ScaleData data = ScaleData.of(entity);
-				data.setScale(scale);
-				data.setTargetScale(scale);
-				data.markForSync();
-			}
-		}
+		ScaleUtils.setScale(entity, ScaleUtils.getDropScale(this));
 	}
 	
 	@ModifyArg(method = "fall", index = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private float onFallModifyFallDistance(float distance)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = ScaleUtils.getMotionScale(this);
 		
 		if (scale != 1.0F)
 		{
@@ -146,13 +196,7 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		if (type == MovementType.SELF || type == MovementType.PLAYER)
 		{
-			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledMotion"))
-				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-				.orElse(true))
-			{
-				return movement.multiply(pehkui_getScaleData().getScale());
-			}
+			return movement.multiply(ScaleUtils.getMotionScale(this));
 		}
 		
 		return movement;
@@ -161,7 +205,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
 	private void onSpawnSprintingParticles(CallbackInfo info)
 	{
-		if (pehkui_getScaleData().getScale() < 1.0F)
+		if (ScaleUtils.getMotionScale(this) < 1.0F)
 		{
 			info.cancel();
 		}
@@ -175,7 +219,7 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		if (this.world.isClient && type == EntityType.PLAYER && current.width > previous.width)
 		{
-			final float scale = pehkui_getScaleData().getScale();
+			final float scale = ScaleUtils.getWidthScale(this);
 			final float dist = (previous.width - current.width) / 2.0F;
 			
 			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));

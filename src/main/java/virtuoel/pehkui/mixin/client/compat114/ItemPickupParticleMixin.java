@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ItemPickupParticle;
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ItemPickupParticle.class)
 public class ItemPickupParticleMixin
@@ -21,7 +21,7 @@ public class ItemPickupParticleMixin
 	@ModifyArg(method = "method_3074(Lnet/minecraft/class_287;Lnet/minecraft/class_4184;FFFFFF)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/class_3532;method_16436(DDD)D", ordinal = 4, remap = false), remap = false)
 	private double buildGeometryModifyOffset(double value)
 	{
-		final float scale = ScaleData.of(field_3821).getScale(MinecraftClient.getInstance().getTickDelta());
+		final float scale = ScaleUtils.getHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());
 		
 		if (scale != 1.0F)
 		{

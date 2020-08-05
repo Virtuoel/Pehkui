@@ -1,7 +1,5 @@
 package virtuoel.pehkui.mixin;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -9,17 +7,13 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
-import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin extends LivingEntityMixin
@@ -27,41 +21,22 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		info.setReturnValue(info.getReturnValue().scaled(pehkui_getScaleData().getScale()));
+		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale(this), ScaleUtils.getHeightScale(this)));
 	}
 	
 	@ModifyArg(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;squaredHorizontalLength(Lnet/minecraft/util/math/Vec3d;)D"))
 	private Vec3d onTickMovementGetVelocityProxy(Vec3d velocity)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledMotion"))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(true))
-		{
-			return velocity.multiply(pehkui_getScaleData().getScale());
-		}
-		
-		return velocity;
+		return velocity.multiply(ScaleUtils.getMotionScale(this));
 	}
 	
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
 	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info, double y, ItemEntity entity)
 	{
-		final float scale = pehkui_getScaleData().getScale();
+		final float scale = ScaleUtils.getDropScale(this);
 		
 		if (scale != 1.0F)
 		{
-			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledItemDrops"))
-				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-				.orElse(true))
-			{
-				final ScaleData data = ScaleData.of(entity);
-				data.setScale(scale);
-				data.setTargetScale(scale);
-				data.markForSync();
-			}
-			
 			final Vec3d pos = entity.getPos();
 			
 			entity.updatePosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
@@ -71,36 +46,36 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandXProxy(double value)
 	{
-		return value * pehkui_getScaleData().getScale();
+		return value * ScaleUtils.getMotionScale(this);
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandYProxy(double value)
 	{
-		return value * pehkui_getScaleData().getScale();
+		return value * ScaleUtils.getMotionScale(this);
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandZProxy(double value)
 	{
-		return value * pehkui_getScaleData().getScale();
+		return value * ScaleUtils.getMotionScale(this);
 	}
 	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onAttackExpandXProxy(double value)
 	{
-		return value * pehkui_getScaleData().getScale();
+		return value * ScaleUtils.getWidthScale(this);
 	}
 	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onAttackExpandYProxy(double value)
 	{
-		return value * pehkui_getScaleData().getScale();
+		return value * ScaleUtils.getHeightScale(this);
 	}
 	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onAttackExpandZProxy(double value)
 	{
-		return value * pehkui_getScaleData().getScale();
+		return value * ScaleUtils.getWidthScale(this);
 	}
 }

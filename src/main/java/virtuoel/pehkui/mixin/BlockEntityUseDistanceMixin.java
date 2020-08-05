@@ -8,7 +8,7 @@ import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin({
 	AbstractFurnaceBlockEntity.class,
@@ -26,7 +26,7 @@ public abstract class BlockEntityUseDistanceMixin
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 64.0D))
 	private double canPlayerUseModifyDistance(double value, PlayerEntity player)
 	{
-		final float scale = ScaleData.of(player).getScale();
+		final float scale = ScaleUtils.getReachScale(player);
 		return scale != 1.0F ? scale * scale * value : value;
 	}
 }

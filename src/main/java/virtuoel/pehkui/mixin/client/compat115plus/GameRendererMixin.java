@@ -13,7 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
@@ -24,14 +24,14 @@ public class GameRendererMixin
 	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;horizontalSpeed:F"))
 	private float bobViewHorizontalSpeedProxy(PlayerEntity obj)
 	{
-		final float scale = ScaleData.of(obj).getScale(client.getTickDelta());
+		final float scale = ScaleUtils.getMotionScale(obj, client.getTickDelta());
 		return obj.horizontalSpeed / scale;
 	}
 	
 	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;prevHorizontalSpeed:F"))
 	private float bobViewPrevHorizontalSpeedProxy(PlayerEntity obj)
 	{
-		final float scale = ScaleData.of(obj).getScale(client.getTickDelta());
+		final float scale = ScaleUtils.getMotionScale(obj, client.getTickDelta());
 		return obj.prevHorizontalSpeed / scale;
 	}
 	
@@ -42,7 +42,7 @@ public class GameRendererMixin
 		
 		if (entity != null)
 		{
-			final float scale = ScaleData.of(entity).getScale(client.getTickDelta());
+			final float scale = ScaleUtils.getWidthScale(entity, client.getTickDelta());
 			
 			if (scale < 1.0F)
 			{
