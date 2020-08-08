@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.server.command.ScaleCommand;
 import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
+import virtuoel.pehkui.server.command.arguments.ScaleTypeArgumentType;
 
 public class Pehkui implements ModInitializer
 {
@@ -26,6 +27,7 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
+		ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
 		ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
 		
 		CommandRegistrationCallback.EVENT.register(ScaleCommand::register);
