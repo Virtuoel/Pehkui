@@ -24,7 +24,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ClientPlayNetworkHandlerMixin
 {
 	@Inject(method = "onPlayerRespawn", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"))
-	private void onOnPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, RegistryKey<DimensionType> registryKey, RegistryKey<World> dimension, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
+	private void onOnPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, RegistryKey<World> dimension, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
 	{
 		final boolean shouldCopyScale = packet.shouldKeepPlayerAttributes() ||
 			Optional.ofNullable(PehkuiConfig.DATA.get("keepScaleOnRespawn"))
