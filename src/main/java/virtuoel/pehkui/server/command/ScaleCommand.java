@@ -126,6 +126,58 @@ public class ScaleCommand
 					return 1;
 				})
 			)
+			.then(CommandManager.literal("reset")
+				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+					.then(CommandManager.argument("targets", EntityArgumentType.entities())
+						.executes(context ->
+						{
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final ScaleData data = ScaleData.of(e, type);
+								data.fromScale(ScaleData.IDENTITY);
+								data.markForSync();
+							}
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
+						data.fromScale(ScaleData.IDENTITY);
+						data.markForSync();
+						return 1;
+					})
+				)
+				.then(CommandManager.argument("targets", EntityArgumentType.entities())
+					.executes(context ->
+					{
+						for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+						{
+							for (final ScaleType type : ScaleType.REGISTRY.values())
+							{
+								final ScaleData data = ScaleData.of(e, type);
+								data.fromScale(ScaleData.IDENTITY);
+								data.markForSync();
+							}
+						}
+						
+						return 1;
+					})
+				)
+				.executes(context ->
+				{
+					for (final ScaleType type : ScaleType.REGISTRY.values())
+					{
+						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
+						data.fromScale(ScaleData.IDENTITY);
+						data.markForSync();
+					}
+					
+					return 1;
+				})
+			)
 			.then(CommandManager.literal("delay")
 				.then(CommandManager.literal("set")
 					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
