@@ -19,7 +19,7 @@ public abstract class EntityMixin implements ResizableEntity
 		return scale != 1.0F ? value * scale : value;
 	}
 	
-	@ModifyConstant(method = "updateSubmergedInWaterState()Z", constant = @Constant(doubleValue = 0.1111111119389534D))
+	@ModifyConstant(method = "updateSubmergedInWaterState()V", constant = @Constant(doubleValue = 0.1111111119389534D))
 	private double iupdateSubmergedInWaterStateModifyOffset(double value)
 	{
 		final float scale = ScaleUtils.getHeightScale(this);
