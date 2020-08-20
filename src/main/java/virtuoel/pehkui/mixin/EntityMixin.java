@@ -156,9 +156,8 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float scale = pehkui_getScaleData(ScaleType.BASE).getScale();
-		final float widthScale = scale * pehkui_getScaleData(ScaleType.WIDTH).getScale();
-		final float heightScale = scale * pehkui_getScaleData(ScaleType.HEIGHT).getScale();
+		final float widthScale = ScaleUtils.getWidthScale(this);
+		final float heightScale = ScaleUtils.getHeightScale(this);
 		
 		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
