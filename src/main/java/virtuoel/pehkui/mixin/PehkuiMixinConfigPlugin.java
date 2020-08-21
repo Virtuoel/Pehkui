@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import net.fabricmc.loader.api.FabricLoader;
-import virtuoel.pehkui.util.VersionData;
+import virtuoel.pehkui.util.VersionUtils;
 
 public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 {
@@ -46,20 +46,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 			);
 		}
 		
-		if (
-			(mixinClassName.contains(".compat114.") && VersionData.MINOR != 14) ||
-			(mixinClassName.contains(".compat114plus.") && VersionData.MINOR < 14) ||
-			(mixinClassName.contains(".compat114minus.") && VersionData.MINOR > 14) ||
-			(mixinClassName.contains(".compat115.") && VersionData.MINOR != 15) ||
-			(mixinClassName.contains(".compat115plus.") && VersionData.MINOR < 15) ||
-			(mixinClassName.contains(".compat115minus.") && VersionData.MINOR > 15) ||
-			(mixinClassName.contains(".compat116.") && VersionData.MINOR != 16) ||
-			(mixinClassName.contains(".compat116plus.") && VersionData.MINOR < 16) ||
-			(mixinClassName.contains(".compat116minus.") && VersionData.MINOR > 16) ||
-			(mixinClassName.contains(".compat117.") && VersionData.MINOR != 17) ||
-			(mixinClassName.contains(".compat117plus.") && VersionData.MINOR < 17) ||
-			(mixinClassName.contains(".compat117minus.") && VersionData.MINOR > 17)
-		)
+		if (!VersionUtils.shouldApplyCompatibilityMixin(mixinClassName))
 		{
 			return false;
 		}
