@@ -73,7 +73,7 @@
 		"client.compat115plus.ItemPickupParticleMixin",
 		"client.compat115plus.PlayerEntityRendererMixin",
 		"client.compat115plus.optifine.compat.InGameOverlayRendererMixin",
-		"client.compat116plus.ClientPlayNetworkHandlerMixin",
+		"client.compat1162plus.ClientPlayNetworkHandlerMixin",
 		"client.compat116plus.EntityRendererMixin",
 		"client.compat116plus.ItemEntityMixin",
 		"reach.client.GameRendererMixin"
