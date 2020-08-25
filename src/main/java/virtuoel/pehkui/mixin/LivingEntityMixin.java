@@ -60,4 +60,12 @@ public abstract class LivingEntityMixin extends EntityMixin
 			}
 		}
 	}
+	
+	@ModifyConstant(method = "tickMovement", constant = @Constant(doubleValue = 0.003D))
+	private double tickMovementModifyMinVelocity(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale(this);
+		
+		return scale < 1.0F ? scale * value : value;
+	}
 }

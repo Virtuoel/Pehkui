@@ -56,6 +56,7 @@
 	"client":
 	[
 		"client.CameraMixin",
+		"client.ClientPlayerEntityMixin",
 		"client.ClientPlayerInteractionManagerMixin",
 		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
