@@ -1,5 +1,7 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
+import java.util.Optional;
+
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -9,10 +11,14 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(GameRenderer.class)
@@ -46,7 +52,14 @@ public class GameRendererMixin
 			
 			if (scale < 1.0F)
 			{
-				return Math.max(0.001F, value * scale);
+				return Math.max(
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
+						.map(Number::floatValue)
+						.orElse(0.001F),
+					value * scale
+				);
 			}
 		}
 		
@@ -64,7 +77,14 @@ public class GameRendererMixin
 			
 			if (scale < 1.0F)
 			{
-				return Math.max(0.001F, value * scale);
+				return Math.max(
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
+						.map(Number::floatValue)
+						.orElse(0.001F),
+					value * scale
+				);
 			}
 		}
 		
@@ -82,7 +102,14 @@ public class GameRendererMixin
 			
 			if (scale < 1.0F)
 			{
-				return Math.max(0.001F, value * scale);
+				return Math.max(
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
+						.map(Number::floatValue)
+						.orElse(0.001F),
+					value * scale
+				);
 			}
 		}
 		
@@ -100,7 +127,14 @@ public class GameRendererMixin
 			
 			if (scale < 1.0F)
 			{
-				return Math.max(0.001F, value * scale);
+				return Math.max(
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
+						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
+						.map(Number::floatValue)
+						.orElse(0.001F),
+					value * scale
+				);
 			}
 		}
 		

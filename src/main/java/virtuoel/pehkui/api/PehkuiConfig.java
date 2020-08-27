@@ -30,6 +30,7 @@ public class PehkuiConfig
 		config.addProperty("scaledExplosions", true);
 		config.addProperty("keepScaleOnRespawn", false);
 		config.addProperty("accurateNetherPortals", true);
+		config.addProperty("minimumRenderingDepth", 0.001F);
 		
 		return config;
 	}
