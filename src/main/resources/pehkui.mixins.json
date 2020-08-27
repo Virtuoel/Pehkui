@@ -21,6 +21,7 @@
 		"GhastEntityShootFireballGoalMixin",
 		"HorseBaseEntityMixin",
 		"HorseScreenHandlerMixin",
+		"ItemEntityMixin",
 		"LivingEntityMixin",
 		"LlamaEntityMixin",
 		"PersistentProjectileEntityMixin",
