@@ -36,7 +36,7 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 	{
 		if (entity != null)
 		{
-			ScaleUtils.setScale(entity, ScaleUtils.getProjectileScale(entity));
+			ScaleUtils.setScale(this, ScaleUtils.getProjectileScale(entity));
 		}
 	}
 }
