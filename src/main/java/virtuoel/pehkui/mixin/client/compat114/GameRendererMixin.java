@@ -53,7 +53,7 @@ public class GameRendererMixin
 			if (scale < 1.0F)
 			{
 				return Math.max(
-					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumCameraDepth"))
 						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
 						.map(Number::floatValue)
@@ -78,7 +78,7 @@ public class GameRendererMixin
 			if (scale < 1.0F)
 			{
 				return Math.max(
-					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumCameraDepth"))
 						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
 						.map(Number::floatValue)
@@ -103,7 +103,7 @@ public class GameRendererMixin
 			if (scale < 1.0F)
 			{
 				return Math.max(
-					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumCameraDepth"))
 						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
 						.map(Number::floatValue)
@@ -128,7 +128,7 @@ public class GameRendererMixin
 			if (scale < 1.0F)
 			{
 				return Math.max(
-					Optional.ofNullable(PehkuiConfig.DATA.get("minimumRenderingDepth"))
+					Optional.ofNullable(PehkuiConfig.DATA.get("minimumCameraDepth"))
 						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
 						.map(Number::floatValue)
