@@ -180,6 +180,47 @@ public class ScaleData
 		return this;
 	}
 	
+	public ScaleData averagedFromScales(ScaleData scaleData, ScaleData... scales)
+	{
+		return averagedFromScales(true, scaleData, scales);
+	}
+	
+	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
+	{
+		float scale = scaleData.getScale();
+		float prevScale = scaleData.prevScale;
+		float fromScale = scaleData.getInitialScale();
+		float toScale = scaleData.getTargetScale();
+		int scaleTicks = scaleData.scaleTicks;
+		int totalScaleTicks = scaleData.totalScaleTicks;
+		
+		for (final ScaleData data : scales)
+		{
+			scale += data.getScale();
+			prevScale += data.prevScale;
+			fromScale += data.getInitialScale();
+			toScale += data.getTargetScale();
+			scaleTicks += data.scaleTicks;
+			totalScaleTicks += data.totalScaleTicks;
+		}
+		
+		final float count = scales.length + 1;
+		
+		this.scale = scale / count;
+		this.prevScale = prevScale / count;
+		this.fromScale = fromScale / count;
+		this.toScale = toScale / count;
+		this.scaleTicks = Math.round(scaleTicks / count);
+		this.totalScaleTicks = Math.round(totalScaleTicks / count);
+		
+		if (notifyListener)
+		{
+			this.changeListener.ifPresent(Runnable::run);
+		}
+		
+		return this;
+	}
+	
 	@Override
 	public int hashCode()
 	{

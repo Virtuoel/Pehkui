@@ -13,6 +13,29 @@ import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleUtils
 {
+	public static void loadAverageScales(boolean sync, Object target, Object source, Object... sources)
+	{
+		ScaleData scaleData;
+		for (ScaleType type : ScaleType.REGISTRY.values())
+		{
+			scaleData = ScaleData.of((Entity) target, type);
+			
+			ScaleData[] scales = new ScaleData[sources.length];
+			
+			for (int i = 0; i < sources.length; i++)
+			{
+				scales[i] = ScaleData.of((Entity) sources[i], type);
+			}
+			
+			scaleData.averagedFromScales(ScaleData.of((Entity) source, type), scales);
+			
+			if (sync)
+			{
+				scaleData.markForSync();
+			}
+		}
+	}
+	
 	public static void loadScale(Object target, Object source, boolean sync)
 	{
 		ScaleData scaleData;

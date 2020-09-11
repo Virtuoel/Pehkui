@@ -21,14 +21,14 @@ public class SlimeEntityMixin
 		return entity;
 	}
 	
-	@ModifyConstant(method = "remove()V", constant = @Constant(floatValue = 0.5F))
+	@ModifyConstant(method = "remove()V", constant = @Constant(floatValue = 4.0F))
 	private float removeModifyHorizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getWidthScale(this);
 		
 		if (scale != 1.0F)
 		{
-			return value * scale;
+			return value / scale;
 		}
 		
 		return value;

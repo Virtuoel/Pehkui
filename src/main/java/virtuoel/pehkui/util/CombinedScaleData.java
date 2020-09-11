@@ -89,13 +89,26 @@ public class CombinedScaleData extends ScaleData
 	}
 	
 	@Override
-	public ScaleData fromScale(ScaleData scaleData, boolean calculateDimensions)
+	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
-		final ScaleData ret = super.fromScale(scaleData, calculateDimensions);
+		final ScaleData ret = super.fromScale(scaleData, notifyListener);
 		
 		for (final ScaleData d : getData())
 		{
-			d.fromScale(scaleData, calculateDimensions);
+			d.fromScale(scaleData, notifyListener);
+		}
+		
+		return ret;
+	}
+	
+	@Override
+	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
+	{
+		final ScaleData ret = super.averagedFromScales(notifyListener, scaleData, scales);
+		
+		for (final ScaleData d : getData())
+		{
+			d.averagedFromScales(notifyListener, scaleData, scales);
 		}
 		
 		return ret;
