@@ -3,7 +3,9 @@ package virtuoel.pehkui.mixin;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.Entity;
@@ -38,5 +40,13 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 		{
 			ScaleUtils.setScale(this, ScaleUtils.getProjectileScale(entity));
 		}
+	}
+	
+	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 0.05000000074505806D))
+	private double tickModifyGravity(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale(this);
+		
+		return scale != 1.0F ? scale * value : value;
 	}
 }

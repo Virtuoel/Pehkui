@@ -24,4 +24,17 @@ public abstract class ProjectileEntityMixin
 		
 		return value;
 	}
+	
+	@ModifyArg(method = "setVelocity(DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;multiply(D)Lnet/minecraft/util/math/Vec3d;"))
+	private double setVelocityModifyMultiply(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale(this);
+		
+		if (scale != 1.0F)
+		{
+			return value * scale;
+		}
+		
+		return value;
+	}
 }
