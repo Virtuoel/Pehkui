@@ -174,6 +174,11 @@ public class ScaleUtils
 	
 	public static float getTypedScale(Object entity, ScaleType type, float tickDelta)
 	{
+		if (!(entity instanceof ResizableEntity))
+		{
+			return 1.0F;
+		}
+		
 		final ResizableEntity e = ((ResizableEntity) entity);
 		
 		final float scale = e.pehkui_getScaleData(ScaleType.BASE).getScale(tickDelta);
