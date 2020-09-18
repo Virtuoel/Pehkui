@@ -47,6 +47,8 @@
 		"compat115minus.PassiveEntityMixin",
 		"compat115minus.PigEntityMixin",
 		"compat115minus.PlayerManagerMixin",
+		"compat115minus.ProjectileEntityMixin",
+		"compat115minus.ThrownEntityMixin",
 		"compat115minus.VillagerBreedTaskMixin",
 		"compat115minus.VillagerEntityMixin",
 		"compat115minus.ZombieEntityMixin",
