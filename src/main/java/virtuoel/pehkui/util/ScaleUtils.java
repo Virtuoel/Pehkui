@@ -1,11 +1,20 @@
 package virtuoel.pehkui.util;
 
 import java.util.Optional;
+import java.util.UUID;
+import java.util.Map.Entry;
+import java.util.function.Consumer;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
+import net.minecraft.network.Packet;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
+import net.minecraft.util.Identifier;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleType;
@@ -59,6 +68,29 @@ public class ScaleUtils
 			scaleData.setScale(scale);
 			scaleData.setTargetScale(scale);
 			scaleData.markForSync();
+		}
+	}
+	
+	public static void syncScalesIfNeeded(Entity entity, Consumer<Packet<?>> packetSender)
+	{
+		final UUID uuid = entity.getUuid();
+		
+		ScaleData scaleData;
+		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+		{
+			scaleData = ScaleData.of(entity, entry.getValue());
+			
+			if (scaleData.shouldSync())
+			{
+				packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
+					scaleData.toPacketByteBuf(
+						new PacketByteBuf(Unpooled.buffer())
+						.writeUuid(uuid)
+						.writeIdentifier(entry.getKey())
+					)
+				));
+				scaleData.scaleModified = false;
+			}
 		}
 	}
 	
