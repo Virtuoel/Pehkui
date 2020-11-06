@@ -24,7 +24,7 @@ public abstract class ConfigHandler<S> implements Supplier<S>
 	{
 		this.namespace = namespace;
 		logger = LogManager.getLogger(namespace);
-		configFile = FabricLoader.getInstance().getConfigDirectory().toPath().resolve(path);
+		configFile = FabricLoader.getInstance().getConfigDir().resolve(path);
 		this.defaultConfig = defaultConfig;
 	}
 	
