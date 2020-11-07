@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.compat117plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(SlimeEntity.class)
 public class SlimeEntityMixin
 {
-	@ModifyArg(method = "remove()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	@ModifyArg(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity removeSpawnEntityProxy(Entity entity)
 	{
 		ScaleUtils.loadScale(entity, this, true);
@@ -21,7 +21,7 @@ public class SlimeEntityMixin
 		return entity;
 	}
 	
-	@ModifyConstant(method = "remove()V", constant = @Constant(floatValue = 4.0F))
+	@ModifyConstant(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", constant = @Constant(floatValue = 4.0F))
 	private float removeModifyHorizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getWidthScale(this);
@@ -34,7 +34,7 @@ public class SlimeEntityMixin
 		return value;
 	}
 	
-	@ModifyConstant(method = "remove()V", constant = @Constant(doubleValue = 0.5D))
+	@ModifyConstant(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", constant = @Constant(doubleValue = 0.5D))
 	private double removeModifyVerticalOffset(double value)
 	{
 		final float scale = ScaleUtils.getHeightScale(this);
