@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
@@ -27,10 +28,15 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
-		ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
+		final boolean fabricCommandsLoaded = FabricLoader.getInstance().isModLoaded("fabric-command-api-v1");
 		
-		CommandRegistrationCallback.EVENT.register(ScaleCommand::register);
+		if (fabricCommandsLoaded)
+		{
+			ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
+			ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
+			
+			CommandRegistrationCallback.EVENT.register(ScaleCommand::register);
+		}
 	}
 	
 	public static Identifier id(String name)
