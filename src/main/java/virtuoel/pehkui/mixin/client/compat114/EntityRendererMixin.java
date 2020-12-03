@@ -19,6 +19,12 @@ public abstract class EntityRendererMixin
 	@Shadow(remap = false)
 	abstract void method_3934(Entity entity, double x, double y, double z, float opacity, float tickDelta);
 	
+	@Redirect(method = "method_3923(Lnet/minecraft/class_1297;Ljava/lang/String;DDDI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1297;method_17682()F", remap = false), remap = false)
+	private float renderLabelGetHeightProxy(Entity entity)
+	{
+		return entity.getHeight() / ScaleUtils.getHeightScale(entity);
+	}
+	
 	@Redirect(method = "method_3939(Lnet/minecraft/class_1297;DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_897;method_3934(Lnet/minecraft/class_1297;DDDFF)V", remap = false), remap = false)
 	private void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
 	{
