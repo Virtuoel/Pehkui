@@ -26,6 +26,7 @@
 		"LlamaEntityMixin",
 		"PersistentProjectileEntityMixin",
 		"PlayerEntityMixin",
+		"PlayerManagerMixin",
 		"PortalBlockMixin",
 		"PreEntityTickMixin",
 		"ServerPlayerEntityMixin",
