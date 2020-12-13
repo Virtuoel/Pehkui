@@ -20,7 +20,7 @@
 	"depends":
 	{
 		"fabricloader": ">=0.8.0",
-		"fabric-networking-v0": "*"
+		"fabric-api-base": "*"
 	},
 	"entrypoints":
 	{

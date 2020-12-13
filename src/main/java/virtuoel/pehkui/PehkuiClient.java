@@ -1,49 +1,37 @@
 package virtuoel.pehkui;
 
 import java.util.UUID;
+import java.util.function.BiConsumer;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleData;
-import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.api.ScaleRegistries;
+import virtuoel.pehkui.util.FabricApiCompatibility;
 
 public class PehkuiClient implements ClientModInitializer
 {
 	@Override
 	public void onInitializeClient()
 	{
-		ClientSidePacketRegistry.INSTANCE.register(Pehkui.SCALE_PACKET, (packetContext, packetByteBuf) ->
+		final BiConsumer<MinecraftClient, PacketByteBuf> handler = (client, buf) ->
 		{
-			final MinecraftClient client = MinecraftClient.getInstance();
-			final UUID uuid = packetByteBuf.readUuid();
-			final Identifier typeId = packetByteBuf.readIdentifier();
+			final UUID uuid = buf.readUuid();
+			final Identifier typeId = buf.readIdentifier();
 			
-			final float scale = packetByteBuf.readFloat();
-			final float prevScale = packetByteBuf.readFloat();
-			final float fromScale = packetByteBuf.readFloat();
-			final float toScale = packetByteBuf.readFloat();
-			final int scaleTicks = packetByteBuf.readInt();
-			final int totalScaleTicks = packetByteBuf.readInt();
+			final CompoundTag scaleData = ScaleData.fromPacketByteBufToTag(buf);
 			
 			if (!ScaleRegistries.SCALE_TYPES.containsKey(typeId))
 			{
 				return;
 			}
 			
-			final CompoundTag scaleData = new CompoundTag();
-			
-			scaleData.putFloat("scale", scale);
-			scaleData.putFloat("previous", prevScale);
-			scaleData.putFloat("initial", fromScale);
-			scaleData.putFloat("target", toScale);
-			scaleData.putInt("ticks", scaleTicks);
-			scaleData.putInt("total_ticks", totalScaleTicks);
-			
-			packetContext.getTaskQueue().execute(() ->
+			client.execute(() ->
 			{
 				for (final Entity e : client.world.getEntities())
 				{
@@ -54,6 +42,19 @@ public class PehkuiClient implements ClientModInitializer
 					}
 				}
 			});
-		});
+		};
+		
+		if (FabricLoader.getInstance().isModLoaded("fabric-networking-api-v1"))
+		{
+			FabricApiCompatibility.Client.registerScalePacket(handler);
+		}
+		else if (FabricLoader.getInstance().isModLoaded("fabric-networking-v0"))
+		{
+			FabricApiCompatibility.Client.registerV0ScalePacket(handler);
+		}
+		else
+		{
+			Pehkui.LOGGER.fatal("Failed to register scale packet handler! Is Fabric API's networking module missing?");
+		}
 	}
 }

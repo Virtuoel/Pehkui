@@ -136,6 +136,27 @@ public class ScaleData
 		return buffer;
 	}
 	
+	public static CompoundTag fromPacketByteBufToTag(PacketByteBuf buffer)
+	{
+		final CompoundTag scaleData = new CompoundTag();
+		
+		final float scale = buffer.readFloat();
+		final float prevScale = buffer.readFloat();
+		final float fromScale = buffer.readFloat();
+		final float toScale = buffer.readFloat();
+		final int scaleTicks = buffer.readInt();
+		final int totalScaleTicks = buffer.readInt();
+		
+		scaleData.putFloat("scale", scale);
+		scaleData.putFloat("previous", prevScale);
+		scaleData.putFloat("initial", fromScale);
+		scaleData.putFloat("target", toScale);
+		scaleData.putInt("ticks", scaleTicks);
+		scaleData.putInt("total_ticks", totalScaleTicks);
+		
+		return scaleData;
+	}
+	
 	public void fromTag(CompoundTag scaleData)
 	{
 		this.scale = scaleData.contains("scale") ? scaleData.getFloat("scale") : 1.0F;
