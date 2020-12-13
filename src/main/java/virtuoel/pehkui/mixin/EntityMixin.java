@@ -42,6 +42,7 @@ import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -88,7 +89,7 @@ public abstract class EntityMixin implements ResizableEntity
 			
 			String key;
 			ScaleData scaleData;
-			for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+			for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 			{
 				key = entry.getKey().toString();
 				
@@ -112,7 +113,7 @@ public abstract class EntityMixin implements ResizableEntity
 		final CompoundTag typeData = new CompoundTag();
 		
 		ScaleData scaleData;
-		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			scaleData = pehkui_getScaleData(entry.getValue());
 			
@@ -131,7 +132,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "tick")
 	private void onTickPre(CallbackInfo info)
 	{
-		for (ScaleType type : ScaleType.REGISTRY.values())
+		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
 			pehkui_getScaleData(type).tick();
 		}
@@ -141,7 +142,7 @@ public abstract class EntityMixin implements ResizableEntity
 	private void onOnStartedTrackingBy(ServerPlayerEntity player, CallbackInfo info)
 	{
 		ScaleData scaleData;
-		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			scaleData = pehkui_getScaleData(entry.getValue());
 			

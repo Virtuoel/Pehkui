@@ -29,7 +29,7 @@ public class PehkuiClient implements ClientModInitializer
 			final int scaleTicks = packetByteBuf.readInt();
 			final int totalScaleTicks = packetByteBuf.readInt();
 			
-			if (!ScaleType.REGISTRY.containsKey(typeId))
+			if (!ScaleRegistries.SCALE_TYPES.containsKey(typeId))
 			{
 				return;
 			}
@@ -49,7 +49,7 @@ public class PehkuiClient implements ClientModInitializer
 				{
 					if (e.getUuid().equals(uuid))
 					{
-						ScaleData.of(e, ScaleType.REGISTRY.get(typeId)).fromTag(scaleData);
+						ScaleData.of(e, ScaleRegistries.SCALE_TYPES.get(typeId)).fromTag(scaleData);
 						break;
 					}
 				}

@@ -11,6 +11,7 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
 import virtuoel.pehkui.server.command.arguments.ScaleTypeArgumentType;
@@ -155,7 +156,7 @@ public class ScaleCommand
 					{
 						for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 						{
-							for (final ScaleType type : ScaleType.REGISTRY.values())
+							for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 							{
 								final ScaleData data = ScaleData.of(e, type);
 								data.fromScale(ScaleData.IDENTITY);
@@ -168,7 +169,7 @@ public class ScaleCommand
 				)
 				.executes(context ->
 				{
-					for (final ScaleType type : ScaleType.REGISTRY.values())
+					for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 					{
 						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
 						data.fromScale(ScaleData.IDENTITY);

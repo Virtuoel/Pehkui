@@ -10,8 +10,10 @@ import net.minecraft.util.Identifier;
 
 public class ScaleType
 {
-	public static final Map<Identifier, ScaleType> REGISTRY = new Object2ObjectOpenHashMap<>();
+	@Deprecated
+	public static final Map<Identifier, ScaleType> REGISTRY = ScaleRegistries.SCALE_TYPES;
 	
+	public static final ScaleType INVALID = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES));
 	public static final ScaleType BASE = registerDimensionScale("base");
 	public static final ScaleType WIDTH = registerDimensionScale("width");
 	public static final ScaleType HEIGHT = registerDimensionScale("height");

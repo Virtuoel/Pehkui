@@ -17,11 +17,12 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
+import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 
 public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 {
-	private static final Collection<String> EXAMPLES = ScaleType.REGISTRY.keySet().stream().map(Identifier::toString).collect(Collectors.toList());
+	private static final Collection<String> EXAMPLES = ScaleRegistries.SCALE_TYPES.keySet().stream().map(Identifier::toString).collect(Collectors.toList());
 	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType((arg) ->
 	{
 		return new LiteralText("Unknown scale type '" + arg + "'");
@@ -31,7 +32,7 @@ public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 	public ScaleType parse(StringReader stringReader) throws CommandSyntaxException
 	{
 		Identifier identifier = Identifier.fromCommandInput(stringReader);
-		return Optional.ofNullable(ScaleType.REGISTRY.get(identifier)).orElseThrow(() ->
+		return Optional.ofNullable(ScaleRegistries.SCALE_TYPES.get(identifier)).orElseThrow(() ->
 		{
 			return INVALID_ENTRY_EXCEPTION.create(identifier);
 		});
@@ -40,7 +41,7 @@ public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandSource.suggestIdentifiers(ScaleType.REGISTRY.keySet(), builder);
+		return CommandSource.suggestIdentifiers(ScaleRegistries.SCALE_TYPES.keySet(), builder);
 	}
 	
 	@Override

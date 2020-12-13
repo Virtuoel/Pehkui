@@ -25,7 +25,7 @@ public class ScaleUtils
 	public static void loadAverageScales(boolean sync, Object target, Object source, Object... sources)
 	{
 		ScaleData scaleData;
-		for (ScaleType type : ScaleType.REGISTRY.values())
+		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
 			scaleData = ScaleData.of((Entity) target, type);
 			
@@ -48,7 +48,7 @@ public class ScaleUtils
 	public static void loadScale(Object target, Object source, boolean sync)
 	{
 		ScaleData scaleData;
-		for (ScaleType type : ScaleType.REGISTRY.values())
+		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
 			scaleData = ScaleData.of((Entity) target, type);
 			scaleData.fromScale(ScaleData.of((Entity) source, type));
@@ -76,7 +76,7 @@ public class ScaleUtils
 		final UUID uuid = entity.getUuid();
 		
 		ScaleData scaleData;
-		for (Entry<Identifier, ScaleType> entry : ScaleType.REGISTRY.entrySet())
+		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			scaleData = ScaleData.of(entity, entry.getValue());
 			
