@@ -20,12 +20,12 @@ public class ZombieEntityMixin
 	@Inject(method = "method_7200(Lnet/minecraft/class_1299;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1642;method_5719(Lnet/minecraft/class_1297;)V", remap = false), remap = false)
 	private void onConvertTo(EntityType<? extends ZombieEntity> entityType, CallbackInfo info, ZombieEntity zombieEntity)
 	{
-		ScaleUtils.loadScale(zombieEntity, this, true);
+		ScaleUtils.loadScale(zombieEntity, this);
 	}
 	
 	@Inject(method = "method_5874(Lnet/minecraft/class_1309;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1641;method_5719(Lnet/minecraft/class_1297;)V", remap = false), remap = false)
 	private void onOnKilledOther(LivingEntity other, CallbackInfo info, VillagerEntity villagerEntity, ZombieVillagerEntity zombieVillagerEntity)
 	{
-		ScaleUtils.loadScale(zombieVillagerEntity, villagerEntity, true);
+		ScaleUtils.loadScale(zombieVillagerEntity, villagerEntity);
 	}
 }

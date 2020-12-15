@@ -59,28 +59,23 @@ public abstract class EntityMixin implements ResizableEntity
 	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
+		ScaleData scaleData = pehkui_scaleTypes.get(type);
+		
 		if (!pehkui_scaleTypes.containsKey(type))
 		{
-			pehkui_scaleTypes.put(type, pehkui_constructScaleData(type));
+			pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
 		}
 		
-		return pehkui_scaleTypes.get(type);
+		return scaleData;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "fromTag")
 	private void onFromTag(CompoundTag tag, CallbackInfo info)
 	{
-		final boolean isServerWorld = world != null && !world.isClient;
-		
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
 			final ScaleData scaleData = pehkui_getScaleData(ScaleType.BASE);
 			scaleData.fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
-			
-			if (scaleData.getScale() != 1.0F && isServerWorld)
-			{
-				scaleData.markForSync();
-			}
 		}
 		
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND))
@@ -97,11 +92,6 @@ public abstract class EntityMixin implements ResizableEntity
 				{
 					scaleData = pehkui_getScaleData(entry.getValue());
 					scaleData.fromTag(typeData.getCompound(key));
-					
-					if (scaleData.getScale() != 1.0F && isServerWorld)
-					{
-						scaleData.markForSync();
-					}
 				}
 			}
 		}
@@ -134,7 +124,7 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			pehkui_getScaleData(type).tick();
+			ScaleUtils.tickScale(pehkui_getScaleData(type));
 		}
 	}
 	
@@ -155,7 +145,7 @@ public abstract class EntityMixin implements ResizableEntity
 						.writeIdentifier(entry.getKey())
 					)
 				));
-				scaleData.scaleModified = false;
+				scaleData.markForSync(false);
 			}
 		}
 	}

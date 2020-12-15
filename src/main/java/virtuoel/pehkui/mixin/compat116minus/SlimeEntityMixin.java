@@ -16,7 +16,7 @@ public class SlimeEntityMixin
 	@ModifyArg(method = "method_5650", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private Entity removeSpawnEntityProxy(Entity entity)
 	{
-		ScaleUtils.loadScale(entity, this, true);
+		ScaleUtils.loadScale(entity, this);
 		
 		return entity;
 	}

@@ -19,6 +19,6 @@ public class VillagerEntityMixin
 	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/WitchEntity;refreshPositionAndAngles(DDDFF)V"))
 	private void onOnStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo info, WitchEntity witchEntity)
 	{
-		ScaleUtils.loadScale(witchEntity, this, true);
+		ScaleUtils.loadScale(witchEntity, this);
 	}
 }

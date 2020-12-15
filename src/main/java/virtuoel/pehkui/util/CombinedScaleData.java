@@ -1,18 +1,20 @@
 package virtuoel.pehkui.util;
 
 import java.util.Arrays;
-import java.util.Optional;
 import java.util.function.Supplier;
 
+import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleModifier;
+import virtuoel.pehkui.api.ScaleType;
 
 public class CombinedScaleData extends ScaleData
 {
 	final Supplier<ScaleData[]> otherData;
 	
-	public CombinedScaleData(Optional<Runnable> calculateDimensions, Supplier<ScaleData[]> otherData)
+	public CombinedScaleData(ScaleType scaleType, Entity entity, Supplier<ScaleData[]> otherData)
 	{
-		super(calculateDimensions);
+		super(scaleType, entity);
 		
 		this.otherData = otherData;
 	}
@@ -29,18 +31,31 @@ public class CombinedScaleData extends ScaleData
 		
 		for (final ScaleData d : getData())
 		{
-			d.tick();
+			ScaleUtils.tickScale(d);
 		}
 	}
 	
 	@Override
-	public void setScale(float scale)
+	public ScaleData addBaseValueModifier(ScaleModifier modifier)
 	{
-		super.setScale(scale);
+		super.addBaseValueModifier(modifier);
 		
 		for (final ScaleData d : getData())
 		{
-			d.setScale(scale);
+			d.addBaseValueModifier(modifier);
+		}
+		
+		return this;
+	}
+	
+	@Override
+	public void setBaseScale(float scale)
+	{
+		super.setBaseScale(scale);
+		
+		for (final ScaleData d : getData())
+		{
+			d.setBaseScale(scale);
 		}
 	}
 	
@@ -67,24 +82,24 @@ public class CombinedScaleData extends ScaleData
 	}
 	
 	@Override
-	public void markForSync()
+	public void markForSync(boolean sync)
 	{
-		super.markForSync();
+		super.markForSync(sync);
 		
 		for (final ScaleData d : getData())
 		{
-			d.markForSync();
+			d.markForSync(sync);
 		}
 	}
 	
 	@Override
-	public void fromScale(ScaleData scaleData)
+	public void onUpdate()
 	{
-		super.fromScale(scaleData);
+		super.onUpdate();
 		
 		for (final ScaleData d : getData())
 		{
-			d.fromScale(scaleData);
+			d.onUpdate();
 		}
 	}
 	
@@ -102,13 +117,13 @@ public class CombinedScaleData extends ScaleData
 	}
 	
 	@Override
-	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
+	public ScaleData averagedFromScales(ScaleData scaleData, ScaleData... scales)
 	{
-		final ScaleData ret = super.averagedFromScales(notifyListener, scaleData, scales);
+		final ScaleData ret = super.averagedFromScales(scaleData, scales);
 		
 		for (final ScaleData d : getData())
 		{
-			d.averagedFromScales(notifyListener, scaleData, scales);
+			d.averagedFromScales(scaleData, scales);
 		}
 		
 		return ret;

@@ -27,7 +27,7 @@ public abstract class ServerPlayerEntityMixin extends EntityMixin
 		
 		if (alive)
 		{
-			ScaleUtils.loadScale(this, oldPlayer, true);
+			ScaleUtils.loadScale(this, oldPlayer);
 		}
 	}
 }

@@ -17,12 +17,22 @@ import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleUtils
 {
-	public static void loadAverageScales(boolean sync, Object target, Object source, Object... sources)
+	public static void tickScale(ScaleData data)
+	{
+		final ScaleType type = data.getScaleType();
+		
+		type.getPreTickEvent().invoker().onEvent(data);
+		data.tick();
+		type.getPostTickEvent().invoker().onEvent(data);
+	}
+	
+	public static void loadAverageScales(Object target, Object source, Object... sources)
 	{
 		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
@@ -37,26 +47,16 @@ public class ScaleUtils
 			}
 			
 			scaleData.averagedFromScales(ScaleData.of((Entity) source, type), scales);
-			
-			if (sync)
-			{
-				scaleData.markForSync();
-			}
 		}
 	}
 	
-	public static void loadScale(Object target, Object source, boolean sync)
+	public static void loadScale(Object target, Object source)
 	{
 		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
 			scaleData = ScaleData.of((Entity) target, type);
 			scaleData.fromScale(ScaleData.of((Entity) source, type));
-			
-			if (sync)
-			{
-				scaleData.markForSync();
-			}
 		}
 	}
 	
@@ -64,10 +64,7 @@ public class ScaleUtils
 	{
 		if (scale != 1.0F)
 		{
-			final ScaleData scaleData = ScaleData.of((Entity) entity, ScaleType.BASE);
-			scaleData.setScale(scale);
-			scaleData.setTargetScale(scale);
-			scaleData.markForSync();
+			ScaleData.of((Entity) entity, ScaleType.BASE).setScale(scale);
 		}
 	}
 	
@@ -89,7 +86,7 @@ public class ScaleUtils
 						.writeIdentifier(entry.getKey())
 					)
 				));
-				scaleData.scaleModified = false;
+				scaleData.markForSync(false);
 			}
 		}
 	}
@@ -211,15 +208,6 @@ public class ScaleUtils
 			return 1.0F;
 		}
 		
-		final ResizableEntity e = ((ResizableEntity) entity);
-		
-		final float scale = e.pehkui_getScaleData(ScaleType.BASE).getScale(tickDelta);
-		
-		if (type == ScaleType.BASE)
-		{
-			return scale;
-		}
-		
-		return scale * e.pehkui_getScaleData(type).getScale(tickDelta);
+		return ((ResizableEntity) entity).pehkui_getScaleData(type).getScale(tickDelta);
 	}
 }

@@ -24,7 +24,7 @@ public class IdentityComponentMixin
 	{
 		if (identity != null)
 		{
-			ScaleUtils.loadScale(player, identity, true);
+			ScaleUtils.loadScale(player, identity);
 		}
 	}
 	
@@ -33,7 +33,7 @@ public class IdentityComponentMixin
 	{
 		if (this.identity != null)
 		{
-			ScaleUtils.loadScale(player, identity, true);
+			ScaleUtils.loadScale(player, identity);
 		}
 	}
 }

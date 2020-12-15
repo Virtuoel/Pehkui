@@ -24,6 +24,6 @@ public class AnimalMateGoalMixin
 	@Inject(method = "method_6249()V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private void onBreed(CallbackInfo info, PassiveEntity passiveEntity)
 	{
-		ScaleUtils.loadScale(passiveEntity, field_6404, true);
+		ScaleUtils.loadScale(passiveEntity, field_6404);
 	}
 }

@@ -18,6 +18,6 @@ public class EggEntityMixin
 	@Inject(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private void onOnCollision(HitResult hitResult, CallbackInfo info, int i, int j, ChickenEntity chickenEntity)
 	{
-		ScaleUtils.loadScale(chickenEntity, this, true);
+		ScaleUtils.loadScale(chickenEntity, this);
 	}
 }

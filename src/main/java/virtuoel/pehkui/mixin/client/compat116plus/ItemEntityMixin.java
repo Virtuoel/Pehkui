@@ -15,6 +15,6 @@ public abstract class ItemEntityMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/ItemEntity;)V")
 	private void onConstruct(ItemEntity entity, CallbackInfo info)
 	{
-		ScaleUtils.loadScale(this, entity, false);
+		ScaleUtils.loadScale(this, entity);
 	}
 }

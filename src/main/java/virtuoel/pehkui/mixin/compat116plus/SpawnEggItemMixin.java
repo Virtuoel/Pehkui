@@ -24,7 +24,7 @@ public class SpawnEggItemMixin
 	{
 		info.getReturnValue().ifPresent(e ->
 		{
-			ScaleUtils.loadScale(e, mobEntity, true);
+			ScaleUtils.loadScale(e, mobEntity);
 		});
 	}
 }

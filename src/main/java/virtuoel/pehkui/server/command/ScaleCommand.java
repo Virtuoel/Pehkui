@@ -39,8 +39,8 @@ public class ScaleCommand
 									final ScaleData data = ScaleData.of(e, type);
 									final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 									
-									data.setTargetScale(operation.apply(data.getScale(), scale));
-									data.markForSync();
+									data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+									data.markForSync(true);
 								}
 								
 								return 1;
@@ -54,8 +54,8 @@ public class ScaleCommand
 							final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
 							final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 							
-							data.setTargetScale(operation.apply(data.getScale(), scale));
-							data.markForSync();
+							data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+							data.markForSync(true);
 							
 							return 1;
 						})
@@ -72,8 +72,8 @@ public class ScaleCommand
 								final ScaleData data = ScaleData.of(e);
 								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 								
-								data.setTargetScale(operation.apply(data.getScale(), scale));
-								data.markForSync();
+								data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+								data.markForSync(true);
 							}
 							
 							return 1;
@@ -86,8 +86,8 @@ public class ScaleCommand
 						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
 						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 						
-						data.setTargetScale(operation.apply(data.getScale(), scale));
-						data.markForSync();
+						data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+						data.markForSync(true);
 						
 						return 1;
 					})
@@ -99,7 +99,7 @@ public class ScaleCommand
 						.executes(context ->
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-							final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity"), type).getScale();
+							final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity"), type).getBaseScale();
 							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 							return 1;
 						})
@@ -107,7 +107,7 @@ public class ScaleCommand
 					.executes(context ->
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-						final float scale = ScaleData.of(context.getSource().getEntityOrThrow(), type).getScale();
+						final float scale = ScaleData.of(context.getSource().getEntityOrThrow(), type).getBaseScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 						return 1;
 					})
@@ -115,14 +115,14 @@ public class ScaleCommand
 				.then(CommandManager.argument("entity", EntityArgumentType.entity())
 					.executes(context ->
 					{
-						final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getScale();
+						final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 						return 1;
 					})
 				)
 				.executes(context ->
 				{
-					final float scale = ScaleData.of(context.getSource().getEntityOrThrow()).getScale();
+					final float scale = ScaleData.of(context.getSource().getEntityOrThrow()).getBaseScale();
 					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 					return 1;
 				})
@@ -137,7 +137,7 @@ public class ScaleCommand
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 								final ScaleData data = ScaleData.of(e, type);
 								data.fromScale(ScaleData.IDENTITY);
-								data.markForSync();
+								data.markForSync(true);
 							}
 							return 1;
 						})
@@ -147,7 +147,7 @@ public class ScaleCommand
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
 						data.fromScale(ScaleData.IDENTITY);
-						data.markForSync();
+						data.markForSync(true);
 						return 1;
 					})
 				)
@@ -160,7 +160,7 @@ public class ScaleCommand
 							{
 								final ScaleData data = ScaleData.of(e, type);
 								data.fromScale(ScaleData.IDENTITY);
-								data.markForSync();
+								data.markForSync(true);
 							}
 						}
 						
@@ -173,7 +173,7 @@ public class ScaleCommand
 					{
 						final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
 						data.fromScale(ScaleData.IDENTITY);
-						data.markForSync();
+						data.markForSync(true);
 					}
 					
 					return 1;
@@ -194,7 +194,7 @@ public class ScaleCommand
 										final ScaleData data = ScaleData.of(e, type);
 										
 										data.setScaleTickDelay(ticks);
-										data.markForSync();
+										data.markForSync(true);
 									}
 									
 									return 1;
@@ -208,7 +208,7 @@ public class ScaleCommand
 								final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow(), type);
 								
 								data.setScaleTickDelay(ticks);
-								data.markForSync();
+								data.markForSync(true);
 								
 								return 1;
 							})
@@ -225,7 +225,7 @@ public class ScaleCommand
 									final ScaleData data = ScaleData.of(e);
 									
 									data.setScaleTickDelay(ticks);
-									data.markForSync();
+									data.markForSync(true);
 								}
 								
 								return 1;
@@ -238,7 +238,7 @@ public class ScaleCommand
 							final ScaleData data = ScaleData.of(context.getSource().getEntityOrThrow());
 							
 							data.setScaleTickDelay(ticks);
-							data.markForSync();
+							data.markForSync(true);
 							
 							return 1;
 						})
@@ -303,7 +303,7 @@ public class ScaleCommand
 							{
 								final ScaleData data = ScaleData.of(e);
 								data.setTargetScale(scale);
-								data.markForSync();
+								data.markForSync(true);
 							}
 						}
 						catch (Exception e)
@@ -333,7 +333,7 @@ public class ScaleCommand
 							{
 								final ScaleData data = ScaleData.of(e);
 								data.setScaleTickDelay(ticks);
-								data.markForSync();
+								data.markForSync(true);
 							}
 						}
 						catch (Exception e)
@@ -355,7 +355,7 @@ public class ScaleCommand
 			.then(CommandManager.argument("entity", EntityArgumentType.entity())
 				.executes(context ->
 				{
-					final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getScale();
+					final float scale = ScaleData.of(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
 					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
 					return 1;
 				})

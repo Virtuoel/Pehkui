@@ -19,7 +19,7 @@ public class MobEntityMixin
 		
 		if (e != null)
 		{
-			ScaleUtils.loadScale(e, this, true);
+			ScaleUtils.loadScale(e, this);
 		}
 	}
 }

@@ -8,7 +8,7 @@ public interface ResizableEntity
 {
 	default ScaleData pehkui_constructScaleData(ScaleType type)
 	{
-		return new ScaleData(type.changeListenerFactory.apply((Entity) (Object) this));
+		return ScaleData.Builder.create().type(type).entity((Entity) (Object) this).build();
 	}
 	
 	default ScaleData pehkui_getScaleData(ScaleType type)

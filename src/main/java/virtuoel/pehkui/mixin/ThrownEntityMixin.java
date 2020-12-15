@@ -13,8 +13,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import virtuoel.pehkui.api.ScaleData;
-import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ThrownEntity.class)
@@ -34,15 +32,7 @@ public abstract class ThrownEntityMixin extends EntityMixin
 			updatePosition(pos.x, pos.y + ((1.0F - heightScale) * 0.1D), pos.z);
 		}
 		
-		final float scale = ScaleUtils.getProjectileScale(owner);
-		if (scale != 1.0F)
-		{
-			final ScaleData scaleData = pehkui_getScaleData(ScaleType.BASE);
-			
-			scaleData.setScale(scale);
-			scaleData.setTargetScale(scale);
-			scaleData.markForSync();
-		}
+		ScaleUtils.setScale(this, ScaleUtils.getProjectileScale(owner));
 	}
 	
 	@ModifyArg(method = "tick()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/thrown/ThrownEntity;setVelocity(DDD)V"))

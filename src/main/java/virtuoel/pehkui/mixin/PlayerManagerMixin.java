@@ -20,7 +20,7 @@ public class PlayerManagerMixin
 	{
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			ScaleData.of(player, type).markForSync();
+			ScaleData.of(player, type).markForSync(true);
 		}
 	}
 }

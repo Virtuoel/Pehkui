@@ -12,6 +12,7 @@ import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin({
 	AbstractDecorationEntity.class,
@@ -27,7 +28,7 @@ public abstract class PreEntityTickMixin extends EntityMixin
 	{
 		for (final ScaleType scaleType : ScaleRegistries.SCALE_TYPES.values())
 		{
-			pehkui_getScaleData(type).tick();
+			ScaleUtils.tickScale(pehkui_getScaleData(scaleType));
 		}
 	}
 }

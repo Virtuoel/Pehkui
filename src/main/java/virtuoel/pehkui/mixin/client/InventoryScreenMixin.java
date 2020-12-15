@@ -1,7 +1,5 @@
 package virtuoel.pehkui.mixin.client;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,9 +14,9 @@ import virtuoel.pehkui.api.ScaleType;
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin
 {
-	@Unique private static final ThreadLocal<ScaleData> SCALE = ThreadLocal.withInitial(() -> new ScaleData(Optional.empty()));
-	@Unique private static final ThreadLocal<ScaleData> WIDTH_SCALE = ThreadLocal.withInitial(() -> new ScaleData(Optional.empty()));
-	@Unique private static final ThreadLocal<ScaleData> HEIGHT_SCALE = ThreadLocal.withInitial(() -> new ScaleData(Optional.empty()));
+	@Unique private static final ThreadLocal<ScaleData> SCALE = ThreadLocal.withInitial(ScaleData.Builder.create()::build);
+	@Unique private static final ThreadLocal<ScaleData> WIDTH_SCALE = ThreadLocal.withInitial(ScaleData.Builder.create()::build);
+	@Unique private static final ThreadLocal<ScaleData> HEIGHT_SCALE = ThreadLocal.withInitial(ScaleData.Builder.create()::build);
 	
 	@Inject(method = "drawEntity", at = @At(value = "HEAD"))
 	private static void onDrawEntityPre(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)

@@ -18,6 +18,6 @@ public class ZombieVillagerEntityMixin
 	@Inject(method = "method_7197(Lnet/minecraft/class_3218;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1646;method_5719(Lnet/minecraft/class_1297;)V", remap = false), remap = false)
 	private void onFinishConversion(ServerWorld world, CallbackInfo info, VillagerEntity villagerEntity)
 	{
-		ScaleUtils.loadScale(villagerEntity, this, true);
+		ScaleUtils.loadScale(villagerEntity, this);
 	}
 }

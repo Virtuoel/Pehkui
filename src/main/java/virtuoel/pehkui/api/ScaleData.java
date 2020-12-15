@@ -1,17 +1,26 @@
 package virtuoel.pehkui.api;
 
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.SortedSet;
 
+import org.jetbrains.annotations.Nullable;
+
+import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleData
 {
-	public static final ScaleData IDENTITY = new ImmutableScaleData(1.0F);
+	public static final ScaleData IDENTITY = new Builder().buildImmutable(1.0F);
 	
 	public static ScaleData of(Entity entity, ScaleType type)
 	{
@@ -30,34 +39,55 @@ public class ScaleData
 	protected int scaleTicks = 0;
 	protected int totalScaleTicks = 20;
 	
+	@Deprecated
 	public boolean scaleModified = false;
+	private boolean shouldSync = false;
 	
-	protected Optional<Runnable> changeListener;
+	@Deprecated
+	protected Optional<Runnable> changeListener = Optional.empty();
 	
+	protected final ScaleType scaleType;
+	@Nullable
+	protected final Entity entity;
+	
+	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
+	{
+		this.scaleType = scaleType;
+		this.entity = entity;
+		
+		for (ScaleModifier m : getScaleType().getDefaultBaseValueModifiers())
+		{
+			addBaseValueModifier(m);
+		}
+	}
+	
+	@Deprecated
 	public ScaleData(Optional<Runnable> changeListener)
 	{
+		this(ScaleType.INVALID, null);
 		this.changeListener = changeListener;
 	}
 	
 	public void tick()
 	{
-		final float currScale = getScale();
+		final float currScale = getBaseScale();
 		final float targetScale = getTargetScale();
+		final int scaleTickDelay = getScaleTickDelay();
 		
 		if (currScale != targetScale)
 		{
 			this.prevScale = currScale;
-			if (this.scaleTicks >= this.totalScaleTicks)
+			if (this.scaleTicks >= scaleTickDelay)
 			{
 				this.fromScale = targetScale;
 				this.scaleTicks = 0;
-				setScale(targetScale);
+				setBaseScale(targetScale);
 			}
 			else
 			{
 				this.scaleTicks++;
-				final float nextScale = this.scale + ((targetScale - this.fromScale) / (float) this.totalScaleTicks);
-				setScale(nextScale);
+				final float nextScale = currScale + ((targetScale - this.fromScale) / (float) scaleTickDelay);
+				setBaseScale(nextScale);
 			}
 		}
 		else if (this.prevScale != currScale)
@@ -66,21 +96,70 @@ public class ScaleData
 		}
 	}
 	
+	public ScaleType getScaleType()
+	{
+		return this.scaleType;
+	}
+	
+	@Nullable
+	public Entity getEntity()
+	{
+		return this.entity;
+	}
+	
+	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
+	
+	public ScaleData addBaseValueModifier(ScaleModifier modifier)
+	{
+		if (modifier != null)
+		{
+			baseValueModifiers.add(modifier);
+		}
+		
+		return this;
+	}
+	
+	public float getBaseScale()
+	{
+		return getBaseScale(1.0F);
+	}
+	
+	public float getBaseScale(float delta)
+	{
+		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
+	}
+	
 	public float getScale()
 	{
 		return getScale(1.0F);
 	}
 	
+	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
+	{
+		for (final ScaleModifier m : modifiers)
+		{
+			value = m.modifyScale(this, value, delta);
+		}
+		
+		return value;
+	}
+	
 	public float getScale(float delta)
 	{
-		return delta == 1.0F ? this.scale : MathHelper.lerp(delta, getPrevScale(), this.scale);
+		return computeScale(getBaseScale(delta), baseValueModifiers, delta);
 	}
 	
 	public void setScale(float scale)
 	{
-		this.prevScale = this.scale;
+		setBaseScale(scale);
+		setTargetScale(scale);
+	}
+	
+	public void setBaseScale(float scale)
+	{
+		this.prevScale = getBaseScale();
 		this.scale = scale;
-		changeListener.ifPresent(Runnable::run);
+		onUpdate();
 	}
 	
 	public float getInitialScale()
@@ -95,7 +174,7 @@ public class ScaleData
 	
 	public void setTargetScale(float targetScale)
 	{
-		this.fromScale = this.scale;
+		this.fromScale = getBaseScale();
 		this.toScale = targetScale;
 		this.scaleTicks = 0;
 	}
@@ -115,14 +194,32 @@ public class ScaleData
 		return this.prevScale;
 	}
 	
+	public void markForSync(boolean sync)
+	{
+		final Entity e = getEntity();
+		
+		if (e != null && e.world != null && !e.world.isClient)
+		{
+			this.shouldSync = sync;
+		}
+	}
+	
+	@Deprecated
 	public void markForSync()
 	{
 		this.scaleModified = true;
+		markForSync(true);
 	}
 	
 	public boolean shouldSync()
 	{
-		return this.scaleModified;
+		return this.shouldSync;
+	}
+	
+	public void onUpdate()
+	{
+		markForSync(true);
+		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
 	}
 	
 	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
@@ -132,7 +229,14 @@ public class ScaleData
 		.writeFloat(this.fromScale)
 		.writeFloat(this.toScale)
 		.writeInt(this.scaleTicks)
-		.writeInt(this.totalScaleTicks);
+		.writeInt(this.totalScaleTicks)
+		.writeInt(baseValueModifiers.size());
+		
+		for (final ScaleModifier modifier : baseValueModifiers)
+		{
+			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
+		}
+		
 		return buffer;
 	}
 	
@@ -146,6 +250,7 @@ public class ScaleData
 		final float toScale = buffer.readFloat();
 		final int scaleTicks = buffer.readInt();
 		final int totalScaleTicks = buffer.readInt();
+		final int baseModifierCount = buffer.readInt();
 		
 		scaleData.putFloat("scale", scale);
 		scaleData.putFloat("previous", prevScale);
@@ -153,6 +258,18 @@ public class ScaleData
 		scaleData.putFloat("target", toScale);
 		scaleData.putInt("ticks", scaleTicks);
 		scaleData.putInt("total_ticks", totalScaleTicks);
+		
+		if (baseModifierCount != 0)
+		{
+			final ListTag modifiers = new ListTag();
+			
+			for (int i = 0; i < baseModifierCount; i++)
+			{
+				modifiers.add(StringTag.of(buffer.readString()));
+			}
+			
+			scaleData.put("baseValueModifiers", modifiers);
+		}
 		
 		return scaleData;
 	}
@@ -166,16 +283,51 @@ public class ScaleData
 		this.scaleTicks = scaleData.contains("ticks") ? scaleData.getInt("ticks") : 0;
 		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : 20;
 		
-		changeListener.ifPresent(Runnable::run);
+		baseValueModifiers.clear();
+		
+		for (ScaleModifier m : getScaleType().getDefaultBaseValueModifiers())
+		{
+			addBaseValueModifier(m);
+		}
+		
+		if (scaleData.contains("baseValueModifiers"))
+		{
+			final ListTag modifiers = scaleData.getList("baseValueModifiers", NbtType.STRING);
+			
+			Identifier id;
+			ScaleModifier modifier;
+			for (int i = 0; i < modifiers.size(); i++)
+			{
+				id = Identifier.tryParse(modifiers.getString(i));
+				modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
+				
+				addBaseValueModifier(modifier);
+			}
+		}
+		
+		onUpdate();
 	}
 	
 	public CompoundTag toTag(CompoundTag tag)
 	{
-		tag.putFloat("scale", getScale());
-		tag.putFloat("initial", getInitialScale());
-		tag.putFloat("target", getTargetScale());
+		tag.putFloat("scale", this.getBaseScale());
+		tag.putFloat("initial", this.getInitialScale());
+		tag.putFloat("target", this.getTargetScale());
 		tag.putInt("ticks", this.scaleTicks);
 		tag.putInt("total_ticks", this.totalScaleTicks);
+		
+		if (!baseValueModifiers.isEmpty())
+		{
+			final ListTag modifiers = new ListTag();
+			
+			for (ScaleModifier modifier : baseValueModifiers)
+			{
+				modifiers.add(StringTag.of(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier).toString()));
+			}
+			
+			tag.put("baseValueModifiers", modifiers);
+		}
+		
 		return tag;
 	}
 	
@@ -186,7 +338,7 @@ public class ScaleData
 	
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
-		this.scale = scaleData.getScale();
+		this.scale = scaleData.getBaseScale();
 		this.prevScale = scaleData.prevScale;
 		this.fromScale = scaleData.getInitialScale();
 		this.toScale = scaleData.getTargetScale();
@@ -195,7 +347,7 @@ public class ScaleData
 		
 		if (notifyListener)
 		{
-			this.changeListener.ifPresent(Runnable::run);
+			onUpdate();
 		}
 		
 		return this;
@@ -203,12 +355,7 @@ public class ScaleData
 	
 	public ScaleData averagedFromScales(ScaleData scaleData, ScaleData... scales)
 	{
-		return averagedFromScales(true, scaleData, scales);
-	}
-	
-	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
-	{
-		float scale = scaleData.getScale();
+		float scale = scaleData.getBaseScale();
 		float prevScale = scaleData.prevScale;
 		float fromScale = scaleData.getInitialScale();
 		float toScale = scaleData.getTargetScale();
@@ -217,7 +364,7 @@ public class ScaleData
 		
 		for (final ScaleData data : scales)
 		{
-			scale += data.getScale();
+			scale += data.getBaseScale();
 			prevScale += data.prevScale;
 			fromScale += data.getInitialScale();
 			toScale += data.getTargetScale();
@@ -234,12 +381,15 @@ public class ScaleData
 		this.scaleTicks = Math.round(scaleTicks / count);
 		this.totalScaleTicks = Math.round(totalScaleTicks / count);
 		
-		if (notifyListener)
-		{
-			this.changeListener.ifPresent(Runnable::run);
-		}
+		onUpdate();
 		
 		return this;
+	}
+	
+	@Deprecated
+	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
+	{
+		return averagedFromScales(scaleData, scales);
 	}
 	
 	@Override
@@ -268,18 +418,63 @@ public class ScaleData
 			Float.floatToIntBits(fromScale) == Float.floatToIntBits(other.fromScale) &&
 			Float.floatToIntBits(toScale) == Float.floatToIntBits(other.toScale) &&
 			scaleTicks == other.scaleTicks &&
-			totalScaleTicks == other.totalScaleTicks;
+			totalScaleTicks == other.totalScaleTicks &&
+			Float.floatToIntBits(getScale()) == Float.floatToIntBits(other.getScale());
+	}
+	
+	public static class Builder
+	{
+		private Entity entity = null;
+		private ScaleType type = null;
+		
+		public static Builder create()
+		{
+			return new Builder();
+		}
+		
+		private Builder()
+		{
+			
+		}
+		
+		public Builder type(ScaleType type)
+		{
+			this.type = type;
+			return this;
+		}
+		
+		public Builder entity(@Nullable Entity entity)
+		{
+			this.entity = entity;
+			return this;
+		}
+		
+		public ImmutableScaleData buildImmutable(float value)
+		{
+			return new ImmutableScaleData(value, type == null ? ScaleType.INVALID : type, entity);
+		}
+		
+		public ScaleData build()
+		{
+			return new ScaleData(type == null ? ScaleType.INVALID : type, entity);
+		}
 	}
 	
 	public static class ImmutableScaleData extends ScaleData
 	{
-		public ImmutableScaleData(float scale)
+		protected ImmutableScaleData(float scale, ScaleType scaleType, @Nullable Entity entity)
 		{
-			super(Optional.empty());
+			super(scaleType, entity);
 			this.scale = scale;
 			this.prevScale = scale;
 			this.fromScale = scale;
 			this.toScale = scale;
+		}
+		
+		@Deprecated
+		public ImmutableScaleData(float scale)
+		{
+			this(scale, ScaleType.INVALID, null);
 		}
 		
 		@Override
@@ -289,7 +484,19 @@ public class ScaleData
 		}
 		
 		@Override
-		public void setScale(float scale)
+		public ScaleData addBaseValueModifier(ScaleModifier modifier)
+		{
+			return this;
+		}
+		
+		@Override
+		public float getScale(float delta)
+		{
+			return getBaseScale(delta);
+		}
+		
+		@Override
+		public void setBaseScale(float scale)
 		{
 			
 		}
@@ -307,7 +514,13 @@ public class ScaleData
 		}
 		
 		@Override
-		public void markForSync()
+		public void markForSync(boolean sync)
+		{
+			
+		}
+		
+		@Override
+		public void onUpdate()
 		{
 			
 		}
@@ -319,9 +532,9 @@ public class ScaleData
 		}
 		
 		@Override
-		public void fromScale(ScaleData scaleData)
+		public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 		{
-			
+			return this;
 		}
 	}
 }

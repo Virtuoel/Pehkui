@@ -21,7 +21,7 @@ public abstract class PlayerEntityMixin implements ResizableEntity
 	@Override
 	public ScaleData pehkui_constructScaleData(ScaleType type)
 	{
-		return new CombinedScaleData(type.changeListenerFactory.apply((Entity) (Object) this), () ->
+		return new CombinedScaleData(type, (Entity) (Object) this, () ->
 		{
 			final LivingEntity identity = IdentityCompatibility.INSTANCE.getIdentity((PlayerEntity) (Object) this);
 			

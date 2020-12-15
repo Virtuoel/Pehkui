@@ -18,6 +18,6 @@ public class PigEntityMixin
 	@Inject(method = "method_5800(Lnet/minecraft/class_1538;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1590;method_5808(DDDFF)V", remap = false), remap = false)
 	private void onOnStruckByLightning(LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
-		ScaleUtils.loadScale(zombifiedPiglinEntity, this, true);
+		ScaleUtils.loadScale(zombifiedPiglinEntity, this);
 	}
 }
