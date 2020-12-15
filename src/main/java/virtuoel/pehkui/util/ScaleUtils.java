@@ -37,16 +37,16 @@ public class ScaleUtils
 		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			scaleData = ScaleData.of((Entity) target, type);
+			scaleData = type.getScaleData((Entity) target);
 			
 			ScaleData[] scales = new ScaleData[sources.length];
 			
 			for (int i = 0; i < sources.length; i++)
 			{
-				scales[i] = ScaleData.of((Entity) sources[i], type);
+				scales[i] = type.getScaleData((Entity) sources[i]);
 			}
 			
-			scaleData.averagedFromScales(ScaleData.of((Entity) source, type), scales);
+			scaleData.averagedFromScales(type.getScaleData((Entity) source), scales);
 		}
 	}
 	
@@ -55,8 +55,8 @@ public class ScaleUtils
 		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			scaleData = ScaleData.of((Entity) target, type);
-			scaleData.fromScale(ScaleData.of((Entity) source, type));
+			scaleData = type.getScaleData((Entity) target);
+			scaleData.fromScale(type.getScaleData((Entity) source));
 		}
 	}
 	
@@ -64,7 +64,7 @@ public class ScaleUtils
 	{
 		if (scale != 1.0F)
 		{
-			ScaleData.of((Entity) entity, ScaleType.BASE).setScale(scale);
+			ScaleType.BASE.getScaleData((Entity) entity).setScale(scale);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public class ScaleUtils
 		ScaleData scaleData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
-			scaleData = ScaleData.of(entity, entry.getValue());
+			scaleData = entry.getValue().getScaleData(entity);
 			
 			if (scaleData.shouldSync())
 			{
@@ -208,6 +208,6 @@ public class ScaleUtils
 			return 1.0F;
 		}
 		
-		return ((ResizableEntity) entity).pehkui_getScaleData(type).getScale(tickDelta);
+		return type.getScaleData((Entity) entity).getScale(tickDelta);
 	}
 }

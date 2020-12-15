@@ -16,17 +16,18 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleData
 {
 	public static final ScaleData IDENTITY = new Builder().buildImmutable(1.0F);
 	
+	@Deprecated
 	public static ScaleData of(Entity entity, ScaleType type)
 	{
-		return ((ResizableEntity) entity).pehkui_getScaleData(type);
+		return type.getScaleData(entity);
 	}
 	
+	@Deprecated
 	public static ScaleData of(Entity entity)
 	{
 		return of(entity, ScaleType.BASE);

@@ -37,7 +37,7 @@ public class PehkuiClient implements ClientModInitializer
 				{
 					if (e.getUuid().equals(uuid))
 					{
-						ScaleData.of(e, ScaleRegistries.SCALE_TYPES.get(typeId)).fromTag(scaleData);
+						ScaleRegistries.SCALE_TYPES.get(typeId).getScaleData(e).fromTag(scaleData);
 						break;
 					}
 				}

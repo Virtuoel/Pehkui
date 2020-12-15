@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
+import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleType
 {
@@ -64,7 +65,7 @@ public class ScaleType
 			{
 				if (scaleType.getDefaultBaseValueModifiers().contains(ScaleModifier.BASE_MULTIPLIER))
 				{
-					ScaleData.of(s.getEntity(), scaleType).markForSync(true);
+					scaleType.getScaleData(s.getEntity()).markForSync(true);
 				}
 			}
 		});
@@ -100,10 +101,15 @@ public class ScaleType
 		return type;
 	}
 	
+	public ScaleData getScaleData(Entity entity)
+	{
+		return ((ResizableEntity) entity).pehkui_getScaleData(this);
+	}
+	
 	@Deprecated
 	public final Function<Entity, Optional<Runnable>> changeListenerFactory = e ->
 	{
-		return Optional.of(() -> getScaleChangedEvent().invoker().onEvent(ScaleData.of(e, this)));
+		return Optional.of(() -> getScaleChangedEvent().invoker().onEvent(getScaleData(e)));
 	};
 	
 	private final Set<ScaleModifier> defaultBaseValueModifiers;

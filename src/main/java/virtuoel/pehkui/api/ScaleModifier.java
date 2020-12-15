@@ -10,7 +10,7 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 		@Override
 		public float modifyScale(final ScaleData scaleData, float modifiedScale, final float delta)
 		{
-			return ScaleData.of(scaleData.getEntity()).getScale(delta) * modifiedScale;
+			return ScaleType.BASE.getScaleData(scaleData.getEntity()).getScale(delta) * modifiedScale;
 		}
 	});
 	

@@ -21,19 +21,19 @@ public abstract class InventoryScreenMixin
 	@Inject(method = "drawEntity", at = @At(value = "HEAD"))
 	private static void onDrawEntityPre(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
 	{
-		SCALE.get().fromScale(ScaleData.of(entity, ScaleType.BASE), false);
-		WIDTH_SCALE.get().fromScale(ScaleData.of(entity, ScaleType.WIDTH), false);
-		HEIGHT_SCALE.get().fromScale(ScaleData.of(entity, ScaleType.HEIGHT), false);
-		ScaleData.of(entity, ScaleType.BASE).fromScale(ScaleData.IDENTITY, false);
-		ScaleData.of(entity, ScaleType.WIDTH).fromScale(ScaleData.IDENTITY, false);
-		ScaleData.of(entity, ScaleType.HEIGHT).fromScale(ScaleData.IDENTITY, false);
+		SCALE.get().fromScale(ScaleType.BASE.getScaleData(entity), false);
+		WIDTH_SCALE.get().fromScale(ScaleType.WIDTH.getScaleData(entity), false);
+		HEIGHT_SCALE.get().fromScale(ScaleType.HEIGHT.getScaleData(entity), false);
+		ScaleType.BASE.getScaleData(entity).fromScale(ScaleData.IDENTITY, false);
+		ScaleType.WIDTH.getScaleData(entity).fromScale(ScaleData.IDENTITY, false);
+		ScaleType.HEIGHT.getScaleData(entity).fromScale(ScaleData.IDENTITY, false);
 	}
 	
 	@Inject(method = "drawEntity", at = @At(value = "RETURN"))
 	private static void onDrawEntityPost(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
 	{
-		ScaleData.of(entity, ScaleType.BASE).fromScale(SCALE.get(), false);
-		ScaleData.of(entity, ScaleType.WIDTH).fromScale(WIDTH_SCALE.get(), false);
-		ScaleData.of(entity, ScaleType.HEIGHT).fromScale(HEIGHT_SCALE.get(), false);
+		ScaleType.BASE.getScaleData(entity).fromScale(SCALE.get(), false);
+		ScaleType.WIDTH.getScaleData(entity).fromScale(WIDTH_SCALE.get(), false);
+		ScaleType.HEIGHT.getScaleData(entity).fromScale(HEIGHT_SCALE.get(), false);
 	}
 }

@@ -25,7 +25,7 @@ public abstract class PlayerEntityMixin implements ResizableEntity
 		{
 			final LivingEntity identity = IdentityCompatibility.INSTANCE.getIdentity((PlayerEntity) (Object) this);
 			
-			return identity == null ? EMPTY : new ScaleData[] { ScaleData.of(identity, type) };
+			return identity == null ? EMPTY : new ScaleData[] { type.getScaleData(identity) };
 		});
 	}
 }
