@@ -19,7 +19,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class ScaleData
 {
-	public static final ScaleData IDENTITY = new Builder().buildImmutable(1.0F);
+	public static final ScaleData IDENTITY = Builder.create().buildImmutable(1.0F);
 	
 	@Deprecated
 	public static ScaleData of(Entity entity, ScaleType type)
