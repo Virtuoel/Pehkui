@@ -127,6 +127,26 @@ public class ScaleCommand
 					return 1;
 				})
 			)
+			.then(CommandManager.literal("compute")
+				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScale();
+							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getScale();
+						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						return 1;
+					})
+				)
+			)
 			.then(CommandManager.literal("reset")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("targets", EntityArgumentType.entities())
