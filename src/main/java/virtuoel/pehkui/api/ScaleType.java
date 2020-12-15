@@ -185,7 +185,7 @@ public class ScaleType
 	public ScaleType(Function<Entity, Optional<Runnable>> changeListenerFactory)
 	{
 		this(Collections.emptySet());
-		getScaleChangedEvent().register(s -> changeListenerFactory.apply(s.entity).ifPresent(Runnable::run));
+		getScaleChangedEvent().register(s -> changeListenerFactory.apply(s.getEntity()).ifPresent(Runnable::run));
 	}
 	
 	public static class Builder
