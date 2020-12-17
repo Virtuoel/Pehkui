@@ -219,11 +219,11 @@ curseforge {
 	
 	if(project.hasProperty("curseforge_id")) {
 		project {
-			id = project.properties.curseforge_id
+			id = project.curseforge_id
 			
-			releaseType = project.release_type
-			if(project.hasProperty("release_versions")) {
-				project.release_versions.split(", ").each { String gameVersion ->
+			releaseType = project.curseforge_release_type
+			if(project.hasProperty("curseforge_release_versions")) {
+				project.curseforge_release_versions.split(", ").each { String gameVersion ->
 					addGameVersion gameVersion
 				}
 			}
@@ -291,18 +291,23 @@ task publishModrinth (type: TaskModrinthUpload) {
 	}
 	
 	if(project.hasProperty("modrinth_id")) {
-		projectId = project.properties.modrinth_id
-		versionNumber = project.version
+		projectId = project.modrinth_id
 		
-		uploadFile = remapJar
-		addFile(sourcesJar)
+		releaseType = project.modrinth_release_type
 		
-		if(project.hasProperty("release_versions")) {
-			project.release_versions.split(", ").each { String gameVersion ->
+		addLoader "fabric"
+		
+		if(project.hasProperty("modrinth_release_versions")) {
+			project.modrinth_release_versions.split(", ").each { String gameVersion ->
 				addGameVersion gameVersion
 			}
 		}
 		
-		addLoader("fabric")
+		versionName = "${archives_base_name} ${project.version}"
+		
+		versionNumber = project.version
+		
+		uploadFile = remapJar
+		addFile sourcesJar
 	}
 }
