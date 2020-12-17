@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
@@ -21,7 +21,6 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
-import io.netty.buffer.Unpooled;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
@@ -32,9 +31,6 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -125,28 +121,6 @@ public abstract class EntityMixin implements ResizableEntity
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
 			ScaleUtils.tickScale(pehkui_getScaleData(type));
-		}
-	}
-	
-	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
-	private void onOnStartedTrackingBy(ServerPlayerEntity player, CallbackInfo info)
-	{
-		ScaleData scaleData;
-		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
-		{
-			scaleData = pehkui_getScaleData(entry.getValue());
-			
-			if (scaleData.getScale() != 1.0F)
-			{
-				player.networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
-					scaleData.toPacketByteBuf(
-						new PacketByteBuf(Unpooled.buffer())
-						.writeUuid(((Entity) (Object) this).getUuid())
-						.writeIdentifier(entry.getKey())
-					)
-				));
-				scaleData.markForSync(false);
-			}
 		}
 	}
 	

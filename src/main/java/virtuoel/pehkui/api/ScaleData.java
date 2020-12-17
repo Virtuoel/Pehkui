@@ -251,7 +251,6 @@ public class ScaleData
 		final float toScale = buffer.readFloat();
 		final int scaleTicks = buffer.readInt();
 		final int totalScaleTicks = buffer.readInt();
-		final int baseModifierCount = buffer.readInt();
 		
 		scaleData.putFloat("scale", scale);
 		scaleData.putFloat("previous", prevScale);
@@ -259,6 +258,8 @@ public class ScaleData
 		scaleData.putFloat("target", toScale);
 		scaleData.putInt("ticks", scaleTicks);
 		scaleData.putInt("total_ticks", totalScaleTicks);
+		
+		final int baseModifierCount = buffer.readInt();
 		
 		if (baseModifierCount != 0)
 		{

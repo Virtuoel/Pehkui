@@ -31,7 +31,7 @@ public abstract class EntityTrackerEntryMixin
 	@Inject(at = @At("TAIL"), method = "sendPackets")
 	private void onSendPackets(Consumer<Packet<?>> sender, CallbackInfo info)
 	{
-		ScaleUtils.syncScalesIfNeeded(entity, sender);
+		ScaleUtils.syncScalesOnTrackingStart(entity, sender);
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 7.62939453125E-6D))

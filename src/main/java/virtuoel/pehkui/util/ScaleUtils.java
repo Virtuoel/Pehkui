@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -70,6 +71,16 @@ public class ScaleUtils
 	
 	public static void syncScalesIfNeeded(Entity entity, Consumer<Packet<?>> packetSender)
 	{
+		syncScales(entity, packetSender, ScaleData::shouldSync, true);
+	}
+	
+	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
+	{
+		syncScales(entity, packetSender, s -> !s.equals(ScaleData.IDENTITY), false);
+	}
+	
+	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
+	{
 		final UUID uuid = entity.getUuid();
 		
 		ScaleData scaleData;
@@ -77,7 +88,7 @@ public class ScaleUtils
 		{
 			scaleData = entry.getValue().getScaleData(entity);
 			
-			if (scaleData.shouldSync())
+			if (condition.test(scaleData))
 			{
 				packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
 					scaleData.toPacketByteBuf(
@@ -86,7 +97,11 @@ public class ScaleUtils
 						.writeIdentifier(entry.getKey())
 					)
 				));
-				scaleData.markForSync(false);
+				
+				if (unmark)
+				{
+					scaleData.markForSync(false);
+				}
 			}
 		}
 	}
