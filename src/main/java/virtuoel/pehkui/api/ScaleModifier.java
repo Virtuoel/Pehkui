@@ -17,7 +17,7 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	@Override
 	public int compareTo(ScaleModifier o)
 	{
-		final int c = Float.compare(getPriority(), o.getPriority());
+		final int c = Float.compare(o.getPriority(), getPriority());
 		
 		return c != 0 ? c :
 			ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, this)
@@ -28,7 +28,7 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	
 	/**
 	 * The priority of this scale modifier.
-	 * Lower priority modifiers are applied earlier.
+	 * Higher priority modifiers are applied before lower priority ones.
 	 * 
 	 * @return priority of this modifier
 	 */
