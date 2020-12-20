@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.ScaleData;
-import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleType;
 
 public class CombinedScaleData extends ScaleData
@@ -33,19 +32,6 @@ public class CombinedScaleData extends ScaleData
 		{
 			ScaleUtils.tickScale(d);
 		}
-	}
-	
-	@Override
-	public ScaleData addBaseValueModifier(ScaleModifier modifier)
-	{
-		super.addBaseValueModifier(modifier);
-		
-		for (final ScaleData d : getData())
-		{
-			d.addBaseValueModifier(modifier);
-		}
-		
-		return this;
 	}
 	
 	@Override

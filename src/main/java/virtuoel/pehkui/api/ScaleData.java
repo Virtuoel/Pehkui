@@ -56,10 +56,7 @@ public class ScaleData
 		this.scaleType = scaleType;
 		this.entity = entity;
 		
-		for (ScaleModifier m : getScaleType().getDefaultBaseValueModifiers())
-		{
-			addBaseValueModifier(m);
-		}
+		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
 	
 	@Deprecated
@@ -110,14 +107,9 @@ public class ScaleData
 	
 	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
 	
-	public ScaleData addBaseValueModifier(ScaleModifier modifier)
+	public SortedSet<ScaleModifier> getBaseValueModifiers()
 	{
-		if (modifier != null)
-		{
-			baseValueModifiers.add(modifier);
-		}
-		
-		return this;
+		return baseValueModifiers;
 	}
 	
 	public float getBaseScale()
@@ -147,7 +139,7 @@ public class ScaleData
 	
 	public float getScale(float delta)
 	{
-		return computeScale(getBaseScale(delta), baseValueModifiers, delta);
+		return computeScale(getBaseScale(delta), getBaseValueModifiers(), delta);
 	}
 	
 	public void setScale(float scale)
@@ -225,6 +217,8 @@ public class ScaleData
 	
 	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
 	{
+		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
+		
 		buffer.writeFloat(this.scale)
 		.writeFloat(this.prevScale)
 		.writeFloat(this.fromScale)
@@ -285,12 +279,11 @@ public class ScaleData
 		this.scaleTicks = scaleData.contains("ticks") ? scaleData.getInt("ticks") : 0;
 		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : 20;
 		
+		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
+		
 		baseValueModifiers.clear();
 		
-		for (ScaleModifier m : getScaleType().getDefaultBaseValueModifiers())
-		{
-			addBaseValueModifier(m);
-		}
+		baseValueModifiers.addAll(getScaleType().getDefaultBaseValueModifiers());
 		
 		if (scaleData.contains("baseValueModifiers"))
 		{
@@ -303,7 +296,10 @@ public class ScaleData
 				id = Identifier.tryParse(modifiers.getString(i));
 				modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
 				
-				addBaseValueModifier(modifier);
+				if (modifier != null)
+				{
+					baseValueModifiers.add(modifier);
+				}
 			}
 		}
 		
@@ -317,6 +313,8 @@ public class ScaleData
 		tag.putFloat("target", this.getTargetScale());
 		tag.putInt("ticks", this.scaleTicks);
 		tag.putInt("total_ticks", this.totalScaleTicks);
+		
+		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
 		if (!baseValueModifiers.isEmpty())
 		{
@@ -483,12 +481,6 @@ public class ScaleData
 		public void tick()
 		{
 			
-		}
-		
-		@Override
-		public ScaleData addBaseValueModifier(ScaleModifier modifier)
-		{
-			return this;
 		}
 		
 		@Override
