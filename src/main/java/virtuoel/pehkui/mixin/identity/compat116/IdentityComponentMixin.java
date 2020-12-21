@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat.identity;
+package virtuoel.pehkui.mixin.identity.compat116;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -18,15 +18,6 @@ public class IdentityComponentMixin
 {
 	@Shadow(remap = false) PlayerEntity player;
 	@Shadow(remap = false) LivingEntity identity;
-	
-	@Inject(at = @At("HEAD"), method = "setIdentity", remap = false)
-	private void onSetIdentity(LivingEntity identity, CallbackInfo info)
-	{
-		if (identity != null)
-		{
-			ScaleUtils.loadScale(identity, player);
-		}
-	}
 	
 	@Inject(at = @At("RETURN"), method = "readFromNbt", remap = false)
 	private void onReadFromNbt(CompoundTag tag, CallbackInfo info)
