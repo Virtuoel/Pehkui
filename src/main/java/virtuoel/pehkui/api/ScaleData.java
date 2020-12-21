@@ -171,6 +171,7 @@ public class ScaleData
 		this.fromScale = getBaseScale();
 		this.toScale = targetScale;
 		this.scaleTicks = 0;
+		markForSync(true);
 	}
 	
 	public int getScaleTickDelay()
@@ -181,6 +182,7 @@ public class ScaleData
 	public void setScaleTickDelay(int ticks)
 	{
 		this.totalScaleTicks = ticks;
+		markForSync(true);
 	}
 	
 	public float getPrevScale()
