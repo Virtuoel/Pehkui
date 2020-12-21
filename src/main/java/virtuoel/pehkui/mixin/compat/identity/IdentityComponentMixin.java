@@ -24,12 +24,12 @@ public class IdentityComponentMixin
 	{
 		if (identity != null)
 		{
-			ScaleUtils.loadScale(player, identity);
+			ScaleUtils.loadScale(identity, player);
 		}
 	}
 	
-	@Inject(at = @At("RETURN"), method = "fromTag", remap = false)
-	private void onFromTag(CompoundTag tag, CallbackInfo info)
+	@Inject(at = @At("RETURN"), method = "readFromNbt", remap = false)
+	private void onReadFromNbt(CompoundTag tag, CallbackInfo info)
 	{
 		if (this.identity != null)
 		{
