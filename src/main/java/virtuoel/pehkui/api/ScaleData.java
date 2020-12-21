@@ -48,8 +48,11 @@ public class ScaleData
 	protected Optional<Runnable> changeListener = Optional.empty();
 	
 	protected final ScaleType scaleType;
+	
 	@Nullable
 	protected final Entity entity;
+	
+	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
 	
 	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
 	{
@@ -105,26 +108,9 @@ public class ScaleData
 		return this.entity;
 	}
 	
-	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
-	
 	public SortedSet<ScaleModifier> getBaseValueModifiers()
 	{
 		return baseValueModifiers;
-	}
-	
-	public float getBaseScale()
-	{
-		return getBaseScale(1.0F);
-	}
-	
-	public float getBaseScale(float delta)
-	{
-		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
-	}
-	
-	public float getScale()
-	{
-		return getScale(1.0F);
 	}
 	
 	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
@@ -137,6 +123,28 @@ public class ScaleData
 		return value;
 	}
 	
+	public float getBaseScale()
+	{
+		return getBaseScale(1.0F);
+	}
+	
+	public float getBaseScale(float delta)
+	{
+		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
+	}
+	
+	public void setBaseScale(float scale)
+	{
+		this.prevScale = getBaseScale();
+		this.scale = scale;
+		onUpdate();
+	}
+	
+	public float getScale()
+	{
+		return getScale(1.0F);
+	}
+	
 	public float getScale(float delta)
 	{
 		return computeScale(getBaseScale(delta), getBaseValueModifiers(), delta);
@@ -146,13 +154,6 @@ public class ScaleData
 	{
 		setBaseScale(scale);
 		setTargetScale(scale);
-	}
-	
-	public void setBaseScale(float scale)
-	{
-		this.prevScale = getBaseScale();
-		this.scale = scale;
-		onUpdate();
 	}
 	
 	public float getInitialScale()

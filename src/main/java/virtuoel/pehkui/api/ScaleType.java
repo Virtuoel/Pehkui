@@ -61,14 +61,19 @@ public class ScaleType
 		
 		type.getScaleChangedEvent().register(s ->
 		{
-			ScaleData data;
-			for (ScaleType scaleType : ScaleRegistries.SCALE_TYPES.values())
+			final Entity e = s.getEntity();
+			
+			if (e != null)
 			{
-				data = scaleType.getScaleData(s.getEntity());
-				
-				if (data.getBaseValueModifiers().contains(ScaleModifier.BASE_MULTIPLIER))
+				ScaleData data;
+				for (ScaleType scaleType : ScaleRegistries.SCALE_TYPES.values())
 				{
-					data.markForSync(true);
+					data = scaleType.getScaleData(e);
+					
+					if (data.getBaseValueModifiers().contains(ScaleModifier.BASE_MULTIPLIER))
+					{
+						data.markForSync(true);
+					}
 				}
 			}
 		});
