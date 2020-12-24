@@ -12,7 +12,7 @@ import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -264,7 +264,7 @@ public class ScaleData
 			
 			for (int i = 0; i < baseModifierCount; i++)
 			{
-				modifiers.add(StringTag.of(buffer.readString()));
+				modifiers.add(NbtOps.INSTANCE.createString(buffer.readString(32767)));
 			}
 			
 			scaleData.put("baseValueModifiers", modifiers);
@@ -325,7 +325,7 @@ public class ScaleData
 			
 			for (ScaleModifier modifier : baseValueModifiers)
 			{
-				modifiers.add(StringTag.of(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier).toString()));
+				modifiers.add(NbtOps.INSTANCE.createString(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier).toString()));
 			}
 			
 			tag.put("baseValueModifiers", modifiers);
