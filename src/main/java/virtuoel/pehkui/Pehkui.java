@@ -15,6 +15,7 @@ import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
+import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class Pehkui implements ModInitializer
@@ -44,6 +45,7 @@ public class Pehkui implements ModInitializer
 			CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
 			{
 				ScaleCommand.register(commandDispatcher, dedicated);
+				DebugCommand.register(commandDispatcher, dedicated);
 			});
 		}
 	}
