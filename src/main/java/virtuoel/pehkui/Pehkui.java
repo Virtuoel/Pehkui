@@ -35,14 +35,15 @@ public class Pehkui implements ModInitializer
 		ScaleType.INVALID.getClass();
 		ScaleModifier.IDENTITY.getClass();
 		
-		final boolean fabricCommandsLoaded = FabricLoader.getInstance().isModLoaded("fabric-command-api-v1");
-		
-		if (fabricCommandsLoaded)
+		if (FabricLoader.getInstance().isModLoaded("fabric-command-api-v1"))
 		{
 			ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
 			ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
 			
-			CommandRegistrationCallback.EVENT.register(ScaleCommand::register);
+			CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
+			{
+				ScaleCommand.register(commandDispatcher, dedicated);
+			});
 		}
 	}
 	
