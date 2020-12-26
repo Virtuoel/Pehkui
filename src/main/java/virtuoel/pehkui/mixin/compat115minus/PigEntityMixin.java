@@ -2,8 +2,10 @@ package virtuoel.pehkui.mixin.compat115minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -19,5 +21,13 @@ public class PigEntityMixin
 	private void onOnStruckByLightning(LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
 		ScaleUtils.loadScale(zombifiedPiglinEntity, this);
+	}
+	
+	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))
+	private float modifyLimbDistance(float value)
+	{
+		final float scale = ScaleUtils.getMotionScale(this);
+		
+		return scale != 1.0F ? value / scale : value;
 	}
 }
