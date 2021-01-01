@@ -13,12 +13,13 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.CommandUtils;
 
 public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 {
@@ -35,7 +36,7 @@ public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandSource.suggestIdentifiers(ScaleRegistries.SCALE_TYPES.keySet(), builder);
+		return CommandUtils.suggestIdentifiersExcept(Pehkui.MOD_ID, ScaleRegistries.SCALE_TYPES.keySet(), builder);
 	}
 	
 	@Override
