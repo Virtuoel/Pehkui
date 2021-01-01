@@ -65,15 +65,20 @@ public abstract class EntityMixin implements ResizableEntity
 		return scaleData;
 	}
 	
+	@Deprecated
 	@Inject(at = @At("HEAD"), method = "fromTag")
-	private void onFromTag(CompoundTag tag, CallbackInfo info)
+	private void onFromTagLegacy(CompoundTag tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
 			final ScaleData scaleData = pehkui_getScaleData(ScaleType.BASE);
 			scaleData.fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
 		}
-		
+	}
+	
+	@Inject(at = @At("HEAD"), method = "fromTag")
+	private void onFromTag(CompoundTag tag, CallbackInfo info)
+	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND))
 		{
 			final CompoundTag typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");

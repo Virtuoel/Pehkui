@@ -23,19 +23,13 @@ import virtuoel.pehkui.api.ScaleType;
 public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 {
 	private static final Collection<String> EXAMPLES = ScaleRegistries.SCALE_TYPES.keySet().stream().map(Identifier::toString).collect(Collectors.toList());
-	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType((arg) ->
-	{
-		return new LiteralText("Unknown scale type '" + arg + "'");
-	});
+	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType(arg -> new LiteralText("Unknown scale type '" + arg + "'"));
 	
 	@Override
 	public ScaleType parse(StringReader stringReader) throws CommandSyntaxException
 	{
-		Identifier identifier = Identifier.fromCommandInput(stringReader);
-		return Optional.ofNullable(ScaleRegistries.SCALE_TYPES.get(identifier)).orElseThrow(() ->
-		{
-			return INVALID_ENTRY_EXCEPTION.create(identifier);
-		});
+		final Identifier identifier = Identifier.fromCommandInput(stringReader);
+		return Optional.ofNullable(ScaleRegistries.SCALE_TYPES.get(identifier)).orElseThrow(() -> INVALID_ENTRY_EXCEPTION.create(identifier));
 	}
 	
 	@Override
