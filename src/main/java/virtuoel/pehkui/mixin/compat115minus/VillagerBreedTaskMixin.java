@@ -19,6 +19,6 @@ public class VillagerBreedTaskMixin
 	@Inject(method = "method_18970(Lnet/minecraft/class_1646;Lnet/minecraft/class_1646;)Ljava/util/Optional;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private void onCreateChild(VillagerEntity villagerEntity, VillagerEntity villagerEntity2, CallbackInfoReturnable<Optional<VillagerEntity>> info, VillagerEntity child)
 	{
-		ScaleUtils.loadAverageScales(true, child, villagerEntity, villagerEntity2);
+		ScaleUtils.loadAverageScales(child, villagerEntity, villagerEntity2);
 	}
 }

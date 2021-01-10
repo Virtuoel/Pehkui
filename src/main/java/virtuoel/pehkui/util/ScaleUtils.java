@@ -33,21 +33,21 @@ public class ScaleUtils
 		type.getPostTickEvent().invoker().onEvent(data);
 	}
 	
-	public static void loadAverageScales(Object target, Object source, Object... sources)
+	public static void loadAverageScales(Entity target, Entity source, Entity... sources)
 	{
 		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			scaleData = type.getScaleData((Entity) target);
+			scaleData = type.getScaleData(target);
 			
 			ScaleData[] scales = new ScaleData[sources.length];
 			
 			for (int i = 0; i < sources.length; i++)
 			{
-				scales[i] = type.getScaleData((Entity) sources[i]);
+				scales[i] = type.getScaleData(sources[i]);
 			}
 			
-			scaleData.averagedFromScales(type.getScaleData((Entity) source), scales);
+			scaleData.averagedFromScales(type.getScaleData(source), scales);
 		}
 	}
 	

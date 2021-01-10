@@ -18,6 +18,6 @@ public class AnimalEntityMixin
 	@Inject(method = "breed(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/passive/AnimalEntity;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
 	private void onBreed(ServerWorld serverWorld, AnimalEntity other, CallbackInfo info, PassiveEntity passiveEntity)
 	{
-		ScaleUtils.loadAverageScales(true, passiveEntity, this, other);
+		ScaleUtils.loadAverageScales(passiveEntity, (AnimalEntity) (Object) this, other);
 	}
 }
