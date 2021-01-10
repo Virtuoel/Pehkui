@@ -28,6 +28,123 @@ public class ScaleType
 	public static final ScaleType PROJECTILES = register("projectiles", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType EXPLOSIONS = register("explosions", ScaleModifier.BASE_MULTIPLIER);
 	
+	protected ScaleType(Set<ScaleModifier> defaultBaseValueModifiers)
+	{
+		this.defaultBaseValueModifiers = defaultBaseValueModifiers;
+	}
+	
+	public ScaleData getScaleData(Entity entity)
+	{
+		return ((ResizableEntity) entity).pehkui_getScaleData(this);
+	}
+	
+	private final Set<ScaleModifier> defaultBaseValueModifiers;
+	
+	/**
+	 * Returns a mutable sorted set of scale modifiers. These modifiers are applied to all scale data of this type.
+	 * @return Set of scale modifiers sorted by priority
+	 */
+	public Set<ScaleModifier> getDefaultBaseValueModifiers()
+	{
+		return defaultBaseValueModifiers;
+	}
+	
+	public static class Builder
+	{
+		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
+		
+		public static Builder create()
+		{
+			return new Builder();
+		}
+		
+		private Builder()
+		{
+			
+		}
+		
+		public Builder addBaseValueModifier(ScaleModifier scaleModifier)
+		{
+			defaultBaseValueModifiers.add(scaleModifier);
+			return this;
+		}
+		
+		public ScaleType build()
+		{
+			return new ScaleType(defaultBaseValueModifiers);
+		}
+	}
+	
+	private final Event<ScaleEventCallback> scaleChangedEvent = EventFactory.createArrayBacked(
+		ScaleEventCallback.class,
+		data -> {},
+		(callbacks) -> (data) ->
+		{
+			for (ScaleEventCallback callback : callbacks)
+			{
+				callback.onEvent(data);
+			}
+		}
+	);
+	
+	public Event<ScaleEventCallback> getScaleChangedEvent()
+	{
+		return scaleChangedEvent;
+	}
+	
+	private final Event<ScaleEventCallback> preTickEvent = EventFactory.createArrayBacked(
+		ScaleEventCallback.class,
+		data -> {},
+		(callbacks) -> (data) ->
+		{
+			for (ScaleEventCallback callback : callbacks)
+			{
+				callback.onEvent(data);
+			}
+		}
+	);
+	
+	public Event<ScaleEventCallback> getPreTickEvent()
+	{
+		return preTickEvent;
+	}
+	
+	private final Event<ScaleEventCallback> postTickEvent = EventFactory.createArrayBacked(
+		ScaleEventCallback.class,
+		data -> {},
+		(callbacks) -> (data) ->
+		{
+			for (ScaleEventCallback callback : callbacks)
+			{
+				callback.onEvent(data);
+			}
+		}
+	);
+	
+	public Event<ScaleEventCallback> getPostTickEvent()
+	{
+		return postTickEvent;
+	}
+	
+	@Deprecated
+	public final Function<Entity, Optional<Runnable>> changeListenerFactory = e ->
+	{
+		return Optional.of(() -> getScaleChangedEvent().invoker().onEvent(getScaleData(e)));
+	};
+	
+	@Deprecated
+	public ScaleType()
+	{
+		this(Collections.emptySet());
+	}
+	
+	@Deprecated
+	public ScaleType(Function<Entity, Optional<Runnable>> changeListenerFactory)
+	{
+		this(Collections.emptySet());
+		getScaleChangedEvent().register(s -> changeListenerFactory.apply(s.getEntity()).ifPresent(Runnable::run));
+	}
+	
 	@Deprecated
 	public static ScaleType register(Identifier id, ScaleType entry)
 	{
@@ -107,118 +224,5 @@ public class ScaleType
 		});
 		
 		return type;
-	}
-	
-	public ScaleData getScaleData(Entity entity)
-	{
-		return ((ResizableEntity) entity).pehkui_getScaleData(this);
-	}
-	
-	@Deprecated
-	public final Function<Entity, Optional<Runnable>> changeListenerFactory = e ->
-	{
-		return Optional.of(() -> getScaleChangedEvent().invoker().onEvent(getScaleData(e)));
-	};
-	
-	private final Set<ScaleModifier> defaultBaseValueModifiers;
-	
-	public Set<ScaleModifier> getDefaultBaseValueModifiers()
-	{
-		return defaultBaseValueModifiers;
-	}
-	
-	private final Event<ScaleEventCallback> scaleChangedEvent = EventFactory.createArrayBacked(
-		ScaleEventCallback.class,
-		data -> {},
-		(callbacks) -> (data) ->
-		{
-			for (ScaleEventCallback callback : callbacks)
-			{
-				callback.onEvent(data);
-			}
-		}
-	);
-	
-	public Event<ScaleEventCallback> getScaleChangedEvent()
-	{
-		return scaleChangedEvent;
-	}
-	
-	private final Event<ScaleEventCallback> preTickEvent = EventFactory.createArrayBacked(
-		ScaleEventCallback.class,
-		data -> {},
-		(callbacks) -> (data) ->
-		{
-			for (ScaleEventCallback callback : callbacks)
-			{
-				callback.onEvent(data);
-			}
-		}
-	);
-	
-	public Event<ScaleEventCallback> getPreTickEvent()
-	{
-		return preTickEvent;
-	}
-	
-	private final Event<ScaleEventCallback> postTickEvent = EventFactory.createArrayBacked(
-		ScaleEventCallback.class,
-		data -> {},
-		(callbacks) -> (data) ->
-		{
-			for (ScaleEventCallback callback : callbacks)
-			{
-				callback.onEvent(data);
-			}
-		}
-	);
-	
-	public Event<ScaleEventCallback> getPostTickEvent()
-	{
-		return postTickEvent;
-	}
-	
-	protected ScaleType(Set<ScaleModifier> defaultBaseValueModifiers)
-	{
-		this.defaultBaseValueModifiers = defaultBaseValueModifiers;
-	}
-	
-	@Deprecated
-	public ScaleType()
-	{
-		this(Collections.emptySet());
-	}
-	
-	@Deprecated
-	public ScaleType(Function<Entity, Optional<Runnable>> changeListenerFactory)
-	{
-		this(Collections.emptySet());
-		getScaleChangedEvent().register(s -> changeListenerFactory.apply(s.getEntity()).ifPresent(Runnable::run));
-	}
-	
-	public static class Builder
-	{
-		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
-		
-		public static Builder create()
-		{
-			return new Builder();
-		}
-		
-		private Builder()
-		{
-			
-		}
-		
-		public Builder addBaseValueModifier(ScaleModifier scaleModifier)
-		{
-			defaultBaseValueModifiers.add(scaleModifier);
-			return this;
-		}
-		
-		public ScaleType build()
-		{
-			return new ScaleType(defaultBaseValueModifiers);
-		}
 	}
 }

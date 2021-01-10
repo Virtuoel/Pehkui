@@ -69,6 +69,10 @@ public class ScaleData
 		this.changeListener = changeListener;
 	}
 	
+	/**
+	 * Called at the start of {@link Entity#tick()}.
+	 * <p>Pre and post tick callbacks are not invoked here. If calling this manually, be sure to invoke callbacks!
+	 */
 	public void tick()
 	{
 		final float currScale = getBaseScale();
@@ -108,11 +112,23 @@ public class ScaleData
 		return this.entity;
 	}
 	
+	/**
+	 * Returns a mutable sorted set of scale modifiers. This set already contains the default modifiers from the scale type.
+	 * @return Set of scale modifiers sorted by priority
+	 */
 	public SortedSet<ScaleModifier> getBaseValueModifiers()
 	{
 		return baseValueModifiers;
 	}
 	
+	/**
+	 * Returns the given scale value with modifiers applied from the given collection.
+	 * 
+	 * @param value The scale value to be modified.
+	 * @param modifiers A sorted collection of scale modifiers to apply to the given value.
+	 * @param delta Tick delta for use with rendering. Use 1.0F if no delta is available.
+	 * @return Scale with modifiers applied
+	 */
 	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
 	{
 		for (final ScaleModifier m : modifiers)
@@ -123,16 +139,32 @@ public class ScaleData
 		return value;
 	}
 	
+	/**
+	 * Gets the scale without any modifiers applied
+	 * 
+	 * @return Scale without any modifiers applied
+	 */
 	public float getBaseScale()
 	{
 		return getBaseScale(1.0F);
 	}
 	
+	/**
+	 * Gets the scale without any modifiers applied
+	 * 
+	 * @param delta Tick delta for use with rendering. Use 1.0F if no delta is available.
+	 * @return Scale without any modifiers applied
+	 */
 	public float getBaseScale(float delta)
 	{
 		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
 	}
 	
+	/**
+	 * Sets the scale to the given value, updates the previous scale, and notifies listeners
+	 * 
+	 * @param scale New scale value to be set
+	 */
 	public void setBaseScale(float scale)
 	{
 		this.prevScale = getBaseScale();
@@ -140,16 +172,32 @@ public class ScaleData
 		onUpdate();
 	}
 	
+	/**
+	 * Gets the scale with modifiers applied
+	 * 
+	 * @return Scale with modifiers applied
+	 */
 	public float getScale()
 	{
 		return getScale(1.0F);
 	}
 	
+	/**
+	 * Gets the scale with modifiers applied
+	 * 
+	 * @param delta Tick delta for use with rendering. Use 1.0F if no delta is available.
+	 * @return Scale with modifiers applied
+	 */
 	public float getScale(float delta)
 	{
 		return computeScale(getBaseScale(delta), getBaseValueModifiers(), delta);
 	}
 	
+	/**
+	 * Helper for instant resizing that sets both the base scale and target scale.
+	 * 
+	 * @param scale New scale value to be set
+	 */
 	public void setScale(float scale)
 	{
 		setBaseScale(scale);
@@ -166,6 +214,11 @@ public class ScaleData
 		return this.toScale;
 	}
 	
+	/**
+	 * Sets a target scale. The base scale will be gradually changed to this over the amount of ticks specified by the scale tick delay.
+	 * 
+	 * @param targetScale The scale that the base scale should gradually change to
+	 */
 	public void setTargetScale(float targetScale)
 	{
 		this.fromScale = getBaseScale();
@@ -174,17 +227,32 @@ public class ScaleData
 		markForSync(true);
 	}
 	
+	/**
+	 * Gets the amount of ticks it will take for the base scale to change to the target scale
+	 * 
+	 * @return Delay in ticks
+	 */
 	public int getScaleTickDelay()
 	{
 		return this.totalScaleTicks;
 	}
 	
+	/**
+	 * Sets the amount of ticks it will take for the base scale to change to the target scale
+	 * 
+	 * @param ticks Delay in ticks
+	 */
 	public void setScaleTickDelay(int ticks)
 	{
 		this.totalScaleTicks = ticks;
 		markForSync(true);
 	}
 	
+	/**
+	 * Gets the last value that the base scale was set to. Useful for linear interpolation.
+	 * 
+	 * @return Last value of the base scale
+	 */
 	public float getPrevScale()
 	{
 		return this.prevScale;
@@ -356,6 +424,13 @@ public class ScaleData
 		return this;
 	}
 	
+	/**
+	 * Averages the values of the given scale data and sets its own values from them.
+	 * 
+	 * @param scaleData Single scale data
+	 * @param scales Any additional scale data
+	 * @return Itself
+	 */
 	public ScaleData averagedFromScales(ScaleData scaleData, ScaleData... scales)
 	{
 		float scale = scaleData.getBaseScale();
