@@ -288,7 +288,10 @@ public class ScaleData
 	
 	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
 	{
-		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
+		final SortedSet<ScaleModifier> syncedModifiers = new ObjectRBTreeSet<>();
+		
+		syncedModifiers.addAll(getBaseValueModifiers());
+		syncedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
 		
 		buffer.writeFloat(this.scale)
 		.writeFloat(this.prevScale)
@@ -296,9 +299,9 @@ public class ScaleData
 		.writeFloat(this.toScale)
 		.writeInt(this.scaleTicks)
 		.writeInt(this.totalScaleTicks)
-		.writeInt(baseValueModifiers.size());
+		.writeInt(syncedModifiers.size());
 		
-		for (final ScaleModifier modifier : baseValueModifiers)
+		for (final ScaleModifier modifier : syncedModifiers)
 		{
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
 		}
@@ -385,13 +388,16 @@ public class ScaleData
 		tag.putInt("ticks", this.scaleTicks);
 		tag.putInt("total_ticks", this.totalScaleTicks);
 		
-		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
+		final SortedSet<ScaleModifier> savedModifiers = new ObjectRBTreeSet<>();
 		
-		if (!baseValueModifiers.isEmpty())
+		savedModifiers.addAll(getBaseValueModifiers());
+		savedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
+		
+		if (!savedModifiers.isEmpty())
 		{
 			final ListTag modifiers = new ListTag();
 			
-			for (ScaleModifier modifier : baseValueModifiers)
+			for (ScaleModifier modifier : savedModifiers)
 			{
 				modifiers.add(NbtOps.INSTANCE.createString(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier).toString()));
 			}
