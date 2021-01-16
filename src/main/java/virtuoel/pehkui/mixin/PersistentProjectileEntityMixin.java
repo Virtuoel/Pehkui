@@ -27,9 +27,11 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 		
 		if (scale != 1.0F)
 		{
-			final Vec3d pos = ((Entity) (Object) this).getPos();
+			final Entity self = ((Entity) (Object) this);
 			
-			updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
+			final Vec3d pos = self.getPos();
+			
+			self.setPosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
 		}
 	}
 	

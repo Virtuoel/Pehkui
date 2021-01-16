@@ -48,8 +48,6 @@ public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow World world;
 	
-	@Shadow abstract void updatePosition(double x, double y, double z);
-	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	
 	@Override

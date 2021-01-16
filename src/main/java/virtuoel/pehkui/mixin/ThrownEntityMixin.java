@@ -27,9 +27,11 @@ public abstract class ThrownEntityMixin extends EntityMixin
 		final float heightScale = ScaleUtils.getHeightScale(owner);
 		if (heightScale != 1.0F)
 		{
-			final Vec3d pos = ((Entity) (Object) this).getPos();
+			final Entity self = ((Entity) (Object) this);
 			
-			updatePosition(pos.x, pos.y + ((1.0F - heightScale) * 0.1D), pos.z);
+			final Vec3d pos = self.getPos();
+			
+			self.setPosition(pos.x, pos.y + ((1.0F - heightScale) * 0.1D), pos.z);
 		}
 		
 		ScaleUtils.setScale(this, ScaleUtils.getProjectileScale(owner));
