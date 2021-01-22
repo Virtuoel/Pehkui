@@ -15,6 +15,9 @@ import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleType
 {
+	/**
+	 * @see {@link ScaleRegistries.SCALE_TYPES}
+	 */
 	@Deprecated
 	public static final Map<Identifier, ScaleType> REGISTRY = ScaleRegistries.SCALE_TYPES;
 	
@@ -28,6 +31,9 @@ public class ScaleType
 	public static final ScaleType PROJECTILES = register("projectiles", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType EXPLOSIONS = register("explosions", ScaleModifier.BASE_MULTIPLIER);
 	
+	/**
+	 * @see {@link ScaleType.Builder}
+	 */
 	protected ScaleType(Set<ScaleModifier> defaultBaseValueModifiers)
 	{
 		this.defaultBaseValueModifiers = defaultBaseValueModifiers;
@@ -126,6 +132,9 @@ public class ScaleType
 		return postTickEvent;
 	}
 	
+	/**
+	 * @see {@link #getScaleChangedEvent()}
+	 */
 	@Deprecated
 	public final Function<Entity, Optional<Runnable>> changeListenerFactory = e ->
 	{
@@ -145,6 +154,9 @@ public class ScaleType
 		getScaleChangedEvent().register(s -> changeListenerFactory.apply(s.getEntity()).ifPresent(Runnable::run));
 	}
 	
+	/**
+	 * @see {@link ScaleRegistries#register(ScaleRegistries.SCALE_TYPES, id, entry)}
+	 */
 	@Deprecated
 	public static ScaleType register(Identifier id, ScaleType entry)
 	{

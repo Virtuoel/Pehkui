@@ -21,12 +21,19 @@ public class ScaleData
 {
 	public static final ScaleData IDENTITY = Builder.create().buildImmutable(1.0F);
 	
+	/**
+	 * @see {@link ScaleType#getScaleData(Entity)}
+	 */
 	@Deprecated
 	public static ScaleData of(Entity entity, ScaleType type)
 	{
 		return type.getScaleData(entity);
 	}
 	
+	/**
+	 * @see {@link ScaleType#BASE}
+	 * @see {@link ScaleType#getScaleData(Entity)}
+	 */
 	@Deprecated
 	public static ScaleData of(Entity entity)
 	{
@@ -54,6 +61,10 @@ public class ScaleData
 	
 	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
 	
+	/**
+	 * @see {@link ScaleType#getScaleData(Entity)}
+	 * @see {@link ScaleData.Builder#create()}
+	 */
 	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
 	{
 		this.scaleType = scaleType;
@@ -268,6 +279,9 @@ public class ScaleData
 		}
 	}
 	
+	/**
+	 * @see {@link #markForSync(boolean)}
+	 */
 	@Deprecated
 	public void markForSync()
 	{
