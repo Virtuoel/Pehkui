@@ -9,14 +9,18 @@ import virtuoel.pehkui.util.JsonConfigHandler;
 
 public class PehkuiConfig
 {
-	public static final Supplier<JsonObject> HANDLER =
-		new JsonConfigHandler(
+	public static final Supplier<JsonObject> HANDLER = createConfig();
+	
+	public static final JsonObject DATA = HANDLER.get();
+	
+	private static Supplier<JsonObject> createConfig()
+	{
+		return new JsonConfigHandler(
 			Pehkui.MOD_ID,
 			Pehkui.MOD_ID + "/config.json",
 			PehkuiConfig::createDefaultConfig
 		);
-	
-	public static final JsonObject DATA = HANDLER.get();
+	}
 	
 	private static JsonObject createDefaultConfig()
 	{

@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleType
@@ -181,7 +182,7 @@ public class ScaleType
 	
 	private static ScaleType register(String path, ScaleModifier... modifiers)
 	{
-		return register(new Identifier("pehkui", path), modifiers);
+		return register(Pehkui.id(path), modifiers);
 	}
 	
 	private static ScaleType registerBaseScale(String path)

@@ -1,11 +1,12 @@
 package virtuoel.pehkui.api;
 
 import net.minecraft.util.Identifier;
+import virtuoel.pehkui.Pehkui;
 
 public class ScaleModifier implements Comparable<ScaleModifier>
 {
 	public static final ScaleModifier IDENTITY = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_MODIFIERS));
-	public static final ScaleModifier BASE_MULTIPLIER = register(new Identifier("pehkui", "base_multiplier"), new ScaleModifier()
+	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new ScaleModifier()
 	{
 		@Override
 		public float modifyScale(final ScaleData scaleData, float modifiedScale, final float delta)
@@ -40,6 +41,11 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	public float modifyScale(final ScaleData scaleData, final float modifiedScale, final float delta)
 	{
 		return modifiedScale;
+	}
+	
+	private static ScaleModifier register(String path, ScaleModifier scaleModifier)
+	{
+		return register(Pehkui.id(path), scaleModifier);
 	}
 	
 	private static ScaleModifier register(Identifier id, ScaleModifier scaleModifier)
