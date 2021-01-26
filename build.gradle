@@ -15,6 +15,10 @@ repositories {
 		url = "https://maven.fabricmc.net/"
 	}
 	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
+	maven {
 		name = "CurseForge"
 		url = "https://minecraft.curseforge.com/api/maven"
 	}
@@ -89,8 +93,8 @@ dependencies {
 	}
 	
 	if(project.hasProperty("modmenu_version")) {
-		modCompileOnly "io.github.prospector:modmenu:${modmenu_version}", excludeFabric
-		modRuntime "io.github.prospector:modmenu:${modmenu_version}", excludeFabric
+		modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
+		modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
 	}
 }
 
