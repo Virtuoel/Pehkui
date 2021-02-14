@@ -30,7 +30,7 @@ public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 	public ScaleType parse(StringReader stringReader) throws CommandSyntaxException
 	{
 		final Identifier identifier = Identifier.fromCommandInput(stringReader);
-		return Optional.ofNullable(ScaleRegistries.SCALE_TYPES.get(identifier)).orElseThrow(() -> INVALID_ENTRY_EXCEPTION.create(identifier));
+		return Optional.ofNullable(ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, identifier)).orElseThrow(() -> INVALID_ENTRY_EXCEPTION.create(identifier));
 	}
 	
 	@Override
