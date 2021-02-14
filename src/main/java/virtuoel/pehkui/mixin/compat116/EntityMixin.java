@@ -1,17 +1,18 @@
-package virtuoel.pehkui.mixin.compat116plus;
+package virtuoel.pehkui.mixin.compat116;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
+import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin
+public abstract class EntityMixin implements ResizableEntity
 {
-	@ModifyConstant(method = "updateSubmergedInWaterState()V", constant = @Constant(doubleValue = 0.1111111119389534D))
-	private double iupdateSubmergedInWaterStateModifyOffset(double value)
+	@ModifyConstant(method = "method_5757()Z", constant = @Constant(doubleValue = 0.10000000149011612D), remap = false)
+	private double isInsideWallModifyOffset(double value)
 	{
 		final float scale = ScaleUtils.getHeightScale(this);
 		
