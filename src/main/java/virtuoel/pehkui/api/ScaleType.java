@@ -13,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.entity.ResizableEntity;
+import virtuoel.pehkui.mixin.EntityAccessor;
 
 public class ScaleType
 {
@@ -232,7 +233,12 @@ public class ScaleType
 			
 			if (e != null)
 			{
+				final EntityAccessor en = (EntityAccessor) e;
+				final boolean onGround = en.getOnGround();
+				
 				e.calculateDimensions();
+				
+				en.setOnGround(onGround);
 			}
 		});
 		
