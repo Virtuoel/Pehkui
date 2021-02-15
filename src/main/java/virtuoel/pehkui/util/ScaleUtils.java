@@ -133,15 +133,7 @@ public class ScaleUtils
 	
 	public static float getMotionScale(Object entity, float tickDelta)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledMotion"))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(true))
-		{
-			return getTypedScale(entity, ScaleType.MOTION, tickDelta);
-		}
-		
-		return getTypedScale(entity, ScaleType.BASE, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.MOTION, "scaledMotion", tickDelta);
 	}
 	
 	public static float getReachScale(Object entity)
@@ -151,15 +143,7 @@ public class ScaleUtils
 	
 	public static float getReachScale(Object entity, float tickDelta)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledReach"))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(true))
-		{
-			return getTypedScale(entity, ScaleType.REACH, tickDelta);
-		}
-		
-		return getTypedScale(entity, ScaleType.BASE, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.REACH, "scaledReach", tickDelta);
 	}
 	
 	public static float getDropScale(Object entity)
@@ -169,15 +153,7 @@ public class ScaleUtils
 	
 	public static float getDropScale(Object entity, float tickDelta)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledItemDrops"))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(true))
-		{
-			return getTypedScale(entity, ScaleType.DROPS, tickDelta);
-		}
-		
-		return getTypedScale(entity, ScaleType.BASE, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.DROPS, "scaledItemDrops", tickDelta);
 	}
 	
 	public static float getProjectileScale(Object entity)
@@ -187,15 +163,7 @@ public class ScaleUtils
 	
 	public static float getProjectileScale(Object entity, float tickDelta)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledProjectiles"))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(true))
-		{
-			return getTypedScale(entity, ScaleType.PROJECTILES, tickDelta);
-		}
-		
-		return getTypedScale(entity, ScaleType.BASE, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.PROJECTILES, "scaledProjectiles", tickDelta);
 	}
 	
 	public static float getExplosionScale(Object entity)
@@ -205,12 +173,17 @@ public class ScaleUtils
 	
 	public static float getExplosionScale(Object entity, float tickDelta)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledExplosions"))
+		return getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, "scaledExplosions", tickDelta);
+	}
+	
+	public static float getConfigurableTypedScale(Object entity, ScaleType type, String config, float tickDelta)
+	{
+		if (Optional.ofNullable(PehkuiConfig.DATA.get(config))
 			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
 			.orElse(true))
 		{
-			return getTypedScale(entity, ScaleType.EXPLOSIONS, tickDelta);
+			return getTypedScale(entity, type, tickDelta);
 		}
 		
 		return getTypedScale(entity, ScaleType.BASE, tickDelta);
