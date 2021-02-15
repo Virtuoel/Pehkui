@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.EndermiteEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
@@ -20,6 +21,6 @@ public class EnderPearlEntityMixin
 	@Inject(method = "method_7492(Lnet/minecraft/class_239;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private void onOnCollision(HitResult hitResult, CallbackInfo info, LivingEntity owner, ServerPlayerEntity player, EndermiteEntity endermiteEntity)
 	{
-		ScaleUtils.loadScale(endermiteEntity, this);
+		ScaleUtils.loadScale(endermiteEntity, (Entity) (Object) this);
 	}
 }

@@ -40,14 +40,14 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 	{
 		if (entity != null)
 		{
-			ScaleUtils.setScale(this, ScaleUtils.getProjectileScale(entity));
+			ScaleUtils.setScaleOfProjectile((Entity) (Object) this, entity);
 		}
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 0.05000000074505806D))
 	private double tickModifyGravity(double value)
 	{
-		final float scale = ScaleUtils.getMotionScale(this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
 	}

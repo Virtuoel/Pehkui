@@ -15,7 +15,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity onKilledBySpawnEntityProxy(Entity entity)
 	{
-		ScaleUtils.setScale(entity, ScaleUtils.getDropScale(this));
+		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		
 		return entity;
 	}

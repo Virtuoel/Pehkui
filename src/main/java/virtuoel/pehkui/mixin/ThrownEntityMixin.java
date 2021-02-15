@@ -34,13 +34,13 @@ public abstract class ThrownEntityMixin extends EntityMixin
 			self.setPosition(pos.x, pos.y + ((1.0F - heightScale) * 0.1D), pos.z);
 		}
 		
-		ScaleUtils.setScale(this, ScaleUtils.getProjectileScale(owner));
+		ScaleUtils.setScaleOfProjectile((Entity) (Object) this, owner);
 	}
 	
 	@ModifyArg(method = "tick()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/thrown/ThrownEntity;setVelocity(DDD)V"))
 	private double setVelocityModifyMultiply(double value)
 	{
-		final float scale = ScaleUtils.getMotionScale(this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -19,7 +20,7 @@ public class MobEntityMixin
 		
 		if (e != null)
 		{
-			ScaleUtils.loadScale(e, this);
+			ScaleUtils.loadScale(e, (Entity) (Object) this);
 		}
 	}
 }

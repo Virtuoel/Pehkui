@@ -51,22 +51,34 @@ public class ScaleUtils
 		}
 	}
 	
-	public static void loadScale(Object target, Object source)
+	public static void loadScale(Entity target, Entity source)
 	{
 		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			scaleData = type.getScaleData((Entity) target);
-			scaleData.fromScale(type.getScaleData((Entity) source));
+			scaleData = type.getScaleData(target);
+			scaleData.fromScale(type.getScaleData(source));
 		}
 	}
 	
-	public static void setScale(Object entity, float scale)
+	public static float setScaleOfDrop(Entity entity, Entity source)
+	{
+		return setScaleOnSpawn(entity, getDropScale(source));
+	}
+	
+	public static float setScaleOfProjectile(Entity entity, Entity source)
+	{
+		return setScaleOnSpawn(entity, getProjectileScale(source));
+	}
+	
+	public static float setScaleOnSpawn(Entity entity, float scale)
 	{
 		if (scale != 1.0F)
 		{
-			ScaleType.BASE.getScaleData((Entity) entity).setScale(scale);
+			ScaleType.BASE.getScaleData(entity).setScale(scale);
 		}
+		
+		return scale;
 	}
 	
 	public static void syncScalesIfNeeded(Entity entity, Consumer<Packet<?>> packetSender)
@@ -106,77 +118,77 @@ public class ScaleUtils
 		}
 	}
 	
-	public static float getWidthScale(Object entity)
+	public static float getWidthScale(Entity entity)
 	{
 		return getWidthScale(entity, 1.0F);
 	}
 	
-	public static float getWidthScale(Object entity, float tickDelta)
+	public static float getWidthScale(Entity entity, float tickDelta)
 	{
 		return getTypedScale(entity, ScaleType.WIDTH, tickDelta);
 	}
 	
-	public static float getHeightScale(Object entity)
+	public static float getHeightScale(Entity entity)
 	{
 		return getHeightScale(entity, 1.0F);
 	}
 	
-	public static float getHeightScale(Object entity, float tickDelta)
+	public static float getHeightScale(Entity entity, float tickDelta)
 	{
 		return getTypedScale(entity, ScaleType.HEIGHT, tickDelta);
 	}
 	
-	public static float getMotionScale(Object entity)
+	public static float getMotionScale(Entity entity)
 	{
 		return getMotionScale(entity, 1.0F);
 	}
 	
-	public static float getMotionScale(Object entity, float tickDelta)
+	public static float getMotionScale(Entity entity, float tickDelta)
 	{
 		return getConfigurableTypedScale(entity, ScaleType.MOTION, "scaledMotion", tickDelta);
 	}
 	
-	public static float getReachScale(Object entity)
+	public static float getReachScale(Entity entity)
 	{
 		return getReachScale(entity, 1.0F);
 	}
 	
-	public static float getReachScale(Object entity, float tickDelta)
+	public static float getReachScale(Entity entity, float tickDelta)
 	{
 		return getConfigurableTypedScale(entity, ScaleType.REACH, "scaledReach", tickDelta);
 	}
 	
-	public static float getDropScale(Object entity)
+	public static float getDropScale(Entity entity)
 	{
 		return getDropScale(entity, 1.0F);
 	}
 	
-	public static float getDropScale(Object entity, float tickDelta)
+	public static float getDropScale(Entity entity, float tickDelta)
 	{
 		return getConfigurableTypedScale(entity, ScaleType.DROPS, "scaledItemDrops", tickDelta);
 	}
 	
-	public static float getProjectileScale(Object entity)
+	public static float getProjectileScale(Entity entity)
 	{
 		return getProjectileScale(entity, 1.0F);
 	}
 	
-	public static float getProjectileScale(Object entity, float tickDelta)
+	public static float getProjectileScale(Entity entity, float tickDelta)
 	{
 		return getConfigurableTypedScale(entity, ScaleType.PROJECTILES, "scaledProjectiles", tickDelta);
 	}
 	
-	public static float getExplosionScale(Object entity)
+	public static float getExplosionScale(Entity entity)
 	{
 		return getExplosionScale(entity, 1.0F);
 	}
 	
-	public static float getExplosionScale(Object entity, float tickDelta)
+	public static float getExplosionScale(Entity entity, float tickDelta)
 	{
 		return getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, "scaledExplosions", tickDelta);
 	}
 	
-	public static float getConfigurableTypedScale(Object entity, ScaleType type, String config, float tickDelta)
+	public static float getConfigurableTypedScale(Entity entity, ScaleType type, String config, float tickDelta)
 	{
 		if (Optional.ofNullable(PehkuiConfig.DATA.get(config))
 			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
@@ -189,13 +201,13 @@ public class ScaleUtils
 		return getTypedScale(entity, ScaleType.BASE, tickDelta);
 	}
 	
-	public static float getTypedScale(Object entity, ScaleType type, float tickDelta)
+	public static float getTypedScale(Entity entity, ScaleType type, float tickDelta)
 	{
 		if (!(entity instanceof ResizableEntity))
 		{
 			return type.getDefaultBaseScale();
 		}
 		
-		return type.getScaleData((Entity) entity).getScale(tickDelta);
+		return type.getScaleData(entity).getScale(tickDelta);
 	}
 }

@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.HorseBaseEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -13,7 +14,7 @@ public abstract class HorseBaseEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.7F))
 	private float updatePassengerPositionModifyHorizontalOffset(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale(this);
+		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
@@ -26,7 +27,7 @@ public abstract class HorseBaseEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.15F))
 	private float updatePassengerPositionModifyVerticalOffset(float value)
 	{
-		final float scale = ScaleUtils.getHeightScale(this);
+		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

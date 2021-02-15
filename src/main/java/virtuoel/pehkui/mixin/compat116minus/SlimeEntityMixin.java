@@ -16,7 +16,7 @@ public class SlimeEntityMixin
 	@ModifyArg(method = "method_5650", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
 	private Entity removeSpawnEntityProxy(Entity entity)
 	{
-		ScaleUtils.loadScale(entity, this);
+		ScaleUtils.loadScale(entity, (Entity) (Object) this);
 		
 		return entity;
 	}
@@ -24,7 +24,7 @@ public class SlimeEntityMixin
 	@ModifyConstant(method = "method_5650", constant = @Constant(floatValue = 4.0F), remap = false)
 	private float removeModifyHorizontalOffset(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale(this);
+		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
@@ -37,7 +37,7 @@ public class SlimeEntityMixin
 	@ModifyConstant(method = "method_5650", constant = @Constant(doubleValue = 0.5D), remap = false)
 	private double removeModifyVerticalOffset(double value)
 	{
-		final float scale = ScaleUtils.getHeightScale(this);
+		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

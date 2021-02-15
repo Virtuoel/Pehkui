@@ -125,8 +125,8 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float widthScale = ScaleUtils.getWidthScale(this);
-		final float heightScale = ScaleUtils.getHeightScale(this);
+		final float widthScale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getHeightScale((Entity) (Object) this);
 		
 		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
@@ -137,13 +137,13 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
 	private void onDropStack(ItemStack stack, float yOffset, CallbackInfoReturnable<ItemEntity> info, ItemEntity entity)
 	{
-		ScaleUtils.setScale(entity, ScaleUtils.getDropScale(this));
+		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 	}
 	
 	@ModifyArg(method = "fall", index = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private float onFallModifyFallDistance(float distance)
 	{
-		final float scale = ScaleUtils.getMotionScale(this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
@@ -162,7 +162,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@ModifyConstant(method = "move", constant = @Constant(doubleValue = 1.0E-7D))
 	private double moveModifyMinVelocity(double value)
 	{
-		final float scale = ScaleUtils.getMotionScale(this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale < 1.0F ? scale * scale * value : value;
 	}
@@ -172,7 +172,7 @@ public abstract class EntityMixin implements ResizableEntity
 	{
 		if (type == MovementType.SELF || type == MovementType.PLAYER)
 		{
-			return movement.multiply(ScaleUtils.getMotionScale(this));
+			return movement.multiply(ScaleUtils.getMotionScale((Entity) (Object) this));
 		}
 		
 		return movement;
@@ -181,7 +181,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
 	private void onSpawnSprintingParticles(CallbackInfo info)
 	{
-		if (ScaleUtils.getMotionScale(this) < 1.0F)
+		if (ScaleUtils.getMotionScale((Entity) (Object) this) < 1.0F)
 		{
 			info.cancel();
 		}

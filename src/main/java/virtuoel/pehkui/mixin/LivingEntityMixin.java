@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
@@ -25,13 +26,13 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
 	private EntityDimensions onGetEyeHeightDimensionsProxy(EntityDimensions dimensions)
 	{
-		return dimensions.scaled(1.0F / ScaleUtils.getHeightScale(this));
+		return dimensions.scaled(1.0F / ScaleUtils.getHeightScale((Entity) (Object) this));
 	}
 	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
 	private float travelModifyFallDistance(float value)
 	{
-		final float scale = ScaleUtils.getMotionScale(this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
@@ -52,7 +53,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	{
 		if (pose != EntityPose.SLEEPING)
 		{
-			final float scale = ScaleUtils.getHeightScale(this);
+			final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
 			
 			if (scale != 1.0F)
 			{
@@ -64,7 +65,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyConstant(method = "tickMovement", constant = @Constant(doubleValue = 0.003D))
 	private double tickMovementModifyMinVelocity(double value)
 	{
-		final float scale = ScaleUtils.getMotionScale(this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale < 1.0F ? scale * value : value;
 	}

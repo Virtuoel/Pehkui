@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.decoration.ArmorStandEntity;
@@ -16,6 +17,6 @@ public abstract class ArmorStandEntityMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale(this), ScaleUtils.getHeightScale(this)));
+		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale((Entity) (Object) this), ScaleUtils.getHeightScale((Entity) (Object) this)));
 	}
 }

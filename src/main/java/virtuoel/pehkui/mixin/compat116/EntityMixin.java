@@ -14,7 +14,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@ModifyConstant(method = "method_5757()Z", constant = @Constant(doubleValue = 0.10000000149011612D), remap = false)
 	private double isInsideWallModifyOffset(double value)
 	{
-		final float scale = ScaleUtils.getHeightScale(this);
+		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? value * scale : value;
 	}

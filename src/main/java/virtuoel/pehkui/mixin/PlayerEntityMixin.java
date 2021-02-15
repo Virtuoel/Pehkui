@@ -24,46 +24,44 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale(this), ScaleUtils.getHeightScale(this)));
+		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale((Entity) (Object) this), ScaleUtils.getHeightScale((Entity) (Object) this)));
 	}
 	
 	@ModifyArg(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;squaredHorizontalLength(Lnet/minecraft/util/math/Vec3d;)D"))
 	private Vec3d onTickMovementGetVelocityProxy(Vec3d velocity)
 	{
-		return velocity.multiply(ScaleUtils.getMotionScale(this));
+		return velocity.multiply(ScaleUtils.getMotionScale((Entity) (Object) this));
 	}
 	
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
 	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info, double y, ItemEntity entity)
 	{
-		final float scale = ScaleUtils.getDropScale(this);
+		final float scale = ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
 			final Vec3d pos = entity.getPos();
 			
 			entity.updatePosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
-			
-			ScaleUtils.setScale(entity, scale);
 		}
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandXProxy(double value)
 	{
-		return value * ScaleUtils.getMotionScale(this);
+		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandYProxy(double value)
 	{
-		return value * ScaleUtils.getMotionScale(this);
+		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandZProxy(double value)
 	{
-		return value * ScaleUtils.getMotionScale(this);
+		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@Unique private static final ThreadLocal<Float> WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);

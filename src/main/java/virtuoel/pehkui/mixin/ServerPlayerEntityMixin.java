@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -27,7 +28,7 @@ public abstract class ServerPlayerEntityMixin extends EntityMixin
 		
 		if (alive)
 		{
-			ScaleUtils.loadScale(this, oldPlayer);
+			ScaleUtils.loadScale((Entity) (Object) this, oldPlayer);
 		}
 	}
 }
