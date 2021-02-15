@@ -36,14 +36,38 @@ public class ScaleType
 	/**
 	 * @see {@link ScaleType.Builder}
 	 */
-	protected ScaleType(Set<ScaleModifier> defaultBaseValueModifiers)
+	private ScaleType(Builder builder)
 	{
+		this(builder.defaultBaseScale, builder.defaultTickDelay, builder.defaultBaseValueModifiers);
+	}
+	
+	/**
+	 * @see {@link ScaleType.Builder}
+	 */
+	private ScaleType(float defaultBaseScale, int defaultTickDelay, Set<ScaleModifier> defaultBaseValueModifiers)
+	{
+		this.defaultBaseScale = defaultBaseScale;
+		this.defaultTickDelay = defaultTickDelay;
 		this.defaultBaseValueModifiers = defaultBaseValueModifiers;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
 	{
 		return ((ResizableEntity) entity).pehkui_getScaleData(this);
+	}
+	
+	private float defaultBaseScale;
+	
+	public final float getDefaultBaseScale()
+	{
+		return defaultBaseScale;
+	}
+	
+	private int defaultTickDelay;
+	
+	public final int getDefaultTickDelay()
+	{
+		return defaultTickDelay;
 	}
 	
 	private final Set<ScaleModifier> defaultBaseValueModifiers;
@@ -60,6 +84,8 @@ public class ScaleType
 	public static class Builder
 	{
 		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
+		private float defaultBaseScale = 1.0F;
+		private int defaultTickDelay = 20;
 		
 		public static Builder create()
 		{
@@ -71,6 +97,16 @@ public class ScaleType
 			
 		}
 		
+		public void defaultBaseScale(float defaultBaseScale)
+		{
+			this.defaultBaseScale = defaultBaseScale;
+		}
+		
+		public void defaultTickDelay(int defaultTickDelay)
+		{
+			this.defaultTickDelay = defaultTickDelay;
+		}
+		
 		public Builder addBaseValueModifier(ScaleModifier scaleModifier)
 		{
 			defaultBaseValueModifiers.add(scaleModifier);
@@ -79,7 +115,7 @@ public class ScaleType
 		
 		public ScaleType build()
 		{
-			return new ScaleType(defaultBaseValueModifiers);
+			return new ScaleType(this);
 		}
 	}
 	
@@ -143,12 +179,28 @@ public class ScaleType
 		return Optional.of(() -> getScaleChangedEvent().invoker().onEvent(getScaleData(e)));
 	};
 	
+	/**
+	 * @see {@link ScaleType.Builder}
+	 */
+	@Deprecated
+	protected ScaleType(Set<ScaleModifier> defaultBaseValueModifiers)
+	{
+		this(1.0F, 20, defaultBaseValueModifiers);
+	}
+	
+	/**
+	 * @see {@link ScaleType.Builder}
+	 */
 	@Deprecated
 	public ScaleType()
 	{
 		this(Collections.emptySet());
 	}
 	
+	/**
+	 * @see {@link ScaleType.Builder}
+	 * @see {@link #getScaleChangedEvent()}
+	 */
 	@Deprecated
 	public ScaleType(Function<Entity, Optional<Runnable>> changeListenerFactory)
 	{

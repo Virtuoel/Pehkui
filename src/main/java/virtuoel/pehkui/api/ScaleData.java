@@ -40,12 +40,12 @@ public class ScaleData
 		return of(entity, ScaleType.BASE);
 	}
 	
-	protected float scale = 1.0F;
-	protected float prevScale = 1.0F;
-	protected float fromScale = 1.0F;
-	protected float toScale = 1.0F;
+	protected float scale;
+	protected float prevScale;
+	protected float fromScale;
+	protected float toScale;
 	protected int scaleTicks = 0;
-	protected int totalScaleTicks = 20;
+	protected int totalScaleTicks;
 	
 	@Deprecated
 	public boolean scaleModified = false;
@@ -69,6 +69,11 @@ public class ScaleData
 	{
 		this.scaleType = scaleType;
 		this.entity = entity;
+		this.scale = scaleType.getDefaultBaseScale();
+		this.prevScale = this.scale;
+		this.fromScale = this.scale;
+		this.toScale = this.scale;
+		this.totalScaleTicks = scaleType.getDefaultTickDelay();
 		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
@@ -360,18 +365,20 @@ public class ScaleData
 	
 	public void fromTag(CompoundTag scaleData)
 	{
-		this.scale = scaleData.contains("scale") ? scaleData.getFloat("scale") : 1.0F;
+		final ScaleType type = getScaleType();
+		
+		this.scale = scaleData.contains("scale") ? scaleData.getFloat("scale") : type.getDefaultBaseScale();
 		this.prevScale = scaleData.contains("previous") ? scaleData.getFloat("previous") : this.scale;
 		this.fromScale = scaleData.contains("initial") ? scaleData.getFloat("initial") : this.scale;
 		this.toScale = scaleData.contains("target") ? scaleData.getFloat("target") : this.scale;
 		this.scaleTicks = scaleData.contains("ticks") ? scaleData.getInt("ticks") : 0;
-		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : 20;
+		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : type.getDefaultTickDelay();
 		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
 		baseValueModifiers.clear();
 		
-		baseValueModifiers.addAll(getScaleType().getDefaultBaseValueModifiers());
+		baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
 		
 		if (scaleData.contains("baseValueModifiers"))
 		{
@@ -396,11 +403,36 @@ public class ScaleData
 	
 	public CompoundTag toTag(CompoundTag tag)
 	{
-		tag.putFloat("scale", this.getBaseScale());
-		tag.putFloat("initial", this.getInitialScale());
-		tag.putFloat("target", this.getTargetScale());
-		tag.putInt("ticks", this.scaleTicks);
-		tag.putInt("total_ticks", this.totalScaleTicks);
+		final ScaleType type = getScaleType();
+		final float defaultBaseScale = type.getDefaultBaseScale();
+		
+		final float scale = getBaseScale();
+		if (scale != defaultBaseScale)
+		{
+			tag.putFloat("scale", scale);
+		}
+		
+		final float initial = getInitialScale();
+		if (initial != defaultBaseScale)
+		{
+			tag.putFloat("initial", initial);
+		}
+		
+		final float target = getTargetScale();
+		if (target != defaultBaseScale)
+		{
+			tag.putFloat("target", target);
+		}
+		
+		if (this.scaleTicks != 0)
+		{
+			tag.putInt("ticks", this.scaleTicks);
+		}
+		
+		if (this.totalScaleTicks != type.getDefaultTickDelay())
+		{
+			tag.putInt("total_ticks", this.totalScaleTicks);
+		}
 		
 		final SortedSet<ScaleModifier> savedModifiers = new ObjectRBTreeSet<>();
 		

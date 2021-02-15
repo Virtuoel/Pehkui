@@ -220,7 +220,7 @@ public class ScaleUtils
 	{
 		if (!(entity instanceof ResizableEntity))
 		{
-			return 1.0F;
+			return type.getDefaultBaseScale();
 		}
 		
 		return type.getScaleData((Entity) entity).getScale(tickDelta);
