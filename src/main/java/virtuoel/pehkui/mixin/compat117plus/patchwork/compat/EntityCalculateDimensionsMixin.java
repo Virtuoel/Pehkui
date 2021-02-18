@@ -1,8 +1,10 @@
-package virtuoel.pehkui.mixin.compat117plus;
+package virtuoel.pehkui.mixin.compat117plus.patchwork.compat;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
+import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -16,11 +18,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 
-@Mixin(Entity.class)
-public abstract class EntityMixin
+@Mixin(value = Entity.class, priority = 1010)
+public abstract class EntityCalculateDimensionsMixin
 {
+	@Shadow
+	protected boolean firstUpdate;
+	
 	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/entity/Entity;refreshPosition()V"))
-	private void onCalculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current)
+	private void onCalculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, @Coerce Object sizeEvent, EntityDimensions current)
 	{
 		final Entity self = (Entity) (Object) this;
 		

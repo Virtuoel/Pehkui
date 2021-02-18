@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin
+public abstract class EntityCalculateDimensionsMixin
 {
 	@Shadow World world;
 	@Shadow @Final @Mutable EntityType<?> type;

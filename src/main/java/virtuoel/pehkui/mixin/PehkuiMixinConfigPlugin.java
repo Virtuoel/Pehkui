@@ -35,6 +35,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = FabricLoader.getInstance().isModLoaded("step-height-entity-attribute");
 	private static final boolean IDENTITY_LOADED = FabricLoader.getInstance().isModLoaded("identity");
 	private static final boolean OPTIFABRIC_LOADED = FabricLoader.getInstance().isModLoaded("optifabric");
+	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = FabricLoader.getInstance().isModLoaded("patchwork-events-entity");
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -54,6 +55,11 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		if (mixinClassName.endsWith("InGameOverlayRendererMixin"))
 		{
 			return OPTIFABRIC_LOADED == mixinClassName.contains(".optifine.compat.");
+		}
+		
+		if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
+		{
+			return PATCHWORK_ENTITY_EVENTS_LOADED == mixinClassName.contains(".patchwork.compat.");
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))
