@@ -59,8 +59,8 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Deprecated
-	@Inject(at = @At("HEAD"), method = "fromTag")
-	private void onFromTagLegacy(CompoundTag tag, CallbackInfo info)
+	@Inject(at = @At("HEAD"), method = "readNbt")
+	private void onReadNbtLegacy(CompoundTag tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
@@ -69,8 +69,8 @@ public abstract class EntityMixin implements ResizableEntity
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "fromTag")
-	private void onFromTag(CompoundTag tag, CallbackInfo info)
+	@Inject(at = @At("HEAD"), method = "readNbt")
+	private void onReadNbt(CompoundTag tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND))
 		{
@@ -91,8 +91,8 @@ public abstract class EntityMixin implements ResizableEntity
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "toTag")
-	private void onToTag(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
+	@Inject(at = @At("HEAD"), method = "writeNbt")
+	private void onWriteNbt(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
 	{
 		final CompoundTag typeData = new CompoundTag();
 		
