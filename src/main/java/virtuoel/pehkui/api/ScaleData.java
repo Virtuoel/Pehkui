@@ -328,39 +328,10 @@ public class ScaleData
 		return buffer;
 	}
 	
+	@Deprecated
 	public static CompoundTag fromPacketByteBufToTag(PacketByteBuf buffer)
 	{
-		final CompoundTag scaleData = new CompoundTag();
-		
-		final float scale = buffer.readFloat();
-		final float prevScale = buffer.readFloat();
-		final float fromScale = buffer.readFloat();
-		final float toScale = buffer.readFloat();
-		final int scaleTicks = buffer.readInt();
-		final int totalScaleTicks = buffer.readInt();
-		
-		scaleData.putFloat("scale", scale);
-		scaleData.putFloat("previous", prevScale);
-		scaleData.putFloat("initial", fromScale);
-		scaleData.putFloat("target", toScale);
-		scaleData.putInt("ticks", scaleTicks);
-		scaleData.putInt("total_ticks", totalScaleTicks);
-		
-		final int baseModifierCount = buffer.readInt();
-		
-		if (baseModifierCount != 0)
-		{
-			final ListTag modifiers = new ListTag();
-			
-			for (int i = 0; i < baseModifierCount; i++)
-			{
-				modifiers.add(NbtOps.INSTANCE.createString(buffer.readString(32767)));
-			}
-			
-			scaleData.put("baseValueModifiers", modifiers);
-		}
-		
-		return scaleData;
+		return virtuoel.pehkui.util.ScaleUtils.buildScaleNbtFromPacketByteBuf(buffer);
 	}
 	
 	public void fromTag(CompoundTag scaleData)

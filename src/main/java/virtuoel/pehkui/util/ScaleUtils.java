@@ -11,6 +11,9 @@ import com.google.gson.JsonPrimitive;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
@@ -79,6 +82,41 @@ public class ScaleUtils
 		}
 		
 		return scale;
+	}
+	
+	public static CompoundTag buildScaleNbtFromPacketByteBuf(PacketByteBuf buffer)
+	{
+		final CompoundTag scaleData = new CompoundTag();
+		
+		final float scale = buffer.readFloat();
+		final float prevScale = buffer.readFloat();
+		final float fromScale = buffer.readFloat();
+		final float toScale = buffer.readFloat();
+		final int scaleTicks = buffer.readInt();
+		final int totalScaleTicks = buffer.readInt();
+		
+		scaleData.putFloat("scale", scale);
+		scaleData.putFloat("previous", prevScale);
+		scaleData.putFloat("initial", fromScale);
+		scaleData.putFloat("target", toScale);
+		scaleData.putInt("ticks", scaleTicks);
+		scaleData.putInt("total_ticks", totalScaleTicks);
+		
+		final int baseModifierCount = buffer.readInt();
+		
+		if (baseModifierCount != 0)
+		{
+			final ListTag modifiers = new ListTag();
+			
+			for (int i = 0; i < baseModifierCount; i++)
+			{
+				modifiers.add(NbtOps.INSTANCE.createString(buffer.readString(32767)));
+			}
+			
+			scaleData.put("baseValueModifiers", modifiers);
+		}
+		
+		return scaleData;
 	}
 	
 	public static void syncScalesIfNeeded(Entity entity, Consumer<Packet<?>> packetSender)
