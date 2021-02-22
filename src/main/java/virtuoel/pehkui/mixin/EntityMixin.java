@@ -97,13 +97,21 @@ public abstract class EntityMixin implements ResizableEntity
 		final CompoundTag typeData = new CompoundTag();
 		
 		ScaleData scaleData;
+		CompoundTag compound;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			scaleData = pehkui_getScaleData(entry.getValue());
 			
 			if (!scaleData.equals(ScaleData.IDENTITY))
 			{
-				typeData.put(entry.getKey().toString(), scaleData.toTag(new CompoundTag()));
+				compound = new CompoundTag();
+				
+				scaleData.toTag(compound);
+				
+				if (!compound.isEmpty())
+				{
+					typeData.put(entry.getKey().toString(), compound);
+				}
 			}
 		}
 		
