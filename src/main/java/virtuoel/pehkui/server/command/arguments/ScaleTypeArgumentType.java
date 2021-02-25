@@ -36,7 +36,7 @@ public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandUtils.suggestIdentifiersExcept(Pehkui.MOD_ID, ScaleRegistries.SCALE_TYPES.keySet(), builder);
+		return CommandUtils.suggestIdentifiersIgnoringNamespace(Pehkui.MOD_ID, ScaleRegistries.SCALE_TYPES.keySet(), builder);
 	}
 	
 	@Override

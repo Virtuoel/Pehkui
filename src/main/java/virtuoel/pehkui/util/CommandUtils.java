@@ -12,20 +12,20 @@ import net.minecraft.util.Identifier;
 
 public class CommandUtils
 {
-	public static CompletableFuture<Suggestions> suggestIdentifiersExcept(String except, Iterable<Identifier> candidates, SuggestionsBuilder builder)
+	public static CompletableFuture<Suggestions> suggestIdentifiersIgnoringNamespace(String namespace, Iterable<Identifier> candidates, SuggestionsBuilder builder)
 	{
-		forEachMatchingExcept(
-			except,
+		forEachMatchingIgnoringNamespace(
+			namespace,
 			candidates,
 			builder.getRemaining().toLowerCase(Locale.ROOT),
 			Function.identity(),
-			id -> builder.suggest(id.toString())
+			id -> builder.suggest(String.valueOf(id))
 		);
 		
 		return builder.buildFuture();
 	}
 	
-	public static <T> void forEachMatchingExcept(String except, Iterable<T> candidates, String string, Function<T, Identifier> idFunc, Consumer<T> action)
+	public static <T> void forEachMatchingIgnoringNamespace(String namespace, Iterable<T> candidates, String string, Function<T, Identifier> idFunc, Consumer<T> action)
 	{
 		final boolean hasColon = string.indexOf(':') > -1;
 		
@@ -42,7 +42,7 @@ public class CommandUtils
 			}
 			else if (
 				wordStartsWith(string, id.getNamespace(), '_') ||
-				id.getNamespace().equals(except) &&
+				id.getNamespace().equals(namespace) &&
 				wordStartsWith(string, id.getPath(), '_')
 			)
 			{
