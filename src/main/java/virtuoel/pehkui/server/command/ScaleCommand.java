@@ -1,5 +1,7 @@
 package virtuoel.pehkui.server.command;
 
+import java.util.stream.Collectors;
+
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -11,8 +13,10 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.server.command.arguments.ScaleModifierArgumentType;
 import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
 import virtuoel.pehkui.server.command.arguments.ScaleTypeArgumentType;
 
@@ -190,6 +194,91 @@ public class ScaleCommand
 					
 					return 1;
 				})
+			)
+			.then(CommandManager.literal("modifier")
+				.then(CommandManager.literal("get")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("entity", EntityArgumentType.entity())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final ScaleData data = type.getScaleData(EntityArgumentType.getEntity(context, "entity"));
+								
+								final String modifierString = String.join(", ", data.getBaseValueModifiers().stream().map(e -> ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, e).toString()).collect(Collectors.toList()));
+								
+								context.getSource().sendFeedback(new LiteralText(modifierString.isEmpty() ? "N/A" : modifierString), false);
+								
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							
+							final String modifierString = String.join(", ", type.getDefaultBaseValueModifiers().stream().map(e -> ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, e).toString()).collect(Collectors.toList()));
+							
+							context.getSource().sendFeedback(new LiteralText(modifierString.isEmpty() ? "N/A" : modifierString), false);
+							
+							return 1;
+						})
+					)
+				)
+				.then(CommandManager.literal("add")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("scale_modifier", ScaleModifierArgumentType.scaleModifier())
+							.then(CommandManager.argument("targets", EntityArgumentType.entities())
+								.executes(context ->
+								{
+									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+									{
+										final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+										final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
+										final ScaleData data = type.getScaleData(e);
+										data.getBaseValueModifiers().add(modifier);
+										data.onUpdate();
+									}
+									return 1;
+								})
+							)
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
+								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+								data.getBaseValueModifiers().add(modifier);
+								data.onUpdate();
+								return 1;
+							})
+						)
+					)
+				)
+				.then(CommandManager.literal("remove")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("scale_modifier", ScaleModifierArgumentType.scaleModifier())
+							.then(CommandManager.argument("targets", EntityArgumentType.entities())
+								.executes(context ->
+								{
+									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+									{
+										final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+										final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
+										final ScaleData data = type.getScaleData(e);
+										data.getBaseValueModifiers().remove(modifier);
+									}
+									return 1;
+								})
+							)
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
+								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+								data.getBaseValueModifiers().remove(modifier);
+								return 1;
+							})
+						)
+					)
+				)
 			)
 			.then(CommandManager.literal("delay")
 				.then(CommandManager.literal("set")

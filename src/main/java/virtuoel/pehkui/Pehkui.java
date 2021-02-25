@@ -14,6 +14,7 @@ import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.server.command.arguments.ScaleModifierArgumentType;
 import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
 import virtuoel.pehkui.server.command.arguments.ScaleTypeArgumentType;
 
@@ -32,12 +33,13 @@ public class Pehkui implements ModInitializer
 	public void onInitialize()
 	{
 		ScaleRegistries.SCALE_TYPES.getClass();
-		ScaleType.INVALID.getClass();
 		ScaleModifier.IDENTITY.getClass();
+		ScaleType.INVALID.getClass();
 		
 		if (FabricLoader.getInstance().isModLoaded("fabric-command-api-v1"))
 		{
 			ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
+			ArgumentTypes.register(id("scale_modifier").toString(), ScaleModifierArgumentType.class, new ConstantArgumentSerializer<>(ScaleModifierArgumentType::scaleModifier));
 			ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
 			
 			CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
