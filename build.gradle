@@ -228,14 +228,20 @@ curseforge {
 			id = project.curseforge_id
 			
 			releaseType = project.curseforge_release_type
+			
+			addGameVersion "Fabric"
+			
+			def display_name_prefix = ""
 			if(project.hasProperty("curseforge_release_versions")) {
-				project.curseforge_release_versions.split(", ").each { String gameVersion ->
+				def game_versions = project.curseforge_release_versions.split(", ")
+				display_name_prefix = "[${game_versions[0]} - ${project.minecraft_version}] "
+				game_versions.each { String gameVersion ->
 					addGameVersion gameVersion
 				}
 			}
 			
 			mainArtifact(remapJar) {
-				displayName = "${archives_base_name}-${project.version}.jar"
+				displayName = "${display_name_prefix}${archives_base_name} ${project.mod_version}"
 				
 				if(project.hasProperty("required_dep_slugs") || project.hasProperty("embedded_lib_slugs") || project.hasProperty("optional_dep_slugs") || project.hasProperty("compatible_tool_slugs") || project.hasProperty("incompatible_slugs")) {
 					relations {
@@ -276,7 +282,7 @@ curseforge {
 			}
 			
 			addArtifact(sourcesJar) {
-				displayName = "${archives_base_name}-${project.version}-sources.jar"
+				displayName = "${archives_base_name} ${project.mod_version} Source Code"
 			}
 			
 			afterEvaluate {
@@ -309,7 +315,7 @@ task publishModrinth (type: TaskModrinthUpload) {
 			}
 		}
 		
-		versionName = "${archives_base_name} ${project.version}"
+		versionName = "${archives_base_name} ${project.mod_version}"
 		
 		versionNumber = project.version
 		
