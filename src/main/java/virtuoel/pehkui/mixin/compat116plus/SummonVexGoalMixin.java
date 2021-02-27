@@ -15,7 +15,7 @@ public class SummonVexGoalMixin
 {
 	@Shadow @Final EvokerEntity field_7267;
 	
-	@ModifyArg(method = "castSpell", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
+	@ModifyArg(method = "castSpell()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
 	private Entity castSpellSpawnEntityAndPassengersProxy(Entity vexEntity)
 	{
 		ScaleUtils.loadScale(vexEntity, field_7267);
