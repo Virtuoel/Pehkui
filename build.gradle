@@ -180,11 +180,9 @@ githubRelease {
 		repo project.github_repository
 	}
 	
-	def versionName = project.version.replaceAll(/\+/, "_")
-	
-	tagName versionName
+	tagName project.mod_version
 	targetCommitish { org.ajoberstar.grgit.Grgit.open(dir: ".").branch.current().name }
-	releaseName versionName
+	releaseName project.version
 	
 	def filenameFilter = { dir, filename -> filename.contains(project.version) && !filename.contains("-dev.jar") }
 	releaseAssets = jar.destinationDirectory.files().filter(filenameFilter).files
