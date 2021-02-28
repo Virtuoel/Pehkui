@@ -1,15 +1,21 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.reach;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.BrewingStandBlockEntity;
+import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.vehicle.StorageMinecartEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(StorageMinecartEntity.class)
-public abstract class StorageMinecartEntityMixin
+@Mixin({
+	AbstractFurnaceBlockEntity.class,
+	BrewingStandBlockEntity.class,
+	LootableContainerBlockEntity.class,
+})
+public abstract class BlockEntityUseDistanceMixin
 {
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 64.0D))
 	private double canPlayerUseModifyDistance(double value, PlayerEntity player)
