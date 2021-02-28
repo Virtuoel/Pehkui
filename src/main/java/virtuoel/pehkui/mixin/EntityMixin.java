@@ -108,7 +108,7 @@ public abstract class EntityMixin implements ResizableEntity
 				
 				scaleData.toTag(compound);
 				
-				if (!compound.isEmpty())
+				if (compound.getSize() != 0)
 				{
 					typeData.put(entry.getKey().toString(), compound);
 				}
