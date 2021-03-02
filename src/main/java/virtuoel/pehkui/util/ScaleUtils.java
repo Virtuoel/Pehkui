@@ -196,6 +196,36 @@ public class ScaleUtils
 		return getConfigurableTypedScale(entity, ScaleType.REACH, "scaledReach", tickDelta);
 	}
 	
+	public static float getAttackScale(Entity entity)
+	{
+		return getAttackScale(entity, 1.0F);
+	}
+	
+	public static float getAttackScale(Entity entity, float tickDelta)
+	{
+		return getConfigurableTypedScale(entity, ScaleType.ATTACK, "scaledAttack", tickDelta);
+	}
+	
+	public static float getDefenseScale(Entity entity)
+	{
+		return getDefenseScale(entity, 1.0F);
+	}
+	
+	public static float getDefenseScale(Entity entity, float tickDelta)
+	{
+		return getConfigurableTypedScale(entity, ScaleType.DEFENSE, "scaledDefense", tickDelta);
+	}
+	
+	public static float getHealthScale(Entity entity)
+	{
+		return getHealthScale(entity, 1.0F);
+	}
+	
+	public static float getHealthScale(Entity entity, float tickDelta)
+	{
+		return getConfigurableTypedScale(entity, ScaleType.HEALTH, "scaledHealth", tickDelta);
+	}
+	
 	public static float getDropScale(Entity entity)
 	{
 		return getDropScale(entity, 1.0F);

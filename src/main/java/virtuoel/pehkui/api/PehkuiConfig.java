@@ -29,6 +29,9 @@ public class PehkuiConfig
 		config.addProperty("scaledFallDamage", true);
 		config.addProperty("scaledMotion", true);
 		config.addProperty("scaledReach", true);
+		config.addProperty("scaledAttack", true);
+		config.addProperty("scaledDefense", true);
+		config.addProperty("scaledHealth", true);
 		config.addProperty("scaledItemDrops", true);
 		config.addProperty("scaledProjectiles", true);
 		config.addProperty("scaledExplosions", true);

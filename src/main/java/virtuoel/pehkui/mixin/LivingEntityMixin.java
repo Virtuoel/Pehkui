@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.google.gson.JsonElement;
@@ -17,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -68,5 +70,31 @@ public abstract class LivingEntityMixin extends EntityMixin
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale < 1.0F ? scale * value : value;
+	}
+	
+	@ModifyVariable(method = "applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F", at = @At("HEAD"), argsOnly = true)
+	private float onApplyArmorToDamage(float value, DamageSource source, float amount)
+	{
+		final Entity attacker = source.getAttacker();
+		final float attackScale = attacker == null ? 1.0F : ScaleUtils.getAttackScale(attacker);
+		final float defenseScale = ScaleUtils.getDefenseScale((Entity) (Object) this);
+		
+		if (attackScale != 1.0F || defenseScale != 1.0F)
+		{
+			value = attackScale * value / defenseScale;
+		}
+		
+		return value;
+	}
+	
+	@Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
+	private void onGetMaxHealth(CallbackInfoReturnable<Float> info)
+	{
+		final float scale = ScaleUtils.getHealthScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			info.setReturnValue(info.getReturnValueF() * scale);
+		}
 	}
 }
