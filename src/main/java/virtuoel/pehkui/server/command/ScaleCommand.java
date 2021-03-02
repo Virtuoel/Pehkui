@@ -101,6 +101,7 @@ public class ScaleCommand
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
 							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							
 							return 1;
 						})
 					)
@@ -109,6 +110,7 @@ public class ScaleCommand
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						
 						return 1;
 					})
 				)
@@ -124,6 +126,7 @@ public class ScaleCommand
 				{
 					final float scale = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
 					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+					
 					return 1;
 				})
 			)
@@ -135,6 +138,7 @@ public class ScaleCommand
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScale();
 							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							
 							return 1;
 						})
 					)
@@ -143,6 +147,7 @@ public class ScaleCommand
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						
 						return 1;
 					})
 				)
@@ -158,6 +163,7 @@ public class ScaleCommand
 								final ScaleData data = type.getScaleData(e);
 								data.fromScale(ScaleData.IDENTITY);
 							}
+							
 							return 1;
 						})
 					)
@@ -166,6 +172,7 @@ public class ScaleCommand
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 						data.fromScale(ScaleData.IDENTITY);
+						
 						return 1;
 					})
 				)
@@ -237,6 +244,7 @@ public class ScaleCommand
 										data.getBaseValueModifiers().add(modifier);
 										data.onUpdate();
 									}
+									
 									return 1;
 								})
 							)
@@ -247,6 +255,7 @@ public class ScaleCommand
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 								data.getBaseValueModifiers().add(modifier);
 								data.onUpdate();
+								
 								return 1;
 							})
 						)
@@ -265,6 +274,7 @@ public class ScaleCommand
 										final ScaleData data = type.getScaleData(e);
 										data.getBaseValueModifiers().remove(modifier);
 									}
+									
 									return 1;
 								})
 							)
@@ -274,6 +284,7 @@ public class ScaleCommand
 								final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 								data.getBaseValueModifiers().remove(modifier);
+								
 								return 1;
 							})
 						)
