@@ -184,8 +184,7 @@ githubRelease {
 	targetCommitish { org.ajoberstar.grgit.Grgit.open(dir: ".").branch.current().name }
 	releaseName project.version
 	
-	def filenameFilter = { dir, filename -> filename.contains(project.version) && !filename.contains("-dev.jar") }
-	releaseAssets = jar.destinationDirectory.files().filter(filenameFilter).files
+	releaseAssets = files("${project.buildDir}/libs/${archivesBaseName}-${version}.jar", "${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
 }
 
 if(project.hasProperty("fabric_version")) {
