@@ -1,5 +1,6 @@
 package virtuoel.pehkui.server.command;
 
+import java.util.SortedSet;
 import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -288,6 +289,39 @@ public class ScaleCommand
 								return 1;
 							})
 						)
+					)
+				)
+				.then(CommandManager.literal("reset")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+									final ScaleData data = type.getScaleData(e);
+									
+									final SortedSet<ScaleModifier> baseValueModifiers = data.getBaseValueModifiers();
+									
+									baseValueModifiers.clear();
+									baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
+								}
+								
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+							
+							final SortedSet<ScaleModifier> baseValueModifiers = data.getBaseValueModifiers();
+							
+							baseValueModifiers.clear();
+							baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
+							
+							return 1;
+						})
 					)
 				)
 			)
