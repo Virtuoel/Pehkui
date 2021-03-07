@@ -186,55 +186,40 @@ public class ScaleType
 		}
 	}
 	
-	private final Event<ScaleEventCallback> scaleChangedEvent = EventFactory.createArrayBacked(
-		ScaleEventCallback.class,
-		data -> {},
-		(callbacks) -> (data) ->
-		{
-			for (ScaleEventCallback callback : callbacks)
-			{
-				callback.onEvent(data);
-			}
-		}
-	);
+	private final Event<ScaleEventCallback> scaleChangedEvent = createScaleEvent();
 	
 	public Event<ScaleEventCallback> getScaleChangedEvent()
 	{
 		return scaleChangedEvent;
 	}
 	
-	private final Event<ScaleEventCallback> preTickEvent = EventFactory.createArrayBacked(
-		ScaleEventCallback.class,
-		data -> {},
-		(callbacks) -> (data) ->
-		{
-			for (ScaleEventCallback callback : callbacks)
-			{
-				callback.onEvent(data);
-			}
-		}
-	);
+	private final Event<ScaleEventCallback> preTickEvent = createScaleEvent();
 	
 	public Event<ScaleEventCallback> getPreTickEvent()
 	{
 		return preTickEvent;
 	}
 	
-	private final Event<ScaleEventCallback> postTickEvent = EventFactory.createArrayBacked(
-		ScaleEventCallback.class,
-		data -> {},
-		(callbacks) -> (data) ->
-		{
-			for (ScaleEventCallback callback : callbacks)
-			{
-				callback.onEvent(data);
-			}
-		}
-	);
+	private final Event<ScaleEventCallback> postTickEvent = createScaleEvent();
 	
 	public Event<ScaleEventCallback> getPostTickEvent()
 	{
 		return postTickEvent;
+	}
+	
+	private static Event<ScaleEventCallback> createScaleEvent()
+	{
+		return EventFactory.createArrayBacked(
+			ScaleEventCallback.class,
+			data -> {},
+			(callbacks) -> (data) ->
+			{
+				for (ScaleEventCallback callback : callbacks)
+				{
+					callback.onEvent(data);
+				}
+			}
+		);
 	}
 	
 	/**
