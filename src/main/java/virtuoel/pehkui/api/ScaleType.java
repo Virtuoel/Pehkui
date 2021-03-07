@@ -26,8 +26,8 @@ public class ScaleType
 	
 	public static final ScaleType INVALID = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES));
 	public static final ScaleType BASE = registerBaseScale("base");
-	public static final ScaleType WIDTH = registerDimensionScale("width", ScaleModifier.BASE_MULTIPLIER);
-	public static final ScaleType HEIGHT = registerDimensionScale("height", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType WIDTH = registerDimensionScale("width");
+	public static final ScaleType HEIGHT = registerDimensionScale("height");
 	public static final ScaleType MOTION = register("motion", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType ATTACK = register("attack");
@@ -269,15 +269,8 @@ public class ScaleType
 		return ScaleRegistries.register(ScaleRegistries.SCALE_TYPES, id, entry);
 	}
 	
-	private static ScaleType register(Identifier id, ScaleModifier... modifiers)
+	private static ScaleType register(Identifier id, Builder builder)
 	{
-		final Builder builder = Builder.create();
-		
-		for (ScaleModifier scaleModifier : modifiers)
-		{
-			builder.addBaseValueModifier(scaleModifier);
-		}
-		
 		return ScaleRegistries.register(
 			ScaleRegistries.SCALE_TYPES,
 			id,
@@ -285,38 +278,14 @@ public class ScaleType
 		);
 	}
 	
+	private static ScaleType register(Identifier id)
+	{
+		final Builder builder = Builder.create();
+		
+		return register(id, builder);
+	}
+	
 	private static ScaleType register(String path, ScaleModifier... modifiers)
-	{
-		return register(Pehkui.id(path), modifiers);
-	}
-	
-	private static ScaleType registerBaseScale(String path)
-	{
-		final ScaleType type = registerDimensionScale(path);
-		
-		type.getScaleChangedEvent().register(s ->
-		{
-			final Entity e = s.getEntity();
-			
-			if (e != null)
-			{
-				ScaleData data;
-				for (ScaleType scaleType : ScaleRegistries.SCALE_TYPES.values())
-				{
-					data = scaleType.getScaleData(e);
-					
-					if (data.getBaseValueModifiers().contains(ScaleModifier.BASE_MULTIPLIER))
-					{
-						data.markForSync(true);
-					}
-				}
-			}
-		});
-		
-		return type;
-	}
-	
-	private static ScaleType registerDimensionScale(String path, ScaleModifier... modifiers)
 	{
 		final Builder builder = Builder.create();
 		
@@ -325,27 +294,24 @@ public class ScaleType
 			builder.addBaseValueModifier(scaleModifier);
 		}
 		
-		final ScaleType type = ScaleRegistries.register(
-			ScaleRegistries.SCALE_TYPES,
-			new Identifier("pehkui", path),
-			builder.build()
-		);
+		return register(Pehkui.id(path), builder);
+	}
+	
+	private static ScaleType registerBaseScale(String path)
+	{
+		final Builder builder = Builder.create()
+			.affectsDimensions()
+			.addDependentModifier(ScaleModifier.BASE_MULTIPLIER);
 		
-		type.getScaleChangedEvent().register(s ->
-		{
-			final Entity e = s.getEntity();
-			
-			if (e != null)
-			{
-				final EntityAccessor en = (EntityAccessor) e;
-				final boolean onGround = en.getOnGround();
-				
-				e.calculateDimensions();
-				
-				en.setOnGround(onGround);
-			}
-		});
+		return register(Pehkui.id(path), builder);
+	}
+	
+	private static ScaleType registerDimensionScale(String path)
+	{
+		final Builder builder = Builder.create()
+			.affectsDimensions()
+			.addBaseValueModifier(ScaleModifier.BASE_MULTIPLIER);
 		
-		return type;
+		return register(Pehkui.id(path), builder);
 	}
 }
