@@ -1,5 +1,6 @@
 package virtuoel.pehkui.api;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
@@ -89,6 +90,8 @@ public class ScaleType
 		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
 		private float defaultBaseScale = 1.0F;
 		private int defaultTickDelay = 20;
+		private boolean affectsDimensions = false;
+		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
 		
 		public static Builder create()
 		{
@@ -112,13 +115,74 @@ public class ScaleType
 		
 		public Builder addBaseValueModifier(ScaleModifier scaleModifier)
 		{
-			defaultBaseValueModifiers.add(scaleModifier);
+			this.defaultBaseValueModifiers.add(scaleModifier);
+			return this;
+		}
+		
+		public Builder affectsDimensions()
+		{
+			this.affectsDimensions = true;
+			return this;
+		}
+		
+		public Builder addDependentModifier(ScaleModifier scaleModifier)
+		{
+			this.dependentModifiers.add(scaleModifier);
 			return this;
 		}
 		
 		public ScaleType build()
 		{
-			return new ScaleType(this);
+			final ScaleType type = new ScaleType(this);
+			
+			if (this.affectsDimensions)
+			{
+				type.getScaleChangedEvent().register(Builder::calculateDimensions);
+			}
+			
+			if (!this.dependentModifiers.isEmpty())
+			{
+				type.getScaleChangedEvent().register(createModifiedDataSyncEvent(this.dependentModifiers));
+			}
+			
+			return type;
+		}
+		
+		private static void calculateDimensions(ScaleData s)
+		{
+			final Entity e = s.getEntity();
+			
+			if (e != null)
+			{
+				final EntityAccessor en = (EntityAccessor) e;
+				final boolean onGround = en.getOnGround();
+				
+				e.calculateDimensions();
+				
+				en.setOnGround(onGround);
+			}
+		}
+		
+		private static ScaleEventCallback createModifiedDataSyncEvent(final Collection<ScaleModifier> modifiers)
+		{
+			return s ->
+			{
+				final Entity e = s.getEntity();
+				
+				if (e != null)
+				{
+					ScaleData data;
+					for (ScaleType scaleType : ScaleRegistries.SCALE_TYPES.values())
+					{
+						data = scaleType.getScaleData(e);
+						
+						if (!Collections.disjoint(modifiers, data.getBaseValueModifiers()))
+						{
+							data.markForSync(true);
+						}
+					}
+				}
+			};
 		}
 	}
 	
