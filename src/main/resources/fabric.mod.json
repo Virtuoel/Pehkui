@@ -36,13 +36,5 @@
 	"mixins":
 	[
 		"pehkui.mixins.json"
-	],
-	"custom":
-	{
-		"modmenu:api": true,
-		"modmenu":
-		{
-			"badges": [ "library" ]
-		}
-	}
+	]
 }
