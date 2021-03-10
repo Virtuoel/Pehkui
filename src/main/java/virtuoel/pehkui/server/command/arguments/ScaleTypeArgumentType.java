@@ -1,9 +1,9 @@
 package virtuoel.pehkui.server.command.arguments;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -23,7 +23,7 @@ import virtuoel.pehkui.util.CommandUtils;
 
 public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 {
-	private static final Collection<String> EXAMPLES = ScaleRegistries.SCALE_TYPES.keySet().stream().map(Identifier::toString).collect(Collectors.toList());
+	private static final Collection<String> EXAMPLES = Arrays.asList("base", Pehkui.MOD_ID + ":base");
 	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType(arg -> new LiteralText("Unknown scale type '" + arg + "'"));
 	
 	@Override
