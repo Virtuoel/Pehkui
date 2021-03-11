@@ -96,6 +96,7 @@
 		"identity.compat116.IdentityComponentMixin",
 		"reach.BlockEntityUseDistanceMixin",
 		"reach.EnderChestBlockEntityMixin",
+		"reach.ItemMixin",
 		"reach.PlayerEntityMixin",
 		"reach.ServerPlayerInteractionManagerMixin",
 		"reach.ServerPlayNetworkHandlerMixin",
