@@ -10,8 +10,6 @@ import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleModifier;
-import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.server.command.ScaleCommand;
 import virtuoel.pehkui.server.command.arguments.ScaleModifierArgumentType;
@@ -32,8 +30,6 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		ScaleRegistries.SCALE_TYPES.getClass();
-		ScaleModifier.IDENTITY.getClass();
 		ScaleType.INVALID.getClass();
 		
 		if (FabricLoader.getInstance().isModLoaded("fabric-command-api-v1"))
