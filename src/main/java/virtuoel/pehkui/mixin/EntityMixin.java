@@ -148,7 +148,7 @@ public abstract class EntityMixin implements ResizableEntity
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 	}
 	
-	@ModifyArg(method = "fall", index = 3, at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
+	@ModifyArg(method = "fall", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private float onFallModifyFallDistance(float distance)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
