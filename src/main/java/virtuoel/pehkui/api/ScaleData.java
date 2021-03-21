@@ -10,8 +10,8 @@ import org.jetbrains.annotations.Nullable;
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -329,12 +329,12 @@ public class ScaleData
 	}
 	
 	@Deprecated
-	public static CompoundTag fromPacketByteBufToTag(PacketByteBuf buffer)
+	public static NbtCompound fromPacketByteBufToTag(PacketByteBuf buffer)
 	{
 		return virtuoel.pehkui.util.ScaleUtils.buildScaleNbtFromPacketByteBuf(buffer);
 	}
 	
-	public void fromTag(CompoundTag scaleData)
+	public void fromTag(NbtCompound scaleData)
 	{
 		final ScaleType type = getScaleType();
 		
@@ -353,7 +353,7 @@ public class ScaleData
 		
 		if (scaleData.contains("baseValueModifiers"))
 		{
-			final ListTag modifiers = scaleData.getList("baseValueModifiers", NbtType.STRING);
+			final NbtList modifiers = scaleData.getList("baseValueModifiers", NbtType.STRING);
 			
 			Identifier id;
 			ScaleModifier modifier;
@@ -372,7 +372,7 @@ public class ScaleData
 		onUpdate();
 	}
 	
-	public CompoundTag toTag(CompoundTag tag)
+	public NbtCompound toTag(NbtCompound tag)
 	{
 		final ScaleType type = getScaleType();
 		final float defaultBaseScale = type.getDefaultBaseScale();
@@ -412,7 +412,7 @@ public class ScaleData
 		
 		if (!savedModifiers.isEmpty())
 		{
-			final ListTag modifiers = new ListTag();
+			final NbtList modifiers = new NbtList();
 			
 			for (ScaleModifier modifier : savedModifiers)
 			{
@@ -621,7 +621,7 @@ public class ScaleData
 		}
 		
 		@Override
-		public void fromTag(CompoundTag scaleData)
+		public void fromTag(NbtCompound scaleData)
 		{
 			
 		}

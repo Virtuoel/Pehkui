@@ -26,7 +26,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -60,7 +60,7 @@ public abstract class EntityMixin implements ResizableEntity
 	
 	@Deprecated
 	@Inject(at = @At("HEAD"), method = "readNbt")
-	private void onReadNbtLegacy(CompoundTag tag, CallbackInfo info)
+	private void onReadNbtLegacy(NbtCompound tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
@@ -70,11 +70,11 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Inject(at = @At("HEAD"), method = "readNbt")
-	private void onReadNbt(CompoundTag tag, CallbackInfo info)
+	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND))
 		{
-			final CompoundTag typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
+			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			
 			String key;
 			ScaleData scaleData;
@@ -92,19 +92,19 @@ public abstract class EntityMixin implements ResizableEntity
 	}
 	
 	@Inject(at = @At("HEAD"), method = "writeNbt")
-	private void onWriteNbt(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
+	private void onWriteNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
 	{
-		final CompoundTag typeData = new CompoundTag();
+		final NbtCompound typeData = new NbtCompound();
 		
 		ScaleData scaleData;
-		CompoundTag compound;
+		NbtCompound compound;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			scaleData = pehkui_getScaleData(entry.getValue());
 			
 			if (!scaleData.equals(ScaleData.IDENTITY))
 			{
-				compound = new CompoundTag();
+				compound = new NbtCompound();
 				
 				scaleData.toTag(compound);
 				

@@ -6,7 +6,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -23,7 +23,7 @@ public class PehkuiClient implements ClientModInitializer
 				final UUID uuid = buf.readUuid();
 				final Identifier typeId = buf.readIdentifier();
 				
-				final CompoundTag scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
+				final NbtCompound scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
 				
 				if (!ScaleRegistries.SCALE_TYPES.containsKey(typeId))
 				{
