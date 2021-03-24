@@ -1,13 +1,10 @@
 package virtuoel.pehkui.util;
 
 import java.util.Map.Entry;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
+import java.util.function.Supplier;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
@@ -183,7 +180,7 @@ public class ScaleUtils
 	
 	public static float getMotionScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.MOTION, "scaledMotion", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.MOTION, PehkuiConfig.COMMON.scaledMotion::get, tickDelta);
 	}
 	
 	public static float getReachScale(Entity entity)
@@ -193,7 +190,7 @@ public class ScaleUtils
 	
 	public static float getReachScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.REACH, "scaledReach", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
 	}
 	
 	public static float getAttackScale(Entity entity)
@@ -203,7 +200,7 @@ public class ScaleUtils
 	
 	public static float getAttackScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.ATTACK, "scaledAttack", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.ATTACK, PehkuiConfig.COMMON.scaledAttack::get, tickDelta);
 	}
 	
 	public static float getDefenseScale(Entity entity)
@@ -213,7 +210,7 @@ public class ScaleUtils
 	
 	public static float getDefenseScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.DEFENSE, "scaledDefense", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.DEFENSE, PehkuiConfig.COMMON.scaledDefense::get, tickDelta);
 	}
 	
 	public static float getHealthScale(Entity entity)
@@ -223,7 +220,7 @@ public class ScaleUtils
 	
 	public static float getHealthScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.HEALTH, "scaledHealth", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.HEALTH, PehkuiConfig.COMMON.scaledHealth::get, tickDelta);
 	}
 	
 	public static float getDropScale(Entity entity)
@@ -233,7 +230,7 @@ public class ScaleUtils
 	
 	public static float getDropScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.DROPS, "scaledItemDrops", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.DROPS, PehkuiConfig.COMMON.scaledItemDrops::get, tickDelta);
 	}
 	
 	public static float getProjectileScale(Entity entity)
@@ -243,7 +240,7 @@ public class ScaleUtils
 	
 	public static float getProjectileScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.PROJECTILES, "scaledProjectiles", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.PROJECTILES, PehkuiConfig.COMMON.scaledProjectiles::get, tickDelta);
 	}
 	
 	public static float getExplosionScale(Entity entity)
@@ -253,15 +250,12 @@ public class ScaleUtils
 	
 	public static float getExplosionScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, "scaledExplosions", tickDelta);
+		return getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, PehkuiConfig.COMMON.scaledExplosions::get, tickDelta);
 	}
 	
-	public static float getConfigurableTypedScale(Entity entity, ScaleType type, String config, float tickDelta)
+	public static float getConfigurableTypedScale(Entity entity, ScaleType type, Supplier<Boolean> config, float tickDelta)
 	{
-		if (Optional.ofNullable(PehkuiConfig.DATA.get(config))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(true))
+		if (config.get())
 		{
 			return getTypedScale(entity, type, tickDelta);
 		}

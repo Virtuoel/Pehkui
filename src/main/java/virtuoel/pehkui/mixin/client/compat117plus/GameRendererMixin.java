@@ -1,16 +1,11 @@
 package virtuoel.pehkui.mixin.client.compat117plus;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -36,11 +31,7 @@ public class GameRendererMixin
 			if (scale < 1.0F)
 			{
 				return Math.max(
-					Optional.ofNullable(PehkuiConfig.DATA.get("minimumCameraDepth"))
-						.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-						.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
-						.map(Number::floatValue)
-						.orElse(0.001F),
+					(float) PehkuiConfig.CLIENT.minimumCameraDepth.get().doubleValue(),
 					value * scale
 				);
 			}

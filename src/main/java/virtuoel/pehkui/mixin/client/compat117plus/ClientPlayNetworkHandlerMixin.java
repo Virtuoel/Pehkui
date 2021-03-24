@@ -1,15 +1,10 @@
 package virtuoel.pehkui.mixin.client.compat117plus;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -26,11 +21,7 @@ public class ClientPlayNetworkHandlerMixin
 	@Inject(method = "onPlayerRespawn(Lnet/minecraft/network/packet/s2c/play/PlayerRespawnS2CPacket;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;init()V"))
 	private void onOnPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, RegistryKey<World> dimension, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
 	{
-		final boolean shouldCopyScale = packet.shouldKeepPlayerAttributes() ||
-			Optional.ofNullable(PehkuiConfig.DATA.get("keepScaleOnRespawn"))
-			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-			.orElse(false);
+		final boolean shouldCopyScale = packet.shouldKeepPlayerAttributes() || PehkuiConfig.COMMON.keepScaleOnRespawn.get();
 		
 		if (shouldCopyScale)
 		{

@@ -1,7 +1,5 @@
 package virtuoel.pehkui.mixin;
 
-import java.util.Optional;
-
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -10,9 +8,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -38,10 +33,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 		
 		if (scale != 1.0F)
 		{
-			if (Optional.ofNullable(PehkuiConfig.DATA.get("scaledFallDamage"))
-				.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
-				.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
-				.orElse(true))
+			if (PehkuiConfig.COMMON.scaledFallDamage.get())
 			{
 				return value * scale;
 			}
