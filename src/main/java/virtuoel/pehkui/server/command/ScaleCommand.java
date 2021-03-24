@@ -25,6 +25,11 @@ public class ScaleCommand
 {
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher, final boolean dedicated)
 	{
+		register(commandDispatcher);
+	}
+	
+	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
+	{
 		commandDispatcher.register(
 			CommandManager.literal("scale").requires(commandSource ->
 			{
