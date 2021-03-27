@@ -11,10 +11,10 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
+import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
+import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.server.command.ScaleCommand;
-import virtuoel.pehkui.server.command.arguments.ScaleModifierArgumentType;
-import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
-import virtuoel.pehkui.server.command.arguments.ScaleTypeArgumentType;
 
 public class Pehkui implements ModInitializer
 {

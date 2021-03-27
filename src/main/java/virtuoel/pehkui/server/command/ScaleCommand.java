@@ -17,9 +17,9 @@ import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
-import virtuoel.pehkui.server.command.arguments.ScaleModifierArgumentType;
-import virtuoel.pehkui.server.command.arguments.ScaleOperationArgumentType;
-import virtuoel.pehkui.server.command.arguments.ScaleTypeArgumentType;
+import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
+import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
+import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 
 public class ScaleCommand
 {

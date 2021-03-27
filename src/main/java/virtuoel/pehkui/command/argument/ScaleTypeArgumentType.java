@@ -1,4 +1,4 @@
-package virtuoel.pehkui.server.command.arguments;
+package virtuoel.pehkui.command.argument;
 
 import java.util.Arrays;
 import java.util.Collection;
