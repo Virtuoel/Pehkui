@@ -12,13 +12,12 @@ import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ClientPlayNetworkHandler.class)
 public class ClientPlayNetworkHandlerMixin
 {
-	@Inject(method = MixinConstants.ON_PLAYER_RESPAWN, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = MixinConstants.AFTER_SPAWN, remap = false), remap = false)
+	@Inject(method = "onPlayerRespawn", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"))
 	private void onOnPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, RegistryKey<World> dimension, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
 	{
 		ScaleUtils.loadScaleOnRespawn(newPlayer, oldPlayer, packet.shouldKeepPlayerAttributes());

@@ -23,7 +23,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
@@ -56,12 +56,12 @@ public abstract class EntityMixin implements ResizableEntity
 		return scaleData;
 	}
 	
-	@Inject(at = @At("HEAD"), method = "readNbt")
-	private void onReadNbt(NbtCompound tag, CallbackInfo info)
+	@Inject(at = @At("HEAD"), method = "fromTag")
+	private void onReadNbt(CompoundTag tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND))
 		{
-			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
+			final CompoundTag typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			
 			String key;
 			ScaleData scaleData;
@@ -78,20 +78,20 @@ public abstract class EntityMixin implements ResizableEntity
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "writeNbt")
-	private void onWriteNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
+	@Inject(at = @At("HEAD"), method = "toTag")
+	private void onWriteNbt(CompoundTag tag, CallbackInfoReturnable<CompoundTag> info)
 	{
-		final NbtCompound typeData = new NbtCompound();
+		final CompoundTag typeData = new CompoundTag();
 		
 		ScaleData scaleData;
-		NbtCompound compound;
+		CompoundTag compound;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			scaleData = pehkui_getScaleData(entry.getValue());
 			
 			if (!scaleData.isReset())
 			{
-				compound = new NbtCompound();
+				compound = new CompoundTag();
 				
 				scaleData.writeNbt(compound);
 				

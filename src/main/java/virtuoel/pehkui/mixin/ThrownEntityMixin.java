@@ -31,7 +31,7 @@ public abstract class ThrownEntityMixin extends EntityMixin
 			
 			final Vec3d pos = self.getPos();
 			
-			self.setPosition(pos.x, pos.y + ((1.0F - heightScale) * 0.1D), pos.z);
+			self.setPos(pos.x, pos.y + ((1.0F - heightScale) * 0.1D), pos.z);
 		}
 		
 		ScaleUtils.setScaleOfProjectile((Entity) (Object) this, owner);

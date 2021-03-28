@@ -26,8 +26,6 @@ public class MixinConstants
 	private static final String METHOD_5992 = "method_5992";
 	private static final String METHOD_5808 = "method_5808";
 	private static final String METHOD_6249 = "method_6249";
-	private static final String METHOD_23883 = "method_23883";
-	private static final String METHOD_22973 = "method_22973";
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_6959 = "method_6959";
 	private static final String METHOD_5800 = "method_5800";
@@ -44,10 +42,6 @@ public class MixinConstants
 	private static final String METHOD_1760 = "method_1760";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
-	private static final String METHOD_5757 = "method_5757";
-	private static final String METHOD_5650 = "method_5650";
-	private static final String METHOD_11117 = "method_11117";
-	private static final String METHOD_5823 = "method_5823";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -78,8 +72,6 @@ public class MixinConstants
 	private static final String CLASS_1324 = "net/minecraft/class_1324";
 	private static final String CLASS_4587 = "net/minecraft/class_4587";
 	private static final String CLASS_4597 = "net/minecraft/class_4597";
-	private static final String CLASS_2724 = "net/minecraft/class_2724";
-	private static final String CLASS_746 = "net/minecraft/class_746";
 	
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
 	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
@@ -121,12 +113,6 @@ public class MixinConstants
 	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String BREED = METHOD_6249 + "()V";
 	
-	// 1.15 Plus 1.16 Minus
-	public static final String DROP_XP = METHOD_23883; // COMMIT READY
-	
-	// 1.15 Plus 1.16 Minus Client
-	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973; // COMMIT READY
-	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
 	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
@@ -154,14 +140,4 @@ public class MixinConstants
 	// 1.15 Client
 	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
 	public static final String RENDER_SHADOW_PART = METHOD_23163;
-	
-	// 1.16
-	public static final String IS_INSIDE_WALL = METHOD_5757 + "()Z"; // COMMIT READY
-	
-	// 1.16 Minus
-	public static final String REMOVE = METHOD_5650; // COMMIT READY
-	
-	// 1.16.2 Plus
-	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT READY
-	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V"; // COMMIT READY
 }
