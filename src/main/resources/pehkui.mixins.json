@@ -16,6 +16,8 @@
 		"EntityAccessor",
 		"EntityMixin",
 		"EntityMountedHeightOffsetMixin",
+		"EntitySelectorOptionsInvoker",
+		"EntitySelectorReaderMixin",
 		"EntityTrackerEntryMixin",
 		"EntityVehicleHeightOffsetMixin",
 		"EvokerFangsEntityMixin",
