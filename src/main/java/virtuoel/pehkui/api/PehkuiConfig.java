@@ -1,8 +1,14 @@
 package virtuoel.pehkui.api;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -41,6 +47,7 @@ public class PehkuiConfig
 		config.addProperty("scaledProjectiles", true);
 		config.addProperty("scaledExplosions", true);
 		config.addProperty("keepScaleOnRespawn", false);
+		config.add("scalesKeptOnRespawn", new JsonArray());
 		config.addProperty("accurateNetherPortals", true);
 		config.addProperty("minimumCameraDepth", 0.001F);
 		
@@ -73,6 +80,7 @@ public class PehkuiConfig
 		public final Supplier<Boolean> scaledProjectiles;
 		public final Supplier<Boolean> scaledExplosions;
 		public final Supplier<Boolean> keepScaleOnRespawn;
+		public final Supplier<List<String>> scalesKeptOnRespawn;
 		public final Supplier<Boolean> accurateNetherPortals;
 		
 		Common()
@@ -87,6 +95,7 @@ public class PehkuiConfig
 			this.scaledProjectiles = booleanConfig("scaledProjectiles", true);
 			this.scaledExplosions = booleanConfig("scaledExplosions", true);
 			this.keepScaleOnRespawn = booleanConfig("keepScaleOnRespawn", false);
+			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
 			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
 		}
 	}
@@ -114,5 +123,19 @@ public class PehkuiConfig
 			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
 			.orElse(defaultValue);
+	}
+	
+	private static Supplier<List<String>> stringListConfig(String config)
+	{
+		return listConfig(config, JsonElement::getAsString);
+	}
+	
+	private static <T> Supplier<List<T>> listConfig(String config, Function<JsonElement, T> mapper)
+	{
+		return () -> Optional.ofNullable(PehkuiConfig.DATA.get(config))
+			.filter(JsonElement::isJsonArray).map(JsonElement::getAsJsonArray)
+			.map(JsonArray::spliterator).map(a -> StreamSupport.stream(a, false))
+			.map(s -> s.map(mapper).collect(Collectors.toList()))
+			.orElseGet(ArrayList::new);
 	}
 }

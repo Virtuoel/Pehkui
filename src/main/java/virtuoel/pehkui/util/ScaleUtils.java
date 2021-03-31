@@ -1,5 +1,6 @@
 package virtuoel.pehkui.util;
 
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -8,6 +9,7 @@ import java.util.function.Supplier;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
@@ -51,13 +53,32 @@ public class ScaleUtils
 		}
 	}
 	
+	public static void loadScaleOnRespawn(PlayerEntity target, PlayerEntity source, boolean alive)
+	{
+		if (alive || PehkuiConfig.COMMON.keepScaleOnRespawn.get())
+		{
+			loadScale(target, source);
+			return;
+		}
+		
+		final List<? extends String> keptScales = PehkuiConfig.COMMON.scalesKeptOnRespawn.get();
+		
+		ScaleType type;
+		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+		{
+			if (keptScales.contains(entry.getKey().toString()))
+			{
+				type = entry.getValue();
+				type.getScaleData(target).fromScale(type.getScaleData(source));
+			}
+		}
+	}
+	
 	public static void loadScale(Entity target, Entity source)
 	{
-		ScaleData scaleData;
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			scaleData = type.getScaleData(target);
-			scaleData.fromScale(type.getScaleData(source));
+			type.getScaleData(target).fromScale(type.getScaleData(source));
 		}
 	}
 	
