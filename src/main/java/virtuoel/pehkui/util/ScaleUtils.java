@@ -276,12 +276,7 @@ public class ScaleUtils
 	
 	public static float getConfigurableTypedScale(Entity entity, ScaleType type, Supplier<Boolean> config, float tickDelta)
 	{
-		if (config.get())
-		{
-			return getTypedScale(entity, type, tickDelta);
-		}
-		
-		return getTypedScale(entity, ScaleType.BASE, tickDelta);
+		return config.get() ? getTypedScale(entity, type, tickDelta) : type.getDefaultBaseScale();
 	}
 	
 	public static float getTypedScale(Entity entity, ScaleType type, float tickDelta)
