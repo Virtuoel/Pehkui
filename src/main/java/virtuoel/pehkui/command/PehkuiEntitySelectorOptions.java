@@ -17,8 +17,10 @@ import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
 
 public class PehkuiEntitySelectorOptions
 {
-	public static final Text SCALE_RANGE_DESCRIPTION = new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_range.description");
-	public static final Text SCALE_TYPE_DESCRIPTION = new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.description");
+	private static final Object[] EMPTY_ARGUMENTS = new Object[0];
+	
+	public static final Text SCALE_RANGE_DESCRIPTION = new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_range.description", EMPTY_ARGUMENTS);
+	public static final Text SCALE_TYPE_DESCRIPTION = new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.description", EMPTY_ARGUMENTS);
 	
 	public static final DynamicCommandExceptionType INVALID_SCALE_TYPE_EXCEPTION = new DynamicCommandExceptionType(
 		object -> new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.invalid", object)
