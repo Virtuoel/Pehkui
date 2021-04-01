@@ -56,8 +56,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		{
 			return OPTIFABRIC_LOADED == mixinClassName.contains(".optifine.compat.");
 		}
-		
-		if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
+		else if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
 		{
 			return PATCHWORK_ENTITY_EVENTS_LOADED == mixinClassName.contains(".patchwork.compat.");
 		}
