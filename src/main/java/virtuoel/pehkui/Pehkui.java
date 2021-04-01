@@ -25,7 +25,7 @@ public class Pehkui implements ModInitializer
 	
 	public Pehkui()
 	{
-		PehkuiConfig.DATA.getClass();
+		PehkuiConfig.COMMON.getClass();
 	}
 	
 	@Override
