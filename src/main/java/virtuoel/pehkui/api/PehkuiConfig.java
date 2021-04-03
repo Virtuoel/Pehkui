@@ -60,7 +60,8 @@ public class PehkuiConfig
 			this.scaledItemDrops = booleanConfig("scaledItemDrops", true);
 			this.scaledProjectiles = booleanConfig("scaledProjectiles", true);
 			this.scaledExplosions = booleanConfig("scaledExplosions", true);
-			this.keepAllScalesOnRespawn = booleanConfig("keepAllScalesOnRespawn", false);
+			this.keepAllScalesOnRespawn = booleanConfig("keepScaleOnRespawn", false); // TODO remove in 2.0.0
+		//	this.keepAllScalesOnRespawn = booleanConfig("keepAllScalesOnRespawn", false); // TODO add in 2.0.0
 			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
 			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
 		}
@@ -104,7 +105,8 @@ public class PehkuiConfig
 		config.addProperty("scaledItemDrops", true);
 		config.addProperty("scaledProjectiles", true);
 		config.addProperty("scaledExplosions", true);
-		config.addProperty("keepAllScalesOnRespawn", false);
+		config.addProperty("keepScaleOnRespawn", false); // TODO remove in 2.0.0
+	//	config.addProperty("keepAllScalesOnRespawn", false); // TODO add in 2.0.0
 		config.add("scalesKeptOnRespawn", new JsonArray());
 		config.addProperty("accurateNetherPortals", true);
 		config.addProperty("minimumCameraDepth", 0.001F);
