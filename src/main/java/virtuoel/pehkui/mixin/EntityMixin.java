@@ -61,7 +61,7 @@ public abstract class EntityMixin implements ResizableEntity
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
 		{
 			final ScaleData scaleData = pehkui_getScaleData(ScaleType.BASE);
-			scaleData.fromTag(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
+			scaleData.readNbt(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
 		}
 	}
 	
@@ -81,7 +81,7 @@ public abstract class EntityMixin implements ResizableEntity
 				if (typeData.contains(key, NbtType.COMPOUND))
 				{
 					scaleData = pehkui_getScaleData(entry.getValue());
-					scaleData.fromTag(typeData.getCompound(key));
+					scaleData.readNbt(typeData.getCompound(key));
 				}
 			}
 		}
@@ -102,7 +102,7 @@ public abstract class EntityMixin implements ResizableEntity
 			{
 				compound = new NbtCompound();
 				
-				scaleData.toTag(compound);
+				scaleData.writeNbt(compound);
 				
 				if (compound.getSize() != 0)
 				{

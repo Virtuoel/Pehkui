@@ -305,7 +305,13 @@ public class ScaleData
 		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
 	}
 	
+	@Deprecated
 	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
+	{
+		return toPacket(buffer);
+	}
+	
+	public PacketByteBuf toPacket(PacketByteBuf buffer)
 	{
 		final SortedSet<ScaleModifier> syncedModifiers = new ObjectRBTreeSet<>();
 		
@@ -334,16 +340,22 @@ public class ScaleData
 		return virtuoel.pehkui.util.ScaleUtils.buildScaleNbtFromPacketByteBuf(buffer);
 	}
 	
-	public void fromTag(NbtCompound scaleData)
+	@Deprecated
+	public void fromTag(NbtCompound tag)
+	{
+		readNbt(tag);
+	}
+	
+	public void readNbt(NbtCompound tag)
 	{
 		final ScaleType type = getScaleType();
 		
-		this.scale = scaleData.contains("scale") ? scaleData.getFloat("scale") : type.getDefaultBaseScale();
-		this.prevScale = scaleData.contains("previous") ? scaleData.getFloat("previous") : this.scale;
-		this.fromScale = scaleData.contains("initial") ? scaleData.getFloat("initial") : this.scale;
-		this.toScale = scaleData.contains("target") ? scaleData.getFloat("target") : this.scale;
-		this.scaleTicks = scaleData.contains("ticks") ? scaleData.getInt("ticks") : 0;
-		this.totalScaleTicks = scaleData.contains("total_ticks") ? scaleData.getInt("total_ticks") : type.getDefaultTickDelay();
+		this.scale = tag.contains("scale") ? tag.getFloat("scale") : type.getDefaultBaseScale();
+		this.prevScale = tag.contains("previous") ? tag.getFloat("previous") : this.scale;
+		this.fromScale = tag.contains("initial") ? tag.getFloat("initial") : this.scale;
+		this.toScale = tag.contains("target") ? tag.getFloat("target") : this.scale;
+		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
+		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
 		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
@@ -351,9 +363,9 @@ public class ScaleData
 		
 		baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
 		
-		if (scaleData.contains("baseValueModifiers"))
+		if (tag.contains("baseValueModifiers"))
 		{
-			final NbtList modifiers = scaleData.getList("baseValueModifiers", NbtType.STRING);
+			final NbtList modifiers = tag.getList("baseValueModifiers", NbtType.STRING);
 			
 			Identifier id;
 			ScaleModifier modifier;
@@ -372,7 +384,13 @@ public class ScaleData
 		onUpdate();
 	}
 	
+	@Deprecated
 	public NbtCompound toTag(NbtCompound tag)
+	{
+		return writeNbt(tag);
+	}
+	
+	public NbtCompound writeNbt(NbtCompound tag)
 	{
 		final ScaleType type = getScaleType();
 		final float defaultBaseScale = type.getDefaultBaseScale();
@@ -620,8 +638,15 @@ public class ScaleData
 			
 		}
 		
+		@Deprecated
 		@Override
-		public void fromTag(NbtCompound scaleData)
+		public void fromTag(NbtCompound tag)
+		{
+			
+		}
+		
+		@Override
+		public void readNbt(NbtCompound tag)
 		{
 			
 		}

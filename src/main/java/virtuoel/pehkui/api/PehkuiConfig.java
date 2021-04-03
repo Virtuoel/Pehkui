@@ -18,6 +18,60 @@ import virtuoel.pehkui.util.JsonConfigHandler;
 
 public class PehkuiConfig
 {
+	public static final Client CLIENT = new Client();
+	public static final Common COMMON = new Common();
+	public static final Server SERVER = new Server();
+	
+	public static class Client
+	{
+		public final Supplier<Double> minimumCameraDepth;
+		
+		Client()
+		{
+			this.minimumCameraDepth = doubleConfig("minimumCameraDepth", 0.001D);
+		}
+	}
+	
+	public static class Common
+	{
+		public final Supplier<Boolean> scaledFallDamage;
+		public final Supplier<Boolean> scaledMotion;
+		public final Supplier<Boolean> scaledReach;
+		public final Supplier<Boolean> scaledAttack;
+		public final Supplier<Boolean> scaledDefense;
+		public final Supplier<Boolean> scaledHealth;
+		public final Supplier<Boolean> scaledItemDrops;
+		public final Supplier<Boolean> scaledProjectiles;
+		public final Supplier<Boolean> scaledExplosions;
+		public final Supplier<Boolean> keepAllScalesOnRespawn;
+		public final Supplier<List<String>> scalesKeptOnRespawn;
+		public final Supplier<Boolean> accurateNetherPortals;
+		
+		Common()
+		{
+			this.scaledFallDamage = booleanConfig("scaledFallDamage", true);
+			this.scaledMotion = booleanConfig("scaledMotion", true);
+			this.scaledReach = booleanConfig("scaledReach", true);
+			this.scaledAttack = booleanConfig("scaledAttack", true);
+			this.scaledDefense = booleanConfig("scaledDefense", true);
+			this.scaledHealth = booleanConfig("scaledHealth", true);
+			this.scaledItemDrops = booleanConfig("scaledItemDrops", true);
+			this.scaledProjectiles = booleanConfig("scaledProjectiles", true);
+			this.scaledExplosions = booleanConfig("scaledExplosions", true);
+			this.keepAllScalesOnRespawn = booleanConfig("keepAllScalesOnRespawn", false);
+			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
+			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
+		}
+	}
+	
+	public static class Server
+	{
+		Server()
+		{
+			
+		}
+	}
+	
 	@Deprecated
 	public static final Supplier<JsonObject> HANDLER = createConfig();
 	
@@ -46,66 +100,12 @@ public class PehkuiConfig
 		config.addProperty("scaledItemDrops", true);
 		config.addProperty("scaledProjectiles", true);
 		config.addProperty("scaledExplosions", true);
-		config.addProperty("keepScaleOnRespawn", false);
+		config.addProperty("keepAllScalesOnRespawn", false);
 		config.add("scalesKeptOnRespawn", new JsonArray());
 		config.addProperty("accurateNetherPortals", true);
 		config.addProperty("minimumCameraDepth", 0.001F);
 		
 		return config;
-	}
-	
-	public static final Client CLIENT = new Client();
-	public static final Common COMMON = new Common();
-	public static final Server SERVER = new Server();
-	
-	public static class Client
-	{
-		public final Supplier<Double> minimumCameraDepth;
-		
-		Client()
-		{
-			this.minimumCameraDepth = doubleConfig("minimumCameraDepth", 0.001D);
-		}
-	}
-	
-	public static class Common
-	{
-		public final Supplier<Boolean> scaledFallDamage;
-		public final Supplier<Boolean> scaledMotion;
-		public final Supplier<Boolean> scaledReach;
-		public final Supplier<Boolean> scaledAttack;
-		public final Supplier<Boolean> scaledDefense;
-		public final Supplier<Boolean> scaledHealth;
-		public final Supplier<Boolean> scaledItemDrops;
-		public final Supplier<Boolean> scaledProjectiles;
-		public final Supplier<Boolean> scaledExplosions;
-		public final Supplier<Boolean> keepScaleOnRespawn;
-		public final Supplier<List<String>> scalesKeptOnRespawn;
-		public final Supplier<Boolean> accurateNetherPortals;
-		
-		Common()
-		{
-			this.scaledFallDamage = booleanConfig("scaledFallDamage", true);
-			this.scaledMotion = booleanConfig("scaledMotion", true);
-			this.scaledReach = booleanConfig("scaledReach", true);
-			this.scaledAttack = booleanConfig("scaledAttack", true);
-			this.scaledDefense = booleanConfig("scaledDefense", true);
-			this.scaledHealth = booleanConfig("scaledHealth", true);
-			this.scaledItemDrops = booleanConfig("scaledItemDrops", true);
-			this.scaledProjectiles = booleanConfig("scaledProjectiles", true);
-			this.scaledExplosions = booleanConfig("scaledExplosions", true);
-			this.keepScaleOnRespawn = booleanConfig("keepScaleOnRespawn", false);
-			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
-			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
-		}
-	}
-	
-	public static class Server
-	{
-		Server()
-		{
-			
-		}
 	}
 	
 	private static Supplier<Double> doubleConfig(String config, double defaultValue)

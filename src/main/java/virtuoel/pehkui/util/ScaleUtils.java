@@ -55,7 +55,7 @@ public class ScaleUtils
 	
 	public static void loadScaleOnRespawn(PlayerEntity target, PlayerEntity source, boolean alive)
 	{
-		if (alive || PehkuiConfig.COMMON.keepScaleOnRespawn.get())
+		if (alive || PehkuiConfig.COMMON.keepAllScalesOnRespawn.get())
 		{
 			loadScale(target, source);
 			return;
@@ -159,7 +159,7 @@ public class ScaleUtils
 			if (condition.test(scaleData))
 			{
 				packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
-					scaleData.toPacketByteBuf(
+					scaleData.toPacket(
 						new PacketByteBuf(Unpooled.buffer())
 						.writeUuid(uuid)
 						.writeIdentifier(entry.getKey())
