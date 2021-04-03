@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedSet;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
@@ -25,6 +26,7 @@ public class ScaleData
 	 * @see {@link ScaleType#getScaleData(Entity)}
 	 */
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public static ScaleData of(Entity entity, ScaleType type)
 	{
 		return type.getScaleData(entity);
@@ -35,6 +37,7 @@ public class ScaleData
 	 * @see {@link ScaleType#getScaleData(Entity)}
 	 */
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public static ScaleData of(Entity entity)
 	{
 		return of(entity, ScaleType.BASE);
@@ -48,10 +51,12 @@ public class ScaleData
 	protected int totalScaleTicks;
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public boolean scaleModified = false;
 	private boolean shouldSync = false;
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected Optional<Runnable> changeListener = Optional.empty();
 	
 	protected final ScaleType scaleType;
@@ -79,6 +84,7 @@ public class ScaleData
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public ScaleData(Optional<Runnable> changeListener)
 	{
 		this(ScaleType.INVALID, null);
@@ -288,6 +294,7 @@ public class ScaleData
 	 * @see {@link #markForSync(boolean)}
 	 */
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public void markForSync()
 	{
 		this.scaleModified = true;
@@ -306,6 +313,7 @@ public class ScaleData
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
 	{
 		return toPacket(buffer);
@@ -335,12 +343,14 @@ public class ScaleData
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public static NbtCompound fromPacketByteBufToTag(PacketByteBuf buffer)
 	{
 		return virtuoel.pehkui.util.ScaleUtils.buildScaleNbtFromPacketByteBuf(buffer);
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public void fromTag(NbtCompound tag)
 	{
 		readNbt(tag);
@@ -385,6 +395,7 @@ public class ScaleData
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public NbtCompound toTag(NbtCompound tag)
 	{
 		return writeNbt(tag);
@@ -506,6 +517,7 @@ public class ScaleData
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
 	{
 		return averagedFromScales(scaleData, scales);
@@ -591,6 +603,7 @@ public class ScaleData
 		}
 		
 		@Deprecated
+		@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 		public ImmutableScaleData(float scale)
 		{
 			this(scale, ScaleType.INVALID, null);
@@ -639,6 +652,7 @@ public class ScaleData
 		}
 		
 		@Deprecated
+		@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 		@Override
 		public void fromTag(NbtCompound tag)
 		{

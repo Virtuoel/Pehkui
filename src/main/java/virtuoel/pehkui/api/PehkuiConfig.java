@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -73,9 +75,11 @@ public class PehkuiConfig
 	}
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public static final Supplier<JsonObject> HANDLER = createConfig();
 	
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public static final JsonObject DATA = HANDLER.get();
 	
 	private static Supplier<JsonObject> createConfig()
