@@ -5,6 +5,12 @@ pluginManagement {
 			name = "Fabric"
 			url = "https://maven.fabricmc.net/"
 		}
+		maven {
+			url "https://maven.shedaniel.me/"
+		}
+		maven {
+			url "https://files.minecraftforge.net/maven/"
+		}
 		gradlePluginPortal()
 	}
 }

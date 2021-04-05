@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "0.6-SNAPSHOT"
+	id 'forgified-fabric-loom' version '0.6.82'
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"
@@ -48,9 +48,17 @@ minecraft {
 	refmapName = "${archives_base_name}-refmap.json"
 }
 
+loom {
+	mixinConfig "${archives_base_name.toLowerCase()}.mixins.json"
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+	
+	if(project.hasProperty("forge_version")) {
+		forge "net.minecraftforge:forge:${forge_version}"
+	}
 	
 	if(project.hasProperty("loader_version")) {
 		modImplementation "net.fabricmc:fabric-loader:${loader_version}"
@@ -237,7 +245,7 @@ curseforge {
 			
 			releaseType = project.curseforge_release_type
 			
-			addGameVersion "Fabric"
+			addGameVersion "Forge"
 			
 			def display_name_prefix = ""
 			if(project.hasProperty("curseforge_release_versions")) {
@@ -315,7 +323,7 @@ task publishModrinth (type: TaskModrinthUpload) {
 		
 		releaseType = project.modrinth_release_type
 		
-		addLoader "fabric"
+		addLoader "forge"
 		
 		if(project.hasProperty("modrinth_release_versions")) {
 			project.modrinth_release_versions.split(", ").each { String gameVersion ->
