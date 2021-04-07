@@ -297,13 +297,13 @@ public class ScaleData
 	}
 	
 	/**
-	 * @see {@link #getPrevBaseScale()}
+	 * Gets the last value that the base scale was set to with modifiers applied. Useful for linear interpolation.
+	 * 
+	 * @return Last value of the base scale with modifiers applied
 	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public float getPrevScale()
 	{
-		return getPrevBaseScale();
+		return computeScale(getPrevBaseScale(), getBaseValueModifiers(), 1.0F);
 	}
 	
 	/**
