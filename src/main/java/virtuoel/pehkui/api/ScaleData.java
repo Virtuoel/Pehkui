@@ -590,7 +590,7 @@ public class ScaleData
 	public static class Builder
 	{
 		private Entity entity = null;
-		private ScaleType type = null;
+		private ScaleType type = ScaleType.INVALID;
 		
 		public static Builder create()
 		{
@@ -604,7 +604,7 @@ public class ScaleData
 		
 		public Builder type(ScaleType type)
 		{
-			this.type = type;
+			this.type = type == null ? ScaleType.INVALID : type;
 			return this;
 		}
 		
@@ -616,12 +616,12 @@ public class ScaleData
 		
 		public ImmutableScaleData buildImmutable(float value)
 		{
-			return new ImmutableScaleData(value, type == null ? ScaleType.INVALID : type, entity);
+			return new ImmutableScaleData(value, type, entity);
 		}
 		
 		public ScaleData build()
 		{
-			return new ScaleData(type == null ? ScaleType.INVALID : type, entity, type.getDefaultBaseScale(), type.getDefaultTickDelay());
+			return new ScaleData(type, entity, type.getDefaultBaseScale(), type.getDefaultTickDelay());
 		}
 	}
 	
