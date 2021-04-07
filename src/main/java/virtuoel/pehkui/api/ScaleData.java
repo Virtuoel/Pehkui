@@ -43,11 +43,23 @@ public class ScaleData
 		return of(entity, ScaleType.BASE);
 	}
 	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected float scale;
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected float prevScale;
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected float fromScale;
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected float toScale;
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected int scaleTicks = 0;
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected int totalScaleTicks;
 	
 	@Deprecated
@@ -59,26 +71,38 @@ public class ScaleData
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected Optional<Runnable> changeListener = Optional.empty();
 	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected final ScaleType scaleType;
 	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	@Nullable
 	protected final Entity entity;
 	
 	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
 	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
+	{
+		this(scaleType, entity, scaleType.getDefaultBaseScale(), scaleType.getDefaultTickDelay());
+	}
+	
 	/**
 	 * @see {@link ScaleType#getScaleData(Entity)}
 	 * @see {@link ScaleData.Builder#create()}
 	 */
-	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
+	@ApiStatus.Internal
+	protected ScaleData(ScaleType scaleType, @Nullable Entity entity, float defaultBaseScale, int defaultTickDelay)
 	{
 		this.scaleType = scaleType;
 		this.entity = entity;
-		this.scale = scaleType.getDefaultBaseScale();
-		this.prevScale = this.scale;
-		this.fromScale = this.scale;
-		this.toScale = this.scale;
-		this.totalScaleTicks = scaleType.getDefaultTickDelay();
+		this.scale = defaultBaseScale;
+		this.prevScale = defaultBaseScale;
+		this.fromScale = defaultBaseScale;
+		this.toScale = defaultBaseScale;
+		this.totalScaleTicks = defaultTickDelay;
 		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
@@ -179,7 +203,7 @@ public class ScaleData
 	 */
 	public float getBaseScale(float delta)
 	{
-		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevScale(), scale);
+		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevBaseScale(), scale);
 	}
 	
 	/**
@@ -271,11 +295,21 @@ public class ScaleData
 	}
 	
 	/**
+	 * @see {@link #getPrevBaseScale()}
+	 */
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+	public float getPrevScale()
+	{
+		return getPrevBaseScale();
+	}
+	
+	/**
 	 * Gets the last value that the base scale was set to. Useful for linear interpolation.
 	 * 
 	 * @return Last value of the base scale
 	 */
-	public float getPrevScale()
+	public float getPrevBaseScale()
 	{
 		return this.prevScale;
 	}
@@ -587,7 +621,7 @@ public class ScaleData
 		
 		public ScaleData build()
 		{
-			return new ScaleData(type == null ? ScaleType.INVALID : type, entity);
+			return new ScaleData(type == null ? ScaleType.INVALID : type, entity, type.getDefaultBaseScale(), type.getDefaultTickDelay());
 		}
 	}
 	
@@ -595,11 +629,7 @@ public class ScaleData
 	{
 		protected ImmutableScaleData(float scale, ScaleType scaleType, @Nullable Entity entity)
 		{
-			super(scaleType, entity);
-			this.scale = scale;
-			this.prevScale = scale;
-			this.fromScale = scale;
-			this.toScale = scale;
+			super(scaleType, entity, scale, 0);
 		}
 		
 		@Deprecated

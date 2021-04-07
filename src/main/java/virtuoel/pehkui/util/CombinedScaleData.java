@@ -13,7 +13,7 @@ public class CombinedScaleData extends ScaleData
 	
 	public CombinedScaleData(ScaleType scaleType, Entity entity, Supplier<ScaleData[]> otherData)
 	{
-		super(scaleType, entity);
+		super(scaleType, entity, scaleType.getDefaultBaseScale(), scaleType.getDefaultTickDelay());
 		
 		this.otherData = otherData;
 	}
