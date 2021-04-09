@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
 public abstract class BlockStateMixin implements PehkuiBlockStateExtensions
 {
 	@Shadow(remap = false)
-	abstract VoxelShape method_17770(BlockView world, BlockPos pos);
+	abstract VoxelShape method_17770(BlockView world, BlockPos pos); // UNMAPPED_METHOD
 	
 	@Override
 	public VoxelShape pehkui_getOutlineShape(BlockView world, BlockPos pos)

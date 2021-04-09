@@ -13,12 +13,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(PassiveEntity.class)
 public class PassiveEntityMixin
 {
-	@Inject(method = "method_5992(Lnet/minecraft/class_1657;Lnet/minecraft/class_1268;)Z", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1296;method_5808(DDDFF)V", remap = false), remap = false)
+	@Inject(method = MixinConstants.INTERACT_MOB, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.PASSIVE_ENTITY_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
 	private void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<Boolean> info, ItemStack itemStack, Item item, PassiveEntity passiveEntity)
 	{
 		ScaleUtils.loadScale(passiveEntity, (Entity) (Object) this);

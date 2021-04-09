@@ -6,15 +6,16 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.client.MinecraftClient;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(targets = "net.minecraft.class_759", remap = false)
+@Mixin(targets = MixinConstants.HELD_ITEM_RENDERER, remap = false)
 public abstract class HeldItemRendererMixin
 {
 	@Shadow(remap = false)
-	MinecraftClient field_4050;
+	MinecraftClient field_4050; // UNMAPPED_FIELD
 	
-	@ModifyConstant(method = "method_3232(F)V", constant = @Constant(floatValue = 0.1F))
+	@ModifyConstant(method = MixinConstants.RENDER_OVERLAYS, constant = @Constant(floatValue = 0.1F))
 	private float renderOverlaysModifyOffset(float value)
 	{
 		final float scale = ScaleUtils.getHeightScale(field_4050.player);

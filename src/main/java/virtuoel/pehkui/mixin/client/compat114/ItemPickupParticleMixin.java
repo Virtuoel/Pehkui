@@ -10,15 +10,16 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ItemPickupParticle;
 import net.minecraft.entity.Entity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ItemPickupParticle.class)
 public class ItemPickupParticleMixin
 {
-	@Shadow(remap = false) @Final @Mutable Entity field_3821;
-	@Shadow(remap = false) @Final @Mutable float field_3822;
+	@Shadow(remap = false) @Final @Mutable Entity field_3821; // UNMAPPED_FIELD
+	@Shadow(remap = false) @Final @Mutable float field_3822; // UNMAPPED_FIELD
 	
-	@ModifyArg(method = "method_3074(Lnet/minecraft/class_287;Lnet/minecraft/class_4184;FFFFFF)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/class_3532;method_16436(DDD)D", ordinal = 4, remap = false), remap = false)
+	@ModifyArg(method = MixinConstants.BUILD_GEOMETRY, index = 2, at = @At(value = "INVOKE", target = MixinConstants.LERP, ordinal = 4, remap = false), remap = false)
 	private double buildGeometryModifyOffset(double value)
 	{
 		final float scale = ScaleUtils.getHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());

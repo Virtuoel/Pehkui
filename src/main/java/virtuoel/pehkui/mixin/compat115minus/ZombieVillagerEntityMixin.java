@@ -11,12 +11,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.ZombieVillagerEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.server.world.ServerWorld;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ZombieVillagerEntity.class)
 public class ZombieVillagerEntityMixin
 {
-	@Inject(method = "method_7197(Lnet/minecraft/class_3218;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1646;method_5719(Lnet/minecraft/class_1297;)V", remap = false), remap = false)
+	@Inject(method = MixinConstants.FINISH_CONVERSION, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.VILLAGER_COPY_POS_AND_ROT, remap = false), remap = false)
 	private void onFinishConversion(ServerWorld world, CallbackInfo info, VillagerEntity villagerEntity)
 	{
 		ScaleUtils.loadScale(villagerEntity, (Entity) (Object) this);

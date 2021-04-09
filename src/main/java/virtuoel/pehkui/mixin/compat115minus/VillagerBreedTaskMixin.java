@@ -11,12 +11,13 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.entity.ai.brain.task.VillagerBreedTask;
 import net.minecraft.entity.passive.VillagerEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(VillagerBreedTask.class)
 public class VillagerBreedTaskMixin
 {
-	@Inject(method = "method_18970(Lnet/minecraft/class_1646;Lnet/minecraft/class_1646;)Ljava/util/Optional;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
+	@Inject(method = MixinConstants.CREATE_CHILD, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
 	private void onCreateChild(VillagerEntity villagerEntity, VillagerEntity villagerEntity2, CallbackInfoReturnable<Optional<VillagerEntity>> info, VillagerEntity child)
 	{
 		ScaleUtils.loadAverageScales(child, villagerEntity, villagerEntity2);

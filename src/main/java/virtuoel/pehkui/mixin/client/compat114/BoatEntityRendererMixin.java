@@ -9,12 +9,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.entity.BoatEntityRenderer;
 import net.minecraft.entity.vehicle.BoatEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(BoatEntityRenderer.class)
 public abstract class BoatEntityRendererMixin
 {
-	@Inject(method = "method_3887(Lnet/minecraft/class_1690;DDDFF)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_554;method_2836(Lnet/minecraft/class_1297;FFFFFF)V", remap = false), remap = false)
+	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
 	private void onRenderPreRender(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		final float widthScale = ScaleUtils.getWidthScale(boatEntity, tickDelta);
@@ -27,7 +28,7 @@ public abstract class BoatEntityRendererMixin
 		GL11.glPushMatrix();
 	}
 	
-	@Inject(method = "method_3887(Lnet/minecraft/class_1690;DDDFF)V", at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/class_554;method_2836(Lnet/minecraft/class_1297;FFFFFF)V", remap = false), remap = false)
+	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.AFTER, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
 	private void onRenderPostRender(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		GL11.glPopMatrix();

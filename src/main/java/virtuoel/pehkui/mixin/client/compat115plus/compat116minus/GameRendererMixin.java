@@ -11,6 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(GameRenderer.class)
@@ -19,7 +20,7 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@ModifyConstant(method = "method_22973", constant = @Constant(floatValue = 0.05F), remap = false)
+	@ModifyConstant(method = MixinConstants.GET_BASIC_PROJECTION_MATRIX, constant = @Constant(floatValue = 0.05F), remap = false)
 	private float getBasicProjectionMatrixModifyDepth(float value)
 	{
 		final Entity entity = client.getCameraEntity();

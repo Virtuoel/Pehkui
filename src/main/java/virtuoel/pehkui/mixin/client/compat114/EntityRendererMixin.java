@@ -8,24 +8,25 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin
 {
 	@Shadow(remap = false)
-	float field_4673;
+	float field_4673; // UNMAPPED_FIELD
 	
 	@Shadow(remap = false)
-	abstract void method_3934(Entity entity, double x, double y, double z, float opacity, float tickDelta);
+	abstract void method_3934(Entity entity, double x, double y, double z, float opacity, float tickDelta); // UNMAPPED_METHOD
 	
-	@Redirect(method = "method_3923(Lnet/minecraft/class_1297;Ljava/lang/String;DDDI)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_1297;method_17682()F", remap = false), remap = false)
+	@Redirect(method = MixinConstants.RENDER_LABEL, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT, remap = false), remap = false)
 	private float renderLabelGetHeightProxy(Entity entity)
 	{
 		return entity.getHeight() / ScaleUtils.getHeightScale(entity);
 	}
 	
-	@Redirect(method = "method_3939(Lnet/minecraft/class_1297;DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_897;method_3934(Lnet/minecraft/class_1297;DDDFF)V", remap = false), remap = false)
+	@Redirect(method = MixinConstants.POST_RENDER, at = @At(value = "INVOKE", target = MixinConstants.RENDER_SHADOW, remap = false), remap = false)
 	private void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
 	{
 		final float scale = ScaleUtils.getWidthScale(entity, tickDelta);

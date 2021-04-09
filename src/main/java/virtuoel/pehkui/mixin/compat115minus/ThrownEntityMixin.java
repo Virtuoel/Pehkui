@@ -6,12 +6,13 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ThrownEntity.class)
 public abstract class ThrownEntityMixin
 {
-	@ModifyArg(method = "method_7485(DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_243;method_1021(D)Lnet/minecraft/class_243;", remap = false), remap = false)
+	@ModifyArg(method = MixinConstants.SET_VELOCITY, at = @At(value = "INVOKE", target = MixinConstants.MULTIPLY, remap = false), remap = false)
 	private double setVelocityModifyMultiply(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);

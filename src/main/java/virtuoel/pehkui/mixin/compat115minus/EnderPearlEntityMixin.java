@@ -13,12 +13,13 @@ import net.minecraft.entity.mob.EndermiteEntity;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.hit.HitResult;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EnderPearlEntity.class)
 public class EnderPearlEntityMixin
 {
-	@Inject(method = "method_7492(Lnet/minecraft/class_239;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1937;method_8649(Lnet/minecraft/class_1297;)Z", remap = false), remap = false)
+	@Inject(method = MixinConstants.ON_COLLISION, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
 	private void onOnCollision(HitResult hitResult, CallbackInfo info, LivingEntity owner, ServerPlayerEntity player, EndermiteEntity endermiteEntity)
 	{
 		ScaleUtils.loadScale(endermiteEntity, (Entity) (Object) this);
