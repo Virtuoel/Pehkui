@@ -49,7 +49,6 @@ public class MixinConstants
 	private static final String METHOD_11117 = "method_11117";
 	private static final String METHOD_5823 = "method_5823";
 	
-	private static final String CLASS_759 = "net.minecraft.class_759";
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
 	private static final String CLASS_1937 = "net/minecraft/class_1937";
@@ -95,7 +94,6 @@ public class MixinConstants
 	public static final String LERP = "L" + CLASS_3532 + ";" + METHOD_16436 + "(DDD)D";
 	public static final String RENDER_SECOND_PASS = METHOD_3887 + "(L" + CLASS_1690 + ";DDDFF)V";
 	public static final String RENDER_PASS = "L" + CLASS_554 + ";" + METHOD_2836 + "(L" + CLASS_1297 + ";FFFFFF)V";
-	public static final String HELD_ITEM_RENDERER = CLASS_759;
 	public static final String RENDER_OVERLAYS = METHOD_3232 + "(F)V";
 	public static final String RENDER = METHOD_3954 + "(L" + CLASS_1297 + ";DDDFFZ)V";
 	public static final String RENDER_IN_WORLD = "L" + CLASS_897 + ";" + METHOD_3936 + "(L" + CLASS_1297 + ";DDDFF)V";
