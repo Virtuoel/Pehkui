@@ -168,7 +168,7 @@ public abstract class EntityMixin implements ResizableEntity
 		return scale < 1.0F ? scale * scale * value : value;
 	}
 	
-	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "net/minecraft/entity/Entity.adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
+	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
 	private Vec3d onMoveAdjustMovementForSneakingProxy(Vec3d movement, MovementType type)
 	{
 		if (type == MovementType.SELF || type == MovementType.PLAYER)

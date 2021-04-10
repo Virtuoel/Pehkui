@@ -16,7 +16,7 @@ public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyArg(method = "onVehicleMove", at = @At(value = "INVOKE", target = "net/minecraft/util/math/Box.contract(D)Lnet/minecraft/util/math/Box;"))
+	@ModifyArg(method = "onVehicleMove", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;contract(D)Lnet/minecraft/util/math/Box;"))
 	private double onVehicleMoveContractProxy(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale(player);
