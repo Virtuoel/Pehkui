@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -37,5 +38,13 @@ public abstract class EntityCalculateDimensionsMixin
 			
 			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));
 		}
+	}
+	
+	@ModifyVariable(method = "calculateDimensions", at = @At("STORE"))
+	private float onCalculateDimensionsModifyVector(float value)
+	{
+		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		
+		return (scale != 1.0F ? value / scale : value) / 2.0F;
 	}
 }
