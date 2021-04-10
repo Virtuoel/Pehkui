@@ -82,6 +82,10 @@ public class ScaleData
 	
 	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
 	
+	/**
+	 * @see {@link ScaleType#getScaleData(Entity)}
+	 * @see {@link ScaleData.Builder#create()}
+	 */
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
@@ -107,6 +111,10 @@ public class ScaleData
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
 	
+	/**
+	 * @see {@link ScaleType#getScaleData(Entity)}
+	 * @see {@link ScaleData.Builder#create()}
+	 */
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public ScaleData(Optional<Runnable> changeListener)
@@ -346,6 +354,9 @@ public class ScaleData
 		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
 	}
 	
+	/**
+	 * @see {@link #toPacket(PacketByteBuf)}
+	 */
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
@@ -383,6 +394,9 @@ public class ScaleData
 		return virtuoel.pehkui.util.ScaleUtils.buildScaleNbtFromPacketByteBuf(buffer);
 	}
 	
+	/**
+	 * @see {@link #readNbt(NbtCompound)}
+	 */
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public void fromTag(NbtCompound tag)
@@ -428,6 +442,9 @@ public class ScaleData
 		onUpdate();
 	}
 	
+	/**
+	 * @see {@link #writeNbt(NbtCompound)}
+	 */
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public NbtCompound toTag(NbtCompound tag)
