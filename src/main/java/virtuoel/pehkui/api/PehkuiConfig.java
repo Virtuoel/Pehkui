@@ -116,11 +116,15 @@ public class PehkuiConfig
 	
 	private static Supplier<Double> doubleConfig(String config, double defaultValue)
 	{
-		return () -> Optional.ofNullable(PehkuiConfig.DATA.get(config))
+		return numberConfig(config, Number::doubleValue, defaultValue);
+	}
+	
+	private static <T> Supplier<T> numberConfig(String config, Function<Number, T> mapper, T defaultValue)
+	{
+		return () -> Optional.ofNullable(DATA.get(config))
 			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 			.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
-			.map(Number::doubleValue)
-			.orElse(defaultValue);
+			.map(mapper).orElse(defaultValue);
 	}
 	
 	private static Supplier<Boolean> booleanConfig(String config, boolean defaultValue)
