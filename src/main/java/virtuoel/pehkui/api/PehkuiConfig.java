@@ -48,6 +48,7 @@ public class PehkuiConfig
 		public final Supplier<Boolean> keepAllScalesOnRespawn;
 		public final Supplier<List<String>> scalesKeptOnRespawn;
 		public final Supplier<Boolean> accurateNetherPortals;
+		public final Supplier<Double> largeScaleCollisionThreshold;
 		
 		Common()
 		{
@@ -64,6 +65,7 @@ public class PehkuiConfig
 		//	this.keepAllScalesOnRespawn = booleanConfig("keepAllScalesOnRespawn", false); // TODO add in 2.0.0
 			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
 			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
+			this.largeScaleCollisionThreshold = doubleConfig("largeScaleCollisionThreshold", 26.0D);
 		}
 	}
 	
@@ -109,6 +111,7 @@ public class PehkuiConfig
 	//	config.addProperty("keepAllScalesOnRespawn", false); // TODO add in 2.0.0
 		config.add("scalesKeptOnRespawn", new JsonArray());
 		config.addProperty("accurateNetherPortals", true);
+		config.addProperty("largeScaleCollisionThreshold", 26.0F);
 		config.addProperty("minimumCameraDepth", 0.001F);
 		
 		return config;

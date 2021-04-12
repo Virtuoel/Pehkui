@@ -82,6 +82,18 @@ public class ScaleUtils
 		}
 	}
 	
+	public static boolean isAboveCollisionThreshold(Entity entity)
+	{
+		final float widthScale = ScaleUtils.getWidthScale(entity);
+		final float heightScale = ScaleUtils.getHeightScale(entity);
+		final double volume = widthScale * widthScale * heightScale;
+		
+		final double scaleThreshold = PehkuiConfig.COMMON.largeScaleCollisionThreshold.get();
+		final double threshold = scaleThreshold * scaleThreshold * scaleThreshold;
+		
+		return volume > threshold;
+	}
+	
 	public static float setScaleOfDrop(Entity entity, Entity source)
 	{
 		return setScaleOnSpawn(entity, getDropScale(source));

@@ -21,8 +21,10 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -185,6 +187,15 @@ public abstract class EntityMixin implements ResizableEntity
 		if (ScaleUtils.getMotionScale((Entity) (Object) this) < 1.0F)
 		{
 			info.cancel();
+		}
+	}
+	
+	@Inject(at = @At("HEAD"), method = "updateMovementInFluid", cancellable = true)
+	private void onUpdateMovementInFluid(Tag<Fluid> tag, double d, CallbackInfoReturnable<Boolean> info)
+	{
+		if (ScaleUtils.isAboveCollisionThreshold((Entity) (Object) this))
+		{
+			info.setReturnValue(false);
 		}
 	}
 }

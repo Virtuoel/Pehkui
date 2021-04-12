@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.mixin.EntityAccessor;
+import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleType
 {
@@ -160,7 +161,10 @@ public class ScaleType
 				final EntityAccessor en = (EntityAccessor) e;
 				final boolean onGround = en.getOnGround();
 				
-				e.calculateDimensions();
+				if (!ScaleUtils.isAboveCollisionThreshold(e))
+				{
+					e.calculateDimensions();
+				}
 				
 				en.setOnGround(onGround);
 			}
