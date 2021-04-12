@@ -12,7 +12,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
-import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -425,100 +424,6 @@ public class ScaleCommand
 						return 1;
 					})
 				)
-			)
-		);
-		
-		registerOldCommands(commandDispatcher);
-	}
-	
-	@Deprecated
-	private static void registerOldCommands(final CommandDispatcher<ServerCommandSource> commandDispatcher)
-	{
-		commandDispatcher.register(
-			CommandManager.literal("setscale").requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			})
-			.then(CommandManager.argument("targets", EntityArgumentType.entities())
-				.then(CommandManager.argument("scale", FloatArgumentType.floatArg())
-					.executes(context ->
-					{
-						try
-						{
-							final float scale = FloatArgumentType.getFloat(context, "scale");
-							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
-							{
-								final ScaleData data = ScaleType.BASE.getScaleData(e);
-								data.setTargetScale(scale);
-							}
-						}
-						catch (Exception e)
-						{
-							Pehkui.LOGGER.catching(e);
-							throw e;
-						}
-						return 1;
-					})
-				)
-			)
-		);
-		
-		commandDispatcher.register(
-			CommandManager.literal("setscaledelay").requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			})
-			.then(CommandManager.argument("targets", EntityArgumentType.entities())
-				.then(CommandManager.argument("ticks", IntegerArgumentType.integer())
-					.executes(context ->
-					{
-						try
-						{
-							final int ticks = IntegerArgumentType.getInteger(context, "ticks");
-							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
-							{
-								final ScaleData data = ScaleType.BASE.getScaleData(e);
-								data.setScaleTickDelay(ticks);
-							}
-						}
-						catch (Exception e)
-						{
-							Pehkui.LOGGER.catching(e);
-							throw e;
-						}
-						return 1;
-					})
-				)
-			)
-		);
-		
-		commandDispatcher.register(
-			CommandManager.literal("getscale").requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			})
-			.then(CommandManager.argument("entity", EntityArgumentType.entity())
-				.executes(context ->
-				{
-					final float scale = ScaleType.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
-					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
-					return 1;
-				})
-			)
-		);
-		
-		commandDispatcher.register(
-			CommandManager.literal("getscaledelay").requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			})
-			.then(CommandManager.argument("entity", EntityArgumentType.entity())
-				.executes(context ->
-				{
-					final int ticks = ScaleType.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
-					context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
-					return 1;
-				})
 			)
 		);
 	}

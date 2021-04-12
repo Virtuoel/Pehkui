@@ -56,17 +56,6 @@ public abstract class EntityMixin implements ResizableEntity
 		return scaleData;
 	}
 	
-	@Deprecated
-	@Inject(at = @At("HEAD"), method = "readNbt")
-	private void onReadNbtLegacy(NbtCompound tag, CallbackInfo info)
-	{
-		if (tag.contains(Pehkui.MOD_ID + ":scale_data", NbtType.COMPOUND))
-		{
-			final ScaleData scaleData = pehkui_getScaleData(ScaleType.BASE);
-			scaleData.readNbt(tag.getCompound(Pehkui.MOD_ID + ":scale_data"));
-		}
-	}
-	
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{

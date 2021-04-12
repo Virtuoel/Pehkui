@@ -2,12 +2,7 @@ package virtuoel.pehkui.api;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
-
-import org.jetbrains.annotations.ApiStatus;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
@@ -21,13 +16,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleType
 {
-	/**
-	 * @see {@link ScaleRegistries.SCALE_TYPES}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static final Map<Identifier, ScaleType> REGISTRY = ScaleRegistries.SCALE_TYPES;
-	
 	public static final ScaleType INVALID = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES));
 	public static final ScaleType BASE = registerBaseScale("base");
 	public static final ScaleType WIDTH = registerDimensionScale("width");
@@ -227,58 +215,6 @@ public class ScaleType
 				}
 			}
 		);
-	}
-	
-	/**
-	 * @see {@link #getScaleChangedEvent()}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public final Function<Entity, Optional<Runnable>> changeListenerFactory = e ->
-	{
-		return Optional.of(() -> getScaleChangedEvent().invoker().onEvent(getScaleData(e)));
-	};
-	
-	/**
-	 * @see {@link ScaleType.Builder}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected ScaleType(Set<ScaleModifier> defaultBaseValueModifiers)
-	{
-		this(1.0F, 20, defaultBaseValueModifiers);
-	}
-	
-	/**
-	 * @see {@link ScaleType.Builder}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public ScaleType()
-	{
-		this(Collections.emptySet());
-	}
-	
-	/**
-	 * @see {@link ScaleType.Builder}
-	 * @see {@link #getScaleChangedEvent()}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public ScaleType(Function<Entity, Optional<Runnable>> changeListenerFactory)
-	{
-		this(Collections.emptySet());
-		getScaleChangedEvent().register(s -> changeListenerFactory.apply(s.getEntity()).ifPresent(Runnable::run));
-	}
-	
-	/**
-	 * @see {@link ScaleRegistries#register(ScaleRegistries.SCALE_TYPES, id, entry)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static ScaleType register(Identifier id, ScaleType entry)
-	{
-		return ScaleRegistries.register(ScaleRegistries.SCALE_TYPES, id, entry);
 	}
 	
 	private static ScaleType register(Identifier id, Builder builder)

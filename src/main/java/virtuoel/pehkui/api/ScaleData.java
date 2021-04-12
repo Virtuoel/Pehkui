@@ -2,7 +2,6 @@ package virtuoel.pehkui.api;
 
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.SortedSet;
 
 import org.jetbrains.annotations.ApiStatus;
@@ -22,63 +21,19 @@ public class ScaleData
 {
 	public static final ScaleData IDENTITY = Builder.create().buildImmutable(1.0F);
 	
-	/**
-	 * @see {@link ScaleType#getScaleData(Entity)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static ScaleData of(Entity entity, ScaleType type)
-	{
-		return type.getScaleData(entity);
-	}
-
-	/**
-	 * @see {@link ScaleType#BASE}
-	 * @see {@link ScaleType#getScaleData(Entity)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static ScaleData of(Entity entity)
-	{
-		return of(entity, ScaleType.BASE);
-	}
+	private float baseScale;
+	private float prevBaseScale;
+	private float initialScale;
+	private float targetScale;
+	private int scaleTicks;
+	private int totalScaleTicks;
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected float scale;
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected float prevScale;
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected float fromScale;
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected float toScale;
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected int scaleTicks;
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected int totalScaleTicks;
-	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public boolean scaleModified = false;
 	private boolean shouldSync = false;
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected Optional<Runnable> changeListener = Optional.empty();
+	private final ScaleType scaleType;
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected final ScaleType scaleType;
-	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	@Nullable
-	protected final Entity entity;
+	private final Entity entity;
 	
 	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
 	
@@ -86,8 +41,7 @@ public class ScaleData
 	 * @see {@link ScaleType#getScaleData(Entity)}
 	 * @see {@link ScaleData.Builder#create()}
 	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
+	@ApiStatus.Internal
 	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
 	{
 		this.scaleType = scaleType;
@@ -95,26 +49,14 @@ public class ScaleData
 		
 		final float defaultBaseScale = scaleType.getDefaultBaseScale();
 		
-		this.scale = defaultBaseScale;
-		this.prevScale = defaultBaseScale;
-		this.fromScale = defaultBaseScale;
-		this.toScale = defaultBaseScale;
+		this.baseScale = defaultBaseScale;
+		this.prevBaseScale = defaultBaseScale;
+		this.initialScale = defaultBaseScale;
+		this.targetScale = defaultBaseScale;
 		this.scaleTicks = 0;
 		this.totalScaleTicks = scaleType.getDefaultTickDelay();
 		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
-	}
-	
-	/**
-	 * @see {@link ScaleType#getScaleData(Entity)}
-	 * @see {@link ScaleData.Builder#create()}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public ScaleData(Optional<Runnable> changeListener)
-	{
-		this(ScaleType.INVALID, null);
-		this.changeListener = changeListener;
 	}
 	
 	/**
@@ -129,23 +71,23 @@ public class ScaleData
 		
 		if (currScale != targetScale)
 		{
-			this.prevScale = currScale;
+			this.prevBaseScale = currScale;
 			if (this.scaleTicks >= scaleTickDelay)
 			{
-				this.fromScale = targetScale;
+				this.initialScale = targetScale;
 				this.scaleTicks = 0;
 				setBaseScale(targetScale);
 			}
 			else
 			{
 				this.scaleTicks++;
-				final float nextScale = currScale + ((targetScale - this.fromScale) / (float) scaleTickDelay);
+				final float nextScale = currScale + ((targetScale - this.initialScale) / (float) scaleTickDelay);
 				setBaseScale(nextScale);
 			}
 		}
-		else if (this.prevScale != currScale)
+		else if (this.prevBaseScale != currScale)
 		{
-			this.prevScale = currScale;
+			this.prevBaseScale = currScale;
 		}
 	}
 	
@@ -205,7 +147,7 @@ public class ScaleData
 	 */
 	public float getBaseScale(float delta)
 	{
-		return delta == 1.0F ? scale : MathHelper.lerp(delta, getPrevBaseScale(), scale);
+		return delta == 1.0F ? baseScale : MathHelper.lerp(delta, getPrevBaseScale(), baseScale);
 	}
 	
 	/**
@@ -215,8 +157,8 @@ public class ScaleData
 	 */
 	public void setBaseScale(float scale)
 	{
-		this.prevScale = getBaseScale();
-		this.scale = scale;
+		this.prevBaseScale = getBaseScale();
+		this.baseScale = scale;
 		onUpdate();
 	}
 	
@@ -254,12 +196,12 @@ public class ScaleData
 	
 	public float getInitialScale()
 	{
-		return this.fromScale;
+		return this.initialScale;
 	}
 	
 	public float getTargetScale()
 	{
-		return this.toScale;
+		return this.targetScale;
 	}
 	
 	/**
@@ -269,8 +211,8 @@ public class ScaleData
 	 */
 	public void setTargetScale(float targetScale)
 	{
-		this.fromScale = getBaseScale();
-		this.toScale = targetScale;
+		this.initialScale = getBaseScale();
+		this.targetScale = targetScale;
 		this.scaleTicks = 0;
 		markForSync(true);
 	}
@@ -313,7 +255,7 @@ public class ScaleData
 	 */
 	public float getPrevBaseScale()
 	{
-		return this.prevScale;
+		return this.prevBaseScale;
 	}
 	
 	public void markForSync(boolean sync)
@@ -324,17 +266,6 @@ public class ScaleData
 		{
 			this.shouldSync = sync;
 		}
-	}
-	
-	/**
-	 * @see {@link #markForSync(boolean)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public void markForSync()
-	{
-		this.scaleModified = true;
-		markForSync(true);
 	}
 	
 	public boolean shouldSync()
@@ -348,16 +279,6 @@ public class ScaleData
 		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
 	}
 	
-	/**
-	 * @see {@link #toPacket(PacketByteBuf)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public PacketByteBuf toPacketByteBuf(PacketByteBuf buffer)
-	{
-		return toPacket(buffer);
-	}
-	
 	public PacketByteBuf toPacket(PacketByteBuf buffer)
 	{
 		final SortedSet<ScaleModifier> syncedModifiers = new ObjectRBTreeSet<>();
@@ -365,10 +286,10 @@ public class ScaleData
 		syncedModifiers.addAll(getBaseValueModifiers());
 		syncedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
 		
-		buffer.writeFloat(this.scale)
-		.writeFloat(this.prevScale)
-		.writeFloat(this.fromScale)
-		.writeFloat(this.toScale)
+		buffer.writeFloat(this.baseScale)
+		.writeFloat(this.prevBaseScale)
+		.writeFloat(this.initialScale)
+		.writeFloat(this.targetScale)
 		.writeInt(this.scaleTicks)
 		.writeInt(this.totalScaleTicks)
 		.writeInt(syncedModifiers.size());
@@ -381,31 +302,14 @@ public class ScaleData
 		return buffer;
 	}
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static NbtCompound fromPacketByteBufToTag(PacketByteBuf buffer)
-	{
-		return virtuoel.pehkui.util.ScaleUtils.buildScaleNbtFromPacketByteBuf(buffer);
-	}
-	
-	/**
-	 * @see {@link #readNbt(NbtCompound)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public void fromTag(NbtCompound tag)
-	{
-		readNbt(tag);
-	}
-	
 	public void readNbt(NbtCompound tag)
 	{
 		final ScaleType type = getScaleType();
 		
-		this.scale = tag.contains("scale") ? tag.getFloat("scale") : type.getDefaultBaseScale();
-		this.prevScale = tag.contains("previous") ? tag.getFloat("previous") : this.scale;
-		this.fromScale = tag.contains("initial") ? tag.getFloat("initial") : this.scale;
-		this.toScale = tag.contains("target") ? tag.getFloat("target") : this.scale;
+		this.baseScale = tag.contains("scale") ? tag.getFloat("scale") : type.getDefaultBaseScale();
+		this.prevBaseScale = tag.contains("previous") ? tag.getFloat("previous") : this.baseScale;
+		this.initialScale = tag.contains("initial") ? tag.getFloat("initial") : this.baseScale;
+		this.targetScale = tag.contains("target") ? tag.getFloat("target") : this.baseScale;
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
 		
@@ -434,16 +338,6 @@ public class ScaleData
 		}
 		
 		onUpdate();
-	}
-	
-	/**
-	 * @see {@link #writeNbt(NbtCompound)}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public NbtCompound toTag(NbtCompound tag)
-	{
-		return writeNbt(tag);
 	}
 	
 	public NbtCompound writeNbt(NbtCompound tag)
@@ -509,10 +403,10 @@ public class ScaleData
 		final ScaleType type = getScaleType();
 		final float defaultBaseScale = type.getDefaultBaseScale();
 		
-		this.scale = defaultBaseScale;
-		this.prevScale = defaultBaseScale;
-		this.fromScale = defaultBaseScale;
-		this.toScale = defaultBaseScale;
+		this.baseScale = defaultBaseScale;
+		this.prevBaseScale = defaultBaseScale;
+		this.initialScale = defaultBaseScale;
+		this.targetScale = defaultBaseScale;
 		this.scaleTicks = 0;
 		this.totalScaleTicks = type.getDefaultTickDelay();
 		
@@ -539,7 +433,7 @@ public class ScaleData
 			return false;
 		}
 		
-		if (this.prevScale != defaultBaseScale)
+		if (this.prevBaseScale != defaultBaseScale)
 		{
 			return false;
 		}
@@ -572,19 +466,17 @@ public class ScaleData
 		return true;
 	}
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public void fromScale(ScaleData scaleData)
+	public ScaleData fromScale(ScaleData scaleData)
 	{
-		fromScale(scaleData, true);
+		return fromScale(scaleData, true);
 	}
 	
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
-		this.scale = scaleData.getBaseScale();
-		this.prevScale = scaleData.getPrevBaseScale();
-		this.fromScale = scaleData.getInitialScale();
-		this.toScale = scaleData.getTargetScale();
+		this.baseScale = scaleData.getBaseScale();
+		this.prevBaseScale = scaleData.getPrevBaseScale();
+		this.initialScale = scaleData.getInitialScale();
+		this.targetScale = scaleData.getTargetScale();
 		this.scaleTicks = scaleData.scaleTicks;
 		this.totalScaleTicks = scaleData.totalScaleTicks;
 		
@@ -606,7 +498,7 @@ public class ScaleData
 	public ScaleData averagedFromScales(ScaleData scaleData, ScaleData... scales)
 	{
 		float scale = scaleData.getBaseScale();
-		float prevScale = scaleData.prevScale;
+		float prevScale = scaleData.prevBaseScale;
 		float fromScale = scaleData.getInitialScale();
 		float toScale = scaleData.getTargetScale();
 		int scaleTicks = scaleData.scaleTicks;
@@ -615,7 +507,7 @@ public class ScaleData
 		for (final ScaleData data : scales)
 		{
 			scale += data.getBaseScale();
-			prevScale += data.prevScale;
+			prevScale += data.prevBaseScale;
 			fromScale += data.getInitialScale();
 			toScale += data.getTargetScale();
 			scaleTicks += data.scaleTicks;
@@ -624,10 +516,10 @@ public class ScaleData
 		
 		final float count = scales.length + 1;
 		
-		this.scale = scale / count;
-		this.prevScale = prevScale / count;
-		this.fromScale = fromScale / count;
-		this.toScale = toScale / count;
+		this.baseScale = scale / count;
+		this.prevBaseScale = prevScale / count;
+		this.initialScale = fromScale / count;
+		this.targetScale = toScale / count;
 		this.scaleTicks = Math.round(scaleTicks / count);
 		this.totalScaleTicks = Math.round(totalScaleTicks / count);
 		
@@ -636,17 +528,10 @@ public class ScaleData
 		return this;
 	}
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public ScaleData averagedFromScales(boolean notifyListener, ScaleData scaleData, ScaleData... scales)
-	{
-		return averagedFromScales(scaleData, scales);
-	}
-	
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(fromScale, prevScale, scale, scaleTicks, toScale, totalScaleTicks);
+		return Objects.hash(initialScale, prevBaseScale, baseScale, scaleTicks, targetScale, totalScaleTicks);
 	}
 	
 	@Override
@@ -672,10 +557,10 @@ public class ScaleData
 			return true;
 		}
 		
-		return Float.floatToIntBits(scale) == Float.floatToIntBits(other.scale) &&
-			Float.floatToIntBits(prevScale) == Float.floatToIntBits(other.prevScale) &&
-			Float.floatToIntBits(fromScale) == Float.floatToIntBits(other.fromScale) &&
-			Float.floatToIntBits(toScale) == Float.floatToIntBits(other.toScale) &&
+		return Float.floatToIntBits(baseScale) == Float.floatToIntBits(other.baseScale) &&
+			Float.floatToIntBits(prevBaseScale) == Float.floatToIntBits(other.prevBaseScale) &&
+			Float.floatToIntBits(initialScale) == Float.floatToIntBits(other.initialScale) &&
+			Float.floatToIntBits(targetScale) == Float.floatToIntBits(other.targetScale) &&
 			scaleTicks == other.scaleTicks &&
 			totalScaleTicks == other.totalScaleTicks &&
 			Float.floatToIntBits(getScale()) == Float.floatToIntBits(other.getScale());
@@ -726,13 +611,6 @@ public class ScaleData
 			super(scaleType, entity);
 		}
 		
-		@Deprecated
-		@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-		public ImmutableScaleData(float scale)
-		{
-			this(scale, ScaleType.INVALID, null);
-		}
-		
 		@Override
 		public void tick()
 		{
@@ -777,14 +655,6 @@ public class ScaleData
 		
 		@Override
 		public void onUpdate()
-		{
-			
-		}
-		
-		@Deprecated
-		@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-		@Override
-		public void fromTag(NbtCompound tag)
 		{
 			
 		}

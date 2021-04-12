@@ -8,8 +8,6 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.jetbrains.annotations.ApiStatus;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -61,8 +59,7 @@ public class PehkuiConfig
 			this.scaledItemDrops = booleanConfig("scaledItemDrops", true);
 			this.scaledProjectiles = booleanConfig("scaledProjectiles", true);
 			this.scaledExplosions = booleanConfig("scaledExplosions", true);
-			this.keepAllScalesOnRespawn = booleanConfig("keepScaleOnRespawn", false); // TODO remove in 2.0.0
-		//	this.keepAllScalesOnRespawn = booleanConfig("keepAllScalesOnRespawn", false); // TODO add in 2.0.0
+			this.keepAllScalesOnRespawn = booleanConfig("keepAllScalesOnRespawn", false);
 			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
 			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
 			this.largeScaleCollisionThreshold = doubleConfig("largeScaleCollisionThreshold", 26.0D);
@@ -77,13 +74,9 @@ public class PehkuiConfig
 		}
 	}
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static final Supplier<JsonObject> HANDLER = createConfig();
+	private static final Supplier<JsonObject> HANDLER = createConfig();
 	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	public static final JsonObject DATA = HANDLER.get();
+	private static final JsonObject DATA = HANDLER.get();
 	
 	private static Supplier<JsonObject> createConfig()
 	{
@@ -107,8 +100,7 @@ public class PehkuiConfig
 		config.addProperty("scaledItemDrops", true);
 		config.addProperty("scaledProjectiles", true);
 		config.addProperty("scaledExplosions", true);
-		config.addProperty("keepScaleOnRespawn", false); // TODO remove in 2.0.0
-	//	config.addProperty("keepAllScalesOnRespawn", false); // TODO add in 2.0.0
+		config.addProperty("keepAllScalesOnRespawn", false);
 		config.add("scalesKeptOnRespawn", new JsonArray());
 		config.addProperty("accurateNetherPortals", true);
 		config.addProperty("largeScaleCollisionThreshold", 26.0F);
