@@ -52,49 +52,52 @@ dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
 	
-	def excludeLoader = { exclude group: "net.fabricmc", module: "fabric-loader" }
-	def excludeApi = { exclude group: "net.fabricmc.fabric-api" }
-	def excludeFabric = {
-		exclude group: "net.fabricmc", module: "fabric-loader"
-		exclude group: "net.fabricmc.fabric-api"
-	}
-	
-	modImplementation "net.fabricmc:fabric-loader:${loader_version}"
-	if(project.hasProperty("fabric_version")) {
-		if(!project.hasProperty("fabric_modules") && !project.hasProperty("api_fabric_modules") && !project.hasProperty("impl_fabric_modules")) {
-			modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
-			modRuntime "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
+	if(project.hasProperty("loader_version")) {
+		modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+		
+		def excludeLoader = { exclude group: "net.fabricmc", module: "fabric-loader" }
+		def excludeApi = { exclude group: "net.fabricmc.fabric-api" }
+		def excludeFabric = {
+			exclude group: "net.fabricmc", module: "fabric-loader"
+			exclude group: "net.fabricmc.fabric-api"
 		}
 		
-		if(project.hasProperty("fabric_modules")) {
-			project.fabric_modules.split(", ").each { String module ->
-				modCompileOnly fabricApi.module(module, project.fabric_version), excludeLoader
-				modRuntime fabricApi.module(module, project.fabric_version), excludeLoader
+		if(project.hasProperty("fabric_version")) {
+			if(!project.hasProperty("fabric_modules") && !project.hasProperty("api_fabric_modules") && !project.hasProperty("impl_fabric_modules")) {
+				modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
+				modRuntime "net.fabricmc.fabric-api:fabric-api:${fabric_version}", excludeLoader
+			}
+			
+			if(project.hasProperty("fabric_modules")) {
+				project.fabric_modules.split(", ").each { String module ->
+					modCompileOnly fabricApi.module(module, project.fabric_version), excludeLoader
+					modRuntime fabricApi.module(module, project.fabric_version), excludeLoader
+				}
+			}
+			
+			if(project.hasProperty("api_fabric_modules")) {
+				project.api_fabric_modules.split(", ").each { String module ->
+					modApi fabricApi.module(module, project.fabric_version), excludeLoader
+				}
+			}
+			
+			if(project.hasProperty("impl_fabric_modules")) {
+				project.impl_fabric_modules.split(", ").each { String module ->
+					modImplementation fabricApi.module(module, project.fabric_version), excludeLoader
+				}
+			}
+			
+			if(project.hasProperty("included_fabric_modules")) {
+				project.included_fabric_modules.split(", ").each { String module ->
+					include fabricApi.module(module, project.fabric_version)
+				}
 			}
 		}
 		
-		if(project.hasProperty("api_fabric_modules")) {
-			project.api_fabric_modules.split(", ").each { String module ->
-				modApi fabricApi.module(module, project.fabric_version), excludeLoader
-			}
+		if(project.hasProperty("modmenu_version")) {
+			modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
+			modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
 		}
-		
-		if(project.hasProperty("impl_fabric_modules")) {
-			project.impl_fabric_modules.split(", ").each { String module ->
-				modImplementation fabricApi.module(module, project.fabric_version), excludeLoader
-			}
-		}
-		
-		if(project.hasProperty("included_fabric_modules")) {
-			project.included_fabric_modules.split(", ").each { String module ->
-				include fabricApi.module(module, project.fabric_version)
-			}
-		}
-	}
-	
-	if(project.hasProperty("modmenu_version")) {
-		modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
-		modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
 	}
 }
 
@@ -207,7 +210,14 @@ String generateHTMLChangelog() {
 		changelog_text += "<p>&nbsp;</p>\n"
 	}
 	
-	changelog_text += "<p>Last successfully tested on:</p>\n<p>Minecraft version <code>${minecraft_version}</code></p>\n<p>Yarn mappings <code>${yarn_mappings}</code></p>\n<p>Fabric Loader <code>${loader_version}</code></p>\n"
+	changelog_text += "<p>Last successfully tested on:</p>\n"
+	changelog_text += "<p>Minecraft version <code>${minecraft_version}</code></p>\n"
+	
+	if(project.hasProperty("loader_version")) {
+		changelog_text += "<p>Fabric Loader <code>${loader_version}</code></p>\n"
+	}
+	
+	changelog_text += "<p>Yarn mappings <code>${yarn_mappings}</code></p>\n"
 	
 	if(project.hasProperty("changelog_fabric_version")) {
 		changelog_text += "<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all\" rel=\"nofollow\">Fabric API <code>${changelog_fabric_version}</code></a></p>\n"
