@@ -13,7 +13,7 @@ public class CombinedScaleData extends ScaleData
 	
 	public CombinedScaleData(ScaleType scaleType, Entity entity, Supplier<ScaleData[]> otherData)
 	{
-		super(scaleType, entity, scaleType.getDefaultBaseScale(), scaleType.getDefaultTickDelay());
+		super(scaleType, entity);
 		
 		this.otherData = otherData;
 	}
@@ -90,6 +90,19 @@ public class CombinedScaleData extends ScaleData
 	}
 	
 	@Override
+	public ScaleData resetScale(boolean notifyListener)
+	{
+		final ScaleData ret = super.resetScale(notifyListener);
+		
+		for (final ScaleData d : getData())
+		{
+			d.resetScale(notifyListener);
+		}
+		
+		return ret;
+	}
+	
+	@Override
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
 		final ScaleData ret = super.fromScale(scaleData, notifyListener);
@@ -134,8 +147,6 @@ public class CombinedScaleData extends ScaleData
 			return false;
 		}
 		
-		final CombinedScaleData other = (CombinedScaleData) obj;
-		
-		return super.equals(other) && Arrays.equals(getData(), other.getData());
+		return super.equals(obj) && Arrays.equals(getData(), ((CombinedScaleData) obj).getData());
 	}
 }

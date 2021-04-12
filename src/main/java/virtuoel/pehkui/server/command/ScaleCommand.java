@@ -167,7 +167,7 @@ public class ScaleCommand
 							{
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 								final ScaleData data = type.getScaleData(e);
-								data.fromScale(ScaleData.IDENTITY);
+								data.resetScale();
 							}
 							
 							return 1;
@@ -177,7 +177,7 @@ public class ScaleCommand
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
-						data.fromScale(ScaleData.IDENTITY);
+						data.resetScale();
 						
 						return 1;
 					})
@@ -190,7 +190,7 @@ public class ScaleCommand
 							for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 							{
 								final ScaleData data = type.getScaleData(e);
-								data.fromScale(ScaleData.IDENTITY);
+								data.resetScale();
 							}
 						}
 						
@@ -202,7 +202,7 @@ public class ScaleCommand
 					for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 					{
 						final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
-						data.fromScale(ScaleData.IDENTITY);
+						data.resetScale();
 					}
 					
 					return 1;

@@ -31,7 +31,7 @@ public class ScaleData
 	{
 		return type.getScaleData(entity);
 	}
-	
+
 	/**
 	 * @see {@link ScaleType#BASE}
 	 * @see {@link ScaleType#getScaleData(Entity)}
@@ -90,23 +90,17 @@ public class ScaleData
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
 	{
-		this(scaleType, entity, scaleType.getDefaultBaseScale(), scaleType.getDefaultTickDelay());
-	}
-	
-	/**
-	 * @see {@link ScaleType#getScaleData(Entity)}
-	 * @see {@link ScaleData.Builder#create()}
-	 */
-	@ApiStatus.Internal
-	protected ScaleData(ScaleType scaleType, @Nullable Entity entity, float defaultBaseScale, int defaultTickDelay)
-	{
 		this.scaleType = scaleType;
 		this.entity = entity;
+		
+		final float defaultBaseScale = scaleType.getDefaultBaseScale();
+		
 		this.scale = defaultBaseScale;
 		this.prevScale = defaultBaseScale;
 		this.fromScale = defaultBaseScale;
 		this.toScale = defaultBaseScale;
-		this.totalScaleTicks = defaultTickDelay;
+		this.scaleTicks = 0;
+		this.totalScaleTicks = scaleType.getDefaultTickDelay();
 		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
@@ -505,6 +499,79 @@ public class ScaleData
 		return tag;
 	}
 	
+	public ScaleData resetScale()
+	{
+		return resetScale(true);
+	}
+	
+	public ScaleData resetScale(boolean notifyListener)
+	{
+		final ScaleType type = getScaleType();
+		final float defaultBaseScale = type.getDefaultBaseScale();
+		
+		this.scale = defaultBaseScale;
+		this.prevScale = defaultBaseScale;
+		this.fromScale = defaultBaseScale;
+		this.toScale = defaultBaseScale;
+		this.scaleTicks = 0;
+		this.totalScaleTicks = type.getDefaultTickDelay();
+		
+		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
+		
+		baseValueModifiers.clear();
+		baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
+		
+		if (notifyListener)
+		{
+			onUpdate();
+		}
+		
+		return this;
+	}
+	
+	public boolean isReset()
+	{
+		final ScaleType type = getScaleType();
+		final float defaultBaseScale = type.getDefaultBaseScale();
+		
+		if (getBaseScale() != defaultBaseScale)
+		{
+			return false;
+		}
+		
+		if (this.prevScale != defaultBaseScale)
+		{
+			return false;
+		}
+		
+		if (getInitialScale() != defaultBaseScale)
+		{
+			return false;
+		}
+		
+		if (getTargetScale() != defaultBaseScale)
+		{
+			return false;
+		}
+		
+		if (this.scaleTicks != 0)
+		{
+			return false;
+		}
+		
+		if (getScaleTickDelay() != type.getDefaultTickDelay())
+		{
+			return false;
+		}
+		
+		if (!getBaseValueModifiers().equals(getScaleType().getDefaultBaseValueModifiers()))
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
 	public void fromScale(ScaleData scaleData)
 	{
 		fromScale(scaleData, true);
@@ -593,7 +660,15 @@ public class ScaleData
 			return false;
 		}
 		
-		final ScaleData other = (ScaleData) obj;
+		return equals((ScaleData) obj);
+	}
+	
+	public boolean equals(final ScaleData other)
+	{
+		if (this == other)
+		{
+			return true;
+		}
 		
 		return Float.floatToIntBits(scale) == Float.floatToIntBits(other.scale) &&
 			Float.floatToIntBits(prevScale) == Float.floatToIntBits(other.prevScale) &&
@@ -638,7 +713,7 @@ public class ScaleData
 		
 		public ScaleData build()
 		{
-			return new ScaleData(type, entity, type.getDefaultBaseScale(), type.getDefaultTickDelay());
+			return new ScaleData(type, entity);
 		}
 	}
 	
@@ -646,7 +721,7 @@ public class ScaleData
 	{
 		protected ImmutableScaleData(float scale, ScaleType scaleType, @Nullable Entity entity)
 		{
-			super(scaleType, entity, scale, 0);
+			super(scaleType, entity);
 		}
 		
 		@Deprecated
@@ -672,6 +747,12 @@ public class ScaleData
 		public void setBaseScale(float scale)
 		{
 			
+		}
+		
+		@Override
+		public float getPrevScale()
+		{
+			return getPrevBaseScale();
 		}
 		
 		@Override
@@ -710,6 +791,18 @@ public class ScaleData
 		public void readNbt(NbtCompound tag)
 		{
 			
+		}
+		
+		@Override
+		public ScaleData resetScale(boolean notifyListener)
+		{
+			return this;
+		}
+		
+		@Override
+		public boolean isReset()
+		{
+			return true;
 		}
 		
 		@Override

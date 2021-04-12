@@ -144,7 +144,7 @@ public class ScaleUtils
 	
 	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
 	{
-		syncScales(entity, packetSender, s -> !s.equals(ScaleData.IDENTITY), false);
+		syncScales(entity, packetSender, s -> !s.isReset(), false);
 	}
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)

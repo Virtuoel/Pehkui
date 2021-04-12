@@ -32,7 +32,7 @@ public abstract class InventoryScreenMixin
 			cachedData = scales.computeIfAbsent(type, t -> ScaleData.Builder.create().build());
 			data = type.getScaleData(entity);
 			cachedData.fromScale(data, false);
-			data.fromScale(ScaleData.IDENTITY, false);
+			data.resetScale(false);
 		}
 	}
 	

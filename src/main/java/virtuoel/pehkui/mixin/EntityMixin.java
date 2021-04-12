@@ -98,7 +98,7 @@ public abstract class EntityMixin implements ResizableEntity
 		{
 			scaleData = pehkui_getScaleData(entry.getValue());
 			
-			if (!scaleData.equals(ScaleData.IDENTITY))
+			if (!scaleData.isReset())
 			{
 				compound = new NbtCompound();
 				
