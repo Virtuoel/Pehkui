@@ -5,13 +5,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class IdentityCompatibility
 {
-	private static final boolean IDENTITY_LOADED = FabricLoader.getInstance().isModLoaded("identity");
+	private static final boolean IDENTITY_LOADED = false; // FabricLoader.getInstance().isModLoaded("identity");
 	
 	public static final IdentityCompatibility INSTANCE = new IdentityCompatibility();
 	

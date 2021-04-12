@@ -8,7 +8,6 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,6 +15,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.util.Constants;
 
 public class ScaleData
 {
@@ -276,7 +276,7 @@ public class ScaleData
 	public void onUpdate()
 	{
 		markForSync(true);
-		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
+		getScaleType().getScaleChangedEvent().forEach(s -> s.onEvent(this));
 	}
 	
 	public PacketByteBuf toPacket(PacketByteBuf buffer)
@@ -321,7 +321,7 @@ public class ScaleData
 		
 		if (tag.contains("baseValueModifiers"))
 		{
-			final ListTag modifiers = tag.getList("baseValueModifiers", NbtType.STRING);
+			final ListTag modifiers = tag.getList("baseValueModifiers", Constants.NBT.TAG_STRING);
 			
 			Identifier id;
 			ScaleModifier modifier;

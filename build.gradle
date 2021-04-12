@@ -44,6 +44,10 @@ group = project.maven_group
 archivesBaseName = project.archives_base_name
 version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + project.minecraft_version
 
+if(project.hasProperty("forge_version")) {
+	version += "-forge"
+}
+
 minecraft {
 	refmapName = "${archives_base_name}-refmap.json"
 }
@@ -113,6 +117,10 @@ processResources {
 	inputs.property "version", project.version
 	
 	filesMatching("fabric.mod.json") {
+		expand "version": project.version
+	}
+	
+	filesMatching("META-INF/mods.toml") {
 		expand "version": project.version
 	}
 }
@@ -192,7 +200,14 @@ githubRelease {
 		repo project.github_repository
 	}
 	
-	tagName project.mod_version
+	if(project.hasProperty("forge_version")) {
+		tagName project.mod_version + "-forge"
+	}
+	
+	if(project.hasProperty("loader_version")) {
+		tagName project.mod_version
+	}
+	
 	targetCommitish { org.ajoberstar.grgit.Grgit.open(dir: ".").branch.current().name }
 	releaseName project.version
 	
@@ -221,6 +236,10 @@ String generateHTMLChangelog() {
 	changelog_text += "<p>Last successfully tested on:</p>\n"
 	changelog_text += "<p>Minecraft version <code>${minecraft_version}</code></p>\n"
 	
+	if(project.hasProperty("forge_version")) {
+		changelog_text += "<p>Forge <code>${forge_version}</code></p>\n"
+	}
+	
 	if(project.hasProperty("loader_version")) {
 		changelog_text += "<p>Fabric Loader <code>${loader_version}</code></p>\n"
 	}
@@ -245,15 +264,28 @@ curseforge {
 			
 			releaseType = project.curseforge_release_type
 			
-			addGameVersion "Forge"
+			if(project.hasProperty("forge_version")) {
+				addGameVersion "Forge"
+			}
+			
+			if(project.hasProperty("loader_version")) {
+				addGameVersion "Fabric"
+			}
 			
 			def display_name_prefix = ""
 			if(project.hasProperty("curseforge_release_versions")) {
 				def game_versions = project.curseforge_release_versions.split(", ")
 				display_name_prefix = "[${game_versions[0]} - ${game_versions[-1].split("-")[0]}] "
+				if (game_versions[0] == game_versions[-1].split("-")[0]) {
+					display_name_prefix = "[${game_versions[0]}]"
+				}
 				game_versions.each { String gameVersion ->
 					addGameVersion gameVersion
 				}
+			}
+			
+			if(project.hasProperty("forge_version")) {
+				display_name_prefix += " [Forge] "
 			}
 			
 			mainArtifact(remapJar) {
@@ -323,7 +355,13 @@ task publishModrinth (type: TaskModrinthUpload) {
 		
 		releaseType = project.modrinth_release_type
 		
-		addLoader "forge"
+		if(project.hasProperty("forge_version")) {
+			addLoader "forge"
+		}
+		
+		if(project.hasProperty("loader_version")) {
+			addLoader "fabric"
+		}
 		
 		if(project.hasProperty("modrinth_release_versions")) {
 			project.modrinth_release_versions.split(", ").each { String gameVersion ->

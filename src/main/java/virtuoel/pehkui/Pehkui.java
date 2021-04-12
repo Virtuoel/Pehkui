@@ -3,21 +3,28 @@ package virtuoel.pehkui;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
+import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.server.command.ScaleCommand;
 
-public class Pehkui implements ModInitializer
+@Mod(Pehkui.MOD_ID)
+public class Pehkui
 {
 	public static final String MOD_ID = "pehkui";
 	
@@ -25,27 +32,31 @@ public class Pehkui implements ModInitializer
 	
 	public Pehkui()
 	{
-		PehkuiConfig.COMMON.getClass();
-	}
-	
-	@Override
-	public void onInitialize()
-	{
 		ScaleType.INVALID.getClass();
 		
-		if (FabricLoader.getInstance().isModLoaded("fabric-command-api-v1"))
+		MinecraftForge.EVENT_BUS.register(this);
+		
+		ModLoadingContext ctx = ModLoadingContext.get();
+		ctx.registerConfig(ModConfig.Type.CLIENT, PehkuiConfig.clientSpec);
+		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
+		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
+		
+		ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
+		ArgumentTypes.register(id("scale_modifier").toString(), ScaleModifierArgumentType.class, new ConstantArgumentSerializer<>(ScaleModifierArgumentType::scaleModifier));
+		ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
+		
+		PehkuiEntitySelectorOptions.register();
+		
+		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 		{
-			ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
-			ArgumentTypes.register(id("scale_modifier").toString(), ScaleModifierArgumentType.class, new ConstantArgumentSerializer<>(ScaleModifierArgumentType::scaleModifier));
-			ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
-			
-			PehkuiEntitySelectorOptions.register();
-			
-			CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
-			{
-				ScaleCommand.register(commandDispatcher, dedicated);
-			});
-		}
+			PehkuiPacketHandler.init();
+		});
+	}
+	
+	@SubscribeEvent
+	public void onRegisterCommands(RegisterCommandsEvent event)
+	{
+		ScaleCommand.register(event.getDispatcher());
 	}
 	
 	public static Identifier id(String path)

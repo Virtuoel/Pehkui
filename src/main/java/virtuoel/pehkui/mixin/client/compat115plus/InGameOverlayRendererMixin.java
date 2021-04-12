@@ -11,8 +11,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(InGameOverlayRenderer.class)
 public abstract class InGameOverlayRendererMixin
 {
-	@ModifyConstant(method = "getInWallBlockState", constant = @Constant(floatValue = 0.1F))
-	private static float getInWallBlockStateModifyOffset(float value, PlayerEntity player)
+	@ModifyConstant(method = "getOverlayBlock", constant = @Constant(floatValue = 0.1F), remap = false)
+	private static float getOverlayBlockModifyOffset(float value, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getHeightScale(player);
 		

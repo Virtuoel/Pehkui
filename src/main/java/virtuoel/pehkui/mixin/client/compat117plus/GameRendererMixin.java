@@ -19,6 +19,7 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
+	/* // TODO 1.17
 	@ModifyConstant(method = "getBasicProjectionMatrix(D)Lnet/minecraft/util/math/Matrix4f;", constant = @Constant(floatValue = 0.05F))
 	private float getBasicProjectionMatrixModifyDepth(float value)
 	{
@@ -39,4 +40,5 @@ public class GameRendererMixin
 		
 		return value;
 	}
+	*/
 }

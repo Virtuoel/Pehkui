@@ -2,12 +2,10 @@ package virtuoel.pehkui.util;
 
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -15,14 +13,15 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
-import virtuoel.pehkui.Pehkui;
+import net.minecraftforge.fml.network.NetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.entity.ResizableEntity;
+import virtuoel.pehkui.network.PehkuiPacketHandler;
+import virtuoel.pehkui.network.ScalePacket;
 
 public class ScaleUtils
 {
@@ -30,9 +29,9 @@ public class ScaleUtils
 	{
 		final ScaleType type = data.getScaleType();
 		
-		type.getPreTickEvent().invoker().onEvent(data);
+		type.getPreTickEvent().forEach(s -> s.onEvent(data));
 		data.tick();
-		type.getPostTickEvent().invoker().onEvent(data);
+		type.getPostTickEvent().forEach(s -> s.onEvent(data));
 	}
 	
 	public static void loadAverageScales(Entity target, Entity source, Entity... sources)
@@ -161,8 +160,6 @@ public class ScaleUtils
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
-		final UUID uuid = entity.getUuid();
-		
 		ScaleData scaleData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
@@ -170,13 +167,7 @@ public class ScaleUtils
 			
 			if (condition.test(scaleData))
 			{
-				packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
-					scaleData.toPacket(
-						new PacketByteBuf(Unpooled.buffer())
-						.writeUuid(uuid)
-						.writeIdentifier(entry.getKey())
-					)
-				));
+				packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(scaleData), NetworkDirection.PLAY_TO_CLIENT));
 				
 				if (unmark)
 				{

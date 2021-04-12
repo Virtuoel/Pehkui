@@ -13,6 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(SlimeEntity.class)
 public class SlimeEntityMixin
 {
+	/* // TODO 1.17
 	@ModifyArg(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity removeSpawnEntityProxy(Entity entity)
 	{
@@ -46,4 +47,5 @@ public class SlimeEntityMixin
 		
 		return value;
 	}
+	*/
 }

@@ -1,12 +1,11 @@
 package virtuoel.pehkui.api;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
@@ -129,12 +128,12 @@ public class ScaleType
 			
 			if (this.affectsDimensions)
 			{
-				type.getScaleChangedEvent().register(Builder::calculateDimensions);
+				type.getScaleChangedEvent().add(Builder::calculateDimensions);
 			}
 			
 			if (!this.dependentModifiers.isEmpty())
 			{
-				type.getScaleChangedEvent().register(createModifiedDataSyncEvent(this.dependentModifiers));
+				type.getScaleChangedEvent().add(createModifiedDataSyncEvent(this.dependentModifiers));
 			}
 			
 			return type;
@@ -181,40 +180,25 @@ public class ScaleType
 		}
 	}
 	
-	private final Event<ScaleEventCallback> scaleChangedEvent = createScaleEvent();
+	private final Collection<ScaleEventCallback> scaleChangedEvent = new ArrayList<>();
 	
-	public Event<ScaleEventCallback> getScaleChangedEvent()
+	public Collection<ScaleEventCallback> getScaleChangedEvent()
 	{
 		return scaleChangedEvent;
 	}
 	
-	private final Event<ScaleEventCallback> preTickEvent = createScaleEvent();
+	private final Collection<ScaleEventCallback> preTickEvent = new ArrayList<>();
 	
-	public Event<ScaleEventCallback> getPreTickEvent()
+	public Collection<ScaleEventCallback> getPreTickEvent()
 	{
 		return preTickEvent;
 	}
 	
-	private final Event<ScaleEventCallback> postTickEvent = createScaleEvent();
+	private final Collection<ScaleEventCallback> postTickEvent = new ArrayList<>();
 	
-	public Event<ScaleEventCallback> getPostTickEvent()
+	public Collection<ScaleEventCallback> getPostTickEvent()
 	{
 		return postTickEvent;
-	}
-	
-	private static Event<ScaleEventCallback> createScaleEvent()
-	{
-		return EventFactory.createArrayBacked(
-			ScaleEventCallback.class,
-			data -> {},
-			(callbacks) -> (data) ->
-			{
-				for (ScaleEventCallback callback : callbacks)
-				{
-					callback.onEvent(data);
-				}
-			}
-		);
 	}
 	
 	private static ScaleType register(Identifier id, Builder builder)
