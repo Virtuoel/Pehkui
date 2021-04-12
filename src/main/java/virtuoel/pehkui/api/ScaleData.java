@@ -572,6 +572,8 @@ public class ScaleData
 		return true;
 	}
 	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	public void fromScale(ScaleData scaleData)
 	{
 		fromScale(scaleData, true);
