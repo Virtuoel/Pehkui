@@ -57,7 +57,7 @@ public class ScaleData
 	protected float toScale;
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
-	protected int scaleTicks = 0;
+	protected int scaleTicks;
 	@Deprecated
 	@ApiStatus.ScheduledForRemoval(inVersion = "2.0.0")
 	protected int totalScaleTicks;
@@ -582,7 +582,7 @@ public class ScaleData
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
 		this.scale = scaleData.getBaseScale();
-		this.prevScale = scaleData.prevScale;
+		this.prevScale = scaleData.getPrevBaseScale();
 		this.fromScale = scaleData.getInitialScale();
 		this.toScale = scaleData.getTargetScale();
 		this.scaleTicks = scaleData.scaleTicks;
