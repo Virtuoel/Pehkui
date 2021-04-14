@@ -120,6 +120,7 @@ public class ScaleData
 	 * @param delta Tick delta for use with rendering. Use 1.0F if no delta is available.
 	 * @return Scale with modifiers applied
 	 */
+	@Deprecated
 	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
 	{
 		for (final ScaleModifier m : modifiers)
@@ -186,7 +187,14 @@ public class ScaleData
 	 */
 	public float getScale(float delta)
 	{
-		return computeScale(getBaseScale(delta), getBaseValueModifiers(), delta);
+		float value = getBaseScale(delta);
+		
+		for (final ScaleModifier m : getBaseValueModifiers())
+		{
+			value = m.modifyScale(this, value, delta);
+		}
+		
+		return value;
 	}
 	
 	/**
@@ -256,7 +264,14 @@ public class ScaleData
 	 */
 	public float getPrevScale()
 	{
-		return computeScale(getPrevBaseScale(), getBaseValueModifiers(), 1.0F);
+		float value = getPrevBaseScale();
+		
+		for (final ScaleModifier m : getBaseValueModifiers())
+		{
+			value = m.modifyPrevScale(this, value);
+		}
+		
+		return value;
 	}
 	
 	/**

@@ -13,6 +13,12 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 		{
 			return ScaleType.BASE.getScaleData(scaleData.getEntity()).getScale(delta) * modifiedScale;
 		}
+		
+		@Override
+		public float modifyPrevScale(final ScaleData scaleData, float modifiedScale)
+		{
+			return ScaleType.BASE.getScaleData(scaleData.getEntity()).getPrevScale() * modifiedScale;
+		}
 	});
 	
 	@Override
@@ -39,6 +45,11 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	}
 	
 	public float modifyScale(final ScaleData scaleData, final float modifiedScale, final float delta)
+	{
+		return modifiedScale;
+	}
+	
+	public float modifyPrevScale(final ScaleData scaleData, final float modifiedScale)
 	{
 		return modifiedScale;
 	}
