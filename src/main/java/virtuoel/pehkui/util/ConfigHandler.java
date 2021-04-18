@@ -47,7 +47,16 @@ public abstract class ConfigHandler<S> implements Supplier<S>
 			Files.createDirectories(configFile.getParent());
 			if (Files.exists(configFile))
 			{
-				configData = readConfig(Files.lines(configFile));
+				final Stream<String> lines = Files.lines(configFile);
+				try
+				{
+					configData = readConfig(lines);
+				}
+				catch (Exception e)
+				{
+					logger.warn("Failed to read config for {}:", namespace);
+					logger.catching(e);
+				}
 			}
 		}
 		catch (IOException e)
@@ -82,7 +91,7 @@ public abstract class ConfigHandler<S> implements Supplier<S>
 		}
 		catch (IOException e)
 		{
-			logger.warn("Failed to write config.");
+			logger.warn("Failed to write config for {}:", namespace);
 			logger.catching(e);
 		}
 	}
