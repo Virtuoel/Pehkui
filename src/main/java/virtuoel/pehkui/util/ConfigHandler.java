@@ -54,7 +54,7 @@ public abstract class ConfigHandler<S> implements Supplier<S>
 				}
 				catch (Exception e)
 				{
-					logger.warn("Failed to read config for {}:", namespace);
+					logger.warn("Failed to read config for {}, resetting to default config.", namespace);
 					logger.catching(e);
 				}
 			}
