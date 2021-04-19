@@ -16,6 +16,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleData
 {
@@ -157,6 +158,11 @@ public class ScaleData
 	 */
 	public void setBaseScale(float scale)
 	{
+		if (scale <= ScaleUtils.MINIMUM_SCALE)
+		{
+			scale = ScaleUtils.MINIMUM_SCALE;
+		}
+		
 		this.prevBaseScale = getBaseScale();
 		this.baseScale = scale;
 		onUpdate();
@@ -211,6 +217,11 @@ public class ScaleData
 	 */
 	public void setTargetScale(float targetScale)
 	{
+		if (targetScale <= ScaleUtils.MINIMUM_SCALE)
+		{
+			targetScale = ScaleUtils.MINIMUM_SCALE;
+		}
+		
 		this.initialScale = getBaseScale();
 		this.targetScale = targetScale;
 		this.scaleTicks = 0;

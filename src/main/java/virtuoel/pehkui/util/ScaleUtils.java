@@ -26,6 +26,8 @@ import virtuoel.pehkui.entity.ResizableEntity;
 
 public class ScaleUtils
 {
+	public static final float MINIMUM_SCALE = Float.MIN_NORMAL;
+	
 	public static void tickScale(ScaleData data)
 	{
 		final ScaleType type = data.getScaleType();
