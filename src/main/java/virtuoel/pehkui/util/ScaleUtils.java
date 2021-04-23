@@ -25,6 +25,8 @@ import virtuoel.pehkui.network.ScalePacket;
 
 public class ScaleUtils
 {
+	public static final float MINIMUM_SCALE = Float.MIN_NORMAL;
+	
 	public static void tickScale(ScaleData data)
 	{
 		final ScaleType type = data.getScaleType();

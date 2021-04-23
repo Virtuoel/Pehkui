@@ -6,14 +6,7 @@ import virtuoel.pehkui.Pehkui;
 public class ScaleModifier implements Comparable<ScaleModifier>
 {
 	public static final ScaleModifier IDENTITY = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_MODIFIERS));
-	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new ScaleModifier()
-	{
-		@Override
-		public float modifyScale(final ScaleData scaleData, float modifiedScale, final float delta)
-		{
-			return ScaleType.BASE.getScaleData(scaleData.getEntity()).getScale(delta) * modifiedScale;
-		}
-	});
+	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new TypedScaleModifier(() -> ScaleType.BASE));
 	
 	@Override
 	public int compareTo(ScaleModifier o)
@@ -39,6 +32,11 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	}
 	
 	public float modifyScale(final ScaleData scaleData, final float modifiedScale, final float delta)
+	{
+		return modifiedScale;
+	}
+	
+	public float modifyPrevScale(final ScaleData scaleData, final float modifiedScale)
 	{
 		return modifiedScale;
 	}
