@@ -82,7 +82,7 @@ public class PehkuiConfig
 	{
 		return new JsonConfigHandler(
 			Pehkui.MOD_ID,
-			Pehkui.MOD_ID + "/config.json",
+			"config.json",
 			PehkuiConfig::createDefaultConfig
 		);
 	}

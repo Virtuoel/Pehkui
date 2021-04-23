@@ -23,8 +23,8 @@ public abstract class ConfigHandler<S> implements Supplier<S>
 	public ConfigHandler(String namespace, String path, Supplier<S> defaultConfig)
 	{
 		this.namespace = namespace;
-		logger = LogManager.getLogger(namespace);
-		configFile = FabricLoader.getInstance().getConfigDir().resolve(path);
+		this.logger = LogManager.getLogger(namespace);
+		this.configFile = FabricLoader.getInstance().getConfigDir().resolve(namespace).resolve(path);
 		this.defaultConfig = defaultConfig;
 	}
 	
@@ -47,8 +47,7 @@ public abstract class ConfigHandler<S> implements Supplier<S>
 			Files.createDirectories(configFile.getParent());
 			if (Files.exists(configFile))
 			{
-				final Stream<String> lines = Files.lines(configFile);
-				try
+				try (final Stream<String> lines = Files.lines(configFile))
 				{
 					configData = readConfig(lines);
 				}
