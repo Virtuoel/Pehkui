@@ -1,13 +1,12 @@
 package virtuoel.pehkui.network;
 
-import java.util.UUID;
 import java.util.function.Supplier;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkEvent;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -15,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScalePacket
 {
-	final UUID uuid;
+	final int id;
 	final Identifier typeId;
 	
 	CompoundTag nbt = null;
@@ -25,32 +24,31 @@ public class ScalePacket
 	public ScalePacket(ScaleData scaleData)
 	{
 		final Entity e = scaleData.getEntity();
-		this.uuid = e != null ? e.getUuid() : null;
+		this.id = e != null ? e.getEntityId() : -1;
 		this.typeId = ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, scaleData.getScaleType());
 		this.scaleData = scaleData;
 	}
 	
-	private ScalePacket(UUID uuid, Identifier typeId, CompoundTag nbt)
+	protected ScalePacket(PacketByteBuf buf)
 	{
-		this.uuid = uuid;
-		this.typeId = typeId;
-		this.nbt = nbt;
+		id = buf.readInt();
+		typeId = buf.readIdentifier();
+		nbt = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
 	}
 	
 	public static void handle(ScalePacket msg, Supplier<NetworkEvent.Context> ctx)
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			if (ScaleRegistries.SCALE_TYPES.containsKey(msg.typeId))
+			final World world = ctx.get().getSender().world;
+			
+			if (world.isClient && ScaleRegistries.SCALE_TYPES.containsKey(msg.typeId))
 			{
-				MinecraftClient client = MinecraftClient.getInstance();
-				for (final Entity e : client.world.getEntities())
+				final Entity entity = world.getEntityById(msg.id);
+				
+				if (entity != null)
 				{
-					if (e.getUuid().equals(msg.uuid))
-					{
-						ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, msg.typeId).getScaleData(e).readNbt(msg.nbt);
-						break;
-					}
+					ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, msg.typeId).getScaleData(entity).readNbt(msg.nbt);
 				}
 			}
 		});
@@ -59,20 +57,10 @@ public class ScalePacket
 		
 	}
 	
-	public static ScalePacket decode(PacketByteBuf buf)
+	public void encode(PacketByteBuf buf)
 	{
-		final UUID uuid = buf.readUuid();
-		final Identifier typeId = buf.readIdentifier();
-		final CompoundTag scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
-		
-		return new ScalePacket(uuid, typeId, scaleData);
-	}
-	
-	public static void encode(ScalePacket msg, PacketByteBuf buf)
-	{
-		msg.scaleData.toPacket(
-			buf.writeUuid(msg.uuid)
-			.writeIdentifier(msg.typeId)
-		);
+		buf.writeInt(id);
+		buf.writeIdentifier(typeId);
+		scaleData.toPacket(buf);
 	}
 }
