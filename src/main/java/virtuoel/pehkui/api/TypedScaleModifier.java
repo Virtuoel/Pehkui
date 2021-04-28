@@ -19,12 +19,16 @@ public class TypedScaleModifier extends ScaleModifier
 	@Override
 	public float modifyScale(final ScaleData scaleData, float modifiedScale, final float delta)
 	{
-		return type.get().getScaleData(scaleData.getEntity()).getScale(delta) * modifiedScale;
+		final ScaleType type = getType();
+		
+		return type == scaleData.getScaleType() ? modifiedScale : type.getScaleData(scaleData.getEntity()).getScale(delta) * modifiedScale;
 	}
 	
 	@Override
 	public float modifyPrevScale(final ScaleData scaleData, float modifiedScale)
 	{
-		return type.get().getScaleData(scaleData.getEntity()).getPrevScale() * modifiedScale;
+		final ScaleType type = getType();
+		
+		return type == scaleData.getScaleType() ? modifiedScale : getType().getScaleData(scaleData.getEntity()).getPrevScale() * modifiedScale;
 	}
 }
