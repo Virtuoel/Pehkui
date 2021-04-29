@@ -30,7 +30,8 @@ public class ScaleCommand
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
 		commandDispatcher.register(
-			CommandManager.literal("scale").requires(commandSource ->
+			CommandManager.literal("scale")
+			.requires(commandSource ->
 			{
 				return commandSource.hasPermissionLevel(2);
 			})
