@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.UUID;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
-import net.minecraft.command.argument.UuidArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.server.command.CommandManager;
@@ -98,10 +98,21 @@ public class DebugCommand
 			})
 			.then(CommandManager.literal("debug")
 				.then(CommandManager.literal("delete_scale_data")
-					.then(CommandManager.argument("uuid", UuidArgumentType.uuid())
+					.then(CommandManager.argument("uuid", StringArgumentType.string())
 						.executes(context ->
 						{
-							MARKED_UUIDS.add(UuidArgumentType.getUuid(context, "uuid"));
+							final String uuidString = StringArgumentType.getString(context, "uuid");
+							
+							try
+							{
+								final UUID uuid = UUID.fromString(uuidString);
+								MARKED_UUIDS.add(uuid);
+							}
+							catch (IllegalArgumentException e)
+							{
+								context.getSource().sendError(new LiteralText("Invalid UUID \"" + uuidString + "\"."));
+								return 0;
+							}
 							
 							return 1;
 						})
