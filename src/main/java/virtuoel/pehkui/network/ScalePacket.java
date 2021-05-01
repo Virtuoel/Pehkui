@@ -4,10 +4,13 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkEvent;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -36,6 +39,9 @@ public class ScalePacket
 		this.typeId = typeId;
 		this.nbt = nbt;
 	}
+
+	@OnlyIn(Dist.CLIENT)
+	private static ClientWorld getClientWorld() { return MinecraftClient.getInstance().world; }
 	
 	public static void handle(ScalePacket msg, Supplier<NetworkEvent.Context> ctx)
 	{
@@ -43,8 +49,7 @@ public class ScalePacket
 		{
 			if (ScaleRegistries.SCALE_TYPES.containsKey(msg.typeId))
 			{
-				MinecraftClient client = MinecraftClient.getInstance();
-				for (final Entity e : client.world.getEntities())
+				for (final Entity e : getClientWorld().getEntities())
 				{
 					if (e.getUuid().equals(msg.uuid))
 					{

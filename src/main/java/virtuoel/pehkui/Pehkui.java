@@ -46,11 +46,8 @@ public class Pehkui
 		ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
 		
 		PehkuiEntitySelectorOptions.register();
-		
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
-		{
-			PehkuiPacketHandler.init();
-		});
+
+		PehkuiPacketHandler.init();
 	}
 	
 	@SubscribeEvent
