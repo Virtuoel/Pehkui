@@ -19,6 +19,7 @@ import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
+import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
 
 @Mod(Pehkui.MOD_ID)
@@ -52,6 +53,7 @@ public class Pehkui
 	public void onRegisterCommands(RegisterCommandsEvent event)
 	{
 		ScaleCommand.register(event.getDispatcher());
+		DebugCommand.register(event.getDispatcher());
 	}
 	
 	public static Identifier id(String path)
