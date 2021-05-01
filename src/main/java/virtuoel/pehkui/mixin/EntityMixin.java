@@ -2,7 +2,6 @@ package virtuoel.pehkui.mixin;
 
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,7 +37,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow World world;
-	@Shadow UUID uuid;
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	
@@ -58,7 +56,7 @@ public abstract class EntityMixin implements ResizableEntity
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
-		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND) && !DebugCommand.unmarkUuidForScaleReset(uuid))
+		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
 		{
 			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -15,6 +16,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -26,10 +29,16 @@ import net.minecraft.util.math.Direction;
 public class DebugCommand
 {
 	private static final Collection<UUID> MARKED_UUIDS = new HashSet<>();
+	private static final Collection<String> MARKED_USERNAMES = new HashSet<>();
 	
-	public static boolean unmarkUuidForScaleReset(UUID uuid)
+	public static boolean unmarkEntityForScaleReset(final Entity entity, final NbtCompound nbt)
 	{
-		return MARKED_UUIDS.remove(uuid);
+		if (entity instanceof PlayerEntity && MARKED_USERNAMES.remove(((PlayerEntity) entity).getGameProfile().getName().toLowerCase(Locale.ROOT)))
+		{
+			return true;
+		}
+		
+		return nbt.containsUuid("UUID") && MARKED_UUIDS.remove(nbt.getUuid("UUID"));
 	}
 	
 	private static final List<EntityType<? extends Entity>> TYPES = Arrays.asList(
@@ -98,24 +107,35 @@ public class DebugCommand
 			})
 			.then(CommandManager.literal("debug")
 				.then(CommandManager.literal("delete_scale_data")
-					.then(CommandManager.argument("uuid", StringArgumentType.string())
-						.executes(context ->
-						{
-							final String uuidString = StringArgumentType.getString(context, "uuid");
-							
-							try
+					.then(CommandManager.literal("uuid")
+						.then(CommandManager.argument("uuid", StringArgumentType.string())
+							.executes(context ->
 							{
-								final UUID uuid = UUID.fromString(uuidString);
-								MARKED_UUIDS.add(uuid);
-							}
-							catch (IllegalArgumentException e)
+								final String uuidString = StringArgumentType.getString(context, "uuid");
+								
+								try
+								{
+									MARKED_UUIDS.add(UUID.fromString(uuidString));
+								}
+								catch (IllegalArgumentException e)
+								{
+									context.getSource().sendError(new LiteralText("Invalid UUID \"" + uuidString + "\"."));
+									return 0;
+								}
+								
+								return 1;
+							})
+						)
+					)
+					.then(CommandManager.literal("username")
+						.then(CommandManager.argument("username", StringArgumentType.string())
+							.executes(context ->
 							{
-								context.getSource().sendError(new LiteralText("Invalid UUID \"" + uuidString + "\"."));
-								return 0;
-							}
-							
-							return 1;
-						})
+								MARKED_USERNAMES.add(StringArgumentType.getString(context, "username").toLowerCase(Locale.ROOT));
+								
+								return 1;
+							})
+						)
 					)
 				)
 			)
