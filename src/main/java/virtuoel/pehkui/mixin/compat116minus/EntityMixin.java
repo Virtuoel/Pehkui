@@ -11,7 +11,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public class EntityMixin
 {
-	@ModifyArg(method = "method_5623(DZLnet/minecraft/class_2680;Lnet/minecraft/class_2338;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_2248;method_9554(Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;F)V", remap = false), remap = false)
+	@ModifyArg(method = "fall", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private float onFallModifyFallDistance(float distance)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);

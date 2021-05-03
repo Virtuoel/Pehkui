@@ -17,7 +17,7 @@ public class GameRendererMixin
 {
 	@Shadow @Final @Mutable
 	MinecraftClient client;
-
+	
 	@ModifyConstant(method = "updateTargetedEntity", constant = @Constant(doubleValue = 3.0D))
 	private double updateTargetedEntityModifyDistance(double value)
 	{

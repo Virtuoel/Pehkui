@@ -2,11 +2,13 @@ package virtuoel.pehkui.network;
 
 import java.util.function.Supplier;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.network.NetworkEvent;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -40,17 +42,19 @@ public class ScalePacket
 	{
 		ctx.get().enqueueWork(() ->
 		{
-			final World world = ctx.get().getSender().world;
-			
-			if (world.isClient && ScaleRegistries.SCALE_TYPES.containsKey(msg.typeId))
+			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 			{
-				final Entity entity = world.getEntityById(msg.id);
-				
-				if (entity != null)
+				if (ScaleRegistries.SCALE_TYPES.containsKey(msg.typeId))
 				{
-					ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, msg.typeId).getScaleData(entity).readNbt(msg.nbt);
+					@SuppressWarnings("resource")
+					final Entity entity = MinecraftClient.getInstance().world.getEntityById(msg.id);
+					
+					if (entity != null)
+					{
+						ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, msg.typeId).getScaleData(entity).readNbt(msg.nbt);
+					}
 				}
-			}
+			});
 		});
 		
 		ctx.get().setPacketHandled(true);

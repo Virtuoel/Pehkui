@@ -12,7 +12,6 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -25,6 +24,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraftforge.fml.loading.FMLLoader;
 
 public class DebugCommand
 {
@@ -77,7 +77,7 @@ public class DebugCommand
 			)
 		);
 		
-		if (FabricLoader.getInstance().isDevelopmentEnvironment())
+		if (!FMLLoader.isProduction())
 		{
 			commandDispatcher.register(
 				CommandManager.literal("scale")
