@@ -131,14 +131,16 @@ public class ScaleType
 			
 		}
 		
-		public void defaultBaseScale(float defaultBaseScale)
+		public Builder defaultBaseScale(float defaultBaseScale)
 		{
 			this.defaultBaseScale = defaultBaseScale;
+			return this;
 		}
 		
-		public void defaultTickDelay(int defaultTickDelay)
+		public Builder defaultTickDelay(int defaultTickDelay)
 		{
 			this.defaultTickDelay = defaultTickDelay;
+			return this;
 		}
 		
 		public Builder withClampedBaseScale(ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction)

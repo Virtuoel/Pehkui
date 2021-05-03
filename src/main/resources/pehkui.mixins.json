@@ -99,6 +99,7 @@
 		"identity.compat.PlayerEntityMixin",
 		"identity.compat115.IdentityComponentMixin",
 		"identity.compat116.IdentityComponentMixin",
+		"pehkui.ScaleTypeBuilderMixin",
 		"reach.BlockEntityUseDistanceMixin",
 		"reach.EnderChestBlockEntityMixin",
 		"reach.PlayerEntityMixin",
