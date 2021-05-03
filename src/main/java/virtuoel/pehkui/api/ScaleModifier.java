@@ -8,6 +8,18 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	public static final ScaleModifier IDENTITY = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_MODIFIERS));
 	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new TypedScaleModifier(() -> ScaleType.BASE));
 	
+	private final float priority;
+	
+	public ScaleModifier()
+	{
+		this(512.0F);
+	}
+	
+	public ScaleModifier(final float priority)
+	{
+		this.priority = priority;
+	}
+	
 	@Override
 	public int compareTo(ScaleModifier o)
 	{
@@ -28,7 +40,7 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	 */
 	public float getPriority()
 	{
-		return 512.0F;
+		return this.priority;
 	}
 	
 	public float modifyScale(final ScaleData scaleData, final float modifiedScale, final float delta)
