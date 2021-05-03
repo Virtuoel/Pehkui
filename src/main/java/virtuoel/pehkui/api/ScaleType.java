@@ -87,36 +87,48 @@ public class ScaleType
 	}
 	
 	private static final float DEFAULT_MINIMUM_SCALE = Float.MIN_NORMAL;
+	private static final float DEFAULT_MAXIMUM_SCALE = 1024.0F;
 	
 	public static class Builder
 	{
 		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
 		private float defaultBaseScale = 1.0F;
 		private int defaultTickDelay = 20;
+		private float defaultMinimumScale = DEFAULT_MINIMUM_SCALE;
+		private float defaultMaximumScale = DEFAULT_MAXIMUM_SCALE;
 		private ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction = (scaleData, newScale) ->
 		{
-			final double targetScale = scaleData.getTargetScale();
-			
-			if (newScale > DEFAULT_MINIMUM_SCALE || newScale < -DEFAULT_MINIMUM_SCALE)
+			if (newScale > defaultMaximumScale)
+			{
+				return defaultMaximumScale;
+			}
+			else if (newScale < -defaultMaximumScale)
+			{
+				return -defaultMaximumScale;
+			}
+			else if (newScale > defaultMinimumScale || newScale < -defaultMinimumScale)
 			{
 				return newScale;
 			}
 			
-			if (newScale != targetScale)
-			{
-				return targetScale < 0 ? -DEFAULT_MINIMUM_SCALE : DEFAULT_MINIMUM_SCALE;
-			}
-			
-			return newScale < 0 ? -DEFAULT_MINIMUM_SCALE : DEFAULT_MINIMUM_SCALE;
+			return scaleData.getTargetScale() < 0 ? -defaultMinimumScale : defaultMinimumScale;
 		};
 		private ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction = (scaleData, newScale) ->
 		{
-			if (newScale > DEFAULT_MINIMUM_SCALE || newScale < -DEFAULT_MINIMUM_SCALE)
+			if (newScale > defaultMaximumScale)
+			{
+				return defaultMaximumScale;
+			}
+			else if (newScale < -defaultMaximumScale)
+			{
+				return -defaultMaximumScale;
+			}
+			else if (newScale > defaultMinimumScale || newScale < -defaultMinimumScale)
 			{
 				return newScale;
 			}
 			
-			return newScale < 0 ? -DEFAULT_MINIMUM_SCALE : DEFAULT_MINIMUM_SCALE;
+			return newScale < 0 ? -defaultMinimumScale : defaultMinimumScale;
 		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
@@ -140,6 +152,18 @@ public class ScaleType
 		public Builder defaultTickDelay(int defaultTickDelay)
 		{
 			this.defaultTickDelay = defaultTickDelay;
+			return this;
+		}
+		
+		public Builder defaultMinimumScale(float defaultMinimumScale)
+		{
+			this.defaultMinimumScale = defaultMinimumScale;
+			return this;
+		}
+		
+		public Builder defaultMaximumScale(float defaultMaximumScale)
+		{
+			this.defaultMaximumScale = defaultMaximumScale;
 			return this;
 		}
 		
