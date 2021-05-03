@@ -3,6 +3,7 @@ package virtuoel.pehkui.api;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.ToDoubleBiFunction;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
@@ -34,17 +35,11 @@ public class ScaleType
 	 */
 	private ScaleType(Builder builder)
 	{
-		this(builder.defaultBaseScale, builder.defaultTickDelay, builder.defaultBaseValueModifiers);
-	}
-	
-	/**
-	 * @see {@link ScaleType.Builder}
-	 */
-	private ScaleType(float defaultBaseScale, int defaultTickDelay, Set<ScaleModifier> defaultBaseValueModifiers)
-	{
-		this.defaultBaseScale = defaultBaseScale;
-		this.defaultTickDelay = defaultTickDelay;
-		this.defaultBaseValueModifiers = defaultBaseValueModifiers;
+		this.defaultBaseScale = builder.defaultBaseScale;
+		this.defaultTickDelay = builder.defaultTickDelay;
+		this.defaultBaseValueModifiers = builder.defaultBaseValueModifiers;
+		this.baseScaleClampFunction = builder.baseScaleClampFunction;
+		this.targetScaleClampFunction = builder.targetScaleClampFunction;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
@@ -66,6 +61,20 @@ public class ScaleType
 		return defaultTickDelay;
 	}
 	
+	private final ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction;
+	
+	public double clampBaseScale(ScaleData data, double newScale)
+	{
+		return baseScaleClampFunction.applyAsDouble(data, newScale);
+	}
+	
+	private final ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction;
+	
+	public double clampTargetScale(ScaleData data, double newScale)
+	{
+		return targetScaleClampFunction.applyAsDouble(data, newScale);
+	}
+	
 	private final Set<ScaleModifier> defaultBaseValueModifiers;
 	
 	/**
@@ -77,11 +86,38 @@ public class ScaleType
 		return defaultBaseValueModifiers;
 	}
 	
+	private static final float DEFAULT_MINIMUM_SCALE = Float.MIN_NORMAL;
+	
 	public static class Builder
 	{
 		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
 		private float defaultBaseScale = 1.0F;
 		private int defaultTickDelay = 20;
+		private ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction = (scaleData, newScale) ->
+		{
+			final double targetScale = scaleData.getTargetScale();
+			
+			if (newScale > DEFAULT_MINIMUM_SCALE || newScale < -DEFAULT_MINIMUM_SCALE)
+			{
+				return newScale;
+			}
+			
+			if (newScale != targetScale)
+			{
+				return targetScale < 0 ? -DEFAULT_MINIMUM_SCALE : DEFAULT_MINIMUM_SCALE;
+			}
+			
+			return newScale < 0 ? -DEFAULT_MINIMUM_SCALE : DEFAULT_MINIMUM_SCALE;
+		};
+		private ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction = (scaleData, newScale) ->
+		{
+			if (newScale > DEFAULT_MINIMUM_SCALE || newScale < -DEFAULT_MINIMUM_SCALE)
+			{
+				return newScale;
+			}
+			
+			return newScale < 0 ? -DEFAULT_MINIMUM_SCALE : DEFAULT_MINIMUM_SCALE;
+		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
 		
@@ -103,6 +139,18 @@ public class ScaleType
 		public void defaultTickDelay(int defaultTickDelay)
 		{
 			this.defaultTickDelay = defaultTickDelay;
+		}
+		
+		public Builder withClampedBaseScale(ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction)
+		{
+			this.baseScaleClampFunction = baseScaleClampFunction;
+			return this;
+		}
+		
+		public Builder withClampedTargetScale(ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction)
+		{
+			this.targetScaleClampFunction = targetScaleClampFunction;
+			return this;
 		}
 		
 		public Builder addBaseValueModifier(ScaleModifier scaleModifier)
