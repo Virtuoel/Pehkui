@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
-	
+	/*
 	@Redirect(method = "onPlayerInteractBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;getValue()D"))
 	private double onPlayerInteractBlockModifyMultiplier(EntityAttributeInstance reach)
 	{
@@ -29,7 +29,7 @@ public class ServerPlayNetworkHandlerMixin
 		
 		return reach.getValue();
 	}
-	
+	*/
 	@ModifyConstant(method = "onPlayerInteractEntity", constant = @Constant(doubleValue = 36.0D))
 	private double onPlayerInteractEntityModifyDistance(double value)
 	{

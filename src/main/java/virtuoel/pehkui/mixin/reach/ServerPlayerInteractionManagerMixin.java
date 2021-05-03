@@ -13,6 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ServerPlayerInteractionManager.class)
 public class ServerPlayerInteractionManagerMixin
 {
+	/*
 	@Shadow ServerPlayerEntity player;
 	
 	@Redirect(method = "processBlockBreakingAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;getValue()D"))
@@ -27,4 +28,5 @@ public class ServerPlayerInteractionManagerMixin
 		
 		return reach.getValue();
 	}
+	*/
 }

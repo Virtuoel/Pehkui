@@ -14,6 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Item.class)
 public class ItemMixin
 {
+	/*
 	@Redirect(method = "raycast", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;getValue()D"))
 	private static double raycastModifyMultiplier(EntityAttributeInstance reach, World world, PlayerEntity player, RaycastContext.FluidHandling fluidHandling)
 	{
@@ -26,4 +27,5 @@ public class ItemMixin
 		
 		return reach.getValue();
 	}
+	*/
 }

@@ -1,11 +1,18 @@
 package virtuoel.pehkui;
 
+import java.util.UUID;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -21,6 +28,7 @@ import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mod(Pehkui.MOD_ID)
 public class Pehkui
@@ -29,9 +37,37 @@ public class Pehkui
 	
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	
+	public static final UUID REACH_MODIFIER = UUID.fromString("d82ebc57-0753-43e5-95b5-895dc1071e12");
+	
 	public Pehkui()
 	{
 		ScaleType.INVALID.getClass();
+		
+		ScaleType.REACH.getPostTickEvent().add(s ->
+		{
+			final Entity e = s.getEntity();
+			
+			if (e instanceof PlayerEntity)
+			{
+				final EntityAttributeInstance attribute = ((PlayerEntity) e).getAttributeInstance(ForgeMod.REACH_DISTANCE.get());
+				
+				if (attribute != null)
+				{
+					final double scale = ScaleUtils.getReachScale(e);
+					final EntityAttributeModifier modifier = attribute.getModifier(REACH_MODIFIER);
+					
+					if (modifier == null || Double.compare(scale, modifier.getValue()) != 0)
+					{
+						attribute.removeModifier(REACH_MODIFIER);
+						
+						if (Double.compare(scale, 1.0D) != 0)
+						{
+							attribute.addPersistentModifier(new EntityAttributeModifier(REACH_MODIFIER, "Reach Scale", scale, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+						}
+					}
+				}
+			}
+		});
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		

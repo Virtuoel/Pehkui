@@ -27,7 +27,7 @@ public class GameRendererMixin
 		{
 			final float scale = ScaleUtils.getReachScale(entity, client.getTickDelta());
 			
-			if (scale > 1.0F)
+			if (scale != 1.0F)
 			{
 				return scale * scale * value;
 			}
@@ -45,7 +45,7 @@ public class GameRendererMixin
 		{
 			final float scale = ScaleUtils.getReachScale(entity, client.getTickDelta());
 			
-			if (scale > 1.0F)
+			if (scale != 1.0F)
 			{
 				return scale * scale * value;
 			}
@@ -63,7 +63,7 @@ public class GameRendererMixin
 		{
 			final float scale = ScaleUtils.getReachScale(entity, client.getTickDelta());
 			
-			if (scale > 1.0F)
+			if (scale != 1.0F)
 			{
 				return scale * scale * value;
 			}

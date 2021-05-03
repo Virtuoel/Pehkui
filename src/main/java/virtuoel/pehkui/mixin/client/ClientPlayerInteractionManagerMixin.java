@@ -14,6 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin
 {
+	/*
 	@Shadow @Final MinecraftClient client;
 	
 	@Inject(at = @At("RETURN"), method = "getReachDistance", cancellable = true)
@@ -29,4 +30,5 @@ public class ClientPlayerInteractionManagerMixin
 			}
 		}
 	}
+	*/
 }
