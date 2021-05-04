@@ -94,6 +94,9 @@ public class ScaleUtils
 		return volume > threshold;
 	}
 	
+	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
+	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P8F;
+	
 	public static float modifyLimbDistance(float value, Entity entity)
 	{
 		final float scale = ScaleUtils.getMotionScale(entity);

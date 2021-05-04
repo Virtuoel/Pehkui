@@ -86,49 +86,46 @@ public class ScaleType
 		return defaultBaseValueModifiers;
 	}
 	
-	private static final float DEFAULT_MINIMUM_SCALE = Float.MIN_NORMAL;
-	private static final float DEFAULT_MAXIMUM_SCALE = 1024.0F;
-	
 	public static class Builder
 	{
 		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
 		private float defaultBaseScale = 1.0F;
 		private int defaultTickDelay = 20;
-		private float defaultMinimumScale = DEFAULT_MINIMUM_SCALE;
-		private float defaultMaximumScale = DEFAULT_MAXIMUM_SCALE;
+		private float defaultMinPositiveScale = ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE;
+		private float defaultMaxPositiveScale = ScaleUtils.DEFAULT_MAXIMUM_POSITIVE_SCALE;
 		private ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction = (scaleData, newScale) ->
 		{
-			if (newScale > defaultMaximumScale)
+			if (newScale > defaultMaxPositiveScale)
 			{
-				return defaultMaximumScale;
+				return defaultMaxPositiveScale;
 			}
-			else if (newScale < -defaultMaximumScale)
+			else if (newScale < -defaultMaxPositiveScale)
 			{
-				return -defaultMaximumScale;
+				return -defaultMaxPositiveScale;
 			}
-			else if (newScale > defaultMinimumScale || newScale < -defaultMinimumScale)
+			else if (newScale > defaultMinPositiveScale || newScale < -defaultMinPositiveScale)
 			{
 				return newScale;
 			}
 			
-			return scaleData.getTargetScale() < 0 ? -defaultMinimumScale : defaultMinimumScale;
+			return scaleData.getTargetScale() < 0 ? -defaultMinPositiveScale : defaultMinPositiveScale;
 		};
 		private ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction = (scaleData, newScale) ->
 		{
-			if (newScale > defaultMaximumScale)
+			if (newScale > defaultMaxPositiveScale)
 			{
-				return defaultMaximumScale;
+				return defaultMaxPositiveScale;
 			}
-			else if (newScale < -defaultMaximumScale)
+			else if (newScale < -defaultMaxPositiveScale)
 			{
-				return -defaultMaximumScale;
+				return -defaultMaxPositiveScale;
 			}
-			else if (newScale > defaultMinimumScale || newScale < -defaultMinimumScale)
+			else if (newScale > defaultMinPositiveScale || newScale < -defaultMinPositiveScale)
 			{
 				return newScale;
 			}
 			
-			return newScale < 0 ? -defaultMinimumScale : defaultMinimumScale;
+			return newScale < 0 ? -defaultMinPositiveScale : defaultMinPositiveScale;
 		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
@@ -155,25 +152,25 @@ public class ScaleType
 			return this;
 		}
 		
-		public Builder defaultMinimumScale(float defaultMinimumScale)
+		public Builder defaultMinPositiveScale(float defaultMinPositiveScale)
 		{
-			this.defaultMinimumScale = defaultMinimumScale;
+			this.defaultMinPositiveScale = defaultMinPositiveScale;
 			return this;
 		}
 		
-		public Builder defaultMaximumScale(float defaultMaximumScale)
+		public Builder defaultMaxPositiveScale(float defaultMaxPositiveScale)
 		{
-			this.defaultMaximumScale = defaultMaximumScale;
+			this.defaultMaxPositiveScale = defaultMaxPositiveScale;
 			return this;
 		}
 		
-		public Builder withClampedBaseScale(ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction)
+		public Builder clampedBaseScale(ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction)
 		{
 			this.baseScaleClampFunction = baseScaleClampFunction;
 			return this;
 		}
 		
-		public Builder withClampedTargetScale(ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction)
+		public Builder clampedTargetScale(ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction)
 		{
 			this.targetScaleClampFunction = targetScaleClampFunction;
 			return this;
