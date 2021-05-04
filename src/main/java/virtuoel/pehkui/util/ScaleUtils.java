@@ -97,11 +97,25 @@ public class ScaleUtils
 	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
 	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P8F;
 	
+	private static final float MINIMUM_LIMB_MOTION_SCALE = DEFAULT_MINIMUM_POSITIVE_SCALE;
+	
 	public static float modifyLimbDistance(float value, Entity entity)
 	{
 		final float scale = ScaleUtils.getMotionScale(entity);
 		
-		return scale != 1.0F ? value / scale : value;
+		if (scale == 1.0F)
+		{
+			return value;
+		}
+		
+		final float ret = value / scale;
+		
+		if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
+		{
+			return ret;
+		}
+		
+		return ret < 0 ? -MINIMUM_LIMB_MOTION_SCALE : MINIMUM_LIMB_MOTION_SCALE;
 	}
 	
 	public static float setScaleOfDrop(Entity entity, Entity source)
