@@ -13,8 +13,6 @@ public class LivingEntityMixin
 	@ModifyConstant(method = "updateLimbs", constant = @Constant(floatValue = 4.0F))
 	private float modifyLimbDistance(float value, LivingEntity livingEntity, boolean bl)
 	{
-		final float scale = ScaleUtils.getMotionScale(livingEntity);
-		
-		return scale != 1.0F ? value / scale : value;
+		return ScaleUtils.modifyLimbDistance(value, livingEntity);
 	}
 }

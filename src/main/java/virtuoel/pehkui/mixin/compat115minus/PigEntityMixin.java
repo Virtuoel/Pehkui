@@ -28,8 +28,6 @@ public class PigEntityMixin
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))
 	private float modifyLimbDistance(float value)
 	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
-		
-		return scale != 1.0F ? value / scale : value;
+		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);
 	}
 }

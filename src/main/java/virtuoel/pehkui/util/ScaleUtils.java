@@ -94,6 +94,13 @@ public class ScaleUtils
 		return volume > threshold;
 	}
 	
+	public static float modifyLimbDistance(float value, Entity entity)
+	{
+		final float scale = ScaleUtils.getMotionScale(entity);
+		
+		return scale != 1.0F ? value / scale : value;
+	}
+	
 	public static float setScaleOfDrop(Entity entity, Entity source)
 	{
 		return setScaleOnSpawn(entity, getDropScale(source));
