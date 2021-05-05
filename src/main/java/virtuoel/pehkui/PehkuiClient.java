@@ -1,7 +1,5 @@
 package virtuoel.pehkui;
 
-import java.util.UUID;
-
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
@@ -20,7 +18,7 @@ public class PehkuiClient implements ClientModInitializer
 		{
 			ClientPlayNetworking.registerGlobalReceiver(Pehkui.SCALE_PACKET, (client, handler, buf, sender) ->
 			{
-				final UUID uuid = buf.readUuid();
+				final int id = buf.readVarInt();
 				final Identifier typeId = buf.readIdentifier();
 				
 				final NbtCompound scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
@@ -32,13 +30,11 @@ public class PehkuiClient implements ClientModInitializer
 				
 				client.execute(() ->
 				{
-					for (final Entity e : client.world.getEntities())
+					final Entity e = client.world.getEntityById(id);
+					
+					if (e != null)
 					{
-						if (e.getUuid().equals(uuid))
-						{
-							ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, typeId).getScaleData(e).readNbt(scaleData);
-							break;
-						}
+						ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, typeId).getScaleData(e).readNbt(scaleData);
 					}
 				});
 			});

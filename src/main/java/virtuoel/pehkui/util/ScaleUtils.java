@@ -2,7 +2,6 @@ package virtuoel.pehkui.util;
 
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -215,7 +214,7 @@ public class ScaleUtils
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
-		final UUID uuid = entity.getUuid();
+		final int id = entity.getId();
 		
 		ScaleData scaleData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
@@ -227,7 +226,7 @@ public class ScaleUtils
 				packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
 					scaleData.toPacket(
 						new PacketByteBuf(Unpooled.buffer())
-						.writeUuid(uuid)
+						.writeVarInt(id)
 						.writeIdentifier(entry.getKey())
 					)
 				));
