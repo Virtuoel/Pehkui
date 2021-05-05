@@ -95,7 +95,7 @@ public class ScaleUtils
 	}
 	
 	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
-	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P8F;
+	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P32F;
 	
 	private static final float MINIMUM_LIMB_MOTION_SCALE = DEFAULT_MINIMUM_POSITIVE_SCALE;
 	
