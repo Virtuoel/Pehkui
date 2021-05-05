@@ -28,7 +28,7 @@ public class PehkuiConfig
 		
 		Client()
 		{
-			this.minimumCameraDepth = doubleConfig("minimumCameraDepth", 0.001D);
+			this.minimumCameraDepth = doubleConfig("minimumCameraDepth", 0.0D);
 		}
 	}
 	
