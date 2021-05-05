@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.Nullable;
+
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -116,6 +118,34 @@ public class ScaleUtils
 		}
 		
 		return ret < 0 ? -MINIMUM_LIMB_MOTION_SCALE : MINIMUM_LIMB_MOTION_SCALE;
+	}
+	
+	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
+	{
+		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getWidthScale(entity, tickDelta), depth, entity, tickDelta);
+	}
+	
+	public static final float modifyProjectionMatrixDepthByHeight(float depth, @Nullable Entity entity, float tickDelta)
+	{
+		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getHeightScale(entity, tickDelta), depth, entity, tickDelta);
+	}
+	
+	public static final float modifyProjectionMatrixDepth(float depth, @Nullable Entity entity, float tickDelta)
+	{
+		return entity == null ? depth : modifyProjectionMatrixDepth(Math.min(ScaleUtils.getWidthScale(entity, tickDelta), ScaleUtils.getHeightScale(entity, tickDelta)), depth, entity, tickDelta);
+	}
+	
+	public static final float modifyProjectionMatrixDepth(float scale, float depth, Entity entity, float tickDelta)
+	{
+		if (scale < 1.0F)
+		{
+			return Math.max(
+				(float) PehkuiConfig.CLIENT.minimumCameraDepth.get().doubleValue(),
+				depth * scale
+			);
+		}
+		
+		return depth;
 	}
 	
 	public static float setScaleOfDrop(Entity entity, Entity source)
