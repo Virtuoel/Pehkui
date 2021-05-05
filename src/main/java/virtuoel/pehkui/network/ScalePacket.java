@@ -33,7 +33,7 @@ public class ScalePacket
 	
 	protected ScalePacket(PacketByteBuf buf)
 	{
-		id = buf.readInt();
+		id = buf.readVarInt();
 		typeId = buf.readIdentifier();
 		nbt = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
 	}
@@ -63,7 +63,7 @@ public class ScalePacket
 	
 	public void encode(PacketByteBuf buf)
 	{
-		buf.writeInt(id);
+		buf.writeVarInt(id);
 		buf.writeIdentifier(typeId);
 		scaleData.toPacket(buf);
 	}

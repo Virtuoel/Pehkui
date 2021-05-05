@@ -16,7 +16,6 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.util.Constants;
-import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleData
 {
@@ -159,10 +158,7 @@ public class ScaleData
 	 */
 	public void setBaseScale(float scale)
 	{
-		if (scale <= ScaleUtils.MINIMUM_SCALE)
-		{
-			scale = ScaleUtils.MINIMUM_SCALE;
-		}
+		scale = (float) getScaleType().clampBaseScale(this, scale);
 		
 		this.prevBaseScale = getBaseScale();
 		this.baseScale = scale;
@@ -225,10 +221,7 @@ public class ScaleData
 	 */
 	public void setTargetScale(float targetScale)
 	{
-		if (targetScale <= ScaleUtils.MINIMUM_SCALE)
-		{
-			targetScale = ScaleUtils.MINIMUM_SCALE;
-		}
+		targetScale = (float) getScaleType().clampTargetScale(this, targetScale);
 		
 		this.initialScale = getBaseScale();
 		this.targetScale = targetScale;

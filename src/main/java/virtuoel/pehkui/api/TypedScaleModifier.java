@@ -11,6 +11,12 @@ public class TypedScaleModifier extends ScaleModifier
 		this.type = type;
 	}
 	
+	public TypedScaleModifier(final Supplier<ScaleType> type, final float priority)
+	{
+		super(priority);
+		this.type = type;
+	}
+	
 	public ScaleType getType()
 	{
 		return type.get();

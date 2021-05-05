@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.ToDoubleBiFunction;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.minecraft.entity.Entity;
@@ -33,17 +34,11 @@ public class ScaleType
 	 */
 	private ScaleType(Builder builder)
 	{
-		this(builder.defaultBaseScale, builder.defaultTickDelay, builder.defaultBaseValueModifiers);
-	}
-	
-	/**
-	 * @see {@link ScaleType.Builder}
-	 */
-	private ScaleType(float defaultBaseScale, int defaultTickDelay, Set<ScaleModifier> defaultBaseValueModifiers)
-	{
-		this.defaultBaseScale = defaultBaseScale;
-		this.defaultTickDelay = defaultTickDelay;
-		this.defaultBaseValueModifiers = defaultBaseValueModifiers;
+		this.defaultBaseScale = builder.defaultBaseScale;
+		this.defaultTickDelay = builder.defaultTickDelay;
+		this.defaultBaseValueModifiers = builder.defaultBaseValueModifiers;
+		this.baseScaleClampFunction = builder.baseScaleClampFunction;
+		this.targetScaleClampFunction = builder.targetScaleClampFunction;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
@@ -65,6 +60,20 @@ public class ScaleType
 		return defaultTickDelay;
 	}
 	
+	private final ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction;
+	
+	public double clampBaseScale(ScaleData data, double newScale)
+	{
+		return baseScaleClampFunction.applyAsDouble(data, newScale);
+	}
+	
+	private final ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction;
+	
+	public double clampTargetScale(ScaleData data, double newScale)
+	{
+		return targetScaleClampFunction.applyAsDouble(data, newScale);
+	}
+	
 	private final Set<ScaleModifier> defaultBaseValueModifiers;
 	
 	/**
@@ -81,6 +90,42 @@ public class ScaleType
 		private Set<ScaleModifier> defaultBaseValueModifiers = new ObjectRBTreeSet<>();
 		private float defaultBaseScale = 1.0F;
 		private int defaultTickDelay = 20;
+		private float defaultMinPositiveScale = ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE;
+		private float defaultMaxPositiveScale = ScaleUtils.DEFAULT_MAXIMUM_POSITIVE_SCALE;
+		private ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction = (scaleData, newScale) ->
+		{
+			if (newScale > defaultMaxPositiveScale)
+			{
+				return defaultMaxPositiveScale;
+			}
+			else if (newScale < -defaultMaxPositiveScale)
+			{
+				return -defaultMaxPositiveScale;
+			}
+			else if (newScale > defaultMinPositiveScale || newScale < -defaultMinPositiveScale)
+			{
+				return newScale;
+			}
+			
+			return scaleData.getTargetScale() < 0 ? -defaultMinPositiveScale : defaultMinPositiveScale;
+		};
+		private ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction = (scaleData, newScale) ->
+		{
+			if (newScale > defaultMaxPositiveScale)
+			{
+				return defaultMaxPositiveScale;
+			}
+			else if (newScale < -defaultMaxPositiveScale)
+			{
+				return -defaultMaxPositiveScale;
+			}
+			else if (newScale > defaultMinPositiveScale || newScale < -defaultMinPositiveScale)
+			{
+				return newScale;
+			}
+			
+			return newScale < 0 ? -defaultMinPositiveScale : defaultMinPositiveScale;
+		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
 		
@@ -94,14 +139,40 @@ public class ScaleType
 			
 		}
 		
-		public void defaultBaseScale(float defaultBaseScale)
+		public Builder defaultBaseScale(float defaultBaseScale)
 		{
 			this.defaultBaseScale = defaultBaseScale;
+			return this;
 		}
 		
-		public void defaultTickDelay(int defaultTickDelay)
+		public Builder defaultTickDelay(int defaultTickDelay)
 		{
 			this.defaultTickDelay = defaultTickDelay;
+			return this;
+		}
+		
+		public Builder defaultMinPositiveScale(float defaultMinPositiveScale)
+		{
+			this.defaultMinPositiveScale = defaultMinPositiveScale;
+			return this;
+		}
+		
+		public Builder defaultMaxPositiveScale(float defaultMaxPositiveScale)
+		{
+			this.defaultMaxPositiveScale = defaultMaxPositiveScale;
+			return this;
+		}
+		
+		public Builder clampedBaseScale(ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction)
+		{
+			this.baseScaleClampFunction = baseScaleClampFunction;
+			return this;
+		}
+		
+		public Builder clampedTargetScale(ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction)
+		{
+			this.targetScaleClampFunction = targetScaleClampFunction;
+			return this;
 		}
 		
 		public Builder addBaseValueModifier(ScaleModifier scaleModifier)

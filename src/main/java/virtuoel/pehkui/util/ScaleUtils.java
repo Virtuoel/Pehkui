@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -25,8 +27,6 @@ import virtuoel.pehkui.network.ScalePacket;
 
 public class ScaleUtils
 {
-	public static final float MINIMUM_SCALE = Float.MIN_NORMAL;
-	
 	public static void tickScale(ScaleData data)
 	{
 		final ScaleType type = data.getScaleType();
@@ -93,6 +93,58 @@ public class ScaleUtils
 		final double threshold = scaleThreshold * scaleThreshold * scaleThreshold;
 		
 		return volume > threshold;
+	}
+	
+	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
+	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P32F;
+	
+	private static final float MINIMUM_LIMB_MOTION_SCALE = DEFAULT_MINIMUM_POSITIVE_SCALE;
+	
+	public static float modifyLimbDistance(float value, Entity entity)
+	{
+		final float scale = ScaleUtils.getMotionScale(entity);
+		
+		if (scale == 1.0F)
+		{
+			return value;
+		}
+		
+		final float ret = value / scale;
+		
+		if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
+		{
+			return ret;
+		}
+		
+		return ret < 0 ? -MINIMUM_LIMB_MOTION_SCALE : MINIMUM_LIMB_MOTION_SCALE;
+	}
+	
+	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
+	{
+		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getWidthScale(entity, tickDelta), depth, entity, tickDelta);
+	}
+	
+	public static final float modifyProjectionMatrixDepthByHeight(float depth, @Nullable Entity entity, float tickDelta)
+	{
+		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getHeightScale(entity, tickDelta), depth, entity, tickDelta);
+	}
+	
+	public static final float modifyProjectionMatrixDepth(float depth, @Nullable Entity entity, float tickDelta)
+	{
+		return entity == null ? depth : modifyProjectionMatrixDepth(Math.min(ScaleUtils.getWidthScale(entity, tickDelta), ScaleUtils.getHeightScale(entity, tickDelta)), depth, entity, tickDelta);
+	}
+	
+	public static final float modifyProjectionMatrixDepth(float scale, float depth, Entity entity, float tickDelta)
+	{
+		if (scale < 1.0F)
+		{
+			return Math.max(
+				(float) PehkuiConfig.CLIENT.minimumCameraDepth.get().doubleValue(),
+				depth * scale
+			);
+		}
+		
+		return depth;
 	}
 	
 	public static float setScaleOfDrop(Entity entity, Entity source)
