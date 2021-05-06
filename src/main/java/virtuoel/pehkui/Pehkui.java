@@ -47,22 +47,25 @@ public class Pehkui
 		{
 			final Entity e = s.getEntity();
 			
-			if (e instanceof PlayerEntity)
+			if (e instanceof PlayerEntity && !e.world.isClient)
 			{
 				final EntityAttributeInstance attribute = ((PlayerEntity) e).getAttributeInstance(ForgeMod.REACH_DISTANCE.get());
 				
 				if (attribute != null)
 				{
-					final double scale = ScaleUtils.getReachScale(e);
+					final double scale = ScaleUtils.getReachScale(e) - 1.0D;
 					final EntityAttributeModifier modifier = attribute.getModifier(REACH_MODIFIER);
 					
 					if (modifier == null || Double.compare(scale, modifier.getValue()) != 0)
 					{
-						attribute.removeModifier(REACH_MODIFIER);
-						
-						if (Double.compare(scale, 1.0D) != 0)
+						if (modifier != null)
 						{
-							attribute.addPersistentModifier(new EntityAttributeModifier(REACH_MODIFIER, "Reach Scale", scale, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+							attribute.removeModifier(REACH_MODIFIER);
+						}
+						
+						if (Double.compare(scale, 0.0D) != 0)
+						{
+							attribute.addPersistentModifier(new EntityAttributeModifier(REACH_MODIFIER, "Reach Scale", scale, EntityAttributeModifier.Operation.MULTIPLY_BASE));
 						}
 					}
 				}
