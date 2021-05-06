@@ -35,6 +35,6 @@ public class TypedScaleModifier extends ScaleModifier
 	{
 		final ScaleType type = getType();
 		
-		return type == scaleData.getScaleType() ? modifiedScale : getType().getScaleData(scaleData.getEntity()).getPrevScale() * modifiedScale;
+		return type == scaleData.getScaleType() ? modifiedScale : type.getScaleData(scaleData.getEntity()).getPrevScale() * modifiedScale;
 	}
 }
