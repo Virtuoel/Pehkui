@@ -104,7 +104,7 @@ public class PehkuiConfig
 		config.add("scalesKeptOnRespawn", new JsonArray());
 		config.addProperty("accurateNetherPortals", true);
 		config.addProperty("largeScaleCollisionThreshold", 26.0F);
-		config.addProperty("minimumCameraDepth", 0.001F);
+		config.addProperty("minimumCameraDepth", 0.0F);
 		
 		return config;
 	}
