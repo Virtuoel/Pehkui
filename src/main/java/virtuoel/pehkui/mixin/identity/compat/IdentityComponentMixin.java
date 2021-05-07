@@ -18,7 +18,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) PlayerEntity player;
 	@Shadow(remap = false) LivingEntity identity;
 	
-	@Inject(at = @At("HEAD"), method = "setIdentity", remap = false)
+	@Inject(at = @At("TAIL"), method = "setIdentity", remap = false)
 	private void onSetIdentity(LivingEntity identity, CallbackInfoReturnable<Boolean> info)
 	{
 		if (identity != null)

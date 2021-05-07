@@ -19,7 +19,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) PlayerEntity player;
 	@Shadow(remap = false) LivingEntity identity;
 	
-	@Inject(at = @At("TAIL"), method = "readFromNbt", remap = false)
+	@Inject(at = @At("RETURN"), method = "readFromNbt", remap = false)
 	private void onReadFromNbt(NbtCompound tag, CallbackInfo info)
 	{
 		if (this.identity != null)
