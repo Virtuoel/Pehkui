@@ -5,7 +5,7 @@ import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,7 +20,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) LivingEntity identity;
 	
 	@Inject(at = @At("TAIL"), method = "readFromNbt", remap = false)
-	private void onReadFromNbt(NbtCompound tag, CallbackInfoReturnable<Boolean> info)
+	private void onReadFromNbt(NbtCompound tag, CallbackInfo info)
 	{
 		if (this.identity != null)
 		{
