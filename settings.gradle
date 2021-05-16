@@ -6,7 +6,7 @@ pluginManagement {
 			url = "https://maven.fabricmc.net/"
 		}
 		maven {
-			url "https://maven.shedaniel.me/"
+			url "https://maven.architectury.dev/"
 		}
 		maven {
 			url "https://maven.minecraftforge.net/"
