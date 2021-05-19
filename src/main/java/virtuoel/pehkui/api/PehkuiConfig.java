@@ -1,8 +1,10 @@
 package virtuoel.pehkui.api;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -18,6 +20,8 @@ import virtuoel.pehkui.util.JsonConfigHandler;
 
 public class PehkuiConfig
 {
+	private static final Collection<Consumer<JsonObject>> DEFAULT_VALUES = new ArrayList<>();
+	
 	public static final Client CLIENT = new Client();
 	public static final Common COMMON = new Common();
 	public static final Server SERVER = new Server();
@@ -91,20 +95,10 @@ public class PehkuiConfig
 	{
 		final JsonObject config = new JsonObject();
 		
-		config.addProperty("scaledFallDamage", true);
-		config.addProperty("scaledMotion", true);
-		config.addProperty("scaledReach", true);
-		config.addProperty("scaledAttack", true);
-		config.addProperty("scaledDefense", true);
-		config.addProperty("scaledHealth", true);
-		config.addProperty("scaledItemDrops", true);
-		config.addProperty("scaledProjectiles", true);
-		config.addProperty("scaledExplosions", true);
-		config.addProperty("keepAllScalesOnRespawn", false);
-		config.add("scalesKeptOnRespawn", new JsonArray());
-		config.addProperty("accurateNetherPortals", true);
-		config.addProperty("largeScaleCollisionThreshold", 26.0F);
-		config.addProperty("minimumCameraDepth", 0.0F);
+		for (final Consumer<JsonObject> value : DEFAULT_VALUES)
+		{
+			value.accept(config);
+		}
 		
 		return config;
 	}
@@ -114,8 +108,10 @@ public class PehkuiConfig
 		return numberConfig(config, Number::doubleValue, defaultValue);
 	}
 	
-	private static <T> Supplier<T> numberConfig(String config, Function<Number, T> mapper, T defaultValue)
+	private static <T extends Number> Supplier<T> numberConfig(String config, Function<Number, T> mapper, T defaultValue)
 	{
+		DEFAULT_VALUES.add(c -> c.addProperty(config, defaultValue));
+		
 		return () -> Optional.ofNullable(DATA.get(config))
 			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 			.filter(JsonPrimitive::isNumber).map(JsonPrimitive::getAsNumber)
@@ -124,6 +120,8 @@ public class PehkuiConfig
 	
 	private static Supplier<Boolean> booleanConfig(String config, boolean defaultValue)
 	{
+		DEFAULT_VALUES.add(c -> c.addProperty(config, defaultValue));
+		
 		return () -> Optional.ofNullable(PehkuiConfig.DATA.get(config))
 			.filter(JsonElement::isJsonPrimitive).map(JsonElement::getAsJsonPrimitive)
 			.filter(JsonPrimitive::isBoolean).map(JsonPrimitive::getAsBoolean)
@@ -137,6 +135,8 @@ public class PehkuiConfig
 	
 	private static <T> Supplier<List<T>> listConfig(String config, Function<JsonElement, T> mapper)
 	{
+		DEFAULT_VALUES.add(c -> c.add(config, new JsonArray()));
+		
 		return () -> Optional.ofNullable(PehkuiConfig.DATA.get(config))
 			.filter(JsonElement::isJsonArray).map(JsonElement::getAsJsonArray)
 			.map(JsonArray::spliterator).map(a -> StreamSupport.stream(a, false))
