@@ -34,6 +34,7 @@ import net.minecraft.util.math.Direction;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MixinTargetClasses;
+import virtuoel.pehkui.util.NbtCompoundExtensions;
 
 public class DebugCommand
 {
@@ -116,7 +117,9 @@ public class DebugCommand
 			return true;
 		}
 		
-		return nbt.containsUuid("UUID") && MARKED_UUIDS.remove(nbt.getUuid("UUID"));
+		final NbtCompoundExtensions compound = ((NbtCompoundExtensions) nbt);
+		
+		return compound.pehkui_containsUuid("UUID") && MARKED_UUIDS.remove(compound.pehkui_getUuid("UUID"));
 	}
 	
 	private static final List<EntityType<? extends Entity>> TYPES = Arrays.asList(
