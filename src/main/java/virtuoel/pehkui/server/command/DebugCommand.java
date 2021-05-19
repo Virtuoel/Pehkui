@@ -1,30 +1,39 @@
 package virtuoel.pehkui.server.command;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
+import io.netty.buffer.Unpooled;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.MixinTargetClasses;
 
 public class DebugCommand
 {
@@ -77,7 +86,7 @@ public class DebugCommand
 			)
 		);
 		
-		if (FabricLoader.getInstance().isDevelopmentEnvironment())
+		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{
 			commandDispatcher.register(
 				CommandManager.literal("scale")
@@ -86,6 +95,9 @@ public class DebugCommand
 					return commandSource.hasPermissionLevel(2);
 				})
 				.then(CommandManager.literal("debug")
+					.then(CommandManager.literal("run_mixin_tests")
+						.executes(DebugCommand::runMixinTests)
+					)
 					.then(CommandManager.literal("run_tests")
 						.executes(DebugCommand::runTests)
 					)
@@ -156,5 +168,71 @@ public class DebugCommand
 		context.getSource().sendFeedback(new LiteralText("Tests succeeded."), false);
 		
 		return 1;
+	}
+	
+	public static enum DebugPacketType
+	{
+		MIXIN_CLASSLOAD_TESTS,
+		;
+	}
+	
+	private static int runMixinTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+	{
+		runMixinClassloadTests(
+			t -> context.getSource().sendFeedback(t, false),
+			false,
+			MixinTargetClasses.Common.CLASSES,
+			MixinTargetClasses.Server.CLASSES
+		);
+		
+		context.getSource().getPlayer().networkHandler.sendPacket(
+			new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
+				new PacketByteBuf(Unpooled.buffer())
+				.writeEnumConstant(DebugPacketType.MIXIN_CLASSLOAD_TESTS)
+			)
+		);
+		
+		return 1;
+	}
+	
+	public static void runMixinClassloadTests(final Consumer<Text> response, final boolean client, final Class<?>[]... classes)
+	{
+		final Collection<String> succeeded = new ArrayList<String>();
+		final Collection<String> failed = new ArrayList<String>();
+		
+		for (final Class<?>[] c : classes)
+		{
+			DebugCommand.classloadMixinTargets(c, succeeded, failed);
+		}
+		
+		final int successes = succeeded.size();
+		final int fails = failed.size();
+		final int total = successes + fails;
+		
+		if (fails > 1)
+		{
+			response.accept(new LiteralText(String.join(", ", failed)));
+		}
+		
+		response.accept(new LiteralText(String.format("%d successes and %d fails out of %d mixined %s classes", successes, fails, total, client ? "client" : "server")));
+	}
+	
+	public static void classloadMixinTargets(final Class<?>[] classes, final Collection<String> succeeded, final Collection<String> failed)
+	{
+		String name;
+		for (final Class<?> clazz : classes)
+		{
+			name = clazz.getName();
+			
+			try
+			{
+				Class.forName(name, true, clazz.getClassLoader());
+				succeeded.add(name);
+			}
+			catch (Exception e)
+			{
+				failed.add(name);
+			}
+		}
 	}
 }

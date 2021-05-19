@@ -61,4 +61,5 @@ public class Pehkui implements ModInitializer
 	}
 	
 	public static final Identifier SCALE_PACKET = id("scale");
+	public static final Identifier DEBUG_PACKET = id("debug");
 }

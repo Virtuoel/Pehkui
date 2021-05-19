@@ -7,6 +7,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleRegistries;
+import virtuoel.pehkui.server.command.DebugCommand;
+import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
+import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.ScaleUtils;
 
 public class PehkuiClient implements ClientModInitializer
@@ -38,10 +41,32 @@ public class PehkuiClient implements ClientModInitializer
 					}
 				});
 			});
+			
+			ClientPlayNetworking.registerGlobalReceiver(Pehkui.DEBUG_PACKET, (client, handler, buf, sender) ->
+			{
+				final DebugPacketType type = buf.readEnumConstant(DebugPacketType.class);
+				
+				client.execute(() ->
+				{
+					switch (type)
+					{
+						case MIXIN_CLASSLOAD_TESTS:
+							DebugCommand.runMixinClassloadTests(
+								t -> client.player.sendMessage(t, false),
+								true,
+								MixinTargetClasses.Common.CLASSES,
+								MixinTargetClasses.Client.CLASSES
+							);
+							break;
+						default:
+							break;
+					}
+				});
+			});
 		}
 		else
 		{
-			Pehkui.LOGGER.fatal("Failed to register scale packet handler! Is Fabric API's networking module missing?");
+			Pehkui.LOGGER.fatal("Failed to register Pehkui's packet handlers! Is Fabric API's networking module missing?");
 		}
 	}
 }

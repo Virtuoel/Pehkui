@@ -51,6 +51,7 @@ public class PehkuiConfig
 		public final Supplier<List<String>> scalesKeptOnRespawn;
 		public final Supplier<Boolean> accurateNetherPortals;
 		public final Supplier<Double> largeScaleCollisionThreshold;
+		public final Supplier<Boolean> enableDebugCommands;
 		
 		Common()
 		{
@@ -67,6 +68,7 @@ public class PehkuiConfig
 			this.scalesKeptOnRespawn = stringListConfig("scalesKeptOnRespawn");
 			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
 			this.largeScaleCollisionThreshold = doubleConfig("largeScaleCollisionThreshold", 26.0D);
+			this.enableDebugCommands = booleanConfig("enableDebugCommands", false);
 		}
 	}
 	
