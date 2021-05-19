@@ -184,8 +184,17 @@ public class DebugCommand
 		runMixinClassloadTests(
 			t -> context.getSource().sendFeedback(t, false),
 			false,
+			false,
 			MixinTargetClasses.Common.CLASSES,
 			MixinTargetClasses.Server.CLASSES
+		);
+		
+		runMixinClassloadTests(
+			t -> context.getSource().sendFeedback(t, false),
+			false,
+			true,
+			MixinTargetClasses.Common.INTERMEDIARY_CLASSES,
+			MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 		);
 		
 		context.getSource().getPlayer().networkHandler.sendPacket(
@@ -198,38 +207,44 @@ public class DebugCommand
 		return 1;
 	}
 	
-	public static void runMixinClassloadTests(final Consumer<Text> response, final boolean client, final Class<?>[]... classes)
+	public static void runMixinClassloadTests(final Consumer<Text> response, final boolean client, final boolean resolveMappings, final String[]... classes)
 	{
 		final Collection<String> succeeded = new ArrayList<String>();
 		final Collection<String> failed = new ArrayList<String>();
 		
-		for (final Class<?>[] c : classes)
+		for (final String[] c : classes)
 		{
-			DebugCommand.classloadMixinTargets(c, succeeded, failed);
+			DebugCommand.classloadMixinTargets(c, resolveMappings, succeeded, failed);
 		}
 		
 		final int successes = succeeded.size();
 		final int fails = failed.size();
 		final int total = successes + fails;
 		
-		if (fails > 1)
+		if (fails > 0)
 		{
-			response.accept(new LiteralText(String.join(", ", failed)));
+			response.accept(new LiteralText("Failed classes: \"" + String.join("\", \"", failed) + "\""));
 		}
 		
-		response.accept(new LiteralText(String.format("%d successes and %d fails out of %d mixined %s classes", successes, fails, total, client ? "client" : "server")));
+		response.accept(new LiteralText(String.format("%d successes and %d fails out of %d mixined %s%s classes", successes, fails, total, resolveMappings ? "intermediary " : "", client ? "client" : "server")));
 	}
 	
-	public static void classloadMixinTargets(final Class<?>[] classes, final Collection<String> succeeded, final Collection<String> failed)
+	public static void classloadMixinTargets(final String[] classes, final boolean resolveMappings, final Collection<String> succeeded, final Collection<String> failed)
 	{
-		String name;
-		for (final Class<?> clazz : classes)
+		final ClassLoader cl = DebugCommand.class.getClassLoader();
+		
+		for (String name : classes)
 		{
-			name = clazz.getName();
+			name = name.replace('/', '.');
+			
+			if (resolveMappings)
+			{
+				name = FabricLoader.getInstance().getMappingResolver().mapClassName("intermediary", name);
+			}
 			
 			try
 			{
-				Class.forName(name, true, clazz.getClassLoader());
+				Class.forName(name, true, cl);
 				succeeded.add(name);
 			}
 			catch (Exception e)

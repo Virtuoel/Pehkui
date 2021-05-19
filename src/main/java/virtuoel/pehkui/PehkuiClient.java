@@ -54,8 +54,17 @@ public class PehkuiClient implements ClientModInitializer
 							DebugCommand.runMixinClassloadTests(
 								t -> client.player.sendMessage(t, false),
 								true,
+								false,
 								MixinTargetClasses.Common.CLASSES,
 								MixinTargetClasses.Client.CLASSES
+							);
+							
+							DebugCommand.runMixinClassloadTests(
+								t -> client.player.sendMessage(t, false),
+								true,
+								true,
+								MixinTargetClasses.Common.INTERMEDIARY_CLASSES,
+								MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 							);
 							break;
 						default:

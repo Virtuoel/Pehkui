@@ -1,187 +1,123 @@
 package virtuoel.pehkui.util;
 
-import net.minecraft.block.AbstractBlock.AbstractBlockState;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.NetherPortalBlock;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.BrewingStandBlockEntity;
-import net.minecraft.block.entity.EnderChestBlockEntity;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
-import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.gui.hud.InGameOverlayRenderer;
-import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayerInteractionManager;
-import net.minecraft.client.network.OtherClientPlayerEntity;
-import net.minecraft.client.particle.ItemPickupParticle;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.entity.BoatEntityRenderer;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.EntityRenderer;
-import net.minecraft.client.render.entity.ItemFrameEntityRenderer;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
-import net.minecraft.client.render.item.HeldItemRenderer;
-import net.minecraft.command.EntitySelectorOptions;
-import net.minecraft.command.EntitySelectorReader;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.entity.ai.brain.task.VillagerBreedTask;
-import net.minecraft.entity.ai.goal.AnimalMateGoal;
-import net.minecraft.entity.decoration.AbstractDecorationEntity;
-import net.minecraft.entity.decoration.ArmorStandEntity;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.mob.AbstractSkeletonEntity;
-import net.minecraft.entity.mob.BlazeEntity;
-import net.minecraft.entity.mob.EndermiteEntity;
-import net.minecraft.entity.mob.EvokerEntity;
-import net.minecraft.entity.mob.EvokerFangsEntity;
-import net.minecraft.entity.mob.FlyingEntity;
-import net.minecraft.entity.mob.PatrolEntity;
-import net.minecraft.entity.mob.RavagerEntity;
-import net.minecraft.entity.mob.SilverfishEntity;
-import net.minecraft.entity.mob.SkeletonHorseEntity;
-import net.minecraft.entity.mob.SlimeEntity;
-import net.minecraft.entity.mob.SpiderEntity;
-import net.minecraft.entity.mob.ZombieEntity;
-import net.minecraft.entity.mob.ZombieVillagerEntity;
-import net.minecraft.entity.passive.AbstractDonkeyEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.FoxEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
-import net.minecraft.entity.passive.LlamaEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.entity.passive.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.DragonFireballEntity;
-import net.minecraft.entity.projectile.ExplosiveProjectileEntity;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.entity.projectile.FishingBobberEntity;
-import net.minecraft.entity.projectile.LlamaSpitEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.entity.projectile.thrown.EggEntity;
-import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.entity.vehicle.StorageMinecartEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.screen.HorseScreenHandler;
-import net.minecraft.server.PlayerManager;
-import net.minecraft.server.network.EntityTrackerEntry;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
-import net.minecraft.world.explosion.Explosion;
-
 public class MixinTargetClasses
 {
 	public static class Common
 	{
-		public static final Class<?>[] CLASSES =
+		public static final String[] CLASSES =
 		{
-			AbstractBlockState.class, ////
-			AbstractDecorationEntity.class,
-			AbstractDonkeyEntity.class,
-			AbstractFurnaceBlockEntity.class,
-			AbstractMinecartEntity.class,
-			AbstractSkeletonEntity.class,
-			AnimalEntity.class,
-			AnimalMateGoal.class,
-			ArmorStandEntity.class,
-			BlazeEntity.class, //
-			BlockState.class,
-			BoatEntity.class,
-			BrewingStandBlockEntity.class,
-			DragonFireballEntity.class,
-			EggEntity.class,
-			EndCrystalEntity.class,
-			EnderChestBlockEntity.class,
-			EnderPearlEntity.class,
-			EndermiteEntity.class,
-			Entity.class,
-			EntitySelectorOptions.class,
-			EntitySelectorReader.class,
-			EntityTrackerEntry.class,
-			EvokerEntity.class, //
-			EvokerFangsEntity.class,
-			Explosion.class,
-			ExplosiveProjectileEntity.class,
-			FallingBlockEntity.class,
-			FireballEntity.class,
-			FishingBobberEntity.class,
-			FlyingEntity.class,
-			FoxEntity.class,
-			HorseBaseEntity.class,
-			HorseScreenHandler.class,
-			Item.class,
-			ItemEntity.class,
-			LivingEntity.class,
-			LlamaEntity.class,
-			LlamaSpitEntity.class,
-			LootableContainerBlockEntity.class,
-			NetherPortalBlock.class,
-			OtherClientPlayerEntity.class,
-			PassiveEntity.class,
-			PatrolEntity.class,
-			PersistentProjectileEntity.class,
-			PigEntity.class,
-			PlayerEntity.class,
-			PlayerManager.class,
-			ProjectileEntity.class, ////
-			ProjectileUtil.class,
-			RavagerEntity.class,
-			ServerPlayNetworkHandler.class,
-			ServerPlayerEntity.class,
-			ServerPlayerInteractionManager.class,
-			SilverfishEntity.class,
-			SkeletonHorseEntity.class,
-			SlimeEntity.class,
-			SpawnEggItem.class,
-			SpiderEntity.class,
-			StorageMinecartEntity.class,
-			ThrownEntity.class,
-			TntEntity.class,
-			VillagerBreedTask.class,
-			VillagerEntity.class,
-			ZombieEntity.class,
-			ZombieVillagerEntity.class,
+			"com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes",
+			"dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain",
+			"draylar.identity.cca.IdentityComponent",
+			"virtuoel.pehkui.api.ScaleType$Builder",
+		};
+		
+		public static final String[] INTERMEDIARY_CLASSES =
+		{
+			"net.minecraft.class_4970$class_4971", // AbstractBlockState
+			"net.minecraft.class_1530", // AbstractDecorationEntity
+			"net.minecraft.class_1492", // AbstractDonkeyEntity
+			"net.minecraft.class_2609", // AbstractFurnaceBlockEntity
+			"net.minecraft.class_1688", // AbstractMinecartEntity
+			"net.minecraft.class_1547", // AbstractSkeletonEntity
+			"net.minecraft.class_1429", // AnimalEntity
+			"net.minecraft.class_1341", // AnimalMateGoal
+			"net.minecraft.class_1531", // ArmorStandEntity
+			"net.minecraft.class_1545$class_1546", // BlazeEntity$ShootFireballGoal
+			"net.minecraft.class_2680", // BlockState
+			"net.minecraft.class_1690", // BoatEntity
+			"net.minecraft.class_2589", // BrewingStandBlockEntity
+			"net.minecraft.class_1670", // DragonFireballEntity
+			"net.minecraft.class_1681", // EggEntity
+			"net.minecraft.class_1511", // EndCrystalEntity
+			"net.minecraft.class_2611", // EnderChestBlockEntity
+			"net.minecraft.class_1684", // EnderPearlEntity
+			"net.minecraft.class_1559", // EndermiteEntity
+			"net.minecraft.class_1297", // Entity
+			"net.minecraft.class_2306", // EntitySelectorOptions
+			"net.minecraft.class_2303", // EntitySelectorReader
+			"net.minecraft.class_3231", // EntityTrackerEntry
+			"net.minecraft.class_1564$class_1567", // EvokerEntity$SummonVexGoal
+			"net.minecraft.class_1669", // EvokerFangsEntity
+			"net.minecraft.class_1927", // Explosion
+			"net.minecraft.class_1668", // ExplosiveProjectileEntity
+			"net.minecraft.class_1540", // FallingBlockEntity
+			"net.minecraft.class_1674", // FireballEntity
+			"net.minecraft.class_1536", // FishingBobberEntity
+			"net.minecraft.class_1307", // FlyingEntity
+			"net.minecraft.class_4019$class_4024", // FoxEntity$MateGoal
+			"net.minecraft.class_1571$class_1574", // GhastEntity$ShootFireballGoal
+			"net.minecraft.class_1496", // HorseBaseEntity
+			"net.minecraft.class_1724", // HorseScreenHandler
+			"net.minecraft.class_1792", // Item
+			"net.minecraft.class_1542", // ItemEntity
+			"net.minecraft.class_1309", // LivingEntity
+			"net.minecraft.class_1501", // LlamaEntity
+			"net.minecraft.class_1673", // LlamaSpitEntity
+			"net.minecraft.class_2621", // LootableContainerBlockEntity
+			"net.minecraft.class_2487", // NbtCompound
+			"net.minecraft.class_2423", // NetherPortalBlock
+			"net.minecraft.class_745", // OtherClientPlayerEntity
+			"net.minecraft.class_1296", // PassiveEntity
+			"net.minecraft.class_3732", // PatrolEntity
+			"net.minecraft.class_1665", // PersistentProjectileEntity
+			"net.minecraft.class_1452", // PigEntity
+			"net.minecraft.class_1657", // PlayerEntity
+			"net.minecraft.class_3324", // PlayerManager
+			"net.minecraft.class_1676", // ProjectileEntity
+			"net.minecraft.class_1675", // ProjectileUtil
+			"net.minecraft.class_1584", // RavagerEntity
+			"net.minecraft.class_3244", // ServerPlayNetworkHandler
+			"net.minecraft.class_3222", // ServerPlayerEntity
+			"net.minecraft.class_3225", // ServerPlayerInteractionManager
+			"net.minecraft.class_1614", // SilverfishEntity
+			"net.minecraft.class_1506", // SkeletonHorseEntity
+			"net.minecraft.class_1621", // SlimeEntity
+			"net.minecraft.class_1826", // SpawnEggItem
+			"net.minecraft.class_1628", // SpiderEntity
+			"net.minecraft.class_1693", // StorageMinecartEntity
+			"net.minecraft.class_1682", // ThrownEntity
+			"net.minecraft.class_1541", // TntEntity
+			"net.minecraft.class_4111", // VillagerBreedTask
+			"net.minecraft.class_1646", // VillagerEntity
+			"net.minecraft.class_1642", // ZombieEntity
+			"net.minecraft.class_1641", // ZombieVillagerEntity
 		};
 	}
 	
 	public static class Client
 	{
-		public static final Class<?>[] CLASSES =
+		public static final String[] CLASSES =
 		{
-			BoatEntityRenderer.class,
-			Camera.class,
-			ClientPlayNetworkHandler.class,
-			ClientPlayerEntity.class,
-			ClientPlayerInteractionManager.class,
-			EntityRenderDispatcher.class,
-			EntityRenderer.class,
-			GameRenderer.class,
-			HeldItemRenderer.class,
-			InGameHud.class,
-			InGameOverlayRenderer.class,
-			InventoryScreen.class,
-			ItemFrameEntityRenderer.class,
-			ItemPickupParticle.class,
-			PlayerEntityRenderer.class,
+		};
+		
+		public static final String[] INTERMEDIARY_CLASSES =
+		{
+			"net.minecraft.class_881", // BoatEntityRenderer
+			"net.minecraft.class_4184", // Camera
+			"net.minecraft.class_634", // ClientPlayNetworkHandler
+			"net.minecraft.class_746", // ClientPlayerEntity
+			"net.minecraft.class_636", // ClientPlayerInteractionManager
+			"net.minecraft.class_898", // EntityRenderDispatcher
+			"net.minecraft.class_897", // EntityRenderer
+			"net.minecraft.class_757", // GameRenderer
+			"net.minecraft.class_759", // HeldItemRenderer
+			"net.minecraft.class_329", // InGameHud
+			"net.minecraft.class_4603", // InGameOverlayRenderer
+			"net.minecraft.class_490", // InventoryScreen
+			"net.minecraft.class_915", // ItemFrameEntityRenderer
+			"net.minecraft.class_693", // ItemPickupParticle
+			"net.minecraft.class_1007", // PlayerEntityRenderer
 		};
 	}
 	
 	public static class Server
 	{
-		public static final Class<?>[] CLASSES =
+		public static final String[] CLASSES =
+		{
+		};
+		
+		public static final String[] INTERMEDIARY_CLASSES =
 		{
 		};
 	}
