@@ -22,19 +22,9 @@ public class PehkuiConfig
 {
 	private static final Collection<Consumer<JsonObject>> DEFAULT_VALUES = new ArrayList<>();
 	
-	public static final Client CLIENT = new Client();
 	public static final Common COMMON = new Common();
+	public static final Client CLIENT = new Client();
 	public static final Server SERVER = new Server();
-	
-	public static class Client
-	{
-		public final Supplier<Double> minimumCameraDepth;
-		
-		Client()
-		{
-			this.minimumCameraDepth = doubleConfig("minimumCameraDepth", 0.0D);
-		}
-	}
 	
 	public static class Common
 	{
@@ -69,6 +59,16 @@ public class PehkuiConfig
 			this.accurateNetherPortals = booleanConfig("accurateNetherPortals", true);
 			this.largeScaleCollisionThreshold = doubleConfig("largeScaleCollisionThreshold", 26.0D);
 			this.enableDebugCommands = booleanConfig("enableDebugCommands", false);
+		}
+	}
+	
+	public static class Client
+	{
+		public final Supplier<Double> minimumCameraDepth;
+		
+		Client()
+		{
+			this.minimumCameraDepth = doubleConfig("minimumCameraDepth", 0.0D);
 		}
 	}
 	
