@@ -153,6 +153,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = "sources"
 	from sourceSets.main.allSource
 	exclude "fabric.mod.json"
+	exclude "META-INF/mods.toml"
 	manifest
 	{
 		attributes "Implementation-Title": project.archivesBaseName + "-sources"
