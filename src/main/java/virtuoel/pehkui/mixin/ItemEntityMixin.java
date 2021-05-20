@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(ItemEntity.class)
+@Mixin(value = ItemEntity.class, priority = 1050)
 public class ItemEntityMixin
 {
 	@ModifyConstant(method = "tryMerge", constant = @Constant(doubleValue = 0.5D))
