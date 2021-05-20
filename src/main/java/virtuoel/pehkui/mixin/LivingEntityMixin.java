@@ -20,6 +20,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
@@ -123,7 +124,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (self.world.getBlockState(pos).getBlock() instanceof ScaffoldingBlock)
+				if (((PehkuiBlockStateExtensions) self.world.getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
 				{
 					final Vec3d prev = info.getReturnValue();
 					info.setReturnValue(new Vec3d(prev.x, Math.max(self.getVelocity().y, -0.15D), prev.z));
