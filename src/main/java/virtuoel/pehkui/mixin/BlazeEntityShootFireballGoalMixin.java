@@ -25,7 +25,7 @@ public abstract class BlazeEntityShootFireballGoalMixin
 		{
 			final Vec3d pos = entity.getPos();
 			
-			entity.setPosition(pos.x, pos.y - ((1.0D - scale) * 0.5D), pos.z);
+			entity.updatePosition(pos.x, pos.y - ((1.0D - scale) * 0.5D), pos.z);
 		}
 		
 		return entity;
