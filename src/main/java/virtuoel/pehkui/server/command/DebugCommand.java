@@ -25,6 +25,8 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraftforge.fml.loading.FMLLoader;
+import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.NbtCompoundExtensions;
 
 public class DebugCommand
 {
@@ -77,7 +79,7 @@ public class DebugCommand
 			)
 		);
 		
-		if (!FMLLoader.isProduction())
+		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{
 			commandDispatcher.register(
 				CommandManager.literal("scale")
@@ -86,6 +88,9 @@ public class DebugCommand
 					return commandSource.hasPermissionLevel(2);
 				})
 				.then(CommandManager.literal("debug")
+					.then(CommandManager.literal("run_mixin_tests")
+						.executes(DebugCommand::runMixinTests)
+					)
 					.then(CommandManager.literal("run_tests")
 						.executes(DebugCommand::runTests)
 					)
@@ -104,7 +109,9 @@ public class DebugCommand
 			return true;
 		}
 		
-		return nbt.containsUuid("UUID") && MARKED_UUIDS.remove(nbt.getUuid("UUID"));
+		final NbtCompoundExtensions compound = ((NbtCompoundExtensions) nbt);
+		
+		return compound.pehkui_containsUuid("UUID") && MARKED_UUIDS.remove(compound.pehkui_getUuid("UUID"));
 	}
 	
 	private static final List<EntityType<? extends Entity>> TYPES = Arrays.asList(
@@ -154,6 +161,13 @@ public class DebugCommand
 		// TODO set command block w/ entity to void and block destroy under player pos
 		
 		context.getSource().sendFeedback(new LiteralText("Tests succeeded."), false);
+		
+		return 1;
+	}
+	
+	private static int runMixinTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
+	{
+		context.getSource().sendFeedback(new LiteralText("NYI"), false);
 		
 		return 1;
 	}

@@ -94,6 +94,7 @@ public class PehkuiConfig
 		public final ConfigValue<List<? extends String>> scalesKeptOnRespawn;
 		public final ForgeConfigSpec.BooleanValue accurateNetherPortals;
 		public final ForgeConfigSpec.DoubleValue largeScaleCollisionThreshold;
+		public final ForgeConfigSpec.BooleanValue enableDebugCommands;
 		
 		Common(ForgeConfigSpec.Builder builder)
 		{
@@ -160,6 +161,9 @@ public class PehkuiConfig
 				.translation("pehkui.configgui.largeScaleCollisionThreshold")
 				.defineInRange("largeScaleCollisionThreshold", 26.0D, 16.0D, 128.0D);
 			builder.pop();
+			this.enableDebugCommands = builder
+				.translation("pehkui.configgui.enableDebugCommands")
+				.define("enableDebugCommands", false);
 		}
 	}
 	
