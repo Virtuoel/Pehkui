@@ -20,13 +20,13 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EntityMixin implements ResizableEntity
 {
 	@Shadow(remap = false)
-	private double field_5987;
+	private double field_5987; // UNMAPPED_FIELD
 	@Shadow(remap = false)
-	private double field_6010;
+	private double field_6010; // UNMAPPED_FIELD
 	@Shadow(remap = false)
-	private double field_6035;
+	private double field_6035; // UNMAPPED_FIELD
 	@Shadow(remap = false)
-	abstract Vec3d method_5812();
+	abstract Vec3d method_5812(); // UNMAPPED_METHOD
 	
 	@Unique
 	protected void setPosDirectly(final double x, final double y, final double z)
