@@ -29,16 +29,23 @@ import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
-import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.server.command.DebugCommand;
+import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ResizableEntity
+public abstract class EntityMixin implements PehkuiEntityExtensions
 {
 	@Shadow World world;
+	@Shadow boolean onGround;
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+	
+	@Override
+	public ScaleData pehkui_constructScaleData(ScaleType type)
+	{
+		return ScaleData.Builder.create().type(type).entity((Entity) (Object) this).build();
+	}
 	
 	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
@@ -159,5 +166,17 @@ public abstract class EntityMixin implements ResizableEntity
 		{
 			info.cancel();
 		}
+	}
+	
+	@Override
+	public boolean pehkui_getOnGround()
+	{
+		return this.onGround;
+	}
+	
+	@Override
+	public void pehkui_setOnGround(boolean onGround)
+	{
+		this.onGround = onGround;
 	}
 }

@@ -13,11 +13,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.math.Vec3d;
-import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ResizableEntity
+public abstract class EntityMixin
 {
 	@Shadow(remap = false)
 	private double field_5987; // UNMAPPED_FIELD
