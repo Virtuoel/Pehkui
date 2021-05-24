@@ -9,7 +9,6 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
@@ -21,7 +20,6 @@ import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
-import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.network.ScalePacket;
 
@@ -54,7 +52,7 @@ public class ScaleUtils
 		}
 	}
 	
-	public static void loadScaleOnRespawn(PlayerEntity target, PlayerEntity source, boolean alive)
+	public static void loadScaleOnRespawn(Entity target, Entity source, boolean alive)
 	{
 		if (alive || PehkuiConfig.COMMON.keepAllScalesOnRespawn.get())
 		{
@@ -338,11 +336,6 @@ public class ScaleUtils
 	
 	public static float getTypedScale(Entity entity, ScaleType type, float tickDelta)
 	{
-		if (!(entity instanceof ResizableEntity))
-		{
-			return type.getDefaultBaseScale();
-		}
-		
-		return type.getScaleData(entity).getScale(tickDelta);
+		return entity == null ? type.getDefaultBaseScale() : type.getScaleData(entity).getScale(tickDelta);
 	}
 }

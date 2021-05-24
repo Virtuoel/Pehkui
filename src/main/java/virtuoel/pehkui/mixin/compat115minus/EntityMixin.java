@@ -10,11 +10,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.entity.Entity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.tag.Tag;
-import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ResizableEntity
+public abstract class EntityMixin
 {
 	@ModifyConstant(method = "isInsideWall()Z", constant = @Constant(floatValue = 0.1F))
 	private float isInsideWallModifyOffset(float value)

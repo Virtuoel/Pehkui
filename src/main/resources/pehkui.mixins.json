@@ -13,7 +13,6 @@
 		"BoatEntityMixin",
 		"EnderChestBlockEntityMixin",
 		"EnderCrystalEntityMixin",
-		"EntityAccessor",
 		"EntityMixin",
 		"EntityMountedHeightOffsetMixin",
 		"EntitySelectorOptionsInvoker",

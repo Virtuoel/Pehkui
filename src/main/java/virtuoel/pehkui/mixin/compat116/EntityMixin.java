@@ -5,11 +5,10 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
-import virtuoel.pehkui.entity.ResizableEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements ResizableEntity
+public abstract class EntityMixin
 {
 	@ModifyConstant(method = "isInsideWall()Z", constant = @Constant(doubleValue = 0.10000000149011612D))
 	private double isInsideWallModifyOffset(double value)

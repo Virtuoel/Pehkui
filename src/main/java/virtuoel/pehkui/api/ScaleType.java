@@ -10,8 +10,7 @@ import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
-import virtuoel.pehkui.entity.ResizableEntity;
-import virtuoel.pehkui.mixin.EntityAccessor;
+import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleType
@@ -43,7 +42,7 @@ public class ScaleType
 	
 	public ScaleData getScaleData(Entity entity)
 	{
-		return ((ResizableEntity) entity).pehkui_getScaleData(this);
+		return ((PehkuiEntityExtensions) entity).pehkui_getScaleData(this);
 	}
 	
 	private float defaultBaseScale;
@@ -216,15 +215,15 @@ public class ScaleType
 			
 			if (e != null)
 			{
-				final EntityAccessor en = (EntityAccessor) e;
-				final boolean onGround = en.getOnGround();
+				final PehkuiEntityExtensions en = (PehkuiEntityExtensions) e;
+				final boolean onGround = en.pehkui_getOnGround();
 				
 				if (!ScaleUtils.isAboveCollisionThreshold(e))
 				{
 					e.calculateDimensions();
 				}
 				
-				en.setOnGround(onGround);
+				en.pehkui_setOnGround(onGround);
 			}
 		}
 		
