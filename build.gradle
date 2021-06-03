@@ -114,6 +114,9 @@ eclipse {
 		buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
 		natures "org.eclipse.buildship.core.gradleprojectnature"
 	}
+	jdt {
+		javaRuntimeName = "JavaSE-16"
+	}
 }
 
 tasks.withType(JavaCompile) {
