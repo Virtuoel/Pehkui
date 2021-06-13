@@ -41,7 +41,7 @@ def ENV = System.getenv()
 
 group = project.maven_group
 archivesBaseName = project.archives_base_name
-version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + project.minecraft_version
+version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + (project.hasProperty("metadata_minecraft_versions") ? project.metadata_minecraft_versions : project.minecraft_version)
 
 minecraft {
 	refmapName = "${archives_base_name}-refmap.json"
