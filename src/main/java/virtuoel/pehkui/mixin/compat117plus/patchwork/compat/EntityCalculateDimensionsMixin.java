@@ -37,7 +37,7 @@ public abstract class EntityCalculateDimensionsMixin
 			final double w = Math.max(0.0F, current.width - previous.width) + 1.0E-6D;
 			final double h = Math.max(0.0F, current.height - previous.height) + 1.0E-6D;
 			final VoxelShape voxelShape = VoxelShapes.cuboid(Box.of(lastCenter, w, h, w));
-			self.world.method_33594(self, voxelShape, lastCenter, current.width, current.height, current.width)
+			self.world.findClosestCollision(self, voxelShape, lastCenter, current.width, current.height, current.width)
 			.ifPresent(vec -> self.setPosition(vec.add(0.0D, (-current.height) / 2.0D, 0.0D)));
 		}
 		*/

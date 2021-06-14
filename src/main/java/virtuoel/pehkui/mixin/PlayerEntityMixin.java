@@ -27,10 +27,10 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale((Entity) (Object) this), ScaleUtils.getHeightScale((Entity) (Object) this)));
 	}
 	
-	@ModifyArg(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/PlayerEntity;squaredHorizontalLength(Lnet/minecraft/util/math/Vec3d;)D"))
-	private Vec3d onTickMovementGetVelocityProxy(Vec3d velocity)
+	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
+	private float onTickMovementMinVelocityProxy(float velocity)
 	{
-		return velocity.multiply(ScaleUtils.getMotionScale((Entity) (Object) this));
+		return velocity * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
