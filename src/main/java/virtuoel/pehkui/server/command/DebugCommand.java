@@ -84,6 +84,21 @@ public class DebugCommand
 						)
 					)
 				)
+				.then(CommandManager.literal("garbage_collect")
+					.executes(context ->
+					{
+						context.getSource().getPlayer().networkHandler.sendPacket(
+							new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
+								new PacketByteBuf(Unpooled.buffer())
+								.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
+							)
+						);
+						
+						System.gc();
+						
+						return 1;
+					})
+				)
 			)
 		);
 		
@@ -176,6 +191,7 @@ public class DebugCommand
 	public static enum DebugPacketType
 	{
 		MIXIN_CLASSLOAD_TESTS,
+		GARBAGE_COLLECT
 		;
 	}
 	

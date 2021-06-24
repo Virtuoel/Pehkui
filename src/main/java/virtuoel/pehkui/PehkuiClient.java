@@ -67,6 +67,9 @@ public class PehkuiClient implements ClientModInitializer
 								MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 							);
 							break;
+						case GARBAGE_COLLECT:
+							System.gc();
+							break;
 						default:
 							break;
 					}
