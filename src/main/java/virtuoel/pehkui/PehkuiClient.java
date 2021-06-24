@@ -44,7 +44,18 @@ public class PehkuiClient implements ClientModInitializer
 			
 			ClientPlayNetworking.registerGlobalReceiver(Pehkui.DEBUG_PACKET, (client, handler, buf, sender) ->
 			{
-				final DebugPacketType type = buf.readEnumConstant(DebugPacketType.class);
+				DebugPacketType read;
+				
+				try
+				{
+					read = buf.readEnumConstant(DebugPacketType.class);
+				}
+				catch (Exception e)
+				{
+					read = null;
+				}
+				
+				final DebugPacketType type = read;
 				
 				client.execute(() ->
 				{
