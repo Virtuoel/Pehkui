@@ -1,13 +1,15 @@
 package virtuoel.pehkui.api;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
 
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
+import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
@@ -35,7 +37,7 @@ public class ScaleData
 	@Nullable
 	private final Entity entity;
 	
-	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectRBTreeSet<>();
+	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectAVLTreeSet<>();
 	
 	/**
 	 * @see {@link ScaleType#getScaleData(Entity)}
@@ -298,9 +300,11 @@ public class ScaleData
 		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
 	}
 	
+	private final List<ScaleModifier> syncedModifiers = new ArrayList<>();
+	
 	public PacketByteBuf toPacket(PacketByteBuf buffer)
 	{
-		final SortedSet<ScaleModifier> syncedModifiers = new ObjectRBTreeSet<>();
+		syncedModifiers.clear();
 		
 		syncedModifiers.addAll(getBaseValueModifiers());
 		syncedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
@@ -317,6 +321,8 @@ public class ScaleData
 		{
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
 		}
+		
+		syncedModifiers.clear();
 		
 		return buffer;
 	}
@@ -392,7 +398,7 @@ public class ScaleData
 			tag.putInt("total_ticks", this.totalScaleTicks);
 		}
 		
-		final SortedSet<ScaleModifier> savedModifiers = new ObjectRBTreeSet<>();
+		final List<ScaleModifier> savedModifiers = new ArrayList<>();;
 		
 		savedModifiers.addAll(getBaseValueModifiers());
 		savedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
