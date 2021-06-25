@@ -76,6 +76,14 @@ public class DebugCommand
 						)
 					)
 				)
+				.then(CommandManager.literal("garbage_collect")
+					.executes(context ->
+					{
+						System.gc();
+						
+						return 1;
+					})
+				)
 			)
 		);
 		

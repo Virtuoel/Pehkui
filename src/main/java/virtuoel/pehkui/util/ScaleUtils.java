@@ -207,7 +207,12 @@ public class ScaleUtils
 	
 	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
 	{
-		syncScales(entity, packetSender, s -> !s.isReset(), false);
+		syncScales(entity, packetSender, ScaleUtils::isScaleDataNotReset, false);
+	}
+	
+	private static boolean isScaleDataNotReset(final ScaleData scaleData)
+	{
+		return !scaleData.isReset();
 	}
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
