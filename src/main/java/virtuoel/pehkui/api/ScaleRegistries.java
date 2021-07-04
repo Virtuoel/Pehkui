@@ -53,4 +53,9 @@ public class ScaleRegistries
 		DEFAULT_ENTRIES.put(id, defaultEntry);
 		return registry;
 	}
+	
+	private ScaleRegistries()
+	{
+		
+	}
 }
