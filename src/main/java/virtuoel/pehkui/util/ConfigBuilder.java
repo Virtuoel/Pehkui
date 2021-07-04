@@ -19,6 +19,7 @@ public abstract class ConfigBuilder<R, E>
 		this.path = path;
 		this.defaultValues = new ArrayList<>();
 		this.config = createConfig();
+		this.config.get();
 	}
 	
 	public Supplier<Double> doubleConfig(final String config, final double defaultValue)
