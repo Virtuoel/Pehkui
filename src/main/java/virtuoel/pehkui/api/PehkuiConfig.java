@@ -160,10 +160,10 @@ public class PehkuiConfig
 			this.largeScaleCollisionThreshold = builder
 				.translation("pehkui.configgui.largeScaleCollisionThreshold")
 				.defineInRange("largeScaleCollisionThreshold", 26.0D, 16.0D, 128.0D);
-			builder.pop();
 			this.enableDebugCommands = builder
 				.translation("pehkui.configgui.enableDebugCommands")
 				.define("enableDebugCommands", false);
+			builder.pop();
 		}
 	}
 	

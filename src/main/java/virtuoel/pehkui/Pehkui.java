@@ -73,6 +73,7 @@ public class Pehkui
 		});
 		
 		MinecraftForge.EVENT_BUS.register(this);
+		MinecraftForge.EVENT_BUS.register(PehkuiConfig.class);
 		
 		ModLoadingContext ctx = ModLoadingContext.get();
 		ctx.registerConfig(ModConfig.Type.CLIENT, PehkuiConfig.clientSpec);
