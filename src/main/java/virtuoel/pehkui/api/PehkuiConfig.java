@@ -3,6 +3,7 @@ package virtuoel.pehkui.api;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,8 @@ import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.LogMarkers;
+import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.util.ClampingScaleModifier;
 
 public class PehkuiConfig
 {
@@ -163,6 +166,50 @@ public class PehkuiConfig
 			this.enableDebugCommands = builder
 				.translation("pehkui.configgui.enableDebugCommands")
 				.define("enableDebugCommands", false);
+			
+			builder.push("scale_limits");
+			
+			Identifier id;
+			String namespace, path;
+			ScaleType type;
+			ForgeConfigSpec.DoubleValue min, max;
+			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+			{
+				id = entry.getKey();
+				namespace = id.getNamespace();
+				
+				if (namespace.equals(Pehkui.MOD_ID))
+				{
+					type = entry.getValue();
+					
+					if (type == ScaleType.INVALID)
+					{
+						continue;
+					}
+					
+					path = id.getPath();
+					
+					builder.push(path);
+					min = builder
+						.translation("pehkui.configgui.scale_limits." + path + ".minimum")
+						.defineInRange("minimum", Float.MIN_VALUE, Float.MIN_VALUE, Float.MAX_VALUE);
+					max = builder
+						.translation("pehkui.configgui.scale_limits." + path + ".maximum")
+						.defineInRange("maximum", Float.MAX_VALUE, Float.MIN_VALUE, Float.MAX_VALUE);
+					
+					type.getDefaultBaseValueModifiers().add(
+						ScaleRegistries.register(
+							ScaleRegistries.SCALE_MODIFIERS,
+							Pehkui.id("clamping", path),
+							new ClampingScaleModifier(min::get, max::get, 0.0F)
+						)
+					);
+					
+					builder.pop();
+				}
+			}
+			builder.pop();
+			
 			builder.pop();
 		}
 	}
