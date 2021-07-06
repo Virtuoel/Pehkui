@@ -1,9 +1,12 @@
 package virtuoel.pehkui.api;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.function.Supplier;
 
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.util.ClampingScaleModifier;
 import virtuoel.pehkui.util.JsonConfigBuilder;
 
 public class PehkuiConfig
@@ -50,6 +53,39 @@ public class PehkuiConfig
 			this.accurateNetherPortals = builder.booleanConfig("accurateNetherPortals", true);
 			this.largeScaleCollisionThreshold = builder.doubleConfig("largeScaleCollisionThreshold", 26.0D);
 			this.enableDebugCommands = builder.booleanConfig("enableDebugCommands", false);
+			
+			Identifier id;
+			String namespace, path;
+			ScaleType type;
+			Supplier<Double> min, max;
+			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+			{
+				id = entry.getKey();
+				namespace = id.getNamespace();
+				
+				if (namespace.equals(Pehkui.MOD_ID))
+				{
+					type = entry.getValue();
+					
+					if (type == ScaleType.INVALID)
+					{
+						continue;
+					}
+					
+					path = id.getPath();
+					
+					min = builder.doubleConfig(path + ".minimum", Float.MIN_VALUE);
+					max = builder.doubleConfig(path + ".maximum", Float.MAX_VALUE);
+					
+					type.getDefaultBaseValueModifiers().add(
+						ScaleRegistries.register(
+							ScaleRegistries.SCALE_MODIFIERS,
+							Pehkui.id("clamping", path),
+							new ClampingScaleModifier(min::get, max::get, 0.0F)
+						)
+					);
+				}
+			}
 		}
 	}
 	
