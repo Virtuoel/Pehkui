@@ -103,7 +103,7 @@ public class Pehkui
 	
 	public static Identifier id(String path, String... paths)
 	{
-		return id(paths.length == 0 ? path : path + String.join("/", paths));
+		return id(paths.length == 0 ? path : path + "/" + String.join("/", paths));
 	}
 	
 	public static final Identifier SCALE_PACKET = id("scale");
