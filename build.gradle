@@ -13,10 +13,11 @@ repositories {
 		name = "Fabric"
 		url = "https://maven.fabricmc.net/"
 	}
-/*	maven {
+	maven {
 		name = "TerraformersMC"
-		url = "https://maven.terraformersmc.com/"
-	}*/
+	//	url = "https://maven.terraformersmc.com/"
+		url = "https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/"
+	}
 	maven {
 		name = "CurseForge"
 		url = "https://minecraft.curseforge.com/api/maven"
