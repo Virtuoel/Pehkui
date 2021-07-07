@@ -11,7 +11,7 @@ public abstract class ConfigBuilder<R, E>
 {
 	protected final String namespace, path;
 	protected final Collection<Consumer<R>> defaultValues;
-	protected final ConfigHandler<R> config;
+	public final ConfigHandler<R> config;
 	
 	public ConfigBuilder(final String namespace, final String path)
 	{
@@ -19,7 +19,6 @@ public abstract class ConfigBuilder<R, E>
 		this.path = path;
 		this.defaultValues = new ArrayList<>();
 		this.config = createConfig();
-		this.config.get();
 	}
 	
 	public Supplier<Double> doubleConfig(final String config, final double defaultValue)

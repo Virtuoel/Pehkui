@@ -26,14 +26,13 @@ public class Pehkui implements ModInitializer
 	
 	public Pehkui()
 	{
-		PehkuiConfig.COMMON.getClass();
+		ScaleType.INVALID.getClass();
+		PehkuiConfig.BUILDER.config.get();
 	}
 	
 	@Override
 	public void onInitialize()
 	{
-		ScaleType.INVALID.getClass();
-		
 		if (FabricLoader.getInstance().isModLoaded("fabric-command-api-v1"))
 		{
 			ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
