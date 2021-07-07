@@ -320,7 +320,7 @@ task publishModrinth (type: TaskModrinthUpload) {
 	if(project.hasProperty("modrinth_id")) {
 		projectId = project.modrinth_id
 		
-		releaseType = project.modrinth_release_type
+		versionType = project.modrinth_version_type
 		
 		addLoader "fabric"
 		
