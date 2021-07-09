@@ -138,7 +138,7 @@ eclipse {
 		buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
 		natures "org.eclipse.buildship.core.gradleprojectnature"
 	}
-	if(!project.hasProperty("forge_version") || minecraft_version.split(/./, -1)[1] as Integer >= 17) {
+	if(!project.hasProperty("forge_version") || minecraft_version.split(/\./, -1)[1] as Integer >= 17) {
 		jdt {
 			javaRuntimeName = "JavaSE-16"
 		}
