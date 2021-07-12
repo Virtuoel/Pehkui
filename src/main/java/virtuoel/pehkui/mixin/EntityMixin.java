@@ -60,7 +60,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return scaleData;
 	}
 	
-	@Inject(at = @At("HEAD"), method = "fromTag")
+	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
 		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", Constants.NBT.TAG_COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
@@ -82,7 +82,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "toTag")
+	@Inject(at = @At("HEAD"), method = "writeNbt")
 	private void onWriteNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
 	{
 		final NbtCompound typeData = new NbtCompound();

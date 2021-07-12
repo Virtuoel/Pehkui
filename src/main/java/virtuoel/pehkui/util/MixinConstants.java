@@ -27,6 +27,7 @@ public class MixinConstants
 	private static final String METHOD_5808 = "method_5808";
 	private static final String METHOD_6249 = "method_6249";
 	private static final String METHOD_7492 = "method_7492";
+	private static final String METHOD_5692 = "method_5692";
 	private static final String METHOD_6959 = "method_6959";
 	private static final String METHOD_5800 = "method_5800";
 	private static final String METHOD_7148 = "method_7148";
@@ -62,6 +63,7 @@ public class MixinConstants
 	private static final String CLASS_1640 = "net/minecraft/class_1640";
 	private static final String CLASS_1590 = "net/minecraft/class_1590";
 	private static final String CLASS_239 = "net/minecraft/class_239";
+	private static final String CLASS_3494 = "net/minecraft/class_3494";
 	private static final String CLASS_1538 = "net/minecraft/class_1538";
 	private static final String CLASS_243 = "net/minecraft/class_243";
 	private static final String CLASS_1646 = "net/minecraft/class_1646";
@@ -115,6 +117,7 @@ public class MixinConstants
 	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
+	public static final String UPDATE_MOVEMENT_IN_FLUID = METHOD_5692 + "(L" + CLASS_3494 + ";)Z";
 	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
