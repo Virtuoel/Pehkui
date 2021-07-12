@@ -11,8 +11,8 @@ import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -327,7 +327,7 @@ public class ScaleData
 		return buffer;
 	}
 	
-	public void readNbt(CompoundTag tag)
+	public void readNbt(NbtCompound tag)
 	{
 		final ScaleType type = getScaleType();
 		
@@ -346,7 +346,7 @@ public class ScaleData
 		
 		if (tag.contains("baseValueModifiers"))
 		{
-			final ListTag modifiers = tag.getList("baseValueModifiers", Constants.NBT.TAG_STRING);
+			final NbtList modifiers = tag.getList("baseValueModifiers", Constants.NBT.TAG_STRING);
 			
 			Identifier id;
 			ScaleModifier modifier;
@@ -365,7 +365,7 @@ public class ScaleData
 		onUpdate();
 	}
 	
-	public CompoundTag writeNbt(CompoundTag tag)
+	public NbtCompound writeNbt(NbtCompound tag)
 	{
 		final ScaleType type = getScaleType();
 		final float defaultBaseScale = type.getDefaultBaseScale();
@@ -405,7 +405,7 @@ public class ScaleData
 		
 		if (!savedModifiers.isEmpty())
 		{
-			final ListTag modifiers = new ListTag();
+			final NbtList modifiers = new NbtList();
 			
 			for (ScaleModifier modifier : savedModifiers)
 			{
@@ -685,7 +685,7 @@ public class ScaleData
 		}
 		
 		@Override
-		public void readNbt(CompoundTag tag)
+		public void readNbt(NbtCompound tag)
 		{
 			
 		}

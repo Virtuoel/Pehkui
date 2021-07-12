@@ -9,8 +9,8 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
@@ -165,9 +165,9 @@ public class ScaleUtils
 		return scale;
 	}
 	
-	public static CompoundTag buildScaleNbtFromPacketByteBuf(PacketByteBuf buffer)
+	public static NbtCompound buildScaleNbtFromPacketByteBuf(PacketByteBuf buffer)
 	{
-		final CompoundTag scaleData = new CompoundTag();
+		final NbtCompound scaleData = new NbtCompound();
 		
 		final float scale = buffer.readFloat();
 		final float prevScale = buffer.readFloat();
@@ -187,7 +187,7 @@ public class ScaleUtils
 		
 		if (baseModifierCount != 0)
 		{
-			final ListTag modifiers = new ListTag();
+			final NbtList modifiers = new NbtList();
 			
 			for (int i = 0; i < baseModifierCount; i++)
 			{

@@ -16,7 +16,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -110,7 +110,7 @@ public class DebugCommand
 	private static final Collection<UUID> MARKED_UUIDS = new HashSet<>();
 	private static final Collection<String> MARKED_USERNAMES = new HashSet<>();
 	
-	public static boolean unmarkEntityForScaleReset(final Entity entity, final CompoundTag nbt)
+	public static boolean unmarkEntityForScaleReset(final Entity entity, final NbtCompound nbt)
 	{
 		if (entity instanceof PlayerEntity && MARKED_USERNAMES.remove(((PlayerEntity) entity).getGameProfile().getName().toLowerCase(Locale.ROOT)))
 		{

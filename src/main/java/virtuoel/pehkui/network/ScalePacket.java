@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,7 +19,7 @@ public class ScalePacket
 	final int id;
 	final Identifier typeId;
 	
-	CompoundTag nbt = null;
+	NbtCompound nbt = null;
 	
 	ScaleData scaleData = null;
 	

@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Pseudo
@@ -20,7 +20,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) LivingEntity identity;
 	
 	@Inject(at = @At("RETURN"), method = "fromTag", remap = false)
-	private void onFromTag(CompoundTag tag, CallbackInfo info)
+	private void onFromTag(NbtCompound nbt, CallbackInfo info)
 	{
 		if (this.identity != null)
 		{
