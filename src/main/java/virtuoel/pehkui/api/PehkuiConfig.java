@@ -7,9 +7,9 @@ import java.util.function.Supplier;
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.util.Identifier;
+import virtuoel.kanos_config.api.JsonConfigBuilder;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
-import virtuoel.pehkui.util.JsonConfigBuilder;
 
 public class PehkuiConfig
 {
