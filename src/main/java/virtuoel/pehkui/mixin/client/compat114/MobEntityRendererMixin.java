@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class MobEntityRendererMixin<T extends MobEntity>
 {
 	@Inject(method = "method_4073", at = @At(value = "HEAD"), remap = false)
-	private void onRenderLeadPreRender(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
+	private void onRenderLeashPreRender(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		final Entity attached = entity.getHoldingEntity();
 		
@@ -31,7 +31,7 @@ public class MobEntityRendererMixin<T extends MobEntity>
 	}
 	
 	@Inject(method = "method_4073", at = @At(value = "RETURN"), remap = false)
-	private void onRenderLeadPostRender(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
+	private void onRenderLeashPostRender(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		if (entity.getHoldingEntity() != null)
 		{
