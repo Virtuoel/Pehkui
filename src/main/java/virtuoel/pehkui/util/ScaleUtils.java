@@ -322,6 +322,16 @@ public class ScaleUtils
 		return getConfigurableTypedScale(entity, ScaleType.DROPS, PehkuiConfig.COMMON.scaledItemDrops::get, tickDelta);
 	}
 	
+	public static float getHeldItemScale(Entity entity)
+	{
+		return getHeldItemScale(entity, 1.0F);
+	}
+	
+	public static float getHeldItemScale(Entity entity, float tickDelta)
+	{
+		return getConfigurableTypedScale(entity, ScaleType.HELD_ITEM, Boolean.TRUE::booleanValue, tickDelta);
+	}
+	
 	public static float getProjectileScale(Entity entity)
 	{
 		return getProjectileScale(entity, 1.0F);

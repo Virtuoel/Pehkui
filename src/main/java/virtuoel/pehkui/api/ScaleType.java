@@ -26,6 +26,7 @@ public class ScaleType
 	public static final ScaleType DEFENSE = register("defense");
 	public static final ScaleType HEALTH = register("health");
 	public static final ScaleType DROPS = register("drops", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType HELD_ITEM = register("held_item");
 	public static final ScaleType PROJECTILES = register("projectiles", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType EXPLOSIONS = register("explosions", ScaleModifier.BASE_MULTIPLIER);
 	
