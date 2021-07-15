@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client.compat115plus;
+package virtuoel.pehkui.mixin.client.compat117plus;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

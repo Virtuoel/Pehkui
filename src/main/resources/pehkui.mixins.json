@@ -137,10 +137,10 @@
 		"client.compat115plus.InGameOverlayRendererMixin",
 		"client.compat115plus.ItemFrameEntityRendererMixin",
 		"client.compat115plus.ItemPickupParticleMixin",
-		"client.compat115plus.ItemRendererMixin",
 		"client.compat115plus.MobEntityRendererMixin",
 		"client.compat115plus.PlayerEntityRendererMixin",
 		"client.compat115plus.compat116minus.GameRendererMixin",
+		"client.compat115plus.compat116minus.ItemRendererMixin",
 		"client.compat115plus.optifine.compat.InGameOverlayRendererMixin",
 		"client.compat116.compat1162plus.ClientPlayNetworkHandlerMixin",
 		"client.compat116plus.EntityRendererMixin",
@@ -148,6 +148,7 @@
 		"client.compat116plus.ItemEntityMixin",
 		"client.compat117plus.ClientPlayNetworkHandlerMixin",
 		"client.compat117plus.GameRendererMixin",
+		"client.compat117plus.ItemRendererMixin",
 		"reach.client.GameRendererMixin"
 	],
 	"injectors":
