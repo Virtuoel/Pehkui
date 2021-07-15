@@ -107,6 +107,8 @@ public class MixinTargetClasses
 			"net.minecraft.class_490", // InventoryScreen
 			"net.minecraft.class_915", // ItemFrameEntityRenderer
 			"net.minecraft.class_693", // ItemPickupParticle
+			"net.minecraft.class_918", // ItemRenderer
+			"net.minecraft.class_927", // MobEntityRenderer
 			"net.minecraft.class_1007", // PlayerEntityRenderer
 		};
 	}
