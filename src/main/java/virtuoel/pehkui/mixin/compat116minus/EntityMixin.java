@@ -14,7 +14,7 @@ public class EntityMixin
 	@ModifyArg(method = "method_5623(DZLnet/minecraft/class_2680;Lnet/minecraft/class_2338;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_2248;method_9554(Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;F)V", remap = false), remap = false)
 	private float onFallModifyFallDistance(float distance)
 	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getFallingScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

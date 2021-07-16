@@ -262,6 +262,36 @@ public class ScaleUtils
 		return getTypedScale(entity, ScaleType.HEIGHT, tickDelta);
 	}
 	
+	public static float getFallingScale(Entity entity)
+	{
+		return getFallingScale(entity, 1.0F);
+	}
+	
+	public static float getFallingScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.FALLING, tickDelta);
+	}
+	
+	public static float getStepHeightScale(Entity entity)
+	{
+		return getStepHeightScale(entity, 1.0F);
+	}
+	
+	public static float getStepHeightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.STEP_HEIGHT, tickDelta);
+	}
+	
+	public static float getViewBobbingScale(Entity entity)
+	{
+		return getViewBobbingScale(entity, 1.0F);
+	}
+	
+	public static float getViewBobbingScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.VIEW_BOBBING, tickDelta);
+	}
+	
 	public static float getMotionScale(Entity entity)
 	{
 		return getMotionScale(entity, 1.0F);

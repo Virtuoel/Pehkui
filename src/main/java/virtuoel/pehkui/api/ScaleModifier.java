@@ -7,6 +7,7 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 {
 	public static final ScaleModifier IDENTITY = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_MODIFIERS));
 	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new TypedScaleModifier(() -> ScaleType.BASE));
+	public static final ScaleModifier MOTION_MULTIPLIER = register("motion_multiplier", new TypedScaleModifier(() -> ScaleType.MOTION));
 	
 	private final float priority;
 	

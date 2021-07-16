@@ -21,6 +21,9 @@ public class ScaleType
 	public static final ScaleType WIDTH = registerDimensionScale("width");
 	public static final ScaleType HEIGHT = registerDimensionScale("height");
 	public static final ScaleType MOTION = register("motion", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType FALLING = register("falling", ScaleModifier.MOTION_MULTIPLIER);
+	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifier.MOTION_MULTIPLIER);
+	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");
