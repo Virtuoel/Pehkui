@@ -20,11 +20,15 @@ public class ScaleType
 	public static final ScaleType WIDTH = registerDimensionScale("width");
 	public static final ScaleType HEIGHT = registerDimensionScale("height");
 	public static final ScaleType MOTION = register("motion", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType FALLING = register("falling", ScaleModifier.MOTION_MULTIPLIER);
+	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifier.MOTION_MULTIPLIER);
+	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");
 	public static final ScaleType HEALTH = register("health");
 	public static final ScaleType DROPS = register("drops", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType HELD_ITEM = register("held_item");
 	public static final ScaleType PROJECTILES = register("projectiles", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType EXPLOSIONS = register("explosions", ScaleModifier.BASE_MULTIPLIER);
 	

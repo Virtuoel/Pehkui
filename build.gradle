@@ -117,6 +117,10 @@ dependencies {
 			modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
 			modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
 		}
+		
+		if(project.hasProperty("kanos_config_tag")) {
+			include modApi("com.github.Virtuoel:KanosConfig:${kanos_config_tag}", excludeFabric)
+		}
 	}
 }
 

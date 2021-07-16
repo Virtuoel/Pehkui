@@ -33,7 +33,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
 	private float travelModifyFallDistance(float value)
 	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getFallingScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

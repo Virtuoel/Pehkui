@@ -16,7 +16,7 @@ public class StepHeightEntityAttributeMainMixin
 	@Inject(method = "getStepHeight", at = @At(value = "RETURN"), cancellable = true, remap = false)
 	private static void getStepHeight(LivingEntity entity, CallbackInfoReturnable<Float> info)
 	{
-		final float scale = ScaleUtils.getMotionScale(entity);
+		final float scale = ScaleUtils.getStepHeightScale(entity);
 		
 		if (scale != 1.0F)
 		{

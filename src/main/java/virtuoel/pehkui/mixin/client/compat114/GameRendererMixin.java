@@ -24,14 +24,14 @@ public class GameRendererMixin
 	@Redirect(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.HORIZONTAL_SPEED, remap = false), remap = false)
 	private float bobViewHorizontalSpeedProxy(PlayerEntity obj)
 	{
-		final float scale = ScaleUtils.getMotionScale(obj, client.getTickDelta());
+		final float scale = ScaleUtils.getViewBobbingScale(obj, client.getTickDelta());
 		return obj.horizontalSpeed / scale;
 	}
 	
 	@Redirect(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.PREV_HORIZONTAL_SPEED, remap = false), remap = false)
 	private float bobViewPrevHorizontalSpeedProxy(PlayerEntity obj)
 	{
-		final float scale = ScaleUtils.getMotionScale(obj, client.getTickDelta());
+		final float scale = ScaleUtils.getViewBobbingScale(obj, client.getTickDelta());
 		return obj.prevHorizontalSpeed / scale;
 	}
 	
