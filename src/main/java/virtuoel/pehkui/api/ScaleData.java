@@ -21,6 +21,12 @@ import net.minecraftforge.common.util.Constants;
 
 public class ScaleData
 {
+	/**
+	 * @see {@link ScaleData#isReset()}
+	 * @see {@link ScaleData#resetScale()}
+	 */
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 	public static final ScaleData IDENTITY = Builder.create().buildImmutable(1.0F);
 	
 	private float baseScale;
