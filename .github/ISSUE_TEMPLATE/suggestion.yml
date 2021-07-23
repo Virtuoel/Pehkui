@@ -1,0 +1,13 @@
+# Copyright (c) 2021 Virtuoel. All Rights Reserved.
+
+name: Suggestion
+description: Suggest a change or enhancement
+title: "[Suggestion]: Untitled suggestion"
+labels: [enhancement]
+assignees:
+  - Virtuoel
+body:
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "What is your suggestion?"
