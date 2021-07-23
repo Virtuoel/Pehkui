@@ -310,7 +310,7 @@ curseforge {
 			mainArtifact(remapJar) {
 				displayName = "${display_name_prefix}${archives_base_name} ${project.mod_version}"
 				
-				if(project.hasProperty("required_dep_slugs") || project.hasProperty("embedded_lib_slugs") || project.hasProperty("optional_dep_slugs") || project.hasProperty("compatible_tool_slugs") || project.hasProperty("incompatible_slugs")) {
+				if(project.hasProperty("curseforge_required_dep_slugs") || project.hasProperty("curseforge_embedded_lib_slugs") || project.hasProperty("curseforge_optional_dep_slugs") || project.hasProperty("curseforge_compatible_tool_slugs") || project.hasProperty("curseforge_incompatible_slugs")) {
 					relations {
 						if(project.hasProperty("curseforge_required_dep_slugs")) {
 							project.curseforge_required_dep_slugs.split(", ").each { String slug ->
