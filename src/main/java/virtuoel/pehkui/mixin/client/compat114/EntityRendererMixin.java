@@ -23,13 +23,13 @@ public abstract class EntityRendererMixin
 	@Redirect(method = MixinConstants.RENDER_LABEL, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT, remap = false), remap = false)
 	private float renderLabelGetHeightProxy(Entity entity)
 	{
-		return entity.getHeight() / ScaleUtils.getHeightScale(entity);
+		return entity.getHeight() / ScaleUtils.getModelHeightScale(entity);
 	}
 	
 	@Redirect(method = MixinConstants.POST_RENDER, at = @At(value = "INVOKE", target = MixinConstants.RENDER_SHADOW, remap = false), remap = false)
 	private void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
 	{
-		final float scale = ScaleUtils.getWidthScale(entity, tickDelta);
+		final float scale = ScaleUtils.getModelWidthScale(entity, tickDelta);
 		
 		if (scale != 1.0F)
 		{

@@ -13,7 +13,7 @@ public abstract class EntityMixin
 	@ModifyConstant(method = "isInsideWall()Z", constant = @Constant(doubleValue = 0.10000000149011612D))
 	private double isInsideWallModifyOffset(double value)
 	{
-		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? value * scale : value;
 	}

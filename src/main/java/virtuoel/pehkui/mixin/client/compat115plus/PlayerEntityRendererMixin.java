@@ -19,7 +19,7 @@ public abstract class PlayerEntityRendererMixin
 		final Vec3d ret = info.getReturnValue();
 		if (ret != Vec3d.ZERO)
 		{
-			info.setReturnValue(ret.multiply(ScaleUtils.getHeightScale(entity, tickDelta)));
+			info.setReturnValue(ret.multiply(ScaleUtils.getModelHeightScale(entity, tickDelta)));
 		}
 	}
 }

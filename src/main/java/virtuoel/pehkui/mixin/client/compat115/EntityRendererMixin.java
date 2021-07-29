@@ -15,6 +15,6 @@ public abstract class EntityRendererMixin
 	@Redirect(method = MixinConstants.RENDER_LABEL_IF_PRESENT, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT, remap = false), remap = false)
 	private float renderLabelIfPresentGetHeightProxy(Entity entity)
 	{
-		return entity.getHeight() / ScaleUtils.getHeightScale(entity);
+		return entity.getHeight() / ScaleUtils.getModelHeightScale(entity);
 	}
 }

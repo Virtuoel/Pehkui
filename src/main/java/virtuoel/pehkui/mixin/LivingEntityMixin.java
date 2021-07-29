@@ -27,7 +27,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
 	private EntityDimensions onGetEyeHeightDimensionsProxy(EntityDimensions dimensions)
 	{
-		return dimensions.scaled(1.0F / ScaleUtils.getHeightScale((Entity) (Object) this));
+		return dimensions.scaled(1.0F / ScaleUtils.getEyeHeightScale((Entity) (Object) this));
 	}
 	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
@@ -39,7 +39,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 		{
 			if (PehkuiConfig.COMMON.scaledFallDamage.get())
 			{
-				return value * scale;
+				return value / scale;
 			}
 		}
 		
@@ -51,7 +51,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	{
 		if (pose != EntityPose.SLEEPING)
 		{
-			final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+			final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
 			
 			if (scale != 1.0F)
 			{
@@ -104,7 +104,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 			return;
 		}
 		
-		final float width = ScaleUtils.getWidthScale(self);
+		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
 		
 		if (width > 1.0F && !ScaleUtils.isAboveCollisionThreshold(self))
 		{
@@ -142,7 +142,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 			return;
 		}
 		
-		final float width = ScaleUtils.getWidthScale(self);
+		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
 		
 		if (width > 1.0F && !ScaleUtils.isAboveCollisionThreshold(self))
 		{

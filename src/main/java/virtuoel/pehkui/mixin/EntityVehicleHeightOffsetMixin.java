@@ -31,7 +31,7 @@ public abstract class EntityVehicleHeightOffsetMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
 	private void onGetHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

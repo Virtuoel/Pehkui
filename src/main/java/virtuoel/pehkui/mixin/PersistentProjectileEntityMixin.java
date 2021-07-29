@@ -23,7 +23,7 @@ public abstract class PersistentProjectileEntityMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V")
 	private void onConstruct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, CallbackInfo info)
 	{
-		final float scale = ScaleUtils.getHeightScale(owner);
+		final float scale = ScaleUtils.getEyeHeightScale(owner);
 		
 		if (scale != 1.0F)
 		{

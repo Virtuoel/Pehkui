@@ -15,8 +15,8 @@ public abstract class ProjectileEntityMixin
 	@ModifyArg(method = "method_26961", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"))
 	private Box shouldLeaveOwnerModifyExpand(Box value)
 	{
-		final float width = ScaleUtils.getWidthScale((Entity) (Object) this);
-		final float height = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float width = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float height = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (width != 1.0F || height != 1.0F)
 		{

@@ -18,7 +18,7 @@ public abstract class EntityMixin
 	@ModifyConstant(method = "updateSubmergedInWaterState()V", constant = @Constant(doubleValue = 0.1111111119389534D))
 	private double updateSubmergedInWaterStateModifyOffset(double value)
 	{
-		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? value * scale : value;
 	}

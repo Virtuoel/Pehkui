@@ -17,10 +17,16 @@ public class ScaleType
 {
 	public static final ScaleType INVALID = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES));
 	public static final ScaleType BASE = registerBaseScale("base");
-	public static final ScaleType WIDTH = registerDimensionScale("width");
-	public static final ScaleType HEIGHT = registerDimensionScale("height");
-	public static final ScaleType MOTION = register("motion", ScaleModifier.BASE_MULTIPLIER);
-	public static final ScaleType FALLING = register("falling", ScaleModifier.MOTION_MULTIPLIER);
+	public static final ScaleType WIDTH = registerDimensionScale("width", ScaleModifier.BASE_MULTIPLIER, ScaleModifier.WIDTH_MULTIPLIER);
+	public static final ScaleType HEIGHT = registerDimensionScale("height", ScaleModifier.BASE_MULTIPLIER, ScaleModifier.HEIGHT_MULTIPLIER);
+	public static final ScaleType EYE_HEIGHT = registerDimensionScale("eye_height", ScaleModifier.HEIGHT_MULTIPLIER);
+	public static final ScaleType HITBOX_WIDTH = registerDimensionScale("hitbox_width", ScaleModifier.WIDTH_MULTIPLIER);
+	public static final ScaleType HITBOX_HEIGHT = registerDimensionScale("hitbox_height", ScaleModifier.HEIGHT_MULTIPLIER);
+	public static final ScaleType MODEL_WIDTH = register("model_width", ScaleModifier.WIDTH_MULTIPLIER);
+	public static final ScaleType MODEL_HEIGHT = register("model_height", ScaleModifier.HEIGHT_MULTIPLIER);
+	public static final ScaleType THIRD_PERSON = register("third_person", ScaleModifier.HEIGHT_MULTIPLIER);
+	public static final ScaleType MOTION = register("motion", ScaleModifier.BASE_MULTIPLIER, ScaleModifier.MOTION_MULTIPLIER, ScaleModifier.MOTION_DIVISOR);
+	public static final ScaleType FALLING = register("falling", ScaleModifier.MOTION_DIVISOR);
 	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
@@ -291,13 +297,19 @@ public class ScaleType
 		return register(id, builder);
 	}
 	
-	private static ScaleType register(String path, ScaleModifier... modifiers)
+	private static ScaleType register(String path)
 	{
-		final Builder builder = Builder.create();
+		return register(Pehkui.id(path));
+	}
+	
+	private static ScaleType register(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
+	{
+		final Builder builder = Builder.create()
+			.addBaseValueModifier(valueModifier);
 		
-		for (ScaleModifier scaleModifier : modifiers)
+		for (ScaleModifier scaleModifier : dependantModifiers)
 		{
-			builder.addBaseValueModifier(scaleModifier);
+			builder.addDependentModifier(scaleModifier);
 		}
 		
 		return register(Pehkui.id(path), builder);
@@ -312,11 +324,16 @@ public class ScaleType
 		return register(Pehkui.id(path), builder);
 	}
 	
-	private static ScaleType registerDimensionScale(String path)
+	private static ScaleType registerDimensionScale(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
 	{
 		final Builder builder = Builder.create()
 			.affectsDimensions()
-			.addBaseValueModifier(ScaleModifier.BASE_MULTIPLIER);
+			.addBaseValueModifier(valueModifier);
+		
+		for (ScaleModifier scaleModifier : dependantModifiers)
+		{
+			builder.addDependentModifier(scaleModifier);
+		}
 		
 		return register(Pehkui.id(path), builder);
 	}

@@ -21,8 +21,8 @@ public class MobEntityRendererMixin<T extends MobEntity>
 		
 		if (attached != null)
 		{
-			final float inverseWidthScale = 1.0F / ScaleUtils.getWidthScale(entity, tickDelta);
-			final float inverseHeightScale = 1.0F / ScaleUtils.getHeightScale(entity, tickDelta);
+			final float inverseWidthScale = 1.0F / ScaleUtils.getModelWidthScale(entity, tickDelta);
+			final float inverseHeightScale = 1.0F / ScaleUtils.getModelHeightScale(entity, tickDelta);
 			
 			GL11.glPushMatrix();
 			GL11.glScalef(inverseWidthScale, inverseHeightScale, inverseWidthScale);

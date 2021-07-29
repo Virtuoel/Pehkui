@@ -19,8 +19,8 @@ public abstract class PersistentProjectileEntityMixin
 	@ModifyArg(method = "getEntityCollision", index = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/EntityHitResult;"))
 	private Box getEntityCollisionModifyExpand(World world, Entity entity, Vec3d vec3d, Vec3d vec3d2, Box box, Predicate<Entity> predicate)
 	{
-		final float width = ScaleUtils.getWidthScale(entity);
-		final float height = ScaleUtils.getHeightScale(entity);
+		final float width = ScaleUtils.getBoundingBoxWidthScale(entity);
+		final float height = ScaleUtils.getBoundingBoxHeightScale(entity);
 		
 		if (width != 1.0F || height != 1.0F)
 		{

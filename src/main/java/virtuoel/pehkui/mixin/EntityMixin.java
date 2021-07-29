@@ -54,6 +54,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		
 		if (!pehkui_scaleTypes.containsKey(type))
 		{
+			pehkui_scaleTypes.put(type, null);
 			pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
 		}
 		
@@ -124,8 +125,8 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		final float widthScale = ScaleUtils.getWidthScale((Entity) (Object) this);
-		final float heightScale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (widthScale != 1.0F || heightScale != 1.0F)
 		{

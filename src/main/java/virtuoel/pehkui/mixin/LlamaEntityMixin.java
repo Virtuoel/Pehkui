@@ -14,7 +14,7 @@ public abstract class LlamaEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.3F))
 	private float updatePassengerPositionModifyOffset(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
 	}
