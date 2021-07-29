@@ -20,7 +20,7 @@ public class EntityMixin
 		{
 			if (PehkuiConfig.COMMON.scaledFallDamage.get())
 			{
-				return distance / scale;
+				return distance * scale;
 			}
 		}
 		

@@ -14,7 +14,7 @@ public abstract class InGameOverlayRendererMixin
 	@ModifyConstant(method = "getInWallBlockState", constant = @Constant(floatValue = 0.1F))
 	private static float getInWallBlockStateModifyOffset(float value, PlayerEntity player)
 	{
-		final float scale = ScaleUtils.getHeightScale(player);
+		final float scale = ScaleUtils.getEyeHeightScale(player);
 		
 		return scale != 1.0F ? value * scale : value;
 	}

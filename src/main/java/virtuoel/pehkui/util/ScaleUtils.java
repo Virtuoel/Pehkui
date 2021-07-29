@@ -83,8 +83,8 @@ public class ScaleUtils
 	
 	public static boolean isAboveCollisionThreshold(Entity entity)
 	{
-		final float widthScale = ScaleUtils.getWidthScale(entity);
-		final float heightScale = ScaleUtils.getHeightScale(entity);
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(entity);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(entity);
 		final double volume = widthScale * widthScale * heightScale;
 		
 		final double scaleThreshold = PehkuiConfig.COMMON.largeScaleCollisionThreshold.get();
@@ -119,17 +119,17 @@ public class ScaleUtils
 	
 	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
 	{
-		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getWidthScale(entity, tickDelta), depth, entity, tickDelta);
+		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getBoundingBoxWidthScale(entity, tickDelta), depth, entity, tickDelta);
 	}
 	
 	public static final float modifyProjectionMatrixDepthByHeight(float depth, @Nullable Entity entity, float tickDelta)
 	{
-		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getHeightScale(entity, tickDelta), depth, entity, tickDelta);
+		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getEyeHeightScale(entity, tickDelta), depth, entity, tickDelta);
 	}
 	
 	public static final float modifyProjectionMatrixDepth(float depth, @Nullable Entity entity, float tickDelta)
 	{
-		return entity == null ? depth : modifyProjectionMatrixDepth(Math.min(ScaleUtils.getWidthScale(entity, tickDelta), ScaleUtils.getHeightScale(entity, tickDelta)), depth, entity, tickDelta);
+		return entity == null ? depth : modifyProjectionMatrixDepth(Math.min(ScaleUtils.getBoundingBoxWidthScale(entity, tickDelta), ScaleUtils.getEyeHeightScale(entity, tickDelta)), depth, entity, tickDelta);
 	}
 	
 	public static final float modifyProjectionMatrixDepth(float scale, float depth, Entity entity, float tickDelta)
@@ -242,24 +242,59 @@ public class ScaleUtils
 		}
 	}
 	
-	public static float getWidthScale(Entity entity)
+	public static float getEyeHeightScale(Entity entity)
 	{
-		return getWidthScale(entity, 1.0F);
+		return getEyeHeightScale(entity, 1.0F);
 	}
 	
-	public static float getWidthScale(Entity entity, float tickDelta)
+	public static float getEyeHeightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.WIDTH, tickDelta);
+		return getTypedScale(entity, ScaleType.EYE_HEIGHT, tickDelta);
 	}
 	
-	public static float getHeightScale(Entity entity)
+	public static float getThirdPersonScale(Entity entity, float tickDelta)
 	{
-		return getHeightScale(entity, 1.0F);
+		return getTypedScale(entity, ScaleType.THIRD_PERSON, tickDelta);
 	}
 	
-	public static float getHeightScale(Entity entity, float tickDelta)
+	public static float getModelWidthScale(Entity entity)
 	{
-		return getTypedScale(entity, ScaleType.HEIGHT, tickDelta);
+		return getModelWidthScale(entity, 1.0F);
+	}
+	
+	public static float getModelWidthScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.MODEL_WIDTH, tickDelta);
+	}
+	
+	public static float getModelHeightScale(Entity entity)
+	{
+		return getModelHeightScale(entity, 1.0F);
+	}
+	
+	public static float getModelHeightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.MODEL_HEIGHT, tickDelta);
+	}
+	
+	public static float getBoundingBoxWidthScale(Entity entity)
+	{
+		return getBoundingBoxWidthScale(entity, 1.0F);
+	}
+	
+	public static float getBoundingBoxWidthScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.HITBOX_WIDTH, tickDelta);
+	}
+	
+	public static float getBoundingBoxHeightScale(Entity entity)
+	{
+		return getBoundingBoxHeightScale(entity, 1.0F);
+	}
+	
+	public static float getBoundingBoxHeightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.HITBOX_HEIGHT, tickDelta);
 	}
 	
 	public static float getFallingScale(Entity entity)

@@ -22,7 +22,7 @@ public class ItemPickupParticleMixin
 	@ModifyArg(method = MixinConstants.BUILD_GEOMETRY, index = 2, at = @At(value = "INVOKE", target = MixinConstants.LERP, ordinal = 4, remap = false), remap = false)
 	private double buildGeometryModifyOffset(double value)
 	{
-		final float scale = ScaleUtils.getHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());
+		final float scale = ScaleUtils.getEyeHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());
 		
 		if (scale != 1.0F)
 		{

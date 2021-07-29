@@ -24,7 +24,7 @@ public class SlimeEntityMixin
 	@ModifyConstant(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", constant = @Constant(floatValue = 4.0F))
 	private float removeModifyHorizontalOffset(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
@@ -37,7 +37,7 @@ public class SlimeEntityMixin
 	@ModifyConstant(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", constant = @Constant(doubleValue = 0.5D))
 	private double removeModifyVerticalOffset(double value)
 	{
-		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

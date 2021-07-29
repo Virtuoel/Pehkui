@@ -21,7 +21,7 @@ public class ItemPickupParticleMixin
 	@ModifyConstant(method = "buildGeometry", constant = @Constant(doubleValue = 0.5D))
 	private double buildGeometryModifyOffset(double value, VertexConsumer vertexConsumer, Camera camera, float tickDelta)
 	{
-		final float scale = ScaleUtils.getHeightScale(interactingEntity, tickDelta);
+		final float scale = ScaleUtils.getEyeHeightScale(interactingEntity, tickDelta);
 		
 		if (scale != 1.0F)
 		{

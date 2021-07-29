@@ -19,8 +19,8 @@ public class ProjectileUtilMixin
 	@Redirect(method = "method_37226", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private static Box getEntityCollisionModifyGetBoundingBox(Entity obj, World world, Entity except, Vec3d vec3d, Vec3d vec3d2, Box box, Predicate<Entity> predicate, float value)
 	{
-		final float width = ScaleUtils.getWidthScale(obj);
-		final float height = ScaleUtils.getHeightScale(obj);
+		final float width = ScaleUtils.getBoundingBoxWidthScale(obj);
+		final float height = ScaleUtils.getBoundingBoxHeightScale(obj);
 		
 		if (width != 1.0F || height != 1.0F)
 		{

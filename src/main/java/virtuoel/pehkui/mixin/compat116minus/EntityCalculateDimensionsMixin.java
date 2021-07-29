@@ -33,7 +33,7 @@ public abstract class EntityCalculateDimensionsMixin
 	{
 		if (this.world.isClient && type == EntityType.PLAYER && current.width > previous.width)
 		{
-			final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+			final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 			final float dist = (previous.width - current.width) / 2.0F;
 			
 			move(MovementType.SELF, new Vec3d(dist / scale, 0.0D, dist / scale));
@@ -43,7 +43,7 @@ public abstract class EntityCalculateDimensionsMixin
 	@ModifyVariable(method = "calculateDimensions", at = @At("STORE"))
 	private float onCalculateDimensionsModifyVector(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
 		return (scale != 1.0F ? value / scale : value) / 2.0F;
 	}

@@ -14,7 +14,7 @@ public abstract class HorseBaseEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.7F))
 	private float updatePassengerPositionModifyHorizontalOffset(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
@@ -27,7 +27,7 @@ public abstract class HorseBaseEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.15F))
 	private float updatePassengerPositionModifyVerticalOffset(float value)
 	{
-		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{

@@ -18,8 +18,8 @@ public abstract class BoatEntityRendererMixin
 	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
 	private void onRenderPreRender(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
-		final float widthScale = ScaleUtils.getWidthScale(boatEntity, tickDelta);
-		final float heightScale = ScaleUtils.getHeightScale(boatEntity, tickDelta);
+		final float widthScale = ScaleUtils.getModelWidthScale(boatEntity, tickDelta);
+		final float heightScale = ScaleUtils.getModelHeightScale(boatEntity, tickDelta);
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0.0F, 0.375F * (1.0F - heightScale), 0.0F);

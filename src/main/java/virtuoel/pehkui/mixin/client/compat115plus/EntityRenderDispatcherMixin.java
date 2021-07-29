@@ -20,8 +20,8 @@ public class EntityRenderDispatcherMixin
 	@Inject(method = "render(Lnet/minecraft/entity/Entity;DDDFFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/client/render/entity/EntityRenderer;render(Lnet/minecraft/entity/Entity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
 	private <E extends Entity> void onRenderPreRender(E entity, double x, double y, double z, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo info)
 	{
-		final float widthScale = ScaleUtils.getWidthScale(entity, tickDelta);
-		final float heightScale = ScaleUtils.getHeightScale(entity, tickDelta);
+		final float widthScale = ScaleUtils.getModelWidthScale(entity, tickDelta);
+		final float heightScale = ScaleUtils.getModelHeightScale(entity, tickDelta);
 		
 		matrices.push();
 		matrices.scale(widthScale, heightScale, widthScale);
@@ -38,6 +38,6 @@ public class EntityRenderDispatcherMixin
 	@ModifyArg(method = "render(Lnet/minecraft/entity/Entity;DDDFFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", index = 6, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderDispatcher;renderShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/entity/Entity;FFLnet/minecraft/world/WorldView;F)V"))
 	private float renderShadowSizeProxy(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Entity entity, float darkness, float tickDelta, WorldView world, float size)
 	{
-		return size * ScaleUtils.getWidthScale(entity, tickDelta);
+		return size * ScaleUtils.getModelWidthScale(entity, tickDelta);
 	}
 }

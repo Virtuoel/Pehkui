@@ -19,7 +19,7 @@ public abstract class HeldItemRendererMixin
 	@ModifyConstant(method = MixinConstants.RENDER_OVERLAYS, constant = @Constant(floatValue = 0.1F), remap = false)
 	private float renderOverlaysModifyOffset(float value)
 	{
-		final float scale = ScaleUtils.getHeightScale(field_4050.player);
+		final float scale = ScaleUtils.getEyeHeightScale(field_4050.player);
 		
 		return scale != 1.0F ? value * scale : value;
 	}

@@ -24,7 +24,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
-		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getWidthScale((Entity) (Object) this), ScaleUtils.getHeightScale((Entity) (Object) this)));
+		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this), ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this)));
 	}
 	
 	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
@@ -70,8 +70,8 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@Inject(method = "attack", at = @At("HEAD"))
 	private void onAttack(Entity target, CallbackInfo info)
 	{
-		WIDTH_SCALE.set(ScaleUtils.getWidthScale(target));
-		HEIGHT_SCALE.set(ScaleUtils.getHeightScale(target));
+		WIDTH_SCALE.set(ScaleUtils.getBoundingBoxWidthScale(target));
+		HEIGHT_SCALE.set(ScaleUtils.getBoundingBoxHeightScale(target));
 	}
 	
 	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))

@@ -14,7 +14,7 @@ public class ItemEntityMixin
 	@ModifyConstant(method = "tryMerge", constant = @Constant(doubleValue = 0.5D))
 	private double tryMergeModifyWidth(double value)
 	{
-		final float scale = ScaleUtils.getWidthScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
 	}

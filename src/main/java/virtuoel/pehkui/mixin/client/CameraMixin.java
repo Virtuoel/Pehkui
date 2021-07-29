@@ -20,13 +20,13 @@ public abstract class CameraMixin
 	@ModifyArg(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/Camera;clipToSpace(D)D"))
 	private double onUpdateClipToSpaceProxy(double distance)
 	{
-		return distance * ScaleUtils.getHeightScale(focusedEntity, MinecraftClient.getInstance().getTickDelta());
+		return distance * ScaleUtils.getThirdPersonScale(focusedEntity, MinecraftClient.getInstance().getTickDelta());
 	}
 	
 	@ModifyConstant(method = "clipToSpace", constant = @Constant(floatValue = 0.1F))
 	private float clipToSpaceModifyOffset(float value)
 	{
-		final float scale = ScaleUtils.getWidthScale(focusedEntity);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale(focusedEntity);
 		
 		return scale < 1.0F ? scale * value : value;
 	}

@@ -15,7 +15,7 @@ public abstract class AbstractDonkeyEntityMixin extends EntityMixin
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = ScaleUtils.getHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
