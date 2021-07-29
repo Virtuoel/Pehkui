@@ -631,7 +631,9 @@ public class ScaleData
 		
 		public ScaleData build()
 		{
-			return new ScaleData(type, entity);
+			final ScaleData existing = entity == null ? null : type.getScaleData(entity);
+			
+			return existing != null ? existing : new ScaleData(type, entity);
 		}
 	}
 	
