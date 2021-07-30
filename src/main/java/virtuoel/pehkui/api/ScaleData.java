@@ -35,6 +35,7 @@ public class ScaleData
 	private float targetScale;
 	private int scaleTicks;
 	private int totalScaleTicks;
+	private boolean persistent;
 	
 	private boolean shouldSync = false;
 	
@@ -63,6 +64,8 @@ public class ScaleData
 		this.targetScale = defaultBaseScale;
 		this.scaleTicks = 0;
 		this.totalScaleTicks = scaleType.getDefaultTickDelay();
+		
+		this.persistent = scaleType.isPersistent();
 		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
@@ -285,6 +288,16 @@ public class ScaleData
 		return this.prevBaseScale;
 	}
 	
+	public void setPersistent(boolean persistent)
+	{
+		this.persistent = persistent;
+	}
+	
+	public boolean isPersistent()
+	{
+		return persistent;
+	}
+	
 	public void markForSync(boolean sync)
 	{
 		final Entity e = getEntity();
@@ -343,6 +356,7 @@ public class ScaleData
 		this.targetScale = tag.contains("target") ? tag.getFloat("target") : this.baseScale;
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
+		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : type.isPersistent();
 		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
@@ -402,6 +416,12 @@ public class ScaleData
 		if (this.totalScaleTicks != type.getDefaultTickDelay())
 		{
 			tag.putInt("total_ticks", this.totalScaleTicks);
+		}
+		
+		final boolean persistent = isPersistent();
+		if (persistent != type.isPersistent())
+		{
+			tag.putBoolean("persistent", persistent);
 		}
 		
 		final List<ScaleModifier> savedModifiers = new ArrayList<>();;
@@ -510,6 +530,7 @@ public class ScaleData
 		this.targetScale = scaleData.getTargetScale();
 		this.scaleTicks = scaleData.scaleTicks;
 		this.totalScaleTicks = scaleData.totalScaleTicks;
+		this.persistent = scaleData.isPersistent();
 		
 		if (notifyListener)
 		{
@@ -702,6 +723,18 @@ public class ScaleData
 		public ScaleData resetScale(boolean notifyListener)
 		{
 			return this;
+		}
+		
+		@Override
+		public void setPersistent(boolean persistent)
+		{
+			
+		}
+		
+		@Override
+		public boolean isPersistent()
+		{
+			return true;
 		}
 		
 		@Override

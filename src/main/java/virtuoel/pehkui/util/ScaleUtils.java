@@ -63,12 +63,15 @@ public class ScaleUtils
 		final List<? extends String> keptScales = PehkuiConfig.COMMON.scalesKeptOnRespawn.get();
 		
 		ScaleType type;
+		ScaleData sourceData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
-			if (keptScales.contains(entry.getKey().toString()))
+			type = entry.getValue();
+			sourceData = type.getScaleData(source);
+			
+			if (sourceData.isPersistent() || keptScales.contains(entry.getKey().toString()))
 			{
-				type = entry.getValue();
-				type.getScaleData(target).fromScale(type.getScaleData(source));
+				type.getScaleData(target).fromScale(sourceData);
 			}
 		}
 	}
