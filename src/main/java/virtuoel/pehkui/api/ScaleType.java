@@ -48,11 +48,19 @@ public class ScaleType
 		this.defaultBaseValueModifiers = builder.defaultBaseValueModifiers;
 		this.baseScaleClampFunction = builder.baseScaleClampFunction;
 		this.targetScaleClampFunction = builder.targetScaleClampFunction;
+		this.persistent = builder.persistent;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
 	{
 		return ((PehkuiEntityExtensions) entity).pehkui_getScaleData(this);
+	}
+	
+	private boolean persistent;
+	
+	public boolean isPersistent()
+	{
+		return persistent;
 	}
 	
 	private float defaultBaseScale;
@@ -137,6 +145,7 @@ public class ScaleType
 		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
+		private boolean persistent = false;
 		
 		public static Builder create()
 		{
@@ -193,6 +202,12 @@ public class ScaleType
 		public Builder affectsDimensions()
 		{
 			this.affectsDimensions = true;
+			return this;
+		}
+		
+		public Builder persistent()
+		{
+			this.persistent  = true;
 			return this;
 		}
 		

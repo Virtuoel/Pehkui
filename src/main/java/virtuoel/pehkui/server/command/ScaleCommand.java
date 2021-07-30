@@ -4,6 +4,7 @@ import java.util.SortedSet;
 import java.util.stream.Collectors;
 
 import com.mojang.brigadier.CommandDispatcher;
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 
@@ -422,6 +423,146 @@ public class ScaleCommand
 					{
 						final int ticks = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow()).getScaleTickDelay();
 						context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
+						return 1;
+					})
+				)
+			)
+			.then(CommandManager.literal("persist")
+				.then(CommandManager.literal("set")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("enabled", BoolArgumentType.bool())
+							.then(CommandManager.argument("targets", EntityArgumentType.entities())
+								.executes(context ->
+								{
+									final boolean persist = BoolArgumentType.getBool(context, "enabled");
+									final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+									
+									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+									{
+										final ScaleData data = type.getScaleData(e);
+										
+										data.setPersistent(persist);
+									}
+									
+									return 1;
+								})
+							)
+							.executes(context ->
+							{
+								final boolean persist = BoolArgumentType.getBool(context, "enabled");
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								
+								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+								
+								data.setPersistent(persist);
+								
+								return 1;
+							})
+						)
+					)
+					.then(CommandManager.argument("enabled", BoolArgumentType.bool())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								final boolean persist = BoolArgumentType.getBool(context, "enabled");
+								
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
+									{
+										final ScaleData data = type.getScaleData(e);
+										data.setPersistent(persist);
+									}
+								}
+								
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final boolean persist = BoolArgumentType.getBool(context, "enabled");
+							
+							for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
+							{
+								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+								data.setPersistent(persist);
+							}
+							
+							return 1;
+						})
+					)
+				)
+				.then(CommandManager.literal("get")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("entity", EntityArgumentType.entity())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final boolean persist = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).isPersistent();
+								context.getSource().sendFeedback(new LiteralText("Persistent: " + persist), false);
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final boolean persist = type.getScaleData(context.getSource().getEntityOrThrow()).isPersistent();
+							context.getSource().sendFeedback(new LiteralText("Persistent: " + persist), false);
+							return 1;
+						})
+					)
+				)
+				.then(CommandManager.literal("reset")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleData data = type.getScaleData(e);
+									
+									data.setPersistent(type.isPersistent());
+								}
+								
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							
+							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+							
+							data.setPersistent(type.isPersistent());
+							
+							return 1;
+						})
+					)
+					.then(CommandManager.argument("targets", EntityArgumentType.entities())
+						.executes(context ->
+						{
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
+								{
+									final ScaleData data = type.getScaleData(e);
+									data.setPersistent(type.isPersistent());
+								}
+							}
+							
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
+						{
+							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+							data.setPersistent(type.isPersistent());
+						}
+						
 						return 1;
 					})
 				)
