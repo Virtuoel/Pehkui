@@ -78,11 +78,11 @@ public class ScaleData
 	{
 		final float currScale = getBaseScale();
 		final float targetScale = getTargetScale();
-		final int scaleTickDelay = getScaleTickDelay();
 		
 		if (currScale != targetScale)
 		{
-			this.prevBaseScale = currScale;
+			final int scaleTickDelay = getScaleTickDelay();
+			
 			if (this.scaleTicks >= scaleTickDelay)
 			{
 				this.initialScale = targetScale;
@@ -96,9 +96,17 @@ public class ScaleData
 				setBaseScale(nextScale);
 			}
 		}
-		else if (this.prevBaseScale != currScale)
+		else
 		{
-			this.prevBaseScale = currScale;
+			if (this.prevBaseScale != currScale)
+			{
+				this.prevBaseScale = currScale;
+			}
+			
+			if (this.initialScale != targetScale)
+			{
+				this.initialScale = targetScale;
+			}
 		}
 	}
 	
