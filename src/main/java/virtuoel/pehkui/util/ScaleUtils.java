@@ -69,7 +69,7 @@ public class ScaleUtils
 			type = entry.getValue();
 			sourceData = type.getScaleData(source);
 			
-			if (sourceData.isPersistent() || keptScales.contains(entry.getKey().toString()))
+			if (sourceData.shouldPersist() || keptScales.contains(entry.getKey().toString()))
 			{
 				type.getScaleData(target).fromScale(sourceData);
 			}

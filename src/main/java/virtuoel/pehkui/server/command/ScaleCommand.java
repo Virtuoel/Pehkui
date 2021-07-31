@@ -168,7 +168,9 @@ public class ScaleCommand
 							{
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 								final ScaleData data = type.getScaleData(e);
+								final Boolean persist = data.getPersistence();
 								data.resetScale();
+								data.setPersistence(persist);
 							}
 							
 							return 1;
@@ -178,7 +180,9 @@ public class ScaleCommand
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+						final Boolean persist = data.getPersistence();
 						data.resetScale();
+						data.setPersistence(persist);
 						
 						return 1;
 					})
@@ -191,7 +195,9 @@ public class ScaleCommand
 							for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 							{
 								final ScaleData data = type.getScaleData(e);
+								final Boolean persist = data.getPersistence();
 								data.resetScale();
+								data.setPersistence(persist);
 							}
 						}
 						
@@ -203,7 +209,9 @@ public class ScaleCommand
 					for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 					{
 						final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+						final Boolean persist = data.getPersistence();
 						data.resetScale();
+						data.setPersistence(persist);
 					}
 					
 					return 1;
@@ -441,7 +449,7 @@ public class ScaleCommand
 									{
 										final ScaleData data = type.getScaleData(e);
 										
-										data.setPersistent(persist);
+										data.setPersistence(persist);
 									}
 									
 									return 1;
@@ -454,7 +462,7 @@ public class ScaleCommand
 								
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 								
-								data.setPersistent(persist);
+								data.setPersistence(persist);
 								
 								return 1;
 							})
@@ -471,7 +479,7 @@ public class ScaleCommand
 									for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 									{
 										final ScaleData data = type.getScaleData(e);
-										data.setPersistent(persist);
+										data.setPersistence(persist);
 									}
 								}
 								
@@ -485,7 +493,7 @@ public class ScaleCommand
 							for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 							{
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
-								data.setPersistent(persist);
+								data.setPersistence(persist);
 							}
 							
 							return 1;
@@ -498,16 +506,16 @@ public class ScaleCommand
 							.executes(context ->
 							{
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-								final boolean persist = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).isPersistent();
-								context.getSource().sendFeedback(new LiteralText("Persistent: " + persist), false);
+								final Boolean persist = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getPersistence();
+								context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.isPersistent() + ")" : persist)), false);
 								return 1;
 							})
 						)
 						.executes(context ->
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-							final boolean persist = type.getScaleData(context.getSource().getEntityOrThrow()).isPersistent();
-							context.getSource().sendFeedback(new LiteralText("Persistent: " + persist), false);
+							final Boolean persist = type.getScaleData(context.getSource().getEntityOrThrow()).getPersistence();
+							context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.isPersistent() + ")"  : persist)), false);
 							return 1;
 						})
 					)
@@ -523,7 +531,7 @@ public class ScaleCommand
 								{
 									final ScaleData data = type.getScaleData(e);
 									
-									data.setPersistent(type.isPersistent());
+									data.setPersistence(null);
 								}
 								
 								return 1;
@@ -535,7 +543,7 @@ public class ScaleCommand
 							
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 							
-							data.setPersistent(type.isPersistent());
+							data.setPersistence(null);
 							
 							return 1;
 						})
@@ -548,7 +556,7 @@ public class ScaleCommand
 								for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 								{
 									final ScaleData data = type.getScaleData(e);
-									data.setPersistent(type.isPersistent());
+									data.setPersistence(null);
 								}
 							}
 							
@@ -560,7 +568,7 @@ public class ScaleCommand
 						for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 						{
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
-							data.setPersistent(type.isPersistent());
+							data.setPersistence(null);
 						}
 						
 						return 1;
