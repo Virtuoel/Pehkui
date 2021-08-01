@@ -1,5 +1,5 @@
 plugins {
-	id 'dev.architectury.loom' version '0.8.0-SNAPSHOT'
+	id "dev.architectury.loom" version "0.9.0-SNAPSHOT"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"

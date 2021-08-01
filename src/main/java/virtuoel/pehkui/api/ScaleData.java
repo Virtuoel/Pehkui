@@ -35,7 +35,7 @@ public class ScaleData
 	private float targetScale;
 	private int scaleTicks;
 	private int totalScaleTicks;
-	private boolean persistent;
+	private Boolean persistent = null;
 	
 	private boolean shouldSync = false;
 	
@@ -78,11 +78,11 @@ public class ScaleData
 	{
 		final float currScale = getBaseScale();
 		final float targetScale = getTargetScale();
-		final int scaleTickDelay = getScaleTickDelay();
 		
 		if (currScale != targetScale)
 		{
-			this.prevBaseScale = currScale;
+			final int scaleTickDelay = getScaleTickDelay();
+			
 			if (this.scaleTicks >= scaleTickDelay)
 			{
 				this.initialScale = targetScale;
@@ -96,9 +96,17 @@ public class ScaleData
 				setBaseScale(nextScale);
 			}
 		}
-		else if (this.prevBaseScale != currScale)
+		else
 		{
-			this.prevBaseScale = currScale;
+			if (this.prevBaseScale != currScale)
+			{
+				this.prevBaseScale = currScale;
+			}
+			
+			if (this.initialScale != targetScale)
+			{
+				this.initialScale = targetScale;
+			}
 		}
 	}
 	
@@ -288,14 +296,19 @@ public class ScaleData
 		return this.prevBaseScale;
 	}
 	
-	public void setPersistent(boolean persistent)
+	public void setPersistence(@Nullable Boolean persistent)
 	{
 		this.persistent = persistent;
 	}
 	
-	public boolean isPersistent()
+	public @Nullable Boolean getPersistence()
 	{
 		return persistent;
+	}
+	
+	public boolean shouldPersist()
+	{
+		return persistent == null ? getScaleType().isPersistent() : persistent;
 	}
 	
 	public void markForSync(boolean sync)
@@ -356,7 +369,7 @@ public class ScaleData
 		this.targetScale = tag.contains("target") ? tag.getFloat("target") : this.baseScale;
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
-		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : type.isPersistent();
+		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : null;
 		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
@@ -418,8 +431,8 @@ public class ScaleData
 			tag.putInt("total_ticks", this.totalScaleTicks);
 		}
 		
-		final boolean persistent = isPersistent();
-		if (persistent != type.isPersistent())
+		final Boolean persistent = getPersistence();
+		if (persistent != null)
 		{
 			tag.putBoolean("persistent", persistent);
 		}
@@ -460,6 +473,7 @@ public class ScaleData
 		this.targetScale = defaultBaseScale;
 		this.scaleTicks = 0;
 		this.totalScaleTicks = type.getDefaultTickDelay();
+		this.persistent = null;
 		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
@@ -514,6 +528,11 @@ public class ScaleData
 			return false;
 		}
 		
+		if (getPersistence() != null)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -530,7 +549,7 @@ public class ScaleData
 		this.targetScale = scaleData.getTargetScale();
 		this.scaleTicks = scaleData.scaleTicks;
 		this.totalScaleTicks = scaleData.totalScaleTicks;
-		this.persistent = scaleData.isPersistent();
+		this.persistent = scaleData.getPersistence();
 		
 		if (notifyListener)
 		{
@@ -726,15 +745,9 @@ public class ScaleData
 		}
 		
 		@Override
-		public void setPersistent(boolean persistent)
+		public void setPersistence(Boolean persistent)
 		{
 			
-		}
-		
-		@Override
-		public boolean isPersistent()
-		{
-			return true;
 		}
 		
 		@Override
