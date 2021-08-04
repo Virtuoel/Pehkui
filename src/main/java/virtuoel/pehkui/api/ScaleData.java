@@ -662,6 +662,8 @@ public class ScaleData
 			return this;
 		}
 		
+		@Deprecated
+		@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 		public ImmutableScaleData buildImmutable(float value)
 		{
 			return new ImmutableScaleData(value, type, entity);
@@ -675,6 +677,8 @@ public class ScaleData
 		}
 	}
 	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 	public static class ImmutableScaleData extends ScaleData
 	{
 		protected ImmutableScaleData(float scale, ScaleType scaleType, @Nullable Entity entity)
