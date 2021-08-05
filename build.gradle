@@ -15,8 +15,7 @@ repositories {
 	}
 	maven {
 		name = "TerraformersMC"
-	//	url = "https://maven.terraformersmc.com/"
-		url = "https://raw.githubusercontent.com/TerraformersMC/Archive/main/releases/"
+		url = "https://maven.terraformersmc.com/"
 	}
 	maven {
 		name = "CurseForge"
