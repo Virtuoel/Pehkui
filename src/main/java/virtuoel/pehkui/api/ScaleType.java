@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.ToDoubleBiFunction;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -49,7 +51,7 @@ public class ScaleType
 		this.defaultBaseValueModifiers = builder.defaultBaseValueModifiers;
 		this.baseScaleClampFunction = builder.baseScaleClampFunction;
 		this.targetScaleClampFunction = builder.targetScaleClampFunction;
-		this.persistent = builder.persistent;
+		this.defaultPersistence = builder.defaultPersistence;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
@@ -57,11 +59,23 @@ public class ScaleType
 		return ((PehkuiEntityExtensions) entity).pehkui_getScaleData(this);
 	}
 	
-	private boolean persistent;
+	private boolean defaultPersistence;
 	
+	public void setDefaultPersistence(boolean persistent)
+	{
+		this.defaultPersistence = persistent;
+	}
+	
+	public boolean getDefaultPersistence()
+	{
+		return defaultPersistence;
+	}
+	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 	public boolean isPersistent()
 	{
-		return persistent;
+		return getDefaultPersistence();
 	}
 	
 	private float defaultBaseScale;
@@ -146,7 +160,7 @@ public class ScaleType
 		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
-		private boolean persistent = false;
+		private boolean defaultPersistence = false;
 		
 		public static Builder create()
 		{
@@ -200,15 +214,23 @@ public class ScaleType
 			return this;
 		}
 		
+		public Builder defaultPersistence(boolean defaultPersistence)
+		{
+			this.defaultPersistence = defaultPersistence;
+			return this;
+		}
+		
 		public Builder affectsDimensions()
 		{
 			this.affectsDimensions = true;
 			return this;
 		}
 		
+		@Deprecated
+		@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 		public Builder persistent()
 		{
-			this.persistent  = true;
+			this.defaultPersistence = true;
 			return this;
 		}
 		

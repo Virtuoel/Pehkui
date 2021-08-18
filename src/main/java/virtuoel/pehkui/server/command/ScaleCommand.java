@@ -507,7 +507,7 @@ public class ScaleCommand
 							{
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 								final Boolean persist = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getPersistence();
-								context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.isPersistent() + ")" : persist)), false);
+								context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")" : persist)), false);
 								return 1;
 							})
 						)
@@ -515,7 +515,7 @@ public class ScaleCommand
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final Boolean persist = type.getScaleData(context.getSource().getEntityOrThrow()).getPersistence();
-							context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.isPersistent() + ")"  : persist)), false);
+							context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")"  : persist)), false);
 							return 1;
 						})
 					)

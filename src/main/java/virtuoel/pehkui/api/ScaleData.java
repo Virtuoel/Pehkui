@@ -306,7 +306,8 @@ public class ScaleData
 	
 	public boolean shouldPersist()
 	{
-		return persistent == null ? getScaleType().isPersistent() : persistent;
+		final Boolean persist = getPersistence();
+		return persist == null ? getScaleType().getDefaultPersistence() : persist;
 	}
 	
 	public void markForSync(boolean sync)
