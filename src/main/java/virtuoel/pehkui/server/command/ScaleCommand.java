@@ -3,6 +3,7 @@ package virtuoel.pehkui.server.command;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
 
+import com.ibm.icu.text.DecimalFormat;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
@@ -107,7 +108,7 @@ public class ScaleCommand
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
-							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 							
 							return 1;
 						})
@@ -116,7 +117,7 @@ public class ScaleCommand
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
-						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						
 						return 1;
 					})
@@ -125,14 +126,14 @@ public class ScaleCommand
 					.executes(context ->
 					{
 						final float scale = ScaleType.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
-						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						return 1;
 					})
 				)
 				.executes(context ->
 				{
 					final float scale = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
-					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+					context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 					
 					return 1;
 				})
@@ -144,7 +145,7 @@ public class ScaleCommand
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScale();
-							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 							
 							return 1;
 						})
@@ -153,7 +154,7 @@ public class ScaleCommand
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getScale();
-						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						
 						return 1;
 					})
@@ -576,5 +577,18 @@ public class ScaleCommand
 				)
 			)
 		);
+	}
+	
+	private static final DecimalFormat SCALE_FORMAT;
+	
+	static
+	{
+		SCALE_FORMAT = new DecimalFormat("0");
+		SCALE_FORMAT.setMaximumFractionDigits(340);
+	}
+	
+	private static String format(float scale)
+	{
+		return SCALE_FORMAT.format(scale);
 	}
 }
