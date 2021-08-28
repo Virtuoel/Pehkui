@@ -1,6 +1,5 @@
 package virtuoel.pehkui.util;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
@@ -32,11 +31,11 @@ public class IdentityCompatibility
 		
 		if (this.enabled)
 		{
-			this.componentsClass = getClass("draylar.identity.registry.Components");
-			this.componentTypeClass = getClass("nerdhub.cardinal.components.api.ComponentType");
-			this.identityComponentClass = getClass("draylar.identity.cca.IdentityComponent");
+			this.componentsClass = ReflectionUtils.getClass("draylar.identity.registry.Components");
+			this.componentTypeClass = ReflectionUtils.getClass("nerdhub.cardinal.components.api.ComponentType");
+			this.identityComponentClass = ReflectionUtils.getClass("draylar.identity.cca.IdentityComponent");
 			
-			this.currentIdentity = getField(componentsClass, "CURRENT_IDENTITY").map(f ->
+			this.currentIdentity = ReflectionUtils.getField(componentsClass, "CURRENT_IDENTITY").map(f ->
 			{
 				try
 				{
@@ -48,8 +47,8 @@ public class IdentityCompatibility
 				}
 			});
 			
-			this.getComponent = getMethod(componentTypeClass, "get", Object.class);
-			this.getIdentity = getMethod(identityComponentClass, "getIdentity");
+			this.getComponent = ReflectionUtils.getMethod(componentTypeClass, "get", Object.class);
+			this.getIdentity = ReflectionUtils.getMethod(identityComponentClass, "getIdentity");
 		}
 		else
 		{
@@ -88,54 +87,5 @@ public class IdentityCompatibility
 		}
 		
 		return null;
-	}
-	
-	private static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)
-	{
-		return classObj.map(c ->
-		{
-			try
-			{
-				final Field f = c.getDeclaredField(fieldName);
-				f.setAccessible(true);
-				return f;
-			}
-			catch (SecurityException | NoSuchFieldException e)
-			{
-				
-			}
-			return null;
-		});
-	}
-	
-	private static Optional<Method> getMethod(final Optional<Class<?>> classObj, final String methodName, Class<?>... args)
-	{
-		return classObj.map(c ->
-		{
-			try
-			{
-				final Method m = c.getMethod(methodName, args);
-				m.setAccessible(true);
-				return m;
-			}
-			catch (SecurityException | NoSuchMethodException e)
-			{
-				
-			}
-			return null;
-		});
-	}
-	
-	private static Optional<Class<?>> getClass(final String className)
-	{
-		try
-		{
-			return Optional.of(Class.forName(className));
-		}
-		catch (ClassNotFoundException e)
-		{
-			
-		}
-		return Optional.empty();
 	}
 }
