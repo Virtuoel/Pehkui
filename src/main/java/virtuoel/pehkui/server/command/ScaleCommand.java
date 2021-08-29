@@ -51,7 +51,7 @@ public class ScaleCommand
 									final ScaleData data = type.getScaleData(e);
 									final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 									
-									data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+									data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 								}
 								
 								return 1;
@@ -65,7 +65,7 @@ public class ScaleCommand
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 							final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 							
-							data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+							data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 							
 							return 1;
 						})
@@ -82,7 +82,7 @@ public class ScaleCommand
 								final ScaleData data = ScaleType.BASE.getScaleData(e);
 								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 								
-								data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+								data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 							}
 							
 							return 1;
@@ -95,7 +95,7 @@ public class ScaleCommand
 						final ScaleData data = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow());
 						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 						
-						data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+						data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 						
 						return 1;
 					})

@@ -240,9 +240,13 @@ public class ScaleData
 	{
 		targetScale = (float) getScaleType().clampTargetScale(this, targetScale);
 		
-		this.initialScale = getBaseScale();
+		final float lastTarget = getTargetScale();
+		final int remaining = Math.round(getScaleTickDelay() * ((lastTarget - getBaseScale()) / (lastTarget - getInitialScale())));
+		
+		this.initialScale = lastTarget;
 		this.targetScale = targetScale;
-		this.scaleTicks = 0;
+		this.scaleTicks = remaining;
+		
 		markForSync(true);
 	}
 	
