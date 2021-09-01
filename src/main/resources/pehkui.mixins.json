@@ -119,7 +119,6 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerEntityMixin",
-		"client.ClientPlayerInteractionManagerMixin",
 		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
@@ -149,6 +148,7 @@
 		"client.compat117plus.ClientPlayNetworkHandlerMixin",
 		"client.compat117plus.GameRendererMixin",
 		"client.compat117plus.ItemRendererMixin",
+		"reach.client.ClientPlayerInteractionManagerMixin",
 		"reach.client.GameRendererMixin"
 	],
 	"injectors":

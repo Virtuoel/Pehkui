@@ -17,7 +17,7 @@ public class ServerPlayerInteractionManagerMixin
 	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 36.0D))
 	private double processBlockBreakingActionModifyDistance(double value)
 	{
-		final float scale = ScaleUtils.getReachScale(player);
+		final float scale = ScaleUtils.getBlockReachScale(player);
 		
 		return scale > 1.0F ? scale * scale * value : value;
 	}

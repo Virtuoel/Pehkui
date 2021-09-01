@@ -13,10 +13,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes", remap = false)
 public class ReachEntityAttributesMixin
 {
-	@Inject(method = { "getReachDistance", "getAttackRange" }, at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	@Inject(method = "getReachDistance", at = @At(value = "RETURN"), cancellable = true, remap = false)
+	private static void getBlockDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
 	{
-		final float scale = ScaleUtils.getReachScale(entity);
+		final float scale = ScaleUtils.getBlockReachScale(entity);
 		
 		if (scale > 1.0F)
 		{
@@ -24,10 +24,32 @@ public class ReachEntityAttributesMixin
 		}
 	}
 	
-	@Inject(method = { "getSquaredReachDistance", "getSquaredAttackRange" }, at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getSquaredDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	@Inject(method = "getAttackRange", at = @At(value = "RETURN"), cancellable = true, remap = false)
+	private static void getEntityDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
 	{
-		final float scale = ScaleUtils.getReachScale(entity);
+		final float scale = ScaleUtils.getEntityReachScale(entity);
+		
+		if (scale > 1.0F)
+		{
+			info.setReturnValue(scale * info.getReturnValueD());
+		}
+	}
+	
+	@Inject(method = "getSquaredReachDistance", at = @At(value = "RETURN"), cancellable = true, remap = false)
+	private static void getBlockSquaredDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	{
+		final float scale = ScaleUtils.getBlockReachScale(entity);
+		
+		if (scale > 1.0F)
+		{
+			info.setReturnValue(scale * scale * info.getReturnValueD());
+		}
+	}
+	
+	@Inject(method = "getSquaredAttackRange", at = @At(value = "RETURN"), cancellable = true, remap = false)
+	private static void getEntitySquaredDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	{
+		final float scale = ScaleUtils.getEntityReachScale(entity);
 		
 		if (scale > 1.0F)
 		{

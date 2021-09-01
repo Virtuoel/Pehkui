@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client;
+package virtuoel.pehkui.mixin.reach.client;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +21,7 @@ public class ClientPlayerInteractionManagerMixin
 	{
 		if (client.player != null)
 		{
-			final float scale = ScaleUtils.getReachScale(client.player);
+			final float scale = ScaleUtils.getBlockReachScale(client.player);
 			
 			if (scale != 1.0F)
 			{

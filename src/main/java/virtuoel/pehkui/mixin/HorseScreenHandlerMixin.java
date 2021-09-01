@@ -20,7 +20,7 @@ public class HorseScreenHandlerMixin
 	@Inject(method = "canUse", at = @At("HEAD"))
 	private void onCanUse(PlayerEntity player, CallbackInfoReturnable<Boolean> info)
 	{
-		REACH_SCALE.set(ScaleUtils.getReachScale(player));
+		REACH_SCALE.set(ScaleUtils.getEntityReachScale(player));
 	}
 	
 	@ModifyConstant(method = "canUse", constant = @Constant(floatValue = 8.0F))

@@ -33,6 +33,8 @@ public class ScaleType
 	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifier.REACH_MULTIPLIER);
+	public static final ScaleType ENTITY_REACH = register("entity_reach", ScaleModifier.REACH_MULTIPLIER);
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");
 	public static final ScaleType HEALTH = register("health");

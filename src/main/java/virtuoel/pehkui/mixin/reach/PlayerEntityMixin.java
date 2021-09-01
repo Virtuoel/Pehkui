@@ -15,7 +15,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	@ModifyConstant(method = "attack", constant = @Constant(doubleValue = 9.0D))
 	private double attackModifyDistance(double value)
 	{
-		final float scale = ScaleUtils.getReachScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getEntityReachScale((Entity) (Object) this);
 		
 		return scale > 1.0F ? scale * scale * value : value;
 	}

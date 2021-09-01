@@ -17,7 +17,7 @@ public class ServerPlayNetworkHandlerMixin
 	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
 	private double onPlayerInteractBlockModifyDistance(double value)
 	{
-		final float scale = ScaleUtils.getReachScale(player);
+		final float scale = ScaleUtils.getBlockReachScale(player);
 		
 		return scale > 1.0F ? scale * scale * value : value;
 	}
@@ -25,7 +25,7 @@ public class ServerPlayNetworkHandlerMixin
 	@ModifyConstant(method = "onPlayerInteractEntity", constant = @Constant(doubleValue = 36.0D))
 	private double onPlayerInteractEntityModifyDistance(double value)
 	{
-		final float scale = ScaleUtils.getReachScale(player);
+		final float scale = ScaleUtils.getEntityReachScale(player);
 		
 		return scale > 1.0F ? scale * scale * value : value;
 	}
