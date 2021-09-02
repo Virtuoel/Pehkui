@@ -63,7 +63,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))
 		{
-			return REACH_ATTRIBUTES_LOADED == mixinClassName.equals(MIXIN_PACKAGE + ".reach.compat.ReachEntityAttributesMixin");
+			return REACH_ATTRIBUTES_LOADED == mixinClassName.contains(".reach.compat.");
 		}
 		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".step_height"))
 		{

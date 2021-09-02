@@ -149,7 +149,8 @@
 		"client.compat117plus.GameRendererMixin",
 		"client.compat117plus.ItemRendererMixin",
 		"reach.client.ClientPlayerInteractionManagerMixin",
-		"reach.client.GameRendererMixin"
+		"reach.client.GameRendererMixin",
+		"reach.compat.client.GameRendererMixin"
 	],
 	"injectors":
 	{
