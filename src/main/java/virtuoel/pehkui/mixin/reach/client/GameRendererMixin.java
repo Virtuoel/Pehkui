@@ -52,10 +52,7 @@ public class GameRendererMixin
 				final double baseEntityReach = client.interactionManager.hasExtendedReach() ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
 				final double entityReach = scale * baseEntityReach;
 				
-				if (scale != 1.0F)
-				{
-					return Math.min(value, entityReach * entityReach);
-				}
+				return entityReach * entityReach;
 			}
 		}
 		
