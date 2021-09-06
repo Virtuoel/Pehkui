@@ -22,13 +22,13 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double updateTargetedEntitySetDistance(double value)
+	private double updateTargetedEntitySetDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
 		if (entity != null)
 		{
-			final float scale = ScaleUtils.getEntityReachScale(entity, client.getTickDelta());
+			final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
 			
 			if (scale != 1.0F)
 			{
@@ -40,7 +40,7 @@ public class GameRendererMixin
 	}
 	
 	@ModifyVariable(method = "updateTargetedEntity", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double updateTargetedEntityModifySquaredDistance(double value)
+	private double updateTargetedEntityModifySquaredDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -48,7 +48,7 @@ public class GameRendererMixin
 		{
 			if (this.client.crosshairTarget != null)
 			{
-				final float scale = ScaleUtils.getEntityReachScale(entity, client.getTickDelta());
+				final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
 				final double baseEntityReach = client.interactionManager.hasExtendedReach() ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
 				final double entityReach = scale * baseEntityReach;
 				
@@ -60,13 +60,13 @@ public class GameRendererMixin
 	}
 	
 	@ModifyConstant(method = "updateTargetedEntity", constant = @Constant(doubleValue = 3.0D))
-	private double updateTargetedEntityModifyDistance(double value)
+	private double updateTargetedEntityModifyDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
 		if (entity != null)
 		{
-			final float scale = ScaleUtils.getEntityReachScale(entity, client.getTickDelta());
+			final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
 			
 			if (scale != 1.0F)
 			{
@@ -78,13 +78,13 @@ public class GameRendererMixin
 	}
 	
 	@ModifyConstant(method = "updateTargetedEntity", constant = @Constant(doubleValue = 6.0D))
-	private double updateTargetedEntityModifyExtendedDistance(double value)
+	private double updateTargetedEntityModifyExtendedDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
 		if (entity != null)
 		{
-			final float scale = ScaleUtils.getEntityReachScale(entity, client.getTickDelta());
+			final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
 			
 			if (scale != 1.0F)
 			{
@@ -96,13 +96,13 @@ public class GameRendererMixin
 	}
 	
 	@ModifyConstant(method = "updateTargetedEntity", constant = @Constant(doubleValue = 9.0D))
-	private double updateTargetedEntityModifySquaredMaxDistance(double value)
+	private double updateTargetedEntityModifySquaredMaxDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
 		if (entity != null)
 		{
-			final float scale = ScaleUtils.getEntityReachScale(entity, client.getTickDelta());
+			final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
 			
 			if (scale != 1.0F)
 			{

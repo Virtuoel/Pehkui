@@ -18,8 +18,8 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", target = "Let/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double updateTargetedEntityModifyDistance(double value, float tickDelta)
+	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
+	private double updateTargetedEntitySetDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -63,14 +63,7 @@ public class GameRendererMixin
 			final double entityReach = ReachEntityAttributesCompatibility.INSTANCE.getAttackRange(client.player, baseEntityReach);
 			final double entityReachSquared = entityReach * entityReach;
 			
-			if (this.client.crosshairTarget != null)
-			{
-				return Math.min(value, entityReachSquared);
-			}
-			else
-			{
-				return entityReachSquared;
-			}
+			return entityReachSquared;
 		}
 		
 		return value;
