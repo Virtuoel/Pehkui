@@ -34,26 +34,4 @@ public class ReachEntityAttributesMixin
 			info.setReturnValue(scale * info.getReturnValueD());
 		}
 	}
-	
-	@Inject(method = "getSquaredReachDistance", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getBlockSquaredDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
-	{
-		final float scale = ScaleUtils.getBlockReachScale(entity);
-		
-		if (scale > 1.0F)
-		{
-			info.setReturnValue(scale * scale * info.getReturnValueD());
-		}
-	}
-	
-	@Inject(method = "getSquaredAttackRange", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getEntitySquaredDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
-	{
-		final float scale = ScaleUtils.getEntityReachScale(entity);
-		
-		if (scale > 1.0F)
-		{
-			info.setReturnValue(scale * scale * info.getReturnValueD());
-		}
-	}
 }
