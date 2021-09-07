@@ -54,6 +54,7 @@ public class MixinTargetClasses
 			"net.minecraft.class_1309", // LivingEntity
 			"net.minecraft.class_1501", // LlamaEntity
 			"net.minecraft.class_1673", // LlamaSpitEntity
+			"net.minecraft.class_1308", // MobEntity
 			"net.minecraft.class_2621", // LootableContainerBlockEntity
 			"net.minecraft.class_2487", // NbtCompound
 			"net.minecraft.class_2423", // NetherPortalBlock

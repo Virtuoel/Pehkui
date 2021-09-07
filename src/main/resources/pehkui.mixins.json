@@ -28,6 +28,7 @@
 		"LivingEntityMixin",
 		"LlamaEntityMixin",
 		"LlamaSpitEntityMixin",
+		"MobEntityMixin",
 		"PersistentProjectileEntityMixin",
 		"PlayerEntityMixin",
 		"PlayerManagerMixin",

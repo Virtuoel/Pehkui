@@ -360,6 +360,16 @@ public class ScaleUtils
 		return getConfigurableTypedScale(entity, ScaleType.ENTITY_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
 	}
 	
+	public static float getKnockbackScale(Entity entity)
+	{
+		return getKnockbackScale(entity, 1.0F);
+	}
+	
+	public static float getKnockbackScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.KNOCKBACK, tickDelta);
+	}
+	
 	public static float getAttackScale(Entity entity)
 	{
 		return getAttackScale(entity, 1.0F);

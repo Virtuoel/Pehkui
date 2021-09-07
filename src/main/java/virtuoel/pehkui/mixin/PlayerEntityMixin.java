@@ -3,8 +3,10 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -62,6 +64,22 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	private double onTickMovementExpandZProxy(double value)
 	{
 		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
+	}
+	
+	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = { @Constant(floatValue = 0.5F, ordinal = 1), @Constant(floatValue = 0.5F, ordinal = 2), @Constant(floatValue = 0.5F, ordinal = 3) })
+	private float onAttackModifyKnockback(float value)
+	{
+		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = @Constant(doubleValue = 0.4000000059604645D))
+	private double onAttackModifyKnockback(double value)
+	{
+		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
 	}
 	
 	@Unique private static final ThreadLocal<Float> pehkui$WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);

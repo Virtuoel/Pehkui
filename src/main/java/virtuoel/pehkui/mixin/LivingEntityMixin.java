@@ -66,6 +66,22 @@ public abstract class LivingEntityMixin extends EntityMixin
 		}
 	}
 	
+	@ModifyConstant(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", constant = @Constant(doubleValue = 0.4000000059604645D))
+	private double onDamageModifyKnockback(double value, DamageSource source, float amount)
+	{
+		final float scale = ScaleUtils.getKnockbackScale(source.getAttacker());
+		
+		return scale != 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "knockback(Lnet/minecraft/entity/LivingEntity;)V", constant = @Constant(doubleValue = 0.5D))
+	private double onKnockbackModifyKnockback(double value, DamageSource source, float amount)
+	{
+		final float scale = ScaleUtils.getKnockbackScale(source.getAttacker());
+		
+		return scale != 1.0F ? scale * value : value;
+	}
+	
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
 	private void tickMovementModifyMinVelocity(CallbackInfo info, Vec3d velocity)
 	{
