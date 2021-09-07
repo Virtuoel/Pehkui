@@ -18,7 +18,7 @@ public class ReachEntityAttributesMixin
 	{
 		final float scale = ScaleUtils.getBlockReachScale(entity);
 		
-		if (scale > 1.0F)
+		if (scale != 1.0F)
 		{
 			info.setReturnValue(scale * info.getReturnValueD());
 		}
@@ -29,7 +29,7 @@ public class ReachEntityAttributesMixin
 	{
 		final float scale = ScaleUtils.getEntityReachScale(entity);
 		
-		if (scale > 1.0F)
+		if (scale != 1.0F)
 		{
 			info.setReturnValue(scale * info.getReturnValueD());
 		}
