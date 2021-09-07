@@ -22,75 +22,75 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 	abstract void setPredicate(Predicate<Entity> predicate);
 	
 	@Unique
-	NumberRange.FloatRange scaleRange = NumberRange.FloatRange.ANY;
+	NumberRange.FloatRange pehkui$scaleRange = NumberRange.FloatRange.ANY;
 	@Unique
-	NumberRange.FloatRange computedScaleRange = NumberRange.FloatRange.ANY;
+	NumberRange.FloatRange pehkui$computedScaleRange = NumberRange.FloatRange.ANY;
 	@Unique
-	ScaleType scaleType = ScaleType.INVALID;
+	ScaleType pehkui$scaleType = ScaleType.INVALID;
 	@Unique
-	ScaleType computedScaleType = ScaleType.INVALID;
+	ScaleType pehkui$computedScaleType = ScaleType.INVALID;
 	
 	@Inject(method = "buildPredicate", at = @At("HEAD"))
 	private void onBuildPredicate(CallbackInfo info)
 	{
-		if (!this.scaleRange.isDummy())
+		if (!this.pehkui$scaleRange.isDummy())
 		{
-			final ScaleType scaleType = this.scaleType == ScaleType.INVALID ? ScaleType.BASE : this.scaleType;
-			setPredicate(e -> this.scaleRange.test(scaleType.getScaleData(e).getBaseScale()));
+			final ScaleType scaleType = this.pehkui$scaleType == ScaleType.INVALID ? ScaleType.BASE : this.pehkui$scaleType;
+			setPredicate(e -> this.pehkui$scaleRange.test(scaleType.getScaleData(e).getBaseScale()));
 		}
 		
-		if (!this.computedScaleRange.isDummy())
+		if (!this.pehkui$computedScaleRange.isDummy())
 		{
-			final ScaleType scaleType = this.computedScaleType == ScaleType.INVALID ? ScaleType.BASE : this.computedScaleType;
-			setPredicate(e -> this.computedScaleRange.test(scaleType.getScaleData(e).getScale()));
+			final ScaleType scaleType = this.pehkui$computedScaleType == ScaleType.INVALID ? ScaleType.BASE : this.pehkui$computedScaleType;
+			setPredicate(e -> this.pehkui$computedScaleRange.test(scaleType.getScaleData(e).getScale()));
 		}
 	}
 	
 	@Override
 	public ScaleType pehkui_getScaleType()
 	{
-		return this.scaleType;
+		return this.pehkui$scaleType;
 	}
 	
 	@Override
 	public void pehkui_setScaleType(final ScaleType scaleType)
 	{
-		this.scaleType = scaleType;
+		this.pehkui$scaleType = scaleType;
 	}
 	
 	@Override
 	public NumberRange.FloatRange pehkui_getScaleRange()
 	{
-		return this.scaleRange;
+		return this.pehkui$scaleRange;
 	}
 	
 	@Override
 	public void pehkui_setScaleRange(final NumberRange.FloatRange baseScaleRange)
 	{
-		this.scaleRange = baseScaleRange;
+		this.pehkui$scaleRange = baseScaleRange;
 	}
 	
 	@Override
 	public ScaleType pehkui_getComputedScaleType()
 	{
-		return this.computedScaleType;
+		return this.pehkui$computedScaleType;
 	}
 	
 	@Override
 	public void pehkui_setComputedScaleType(final ScaleType computedScaleType)
 	{
-		this.computedScaleType = computedScaleType;
+		this.pehkui$computedScaleType = computedScaleType;
 	}
 	
 	@Override
 	public NumberRange.FloatRange pehkui_getComputedScaleRange()
 	{
-		return this.computedScaleRange;
+		return this.pehkui$computedScaleRange;
 	}
 	
 	@Override
 	public void pehkui_setComputedScaleRange(final NumberRange.FloatRange computedScaleRange)
 	{
-		this.computedScaleRange = computedScaleRange;
+		this.pehkui$computedScaleRange = computedScaleRange;
 	}
 }

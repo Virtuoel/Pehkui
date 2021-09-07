@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.PehkuiEntityExtensions;
 public abstract class PlayerEntityMixin implements PehkuiEntityExtensions
 {
 	@Unique
-	private static final ScaleData[] EMPTY = {};
+	private static final ScaleData[] pehkui$EMPTY = {};
 	
 	@Override
 	public ScaleData pehkui_constructScaleData(ScaleType type)
@@ -25,7 +25,7 @@ public abstract class PlayerEntityMixin implements PehkuiEntityExtensions
 		{
 			final LivingEntity identity = IdentityCompatibility.INSTANCE.getIdentity((PlayerEntity) (Object) this);
 			
-			return identity == null ? EMPTY : new ScaleData[] { type.getScaleData(identity) };
+			return identity == null ? pehkui$EMPTY : new ScaleData[] { type.getScaleData(identity) };
 		});
 	}
 }
