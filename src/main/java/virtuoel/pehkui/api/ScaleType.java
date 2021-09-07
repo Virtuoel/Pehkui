@@ -35,7 +35,7 @@ public class ScaleType
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
 	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifier.REACH_MULTIPLIER);
 	public static final ScaleType ENTITY_REACH = register("entity_reach", ScaleModifier.REACH_MULTIPLIER);
-	public static final ScaleType KNOCKBACK = register("knockback", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType KNOCKBACK = register("knockback");
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");
 	public static final ScaleType HEALTH = register("health");
