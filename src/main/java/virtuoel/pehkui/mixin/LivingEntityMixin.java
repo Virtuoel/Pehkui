@@ -75,9 +75,9 @@ public abstract class LivingEntityMixin extends EntityMixin
 	}
 	
 	@ModifyConstant(method = "knockback(Lnet/minecraft/entity/LivingEntity;)V", constant = @Constant(doubleValue = 0.5D))
-	private double onKnockbackModifyKnockback(double value, DamageSource source, float amount)
+	private double onKnockbackModifyKnockback(double value, LivingEntity target)
 	{
-		final float scale = ScaleUtils.getKnockbackScale(source.getAttacker());
+		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
 	}
