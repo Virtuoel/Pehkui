@@ -20,10 +20,10 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 {
 	private static final Collection<String> EXAMPLES = Arrays.asList("set", "add", "subtract", "multiply", "divide");
 	private static final SimpleCommandExceptionType INVALID_OPERATION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.invalid", new Object[0])
+		new TranslatableText("arguments.operation.invalid")
 	);
 	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.div0", new Object[0])
+		new TranslatableText("arguments.operation.div0")
 	);
 	
 	public static ScaleOperationArgumentType operation()
@@ -59,7 +59,7 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandSource.suggestMatching(new String[] { "set", "add", "subtract", "multiply", "divide" }, builder);
+		return CommandSource.suggestMatching(new String[] { "set", "add", "subtract", "multiply", "divide", "power" }, builder);
 	}
 	
 	@Override
@@ -103,6 +103,11 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 					{
 						return i / j;
 					}
+				};
+			case "power":
+				return (i, j) ->
+				{
+					return (float) Math.pow(i, j);
 				};
 			default:
 				throw INVALID_OPERATION.create();
