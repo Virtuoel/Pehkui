@@ -3,6 +3,7 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -33,6 +34,17 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 	private float onTickMovementMinVelocityProxy(float velocity)
 	{
 		return velocity * ScaleUtils.getMotionScale((Entity) (Object) this);
+	}
+	
+	@Inject(method = "travel(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
+	private void onTravelModifyFlightSpeed(Vec3d movementInput, CallbackInfo info)
+	{
+		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			this.flyingSpeed *= scale;
+		}
 	}
 	
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))

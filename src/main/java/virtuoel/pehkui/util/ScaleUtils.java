@@ -340,6 +340,16 @@ public class ScaleUtils
 		return getConfigurableTypedScale(entity, ScaleType.MOTION, PehkuiConfig.COMMON.scaledMotion::get, tickDelta);
 	}
 	
+	public static float getFlightScale(Entity entity)
+	{
+		return getFlightScale(entity, 1.0F);
+	}
+	
+	public static float getFlightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.FLIGHT, tickDelta);
+	}
+	
 	public static float getBlockReachScale(Entity entity)
 	{
 		return getBlockReachScale(entity, 1.0F);
