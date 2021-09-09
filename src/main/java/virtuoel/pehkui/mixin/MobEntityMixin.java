@@ -11,7 +11,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin
 {
-	@ModifyConstant(method = "tryAttack(Lnet/minecraft/entity/Entity;)V", constant = @Constant(floatValue = 0.5F))
+	@ModifyConstant(method = "tryAttack(Lnet/minecraft/entity/Entity;)Z", constant = @Constant(floatValue = 0.5F))
 	private float onTryAttackModifyKnockback(float value)
 	{
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
