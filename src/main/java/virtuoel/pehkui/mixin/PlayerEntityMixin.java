@@ -86,14 +86,6 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = @Constant(doubleValue = 0.4000000059604645D))
-	private double onAttackModifyKnockback(double value)
-	{
-		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
-		
-		return scale != 1.0F ? scale * value : value;
-	}
-	
 	@Unique private static final ThreadLocal<Float> pehkui$WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
 	@Unique private static final ThreadLocal<Float> pehkui$HEIGHT_SCALE = ThreadLocal.withInitial(() -> 1.0F);
 	
