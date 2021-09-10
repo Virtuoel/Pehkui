@@ -20,10 +20,10 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 {
 	private static final Collection<String> EXAMPLES = Arrays.asList("set", "add", "subtract", "multiply", "divide");
 	private static final SimpleCommandExceptionType INVALID_OPERATION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.invalid")
+		new TranslatableText("arguments.operation.invalid", new Object[0])
 	);
 	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.div0")
+		new TranslatableText("arguments.operation.div0", new Object[0])
 	);
 	
 	public static ScaleOperationArgumentType operation()

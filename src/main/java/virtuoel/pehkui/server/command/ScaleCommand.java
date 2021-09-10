@@ -1,9 +1,9 @@
 package virtuoel.pehkui.server.command;
 
+import java.text.DecimalFormat;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
 
-import com.ibm.icu.text.DecimalFormat;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
