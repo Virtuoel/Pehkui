@@ -151,9 +151,6 @@ public class MixinConstants
 	public static final String RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
 	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
 	
-	// 1.15 Minus Client
-	public static final String RENDER_STATUS_BARS = METHOD_1760 + "()V";
-	
 	// 1.15 Client
 	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
 	public static final String RENDER_SHADOW_PART = METHOD_23163;
@@ -163,6 +160,9 @@ public class MixinConstants
 	
 	// 1.16 Minus
 	public static final String REMOVE = METHOD_5650; // COMMIT READY
+	
+	// 1.16 Minus Client
+	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT READY
 	
 	// 1.16.2 Plus
 	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT READY
