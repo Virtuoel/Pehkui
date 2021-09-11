@@ -137,6 +137,7 @@ public class ScaleData
 	 * @return Scale with modifiers applied
 	 */
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
 	{
 		for (final ScaleModifier m : modifiers)
