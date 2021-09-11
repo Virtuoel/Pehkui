@@ -11,6 +11,7 @@
 		"BlazeEntityShootFireballGoalMixin",
 		"BlockEntityUseDistanceMixin",
 		"BoatEntityMixin",
+		"CrossbowItemMixin",
 		"EnderChestBlockEntityMixin",
 		"EnderCrystalEntityMixin",
 		"EntityMixin",

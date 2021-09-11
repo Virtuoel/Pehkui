@@ -27,6 +27,7 @@ public class MixinTargetClasses
 			"net.minecraft.class_2680", // BlockState
 			"net.minecraft.class_1690", // BoatEntity
 			"net.minecraft.class_2589", // BrewingStandBlockEntity
+			"net.minecraft.class_1764", // CrossbowItem
 			"net.minecraft.class_1670", // DragonFireballEntity
 			"net.minecraft.class_1681", // EggEntity
 			"net.minecraft.class_1511", // EndCrystalEntity
