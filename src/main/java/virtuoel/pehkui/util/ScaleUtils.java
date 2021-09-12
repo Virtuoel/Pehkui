@@ -221,7 +221,6 @@ public class ScaleUtils
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
-		entity.world.getProfiler().push("syncScales");
 		final int id = entity.getId();
 		final PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer()).writeVarInt(id);
 
@@ -262,7 +261,6 @@ public class ScaleUtils
 		packetByteBuf.writerIndex(index);
 
 		packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, packetByteBuf));
-		entity.world.getProfiler().pop();
 	}
 	
 	public static float getEyeHeightScale(Entity entity)
