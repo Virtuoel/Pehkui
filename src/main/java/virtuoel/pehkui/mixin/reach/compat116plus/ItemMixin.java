@@ -18,7 +18,7 @@ public class ItemMixin
 	@Redirect(method = "raycast", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;getValue()D"))
 	private static double raycastModifyMultiplier(EntityAttributeInstance reach, World world, PlayerEntity player, RaycastContext.FluidHandling fluidHandling)
 	{
-		final float scale = ScaleUtils.getReachScale(player);
+		final float scale = ScaleUtils.getBlockReachScale(player);
 		
 		if (scale != 1.0F)
 		{

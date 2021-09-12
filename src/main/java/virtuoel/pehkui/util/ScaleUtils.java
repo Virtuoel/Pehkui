@@ -332,14 +332,44 @@ public class ScaleUtils
 		return getConfigurableTypedScale(entity, ScaleType.MOTION, PehkuiConfig.COMMON.scaledMotion::get, tickDelta);
 	}
 	
-	public static float getReachScale(Entity entity)
+	public static float getFlightScale(Entity entity)
 	{
-		return getReachScale(entity, 1.0F);
+		return getFlightScale(entity, 1.0F);
 	}
 	
-	public static float getReachScale(Entity entity, float tickDelta)
+	public static float getFlightScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
+		return getTypedScale(entity, ScaleType.FLIGHT, tickDelta);
+	}
+	
+	public static float getBlockReachScale(Entity entity)
+	{
+		return getBlockReachScale(entity, 1.0F);
+	}
+	
+	public static float getBlockReachScale(Entity entity, float tickDelta)
+	{
+		return getConfigurableTypedScale(entity, ScaleType.BLOCK_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
+	}
+	
+	public static float getEntityReachScale(Entity entity)
+	{
+		return getEntityReachScale(entity, 1.0F);
+	}
+	
+	public static float getEntityReachScale(Entity entity, float tickDelta)
+	{
+		return getConfigurableTypedScale(entity, ScaleType.ENTITY_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
+	}
+	
+	public static float getKnockbackScale(Entity entity)
+	{
+		return getKnockbackScale(entity, 1.0F);
+	}
+	
+	public static float getKnockbackScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleType.KNOCKBACK, tickDelta);
 	}
 	
 	public static float getAttackScale(Entity entity)

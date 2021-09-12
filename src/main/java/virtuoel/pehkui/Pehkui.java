@@ -53,7 +53,7 @@ public class Pehkui
 				
 				if (attribute != null)
 				{
-					final double scale = ScaleUtils.getReachScale(e) - 1.0D;
+					final double scale = ScaleUtils.getBlockReachScale(e) - 1.0D;
 					final EntityAttributeModifier modifier = attribute.getModifier(REACH_MODIFIER);
 					
 					if (modifier == null || Double.compare(scale, modifier.getValue()) != 0)

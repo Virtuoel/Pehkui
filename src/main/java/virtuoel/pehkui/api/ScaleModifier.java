@@ -11,6 +11,7 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	public static final ScaleModifier MOTION_DIVISOR = register("motion_divisor", new TypedScaleModifier(() -> ScaleType.MOTION, (m, t) -> m / t));
 	public static final ScaleModifier WIDTH_MULTIPLIER = register("width_multiplier", new TypedScaleModifier(() -> ScaleType.WIDTH));
 	public static final ScaleModifier HEIGHT_MULTIPLIER = register("height_multiplier", new TypedScaleModifier(() -> ScaleType.HEIGHT));
+	public static final ScaleModifier REACH_MULTIPLIER = register("reach_multiplier", new TypedScaleModifier(() -> ScaleType.REACH));
 	
 	private final float priority;
 	

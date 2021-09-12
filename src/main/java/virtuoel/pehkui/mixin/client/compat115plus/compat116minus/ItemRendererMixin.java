@@ -16,35 +16,32 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(ItemRenderer.class)
+@Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
 	@Inject(method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V", at = @At(value = "HEAD"))
 	private void onRenderItemPreRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
+		matrices.push();
+		
 		if (!item.isEmpty() && entity != null)
 		{
 			final float tickDelta = MinecraftClient.getInstance().getTickDelta();
 			final float scale = ScaleUtils.getHeldItemScale(entity, tickDelta);
 			
-			matrices.push();
-			
 			if (scale != 1.0F)
 			{
 				matrices.scale(scale, scale, scale);
 			}
-			
-			matrices.push();
 		}
+		
+		matrices.push();
 	}
 	
 	@Inject(method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V", at = @At(value = "RETURN"))
 	private void onRenderItemPostRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
-		if (!item.isEmpty() && entity != null)
-		{
-			matrices.pop();
-			matrices.pop();
-		}
+		matrices.pop();
+		matrices.pop();
 	}
 }

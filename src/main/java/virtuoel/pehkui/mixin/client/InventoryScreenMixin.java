@@ -18,12 +18,12 @@ import virtuoel.pehkui.api.ScaleType;
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin
 {
-	@Unique private static final ThreadLocal<Map<ScaleType, ScaleData>> SCALES = ThreadLocal.withInitial(Object2ObjectLinkedOpenHashMap::new);
+	@Unique private static final ThreadLocal<Map<ScaleType, ScaleData>> pehkui$SCALES = ThreadLocal.withInitial(Object2ObjectLinkedOpenHashMap::new);
 	
 	@Inject(method = "drawEntity", at = @At(value = "HEAD"))
 	private static void onDrawEntityPre(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
 	{
-		final Map<ScaleType, ScaleData> scales = SCALES.get();
+		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
 		ScaleData data;
 		ScaleData cachedData;
@@ -39,7 +39,7 @@ public abstract class InventoryScreenMixin
 	@Inject(method = "drawEntity", at = @At(value = "RETURN"))
 	private static void onDrawEntityPost(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
 	{
-		final Map<ScaleType, ScaleData> scales = SCALES.get();
+		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
 		for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{

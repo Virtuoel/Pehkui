@@ -15,18 +15,18 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(HorseScreenHandler.class)
 public class HorseScreenHandlerMixin
 {
-	@Unique private static final ThreadLocal<Float> REACH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
+	@Unique private static final ThreadLocal<Float> pehkui$REACH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
 	
 	@Inject(method = "canUse", at = @At("HEAD"))
 	private void onCanUse(PlayerEntity player, CallbackInfoReturnable<Boolean> info)
 	{
-		REACH_SCALE.set(ScaleUtils.getReachScale(player));
+		pehkui$REACH_SCALE.set(ScaleUtils.getEntityReachScale(player));
 	}
 	
 	@ModifyConstant(method = "canUse", constant = @Constant(floatValue = 8.0F))
 	private float canUseModifyDistance(float value)
 	{
-		final float scale = REACH_SCALE.get();
+		final float scale = pehkui$REACH_SCALE.get();
 		
 		return scale != 1.0F ? scale * value : value;
 	}

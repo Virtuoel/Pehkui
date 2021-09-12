@@ -1,5 +1,6 @@
 package virtuoel.pehkui.server.command;
 
+import java.text.DecimalFormat;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class ScaleCommand
 									final ScaleData data = type.getScaleData(e);
 									final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 									
-									data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+									data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 								}
 								
 								return 1;
@@ -64,7 +65,7 @@ public class ScaleCommand
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 							final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 							
-							data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+							data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 							
 							return 1;
 						})
@@ -81,7 +82,7 @@ public class ScaleCommand
 								final ScaleData data = ScaleType.BASE.getScaleData(e);
 								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 								
-								data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+								data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 							}
 							
 							return 1;
@@ -94,7 +95,7 @@ public class ScaleCommand
 						final ScaleData data = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow());
 						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 						
-						data.setTargetScale(operation.apply(data.getBaseScale(), scale));
+						data.setTargetScale(operation.apply(data.getTargetScale(), scale));
 						
 						return 1;
 					})
@@ -107,7 +108,7 @@ public class ScaleCommand
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
-							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 							
 							return 1;
 						})
@@ -116,7 +117,7 @@ public class ScaleCommand
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
-						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						
 						return 1;
 					})
@@ -125,14 +126,14 @@ public class ScaleCommand
 					.executes(context ->
 					{
 						final float scale = ScaleType.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
-						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						return 1;
 					})
 				)
 				.executes(context ->
 				{
 					final float scale = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
-					context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+					context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 					
 					return 1;
 				})
@@ -144,7 +145,7 @@ public class ScaleCommand
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScale();
-							context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 							
 							return 1;
 						})
@@ -153,7 +154,7 @@ public class ScaleCommand
 					{
 						final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getScale();
-						context.getSource().sendFeedback(new LiteralText("Scale: " + scale), false);
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						
 						return 1;
 					})
@@ -507,7 +508,7 @@ public class ScaleCommand
 							{
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 								final Boolean persist = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getPersistence();
-								context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.isPersistent() + ")" : persist)), false);
+								context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")" : persist)), false);
 								return 1;
 							})
 						)
@@ -515,7 +516,7 @@ public class ScaleCommand
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final Boolean persist = type.getScaleData(context.getSource().getEntityOrThrow()).getPersistence();
-							context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.isPersistent() + ")"  : persist)), false);
+							context.getSource().sendFeedback(new LiteralText("Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")"  : persist)), false);
 							return 1;
 						})
 					)
@@ -576,5 +577,18 @@ public class ScaleCommand
 				)
 			)
 		);
+	}
+	
+	private static final DecimalFormat SCALE_FORMAT;
+	
+	static
+	{
+		SCALE_FORMAT = new DecimalFormat("0");
+		SCALE_FORMAT.setMaximumFractionDigits(340);
+	}
+	
+	private static String format(float scale)
+	{
+		return SCALE_FORMAT.format(scale);
 	}
 }

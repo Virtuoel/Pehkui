@@ -1,13 +1,17 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -19,11 +23,14 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin
 {
+	@Shadow float flyingSpeed;
+	
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
 	private EntityDimensions onGetEyeHeightDimensionsProxy(EntityDimensions dimensions)
 	{
@@ -60,12 +67,38 @@ public abstract class LivingEntityMixin extends EntityMixin
 		}
 	}
 	
-	@ModifyConstant(method = "tickMovement", constant = @Constant(doubleValue = 0.003D))
-	private double tickMovementModifyMinVelocity(double value)
+	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
+	private void tickMovementModifyMinVelocity(CallbackInfo info, Vec3d velocity)
 	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		final LivingEntity self = (LivingEntity) (Object) this;
 		
-		return scale < 1.0F ? scale * value : value;
+		final float scale = ScaleUtils.getMotionScale(self);
+		
+		if (scale < 1.0F)
+		{
+			final double min = scale * MulticonnectCompatibility.INSTANCE.getProtocolVersion() <= 47 ? 0.005D : 0.003D;
+			
+			double vX = velocity.x;
+			double vY = velocity.y;
+			double vZ = velocity.z;
+			
+			if (Math.abs(vX) < min)
+			{
+				vX = 0.0D;
+			}
+			
+			if (Math.abs(vY) < min)
+			{
+				vY = 0.0D;
+			}
+			
+			if (Math.abs(vZ) < min)
+			{
+				vZ = 0.0D;
+			}
+			
+			self.setVelocity(vX, vY, vZ);
+		}
 	}
 	
 	@ModifyVariable(method = "applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F", at = @At("HEAD"), argsOnly = true)

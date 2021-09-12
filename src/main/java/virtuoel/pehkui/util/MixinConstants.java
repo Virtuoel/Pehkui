@@ -40,7 +40,6 @@ public class MixinConstants
 	private static final String METHOD_5874 = "method_5874";
 	private static final String METHOD_7872 = "method_7872";
 	private static final String METHOD_6194 = "method_6194";
-	private static final String METHOD_1760 = "method_1760";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
 	
@@ -136,9 +135,6 @@ public class MixinConstants
 	// 1.15 Minus Reach
 	public static final String RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
 	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
-	
-	// 1.15 Minus Client
-	public static final String RENDER_STATUS_BARS = METHOD_1760 + "()V";
 	
 	// 1.15 Client
 	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";

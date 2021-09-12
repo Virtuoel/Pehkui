@@ -59,7 +59,7 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandSource.suggestMatching(new String[] { "set", "add", "subtract", "multiply", "divide" }, builder);
+		return CommandSource.suggestMatching(new String[] { "set", "add", "subtract", "multiply", "divide", "power" }, builder);
 	}
 	
 	@Override
@@ -103,6 +103,11 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 					{
 						return i / j;
 					}
+				};
+			case "power":
+				return (i, j) ->
+				{
+					return (float) Math.pow(i, j);
 				};
 			default:
 				throw INVALID_OPERATION.create();

@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.ToDoubleBiFunction;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
@@ -29,7 +31,11 @@ public class ScaleType
 	public static final ScaleType FALLING = register("falling", ScaleModifier.MOTION_DIVISOR);
 	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifier.MOTION_MULTIPLIER);
 	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifier.MOTION_MULTIPLIER);
+	public static final ScaleType FLIGHT = register("flight");
 	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
+	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifier.REACH_MULTIPLIER);
+	public static final ScaleType ENTITY_REACH = register("entity_reach", ScaleModifier.REACH_MULTIPLIER);
+	public static final ScaleType KNOCKBACK = register("knockback");
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");
 	public static final ScaleType HEALTH = register("health");
@@ -48,7 +54,7 @@ public class ScaleType
 		this.defaultBaseValueModifiers = builder.defaultBaseValueModifiers;
 		this.baseScaleClampFunction = builder.baseScaleClampFunction;
 		this.targetScaleClampFunction = builder.targetScaleClampFunction;
-		this.persistent = builder.persistent;
+		this.defaultPersistence = builder.defaultPersistence;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
@@ -56,11 +62,23 @@ public class ScaleType
 		return ((PehkuiEntityExtensions) entity).pehkui_getScaleData(this);
 	}
 	
-	private boolean persistent;
+	private boolean defaultPersistence;
 	
+	public void setDefaultPersistence(boolean persistent)
+	{
+		this.defaultPersistence = persistent;
+	}
+	
+	public boolean getDefaultPersistence()
+	{
+		return defaultPersistence;
+	}
+	
+	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 	public boolean isPersistent()
 	{
-		return persistent;
+		return getDefaultPersistence();
 	}
 	
 	private float defaultBaseScale;
@@ -145,7 +163,7 @@ public class ScaleType
 		};
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
-		private boolean persistent = false;
+		private boolean defaultPersistence = false;
 		
 		public static Builder create()
 		{
@@ -199,15 +217,23 @@ public class ScaleType
 			return this;
 		}
 		
+		public Builder defaultPersistence(boolean defaultPersistence)
+		{
+			this.defaultPersistence = defaultPersistence;
+			return this;
+		}
+		
 		public Builder affectsDimensions()
 		{
 			this.affectsDimensions = true;
 			return this;
 		}
 		
+		@Deprecated
+		@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 		public Builder persistent()
 		{
-			this.persistent  = true;
+			this.defaultPersistence = true;
 			return this;
 		}
 		

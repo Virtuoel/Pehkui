@@ -139,6 +139,7 @@ public class ScaleData
 	 * @return Scale with modifiers applied
 	 */
 	@Deprecated
+	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
 	{
 		for (final ScaleModifier m : modifiers)
@@ -242,9 +243,13 @@ public class ScaleData
 	{
 		targetScale = (float) getScaleType().clampTargetScale(this, targetScale);
 		
-		this.initialScale = getBaseScale();
+		final float lastTarget = getTargetScale();
+		final int remaining = Math.round(getScaleTickDelay() * ((lastTarget - getBaseScale()) / (lastTarget - getInitialScale())));
+		
+		this.initialScale = lastTarget;
 		this.targetScale = targetScale;
-		this.scaleTicks = 0;
+		this.scaleTicks = remaining;
+		
 		markForSync(true);
 	}
 	
@@ -308,7 +313,8 @@ public class ScaleData
 	
 	public boolean shouldPersist()
 	{
-		return persistent == null ? getScaleType().isPersistent() : persistent;
+		final Boolean persist = getPersistence();
+		return persist == null ? getScaleType().getDefaultPersistence() : persist;
 	}
 	
 	public void markForSync(boolean sync)

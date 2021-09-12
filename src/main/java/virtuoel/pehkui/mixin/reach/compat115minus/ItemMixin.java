@@ -19,7 +19,7 @@ public class ItemMixin
 	@Redirect(method = MixinConstants.RAYCAST, at = @At(value = "INVOKE", target = MixinConstants.GET_VALUE, remap = false), remap = false)
 	private static double raycastModifyMultiplier(EntityAttributeInstance reach, World world, PlayerEntity player, RaycastContext.FluidHandling fluidHandling)
 	{
-		final float scale = ScaleUtils.getReachScale(player);
+		final float scale = ScaleUtils.getBlockReachScale(player);
 		
 		if (scale != 1.0F)
 		{

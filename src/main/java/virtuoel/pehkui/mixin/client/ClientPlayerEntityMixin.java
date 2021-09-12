@@ -18,4 +18,12 @@ public class ClientPlayerEntityMixin
 		
 		return scale < 1.0F ? scale * scale * value : value;
 	}
+	
+	@ModifyConstant(method = "tickMovement", constant = @Constant(floatValue = 3.0F))
+	private float onAttackModifyKnockback(float value)
+	{
+		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
+	}
 }
