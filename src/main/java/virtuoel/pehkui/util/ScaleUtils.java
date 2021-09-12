@@ -247,20 +247,17 @@ public class ScaleUtils
 			}
 		}
 
-		if(count == 0) {
-			entity.world.getProfiler().pop();
-			return;
+		if(count != 0) {
+			// Update count
+			int index = packetByteBuf.writerIndex();
+
+			packetByteBuf.writerIndex(countHead);
+			packetByteBuf.writeByte(count);
+
+			packetByteBuf.writerIndex(index);
+
+			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, packetByteBuf));
 		}
-
-		// Update count
-		int index = packetByteBuf.writerIndex();
-
-		packetByteBuf.writerIndex(countHead);
-		packetByteBuf.writeByte(count);
-
-		packetByteBuf.writerIndex(index);
-
-		packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, packetByteBuf));
 	}
 	
 	public static float getEyeHeightScale(Entity entity)
