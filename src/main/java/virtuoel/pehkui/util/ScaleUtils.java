@@ -6,7 +6,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import net.minecraft.util.profiler.Profiler;
 import org.jetbrains.annotations.Nullable;
 
 import io.netty.buffer.Unpooled;
@@ -222,13 +221,12 @@ public class ScaleUtils
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
 		final int id = entity.getId();
-		final PacketByteBuf packetByteBuf = new PacketByteBuf(Unpooled.buffer()).writeVarInt(id);
-
-		// Write count.
-		int countHead = packetByteBuf.writerIndex();
-		packetByteBuf.writeByte(0);
-		byte count = 0;
-
+		final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer()).writeVarInt(id);
+		
+		int qty = 0;
+		final int qtyIndex = buffer.writerIndex();
+		buffer.writeInt(qty);
+		
 		ScaleData scaleData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
@@ -236,27 +234,25 @@ public class ScaleUtils
 			
 			if (condition.test(scaleData))
 			{
-				packetByteBuf.writeIdentifier(entry.getKey());
-				scaleData.toPacket(packetByteBuf);
-				count++;
-
+				scaleData.toPacket(buffer.writeIdentifier(entry.getKey()));
+				qty++;
+				
 				if (unmark)
 				{
 					scaleData.markForSync(false);
 				}
 			}
 		}
-
-		if(count != 0) {
-			// Update count
-			int index = packetByteBuf.writerIndex();
-
-			packetByteBuf.writerIndex(countHead);
-			packetByteBuf.writeByte(count);
-
-			packetByteBuf.writerIndex(index);
-
-			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, packetByteBuf));
+		
+		if (qty != 0)
+		{
+			final int index = buffer.writerIndex();
+			
+			buffer.writerIndex(qtyIndex);
+			buffer.writeInt(qty);
+			buffer.writerIndex(index);
+			
+			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
 		}
 	}
 	
