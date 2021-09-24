@@ -18,6 +18,7 @@ import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
@@ -79,7 +80,7 @@ public class ScaleCommand
 							
 							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 							{
-								final ScaleData data = ScaleType.BASE.getScaleData(e);
+								final ScaleData data = ScaleTypes.BASE.getScaleData(e);
 								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 								
 								data.setTargetScale(operation.apply(data.getTargetScale(), scale));
@@ -92,7 +93,7 @@ public class ScaleCommand
 					{
 						final float scale = FloatArgumentType.getFloat(context, "value");
 						
-						final ScaleData data = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow());
+						final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
 						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 						
 						data.setTargetScale(operation.apply(data.getTargetScale(), scale));
@@ -125,14 +126,14 @@ public class ScaleCommand
 				.then(CommandManager.argument("entity", EntityArgumentType.entity())
 					.executes(context ->
 					{
-						final float scale = ScaleType.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
+						final float scale = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						return 1;
 					})
 				)
 				.executes(context ->
 				{
-					final float scale = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
+					final float scale = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
 					context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 					
 					return 1;
@@ -381,7 +382,7 @@ public class ScaleCommand
 								
 								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 								{
-									final ScaleData data = ScaleType.BASE.getScaleData(e);
+									final ScaleData data = ScaleTypes.BASE.getScaleData(e);
 									
 									data.setScaleTickDelay(ticks);
 								}
@@ -393,7 +394,7 @@ public class ScaleCommand
 						{
 							final int ticks = IntegerArgumentType.getInteger(context, "ticks");
 							
-							final ScaleData data = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow());
+							final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
 							
 							data.setScaleTickDelay(ticks);
 							
@@ -423,14 +424,14 @@ public class ScaleCommand
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
 						.executes(context ->
 						{
-							final int ticks = ScaleType.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
+							final int ticks = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScaleTickDelay();
 							context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
 							return 1;
 						})
 					)
 					.executes(context ->
 					{
-						final int ticks = ScaleType.BASE.getScaleData(context.getSource().getEntityOrThrow()).getScaleTickDelay();
+						final int ticks = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getScaleTickDelay();
 						context.getSource().sendFeedback(new LiteralText("Delay: " + ticks + " ticks"), false);
 						return 1;
 					})

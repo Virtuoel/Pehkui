@@ -11,40 +11,11 @@ import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
-import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleType
 {
-	public static final ScaleType INVALID = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES));
-	public static final ScaleType BASE = registerBaseScale("base");
-	public static final ScaleType WIDTH = registerDimensionScale("width", ScaleModifier.BASE_MULTIPLIER, ScaleModifier.WIDTH_MULTIPLIER);
-	public static final ScaleType HEIGHT = registerDimensionScale("height", ScaleModifier.BASE_MULTIPLIER, ScaleModifier.HEIGHT_MULTIPLIER);
-	public static final ScaleType EYE_HEIGHT = registerDimensionScale("eye_height", ScaleModifier.HEIGHT_MULTIPLIER);
-	public static final ScaleType HITBOX_WIDTH = registerDimensionScale("hitbox_width", ScaleModifier.WIDTH_MULTIPLIER);
-	public static final ScaleType HITBOX_HEIGHT = registerDimensionScale("hitbox_height", ScaleModifier.HEIGHT_MULTIPLIER);
-	public static final ScaleType MODEL_WIDTH = register("model_width", ScaleModifier.WIDTH_MULTIPLIER);
-	public static final ScaleType MODEL_HEIGHT = register("model_height", ScaleModifier.HEIGHT_MULTIPLIER);
-	public static final ScaleType THIRD_PERSON = register("third_person", ScaleModifier.HEIGHT_MULTIPLIER);
-	public static final ScaleType MOTION = register("motion", ScaleModifier.BASE_MULTIPLIER, ScaleModifier.MOTION_MULTIPLIER, ScaleModifier.MOTION_DIVISOR);
-	public static final ScaleType FALLING = register("falling", ScaleModifier.MOTION_DIVISOR);
-	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifier.MOTION_MULTIPLIER);
-	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifier.MOTION_MULTIPLIER);
-	public static final ScaleType FLIGHT = register("flight");
-	public static final ScaleType REACH = register("reach", ScaleModifier.BASE_MULTIPLIER);
-	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifier.REACH_MULTIPLIER);
-	public static final ScaleType ENTITY_REACH = register("entity_reach", ScaleModifier.REACH_MULTIPLIER);
-	public static final ScaleType KNOCKBACK = register("knockback");
-	public static final ScaleType ATTACK = register("attack");
-	public static final ScaleType DEFENSE = register("defense");
-	public static final ScaleType HEALTH = register("health");
-	public static final ScaleType DROPS = register("drops", ScaleModifier.BASE_MULTIPLIER);
-	public static final ScaleType HELD_ITEM = register("held_item");
-	public static final ScaleType PROJECTILES = register("projectiles", ScaleModifier.BASE_MULTIPLIER);
-	public static final ScaleType EXPLOSIONS = register("explosions", ScaleModifier.BASE_MULTIPLIER);
-	
 	/**
 	 * @see {@link ScaleType.Builder}
 	 */
@@ -338,60 +309,56 @@ public class ScaleType
 		);
 	}
 	
-	private static ScaleType register(Identifier id, Builder builder)
-	{
-		return ScaleRegistries.register(
-			ScaleRegistries.SCALE_TYPES,
-			id,
-			builder.build()
-		);
-	}
-	
-	private static ScaleType register(Identifier id)
-	{
-		final Builder builder = Builder.create();
-		
-		return register(id, builder);
-	}
-	
-	private static ScaleType register(String path)
-	{
-		return register(Pehkui.id(path));
-	}
-	
-	private static ScaleType register(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
-	{
-		final Builder builder = Builder.create()
-			.addBaseValueModifier(valueModifier);
-		
-		for (ScaleModifier scaleModifier : dependantModifiers)
-		{
-			builder.addDependentModifier(scaleModifier);
-		}
-		
-		return register(Pehkui.id(path), builder);
-	}
-	
-	private static ScaleType registerBaseScale(String path)
-	{
-		final Builder builder = Builder.create()
-			.affectsDimensions()
-			.addDependentModifier(ScaleModifier.BASE_MULTIPLIER);
-		
-		return register(Pehkui.id(path), builder);
-	}
-	
-	private static ScaleType registerDimensionScale(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
-	{
-		final Builder builder = Builder.create()
-			.affectsDimensions()
-			.addBaseValueModifier(valueModifier);
-		
-		for (ScaleModifier scaleModifier : dependantModifiers)
-		{
-			builder.addDependentModifier(scaleModifier);
-		}
-		
-		return register(Pehkui.id(path), builder);
-	}
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType INVALID = ScaleTypes.INVALID;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType BASE = ScaleTypes.BASE;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType WIDTH = ScaleTypes.WIDTH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType HEIGHT = ScaleTypes.HEIGHT;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType EYE_HEIGHT = ScaleTypes.EYE_HEIGHT;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType HITBOX_WIDTH = ScaleTypes.HITBOX_WIDTH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType HITBOX_HEIGHT = ScaleTypes.HITBOX_HEIGHT;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType MODEL_WIDTH = ScaleTypes.MODEL_WIDTH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType MODEL_HEIGHT = ScaleTypes.MODEL_HEIGHT;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType THIRD_PERSON = ScaleTypes.THIRD_PERSON;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType MOTION = ScaleTypes.MOTION;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType FALLING = ScaleTypes.FALLING;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType STEP_HEIGHT = ScaleTypes.STEP_HEIGHT;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType VIEW_BOBBING = ScaleTypes.VIEW_BOBBING;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType FLIGHT = ScaleTypes.FLIGHT;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType REACH = ScaleTypes.REACH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType BLOCK_REACH = ScaleTypes.BLOCK_REACH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType ENTITY_REACH = ScaleTypes.ENTITY_REACH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType KNOCKBACK = ScaleTypes.KNOCKBACK;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType ATTACK = ScaleTypes.ATTACK;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType DEFENSE = ScaleTypes.DEFENSE;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType HEALTH = ScaleTypes.HEALTH;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType DROPS = ScaleTypes.DROPS;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType HELD_ITEM = ScaleTypes.HELD_ITEM;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType PROJECTILES = ScaleTypes.PROJECTILES;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleType EXPLOSIONS = ScaleTypes.EXPLOSIONS;
 }

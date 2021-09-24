@@ -1,18 +1,9 @@
 package virtuoel.pehkui.api;
 
-import net.minecraft.util.Identifier;
-import virtuoel.pehkui.Pehkui;
+import org.jetbrains.annotations.ApiStatus;
 
 public class ScaleModifier implements Comparable<ScaleModifier>
 {
-	public static final ScaleModifier IDENTITY = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_MODIFIERS));
-	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new TypedScaleModifier(() -> ScaleType.BASE));
-	public static final ScaleModifier MOTION_MULTIPLIER = register("motion_multiplier", new TypedScaleModifier(() -> ScaleType.MOTION));
-	public static final ScaleModifier MOTION_DIVISOR = register("motion_divisor", new TypedScaleModifier(() -> ScaleType.MOTION, (m, t) -> m / t));
-	public static final ScaleModifier WIDTH_MULTIPLIER = register("width_multiplier", new TypedScaleModifier(() -> ScaleType.WIDTH));
-	public static final ScaleModifier HEIGHT_MULTIPLIER = register("height_multiplier", new TypedScaleModifier(() -> ScaleType.HEIGHT));
-	public static final ScaleModifier REACH_MULTIPLIER = register("reach_multiplier", new TypedScaleModifier(() -> ScaleType.REACH));
-	
 	private final float priority;
 	
 	public ScaleModifier()
@@ -58,22 +49,18 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 		return modifiedScale;
 	}
 	
-	private static ScaleModifier register(String path, ScaleModifier scaleModifier)
-	{
-		return register(Pehkui.id(path), scaleModifier);
-	}
-	
-	private static ScaleModifier register(Identifier id, ScaleModifier scaleModifier)
-	{
-		return ScaleRegistries.register(
-			ScaleRegistries.SCALE_MODIFIERS,
-			id,
-			scaleModifier
-		);
-	}
-	
-	private static ScaleModifier register(Identifier id)
-	{
-		return register(id, new ScaleModifier());
-	}
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier IDENTITY = ScaleModifiers.IDENTITY;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier BASE_MULTIPLIER = ScaleModifiers.BASE_MULTIPLIER;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier MOTION_MULTIPLIER = ScaleModifiers.MOTION_MULTIPLIER;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier MOTION_DIVISOR = ScaleModifiers.MOTION_DIVISOR;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier WIDTH_MULTIPLIER = ScaleModifiers.WIDTH_MULTIPLIER;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier HEIGHT_MULTIPLIER = ScaleModifiers.HEIGHT_MULTIPLIER;
+	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+	public static final ScaleModifier REACH_MULTIPLIER = ScaleModifiers.REACH_MULTIPLIER;
 }
