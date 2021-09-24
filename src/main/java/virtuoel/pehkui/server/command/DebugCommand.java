@@ -26,11 +26,11 @@ import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MixinTargetClasses;
@@ -163,7 +163,7 @@ public class DebugCommand
 		
 		BlockPos.Mutable mut = start.mutableCopy();
 		
-		ServerWorld w = player.getServerWorld();
+		World w = player.getEntityWorld();
 		
 		for (EntityType<?> t : TYPES)
 		{
