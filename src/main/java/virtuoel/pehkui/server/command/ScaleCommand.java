@@ -9,6 +9,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
@@ -33,12 +34,28 @@ public class ScaleCommand
 	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
-		commandDispatcher.register(
+		final LiteralArgumentBuilder<ServerCommandSource> builder =
 			CommandManager.literal("scale")
 			.requires(commandSource ->
 			{
 				return commandSource.hasPermissionLevel(2);
-			})
+			});
+		
+		registerOperation(builder);
+		registerRandomize(builder);
+		registerGet(builder);
+		registerCompute(builder);
+		registerReset(builder);
+		registerModifier(builder);
+		registerDelay(builder);
+		registerPersist(builder);
+		
+		commandDispatcher.register(builder);
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerOperation(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.argument("operation", ScaleOperationArgumentType.operation())
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("value", FloatArgumentType.floatArg())
@@ -102,7 +119,14 @@ public class ScaleCommand
 						return 1;
 					})
 				)
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerRandomize(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("randomize")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("min", FloatArgumentType.floatArg())
@@ -200,7 +224,14 @@ public class ScaleCommand
 						})
 					)
 				)
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerGet(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("get")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
@@ -237,7 +268,14 @@ public class ScaleCommand
 					
 					return 1;
 				})
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerCompute(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("compute")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
@@ -259,7 +297,14 @@ public class ScaleCommand
 						return 1;
 					})
 				)
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerReset(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("reset")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("targets", EntityArgumentType.entities())
@@ -317,7 +362,14 @@ public class ScaleCommand
 					
 					return 1;
 				})
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerModifier(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("modifier")
 				.then(CommandManager.literal("get")
 					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
@@ -439,7 +491,14 @@ public class ScaleCommand
 						})
 					)
 				)
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerDelay(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("delay")
 				.then(CommandManager.literal("set")
 					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
@@ -535,7 +594,14 @@ public class ScaleCommand
 						return 1;
 					})
 				)
-			)
+			);
+		
+		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerPersist(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
 			.then(CommandManager.literal("persist")
 				.then(CommandManager.literal("set")
 					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
@@ -675,8 +741,9 @@ public class ScaleCommand
 						return 1;
 					})
 				)
-			)
-		);
+			);
+		
+		return builder;
 	}
 	
 	private static final Random RANDOM = new Random();
