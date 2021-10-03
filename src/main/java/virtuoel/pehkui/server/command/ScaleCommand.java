@@ -1,6 +1,7 @@
 package virtuoel.pehkui.server.command;
 
 import java.text.DecimalFormat;
+import java.util.Random;
 import java.util.SortedSet;
 import java.util.stream.Collectors;
 
@@ -100,6 +101,104 @@ public class ScaleCommand
 						
 						return 1;
 					})
+				)
+			)
+			.then(CommandManager.literal("randomize")
+				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+					.then(CommandManager.argument("min", FloatArgumentType.floatArg())
+						.then(CommandManager.argument("max", FloatArgumentType.floatArg())
+							.then(CommandManager.argument("targets", EntityArgumentType.entities())
+								.executes(context ->
+								{
+									float min = FloatArgumentType.getFloat(context, "min");
+									float max = FloatArgumentType.getFloat(context, "max");
+									
+									if (max < min)
+									{
+										final float temp = min;
+										min = max;
+										max = temp;
+									}
+									
+									final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+									
+									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+									{
+										final ScaleData data = type.getScaleData(e);
+										
+										data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+									}
+									
+									return 1;
+								})
+							)
+							.executes(context ->
+							{
+								float min = FloatArgumentType.getFloat(context, "min");
+								float max = FloatArgumentType.getFloat(context, "max");
+								
+								if (max < min)
+								{
+									final float temp = min;
+									min = max;
+									max = temp;
+								}
+								
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								
+								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+								
+								data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+								
+								return 1;
+							})
+						)
+					)
+				)
+				.then(CommandManager.argument("min", FloatArgumentType.floatArg())
+					.then(CommandManager.argument("max", FloatArgumentType.floatArg())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								float min = FloatArgumentType.getFloat(context, "min");
+								float max = FloatArgumentType.getFloat(context, "max");
+								
+								if (max < min)
+								{
+									final float temp = min;
+									min = max;
+									max = temp;
+								}
+								
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleData data = ScaleTypes.BASE.getScaleData(e);
+									
+									data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+								}
+								
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							float min = FloatArgumentType.getFloat(context, "min");
+							float max = FloatArgumentType.getFloat(context, "max");
+							
+							if (max < min)
+							{
+								final float temp = min;
+								min = max;
+								max = temp;
+							}
+							
+							final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
+							
+							data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+							
+							return 1;
+						})
+					)
 				)
 			)
 			.then(CommandManager.literal("get")
@@ -579,6 +678,8 @@ public class ScaleCommand
 			)
 		);
 	}
+	
+	private static final Random RANDOM = new Random();
 	
 	private static final DecimalFormat SCALE_FORMAT;
 	
