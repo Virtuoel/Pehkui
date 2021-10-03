@@ -47,7 +47,9 @@ if(project.hasProperty("forge_version")) {
 	version += "-forge"
 	
 	loom {
-		mixinConfig "${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.mixins.json"
+		forge {
+			mixinConfig "${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.mixins.json"
+		}
 	}
 }
 
