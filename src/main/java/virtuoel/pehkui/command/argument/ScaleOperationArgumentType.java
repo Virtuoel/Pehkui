@@ -2,7 +2,6 @@ package virtuoel.pehkui.command.argument;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 import com.mojang.brigadier.StringReader;
@@ -19,7 +18,7 @@ import net.minecraft.text.TranslatableText;
 
 public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationArgumentType.Operation>
 {
-	private static final String[] SUGGESTIONS = new String[] { "set", "add", "subtract", "multiply", "divide", "power", "randomize" };
+	private static final String[] SUGGESTIONS = new String[] { "set", "add", "subtract", "multiply", "divide", "power" };
 	
 	private static final Collection<String> EXAMPLES = Arrays.asList(SUGGESTIONS);
 	private static final SimpleCommandExceptionType INVALID_OPERATION = new SimpleCommandExceptionType(
@@ -28,8 +27,6 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = new SimpleCommandExceptionType(
 		new TranslatableText("arguments.operation.div0", new Object[0])
 	);
-	
-	private static final Random RANDOM = new Random();
 	
 	public static ScaleOperationArgumentType operation()
 	{
@@ -113,28 +110,6 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 				return (i, j) ->
 				{
 					return (float) Math.pow(i, j);
-				};
-			case "randomize":
-				return (i, j) ->
-				{
-					if (j == 0)
-					{
-						throw DIVISION_ZERO_EXCEPTION.create();
-					}
-					else
-					{
-						float min = i / j;
-						float max = i * j;
-						
-						if (max < min)
-						{
-							final float temp = min;
-							min = max;
-							max = temp;
-						}
-						
-						return min + (RANDOM.nextFloat() * (max - min));
-					}
 				};
 			default:
 				throw INVALID_OPERATION.create();
