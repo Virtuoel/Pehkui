@@ -182,7 +182,7 @@ public class PehkuiConfig
 				{
 					type = entry.getValue();
 					
-					if (type == ScaleType.INVALID)
+					if (type == ScaleTypes.INVALID)
 					{
 						continue;
 					}

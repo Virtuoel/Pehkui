@@ -11,6 +11,7 @@ import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.mixin.EntitySelectorOptionsInvoker;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
@@ -38,7 +39,7 @@ public class PehkuiEntitySelectorOptions
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("scale_type").toString().replace(':', '.'),
 			r -> cast(r).pehkui_setScaleType(parseScaleType(r)),
-			r -> cast(r).pehkui_getScaleType() == ScaleType.INVALID,
+			r -> cast(r).pehkui_getScaleType() == ScaleTypes.INVALID,
 			SCALE_TYPE_DESCRIPTION
 		);
 		
@@ -52,7 +53,7 @@ public class PehkuiEntitySelectorOptions
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("computed_scale_type").toString().replace(':', '.'),
 			r -> cast(r).pehkui_setComputedScaleType(parseScaleType(r)),
-			r -> cast(r).pehkui_getComputedScaleType() == ScaleType.INVALID,
+			r -> cast(r).pehkui_getComputedScaleType() == ScaleTypes.INVALID,
 			SCALE_TYPE_DESCRIPTION
 		);
 	}

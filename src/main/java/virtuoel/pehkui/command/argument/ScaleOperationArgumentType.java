@@ -18,7 +18,9 @@ import net.minecraft.text.TranslatableText;
 
 public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationArgumentType.Operation>
 {
-	private static final Collection<String> EXAMPLES = Arrays.asList("set", "add", "subtract", "multiply", "divide");
+	private static final String[] SUGGESTIONS = new String[] { "set", "add", "subtract", "multiply", "divide", "power" };
+	
+	private static final Collection<String> EXAMPLES = Arrays.asList(SUGGESTIONS);
 	private static final SimpleCommandExceptionType INVALID_OPERATION = new SimpleCommandExceptionType(
 		new TranslatableText("arguments.operation.invalid", new Object[0])
 	);
@@ -59,7 +61,7 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandSource.suggestMatching(new String[] { "set", "add", "subtract", "multiply", "divide", "power" }, builder);
+		return CommandSource.suggestMatching(SUGGESTIONS, builder);
 	}
 	
 	@Override

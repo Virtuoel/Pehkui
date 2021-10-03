@@ -20,7 +20,7 @@ public class ClientPlayerEntityMixin
 	}
 	
 	@ModifyConstant(method = "tickMovement", constant = @Constant(floatValue = 3.0F))
-	private float onAttackModifyKnockback(float value)
+	private float onTickMovementModifyFlightSpeed(float value)
 	{
 		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
 		

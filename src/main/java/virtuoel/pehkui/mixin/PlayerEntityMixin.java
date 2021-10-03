@@ -36,7 +36,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		return velocity * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
-	@Inject(method = "travel(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
+	@Inject(method = "travel(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", ordinal = 0, shift = Shift.BEFORE, target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
 	private void onTravelModifyFlightSpeed(Vec3d movementInput, CallbackInfo info)
 	{
 		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);

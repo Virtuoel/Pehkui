@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "net.minecraft.entity.mob.EvokerEntity$SummonVexGoal")
 public class SummonVexGoalMixin
 {
-	@Shadow @Final EvokerEntity field_7267; // UNMAPPED_FIELD
+	@Shadow @Final EvokerEntity field_7267;
 	
 	@ModifyArg(method = MixinConstants.CAST_SPELL, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
 	private Entity castSpellSpawnEntityProxy(Entity vexEntity)

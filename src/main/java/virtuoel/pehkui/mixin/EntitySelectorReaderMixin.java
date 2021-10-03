@@ -13,6 +13,7 @@ import net.minecraft.command.EntitySelectorReader;
 import net.minecraft.entity.Entity;
 import net.minecraft.predicate.NumberRange;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
 
 @Mixin(EntitySelectorReader.class)
@@ -26,22 +27,22 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 	@Unique
 	NumberRange.FloatRange pehkui$computedScaleRange = NumberRange.FloatRange.ANY;
 	@Unique
-	ScaleType pehkui$scaleType = ScaleType.INVALID;
+	ScaleType pehkui$scaleType = ScaleTypes.INVALID;
 	@Unique
-	ScaleType pehkui$computedScaleType = ScaleType.INVALID;
+	ScaleType pehkui$computedScaleType = ScaleTypes.INVALID;
 	
 	@Inject(method = "buildPredicate", at = @At("HEAD"))
 	private void onBuildPredicate(CallbackInfo info)
 	{
 		if (!this.pehkui$scaleRange.isDummy())
 		{
-			final ScaleType scaleType = this.pehkui$scaleType == ScaleType.INVALID ? ScaleType.BASE : this.pehkui$scaleType;
+			final ScaleType scaleType = this.pehkui$scaleType == ScaleTypes.INVALID ? ScaleTypes.BASE : this.pehkui$scaleType;
 			setPredicate(e -> this.pehkui$scaleRange.test(scaleType.getScaleData(e).getBaseScale()));
 		}
 		
 		if (!this.pehkui$computedScaleRange.isDummy())
 		{
-			final ScaleType scaleType = this.pehkui$computedScaleType == ScaleType.INVALID ? ScaleType.BASE : this.pehkui$computedScaleType;
+			final ScaleType scaleType = this.pehkui$computedScaleType == ScaleTypes.INVALID ? ScaleTypes.BASE : this.pehkui$computedScaleType;
 			setPredicate(e -> this.pehkui$computedScaleRange.test(scaleType.getScaleData(e).getScale()));
 		}
 	}

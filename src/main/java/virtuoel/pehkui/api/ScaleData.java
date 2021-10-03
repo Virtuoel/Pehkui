@@ -646,7 +646,7 @@ public class ScaleData
 	public static class Builder
 	{
 		private Entity entity = null;
-		private ScaleType type = ScaleType.INVALID;
+		private ScaleType type = ScaleTypes.INVALID;
 		
 		public static Builder create()
 		{
@@ -660,7 +660,7 @@ public class ScaleData
 		
 		public Builder type(ScaleType type)
 		{
-			this.type = type == null ? ScaleType.INVALID : type;
+			this.type = type == null ? ScaleTypes.INVALID : type;
 			return this;
 		}
 		

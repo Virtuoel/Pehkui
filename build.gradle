@@ -1,5 +1,5 @@
 plugins {
-	id "dev.architectury.loom" version "0.9.0-SNAPSHOT"
+	id "dev.architectury.loom" version "0.10.+"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"
@@ -47,12 +47,16 @@ if(project.hasProperty("forge_version")) {
 	version += "-forge"
 	
 	loom {
-		mixinConfig "${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.mixins.json"
+		forge {
+			mixinConfig "${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.mixins.json"
+		}
 	}
 }
 
-minecraft {
-	refmapName = "${archives_base_name}-refmap.json"
+loom {
+	mixin {
+		defaultRefmapName = "${archives_base_name}-refmap.json"
+	}
 }
 
 if(project.hasProperty("loader_version")) {

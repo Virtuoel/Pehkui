@@ -17,8 +17,8 @@ public class ScaleRegistries
 	private static final Map<Identifier, Supplier<?>> DEFAULT_ENTRIES = new LinkedHashMap<>();
 	private static final Map<Identifier, Identifier> DEFAULT_IDS = new LinkedHashMap<>();
 	
-	public static final BiMap<Identifier, ScaleType> SCALE_TYPES = create("scale_types", "invalid", () -> ScaleType.INVALID);
-	public static final BiMap<Identifier, ScaleModifier> SCALE_MODIFIERS = create("scale_modifiers", "identity", () -> ScaleModifier.IDENTITY);
+	public static final BiMap<Identifier, ScaleType> SCALE_TYPES = create("scale_types", "invalid", () -> ScaleTypes.INVALID);
+	public static final BiMap<Identifier, ScaleModifier> SCALE_MODIFIERS = create("scale_modifiers", "identity", () -> ScaleModifiers.IDENTITY);
 	
 	public static <E> E register(Map<Identifier, E> registry, Identifier id, E entry)
 	{

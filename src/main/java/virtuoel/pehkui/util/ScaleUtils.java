@@ -20,6 +20,7 @@ import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.network.ScalePacket;
 
@@ -162,7 +163,7 @@ public class ScaleUtils
 	{
 		if (scale != 1.0F)
 		{
-			ScaleType.BASE.getScaleData(entity).setScale(scale);
+			ScaleTypes.BASE.getScaleData(entity).setScale(scale);
 		}
 		
 		return scale;
@@ -244,12 +245,12 @@ public class ScaleUtils
 	
 	public static float getEyeHeightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.EYE_HEIGHT, tickDelta);
+		return getTypedScale(entity, ScaleTypes.EYE_HEIGHT, tickDelta);
 	}
 	
 	public static float getThirdPersonScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.THIRD_PERSON, tickDelta);
+		return getTypedScale(entity, ScaleTypes.THIRD_PERSON, tickDelta);
 	}
 	
 	public static float getModelWidthScale(Entity entity)
@@ -259,7 +260,7 @@ public class ScaleUtils
 	
 	public static float getModelWidthScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.MODEL_WIDTH, tickDelta);
+		return getTypedScale(entity, ScaleTypes.MODEL_WIDTH, tickDelta);
 	}
 	
 	public static float getModelHeightScale(Entity entity)
@@ -269,7 +270,7 @@ public class ScaleUtils
 	
 	public static float getModelHeightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.MODEL_HEIGHT, tickDelta);
+		return getTypedScale(entity, ScaleTypes.MODEL_HEIGHT, tickDelta);
 	}
 	
 	public static float getBoundingBoxWidthScale(Entity entity)
@@ -279,7 +280,7 @@ public class ScaleUtils
 	
 	public static float getBoundingBoxWidthScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.HITBOX_WIDTH, tickDelta);
+		return getTypedScale(entity, ScaleTypes.HITBOX_WIDTH, tickDelta);
 	}
 	
 	public static float getBoundingBoxHeightScale(Entity entity)
@@ -289,7 +290,7 @@ public class ScaleUtils
 	
 	public static float getBoundingBoxHeightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.HITBOX_HEIGHT, tickDelta);
+		return getTypedScale(entity, ScaleTypes.HITBOX_HEIGHT, tickDelta);
 	}
 	
 	public static float getFallingScale(Entity entity)
@@ -299,7 +300,7 @@ public class ScaleUtils
 	
 	public static float getFallingScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.FALLING, tickDelta);
+		return getTypedScale(entity, ScaleTypes.FALLING, tickDelta);
 	}
 	
 	public static float getStepHeightScale(Entity entity)
@@ -309,7 +310,7 @@ public class ScaleUtils
 	
 	public static float getStepHeightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.STEP_HEIGHT, tickDelta);
+		return getTypedScale(entity, ScaleTypes.STEP_HEIGHT, tickDelta);
 	}
 	
 	public static float getViewBobbingScale(Entity entity)
@@ -319,7 +320,7 @@ public class ScaleUtils
 	
 	public static float getViewBobbingScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.VIEW_BOBBING, tickDelta);
+		return getTypedScale(entity, ScaleTypes.VIEW_BOBBING, tickDelta);
 	}
 	
 	public static float getMotionScale(Entity entity)
@@ -329,7 +330,7 @@ public class ScaleUtils
 	
 	public static float getMotionScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.MOTION, PehkuiConfig.COMMON.scaledMotion::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.MOTION, PehkuiConfig.COMMON.scaledMotion::get, tickDelta);
 	}
 	
 	public static float getFlightScale(Entity entity)
@@ -339,7 +340,7 @@ public class ScaleUtils
 	
 	public static float getFlightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.FLIGHT, tickDelta);
+		return getTypedScale(entity, ScaleTypes.FLIGHT, tickDelta);
 	}
 	
 	public static float getBlockReachScale(Entity entity)
@@ -349,7 +350,7 @@ public class ScaleUtils
 	
 	public static float getBlockReachScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.BLOCK_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.BLOCK_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
 	}
 	
 	public static float getEntityReachScale(Entity entity)
@@ -359,7 +360,7 @@ public class ScaleUtils
 	
 	public static float getEntityReachScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.ENTITY_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.ENTITY_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
 	}
 	
 	public static float getKnockbackScale(Entity entity)
@@ -369,7 +370,7 @@ public class ScaleUtils
 	
 	public static float getKnockbackScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleType.KNOCKBACK, tickDelta);
+		return getTypedScale(entity, ScaleTypes.KNOCKBACK, tickDelta);
 	}
 	
 	public static float getAttackScale(Entity entity)
@@ -379,7 +380,7 @@ public class ScaleUtils
 	
 	public static float getAttackScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.ATTACK, PehkuiConfig.COMMON.scaledAttack::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.ATTACK, PehkuiConfig.COMMON.scaledAttack::get, tickDelta);
 	}
 	
 	public static float getDefenseScale(Entity entity)
@@ -389,7 +390,7 @@ public class ScaleUtils
 	
 	public static float getDefenseScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.DEFENSE, PehkuiConfig.COMMON.scaledDefense::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.DEFENSE, PehkuiConfig.COMMON.scaledDefense::get, tickDelta);
 	}
 	
 	public static float getHealthScale(Entity entity)
@@ -399,7 +400,7 @@ public class ScaleUtils
 	
 	public static float getHealthScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.HEALTH, PehkuiConfig.COMMON.scaledHealth::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.HEALTH, PehkuiConfig.COMMON.scaledHealth::get, tickDelta);
 	}
 	
 	public static float getDropScale(Entity entity)
@@ -409,7 +410,7 @@ public class ScaleUtils
 	
 	public static float getDropScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.DROPS, PehkuiConfig.COMMON.scaledItemDrops::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.DROPS, PehkuiConfig.COMMON.scaledItemDrops::get, tickDelta);
 	}
 	
 	public static float getHeldItemScale(Entity entity)
@@ -419,7 +420,7 @@ public class ScaleUtils
 	
 	public static float getHeldItemScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.HELD_ITEM, Boolean.TRUE::booleanValue, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.HELD_ITEM, Boolean.TRUE::booleanValue, tickDelta);
 	}
 	
 	public static float getProjectileScale(Entity entity)
@@ -429,7 +430,7 @@ public class ScaleUtils
 	
 	public static float getProjectileScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.PROJECTILES, PehkuiConfig.COMMON.scaledProjectiles::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.PROJECTILES, PehkuiConfig.COMMON.scaledProjectiles::get, tickDelta);
 	}
 	
 	public static float getExplosionScale(Entity entity)
@@ -439,7 +440,7 @@ public class ScaleUtils
 	
 	public static float getExplosionScale(Entity entity, float tickDelta)
 	{
-		return getConfigurableTypedScale(entity, ScaleType.EXPLOSIONS, PehkuiConfig.COMMON.scaledExplosions::get, tickDelta);
+		return getConfigurableTypedScale(entity, ScaleTypes.EXPLOSIONS, PehkuiConfig.COMMON.scaledExplosions::get, tickDelta);
 	}
 	
 	public static float getConfigurableTypedScale(Entity entity, ScaleType type, Supplier<Boolean> config, float tickDelta)
