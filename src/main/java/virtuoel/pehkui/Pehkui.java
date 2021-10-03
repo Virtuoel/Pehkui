@@ -9,7 +9,6 @@ import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
@@ -27,7 +26,6 @@ public class Pehkui implements ModInitializer
 	
 	public Pehkui()
 	{
-		ScaleType.INVALID.getClass();
 		ScaleTypes.INVALID.getClass();
 		PehkuiConfig.BUILDER.config.get();
 	}

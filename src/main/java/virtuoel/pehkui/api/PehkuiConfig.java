@@ -32,8 +32,6 @@ public class PehkuiConfig
 		
 		public final Supplier<Boolean> accurateNetherPortals;
 		
-		@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-		public final Supplier<Double> largeScaleCollisionThreshold = () -> (double) ScaleUtils.DEFAULT_MAXIMUM_POSITIVE_SCALE;
 		public final Supplier<Boolean> enableCommands;
 		public final Supplier<Boolean> enableDebugCommands;
 		

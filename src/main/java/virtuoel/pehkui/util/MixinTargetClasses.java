@@ -9,7 +9,6 @@ public class MixinTargetClasses
 			"com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes",
 			"dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain",
 			"draylar.identity.cca.IdentityComponent",
-			"virtuoel.pehkui.api.ScaleType$Builder",
 		};
 		
 		public static final String[] INTERMEDIARY_CLASSES =

@@ -1,7 +1,5 @@
 package virtuoel.pehkui.api;
 
-import org.jetbrains.annotations.ApiStatus;
-
 public class ScaleModifier implements Comparable<ScaleModifier>
 {
 	private final float priority;
@@ -48,19 +46,4 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	{
 		return modifiedScale;
 	}
-	
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier IDENTITY = ScaleModifiers.IDENTITY;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier BASE_MULTIPLIER = ScaleModifiers.BASE_MULTIPLIER;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier MOTION_MULTIPLIER = ScaleModifiers.MOTION_MULTIPLIER;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier MOTION_DIVISOR = ScaleModifiers.MOTION_DIVISOR;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier WIDTH_MULTIPLIER = ScaleModifiers.WIDTH_MULTIPLIER;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier HEIGHT_MULTIPLIER = ScaleModifiers.HEIGHT_MULTIPLIER;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleModifier REACH_MULTIPLIER = ScaleModifiers.REACH_MULTIPLIER;
 }

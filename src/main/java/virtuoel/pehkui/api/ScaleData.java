@@ -1,7 +1,6 @@
 package virtuoel.pehkui.api;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
@@ -22,14 +21,6 @@ import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
 public class ScaleData
 {
-	/**
-	 * @see {@link ScaleData#isReset()}
-	 * @see {@link ScaleData#resetScale()}
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleData IDENTITY = Builder.create().buildImmutable(1.0F);
-	
 	private float baseScale;
 	private float prevBaseScale;
 	private float initialScale;
@@ -127,26 +118,6 @@ public class ScaleData
 	public SortedSet<ScaleModifier> getBaseValueModifiers()
 	{
 		return baseValueModifiers;
-	}
-	
-	/**
-	 * Returns the given scale value with modifiers applied from the given collection.
-	 * 
-	 * @param value The scale value to be modified.
-	 * @param modifiers A sorted collection of scale modifiers to apply to the given value.
-	 * @param delta Tick delta for use with rendering. Use 1.0F if no delta is available.
-	 * @return Scale with modifiers applied
-	 */
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	protected float computeScale(float value, Collection<ScaleModifier> modifiers, float delta)
-	{
-		for (final ScaleModifier m : modifiers)
-		{
-			value = m.modifyScale(this, value, delta);
-		}
-		
-		return value;
 	}
 	
 	/**
@@ -680,106 +651,11 @@ public class ScaleData
 			return this;
 		}
 		
-		@Deprecated
-		@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-		public ImmutableScaleData buildImmutable(float value)
-		{
-			return new ImmutableScaleData(value, type, entity);
-		}
-		
 		public ScaleData build()
 		{
 			final ScaleData existing = entity == null ? null : type.getScaleData(entity);
 			
 			return existing != null ? existing : new ScaleData(type, entity);
-		}
-	}
-	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static class ImmutableScaleData extends ScaleData
-	{
-		protected ImmutableScaleData(float scale, ScaleType scaleType, @Nullable Entity entity)
-		{
-			super(scaleType, entity);
-		}
-		
-		@Override
-		public void tick()
-		{
-			
-		}
-		
-		@Override
-		public float getScale(float delta)
-		{
-			return getBaseScale(delta);
-		}
-		
-		@Override
-		public void setBaseScale(float scale)
-		{
-			
-		}
-		
-		@Override
-		public float getPrevScale()
-		{
-			return getPrevBaseScale();
-		}
-		
-		@Override
-		public void setTargetScale(float targetScale)
-		{
-			
-		}
-		
-		@Override
-		public void setScaleTickDelay(int ticks)
-		{
-			
-		}
-		
-		@Override
-		public void markForSync(boolean sync)
-		{
-			
-		}
-		
-		@Override
-		public void onUpdate()
-		{
-			
-		}
-		
-		@Override
-		public void readNbt(NbtCompound tag)
-		{
-			
-		}
-		
-		@Override
-		public ScaleData resetScale(boolean notifyListener)
-		{
-			return this;
-		}
-		
-		@Override
-		public void setPersistence(Boolean persistent)
-		{
-			
-		}
-		
-		@Override
-		public boolean isReset()
-		{
-			return true;
-		}
-		
-		@Override
-		public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
-		{
-			return this;
 		}
 	}
 }
