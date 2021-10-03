@@ -9,6 +9,8 @@ import java.util.Locale;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import org.spongepowered.asm.mixin.MixinEnvironment;
+
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -190,7 +192,7 @@ public class DebugCommand
 	
 	public static enum DebugPacketType
 	{
-		MIXIN_CLASSLOAD_TESTS,
+		MIXIN_AUDIT,
 		GARBAGE_COLLECT
 		;
 	}
@@ -216,9 +218,13 @@ public class DebugCommand
 		context.getSource().getPlayer().networkHandler.sendPacket(
 			new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
 				new PacketByteBuf(Unpooled.buffer())
-				.writeEnumConstant(DebugPacketType.MIXIN_CLASSLOAD_TESTS)
+				.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
 			)
 		);
+		
+		context.getSource().sendFeedback(new LiteralText("Starting Mixin environment audit..."), false);
+		MixinEnvironment.getCurrentEnvironment().audit();
+		context.getSource().sendFeedback(new LiteralText("Mixin environment audit complete!"), false);
 		
 		return 1;
 	}

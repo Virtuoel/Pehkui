@@ -1,10 +1,13 @@
 package virtuoel.pehkui;
 
+import org.spongepowered.asm.mixin.MixinEnvironment;
+
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.server.command.DebugCommand;
@@ -61,7 +64,7 @@ public class PehkuiClient implements ClientModInitializer
 				{
 					switch (type)
 					{
-						case MIXIN_CLASSLOAD_TESTS:
+						case MIXIN_AUDIT:
 							DebugCommand.runMixinClassloadTests(
 								t -> client.player.sendMessage(t, false),
 								true,
@@ -77,6 +80,11 @@ public class PehkuiClient implements ClientModInitializer
 								MixinTargetClasses.Common.INTERMEDIARY_CLASSES,
 								MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 							);
+							
+							client.player.sendMessage(new LiteralText("Starting Mixin environment audit (client)..."), false);
+							MixinEnvironment.getCurrentEnvironment().audit();
+							client.player.sendMessage(new LiteralText("Mixin environment audit (client) complete!"), false);
+							
 							break;
 						case GARBAGE_COLLECT:
 							System.gc();
