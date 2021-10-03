@@ -129,99 +129,73 @@ public class ScaleCommand
 		builder
 			.then(CommandManager.literal("randomize")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
-					.then(CommandManager.argument("min", FloatArgumentType.floatArg())
-						.then(CommandManager.argument("max", FloatArgumentType.floatArg())
-							.then(CommandManager.argument("targets", EntityArgumentType.entities())
-								.executes(context ->
-								{
-									float min = FloatArgumentType.getFloat(context, "min");
-									float max = FloatArgumentType.getFloat(context, "max");
-									
-									if (max < min)
+					.then(CommandManager.argument("minOperation", ScaleOperationArgumentType.operation())
+						.then(CommandManager.argument("minValue", FloatArgumentType.floatArg())
+							.then(CommandManager.argument("maxOperation", ScaleOperationArgumentType.operation())
+								.then(CommandManager.argument("maxValue", FloatArgumentType.floatArg())
+									.then(CommandManager.argument("targets", EntityArgumentType.entities())
+										.executes(context ->
+										{
+											final float minValue = FloatArgumentType.getFloat(context, "minValue");
+											final float maxValue = FloatArgumentType.getFloat(context, "maxValue");
+											
+											final ScaleOperationArgumentType.Operation minOperation = ScaleOperationArgumentType.getOperation(context, "minOperation");
+											final ScaleOperationArgumentType.Operation maxOperation = ScaleOperationArgumentType.getOperation(context, "maxOperation");
+											
+											final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+											
+											float min, max, target;
+											for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+											{
+												final ScaleData data = type.getScaleData(e);
+												
+												target = data.getTargetScale();
+												min = minOperation.apply(target, minValue);
+												max = maxOperation.apply(target, maxValue);
+												
+												if (max < min)
+												{
+													final float temp = min;
+													min = max;
+													max = temp;
+												}
+												
+												data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+											}
+											
+											return 1;
+										})
+									)
+									.executes(context ->
 									{
-										final float temp = min;
-										min = max;
-										max = temp;
-									}
-									
-									final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-									
-									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
-									{
-										final ScaleData data = type.getScaleData(e);
+										final float minValue = FloatArgumentType.getFloat(context, "minValue");
+										final float maxValue = FloatArgumentType.getFloat(context, "maxValue");
+										
+										final ScaleOperationArgumentType.Operation minOperation = ScaleOperationArgumentType.getOperation(context, "minOperation");
+										final ScaleOperationArgumentType.Operation maxOperation = ScaleOperationArgumentType.getOperation(context, "maxOperation");
+										
+										final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+										
+										final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+										
+										final float target = data.getTargetScale();
+										float min = minOperation.apply(target, minValue);
+										float max = maxOperation.apply(target, maxValue);
+										
+										if (max < min)
+										{
+											final float temp = min;
+											min = max;
+											max = temp;
+										}
 										
 										data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
-									}
-									
-									return 1;
-								})
+										
+										return 1;
+									})
+								)
 							)
-							.executes(context ->
-							{
-								float min = FloatArgumentType.getFloat(context, "min");
-								float max = FloatArgumentType.getFloat(context, "max");
-								
-								if (max < min)
-								{
-									final float temp = min;
-									min = max;
-									max = temp;
-								}
-								
-								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-								
-								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
-								
-								data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
-								
-								return 1;
-							})
 						)
-					)
-				)
-				.then(CommandManager.argument("min", FloatArgumentType.floatArg())
-					.then(CommandManager.argument("max", FloatArgumentType.floatArg())
-						.then(CommandManager.argument("targets", EntityArgumentType.entities())
-							.executes(context ->
-							{
-								float min = FloatArgumentType.getFloat(context, "min");
-								float max = FloatArgumentType.getFloat(context, "max");
-								
-								if (max < min)
-								{
-									final float temp = min;
-									min = max;
-									max = temp;
-								}
-								
-								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
-								{
-									final ScaleData data = ScaleTypes.BASE.getScaleData(e);
-									
-									data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
-								}
-								
-								return 1;
-							})
-						)
-						.executes(context ->
-						{
-							float min = FloatArgumentType.getFloat(context, "min");
-							float max = FloatArgumentType.getFloat(context, "max");
-							
-							if (max < min)
-							{
-								final float temp = min;
-								min = max;
-								max = temp;
-							}
-							
-							final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
-							
-							data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
-							
-							return 1;
-						})
 					)
 				)
 			);
