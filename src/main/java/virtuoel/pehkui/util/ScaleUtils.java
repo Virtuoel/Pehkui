@@ -222,6 +222,11 @@ public class ScaleUtils
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
 		final int id = entity.getId();
+		final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer()).writeVarInt(id);
+		
+		int qty = 0;
+		final int qtyIndex = buffer.writerIndex();
+		buffer.writeInt(qty);
 		
 		ScaleData scaleData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
@@ -230,19 +235,25 @@ public class ScaleUtils
 			
 			if (condition.test(scaleData))
 			{
-				packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET,
-					scaleData.toPacket(
-						new PacketByteBuf(Unpooled.buffer())
-						.writeVarInt(id)
-						.writeIdentifier(entry.getKey())
-					)
-				));
+				scaleData.toPacket(buffer.writeIdentifier(entry.getKey()));
+				qty++;
 				
 				if (unmark)
 				{
 					scaleData.markForSync(false);
 				}
 			}
+		}
+		
+		if (qty != 0)
+		{
+			final int index = buffer.writerIndex();
+			
+			buffer.writerIndex(qtyIndex);
+			buffer.writeInt(qty);
+			buffer.writerIndex(index);
+			
+			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
 		}
 	}
 	

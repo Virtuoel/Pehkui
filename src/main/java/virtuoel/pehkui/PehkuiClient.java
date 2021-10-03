@@ -25,24 +25,28 @@ public class PehkuiClient implements ClientModInitializer
 			ClientPlayNetworking.registerGlobalReceiver(Pehkui.SCALE_PACKET, (client, handler, buf, sender) ->
 			{
 				final int id = buf.readVarInt();
-				final Identifier typeId = buf.readIdentifier();
 				
-				final NbtCompound scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
-				
-				if (!ScaleRegistries.SCALE_TYPES.containsKey(typeId))
+				for (int i = buf.readInt(); i > 0; i--)
 				{
-					return;
-				}
-				
-				client.execute(() ->
-				{
-					final Entity e = client.world.getEntityById(id);
+					final Identifier typeId = buf.readIdentifier();
 					
-					if (e != null)
+					final NbtCompound scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
+					
+					if (!ScaleRegistries.SCALE_TYPES.containsKey(typeId))
 					{
-						ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, typeId).getScaleData(e).readNbt(scaleData);
+						continue;
 					}
-				});
+					
+					client.execute(() ->
+					{
+						final Entity e = client.world.getEntityById(id);
+						
+						if (e != null)
+						{
+							ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, typeId).getScaleData(e).readNbt(scaleData);
+						}
+					});
+				}
 			});
 			
 			ClientPlayNetworking.registerGlobalReceiver(Pehkui.DEBUG_PACKET, (client, handler, buf, sender) ->
