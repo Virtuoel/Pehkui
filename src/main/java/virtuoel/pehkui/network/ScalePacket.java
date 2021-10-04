@@ -1,5 +1,6 @@
 package virtuoel.pehkui.network;
 
+import java.util.Collection;
 import java.util.function.Supplier;
 
 import net.minecraft.client.MinecraftClient;
@@ -16,26 +17,41 @@ import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScalePacket
 {
-	final int id;
-	final Identifier typeId;
+	final int id, quantity;
+	final Identifier[] typeIds;
 	
-	NbtCompound nbt = null;
+	NbtCompound[] nbt = null;
 	
-	ScaleData scaleData = null;
+	ScaleData[] scaleData = null;
 	
-	public ScalePacket(ScaleData scaleData)
+	public ScalePacket(Entity entity, Collection<ScaleData> scales)
 	{
-		final Entity e = scaleData.getEntity();
-		this.id = e != null ? e.getEntityId() : -1;
-		this.typeId = ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, scaleData.getScaleType());
-		this.scaleData = scaleData;
+		this.id = entity.getEntityId();
+		this.quantity = scales.size();
+		
+		this.scaleData = scales.toArray(new ScaleData[quantity]);
+		this.typeIds = new Identifier[quantity];
+		
+		for (int i = 0; i < quantity; i++)
+		{
+			typeIds[i] = ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, scaleData[i].getScaleType());
+		}
 	}
 	
 	protected ScalePacket(PacketByteBuf buf)
 	{
-		id = buf.readVarInt();
-		typeId = buf.readIdentifier();
-		nbt = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
+		this.id = buf.readVarInt();
+		this.quantity = buf.readInt();
+		
+		this.typeIds = new Identifier[quantity];
+		this.nbt = new NbtCompound[quantity];
+		
+		for (int i = 0; i < quantity; i++)
+		{
+			this.typeIds[i] = buf.readIdentifier();
+			
+			this.nbt[i] = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
+		}
 	}
 	
 	public static void handle(ScalePacket msg, Supplier<NetworkEvent.Context> ctx)
@@ -44,27 +60,34 @@ public class ScalePacket
 		{
 			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
 			{
-				if (ScaleRegistries.SCALE_TYPES.containsKey(msg.typeId))
+				final MinecraftClient client = MinecraftClient.getInstance();
+				final Entity entity = client.world.getEntityById(msg.id);
+				
+				if (entity != null)
 				{
-					@SuppressWarnings("resource")
-					final Entity entity = MinecraftClient.getInstance().world.getEntityById(msg.id);
-					
-					if (entity != null)
+					for (int i = msg.quantity; i > 0; i--)
 					{
-						ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, msg.typeId).getScaleData(entity).readNbt(msg.nbt);
+						if (ScaleRegistries.SCALE_TYPES.containsKey(msg.typeIds[i]))
+						{
+							ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, msg.typeIds[i]).getScaleData(entity).readNbt(msg.nbt[i]);
+						}
 					}
 				}
 			});
 		});
 		
 		ctx.get().setPacketHandled(true);
-		
 	}
 	
 	public void encode(PacketByteBuf buf)
 	{
 		buf.writeVarInt(id);
-		buf.writeIdentifier(typeId);
-		scaleData.toPacket(buf);
+		buf.writeInt(quantity);
+		
+		for (int i = 0; i < quantity; i++)
+		{
+			buf.writeIdentifier(typeIds[i]);
+			scaleData[i].toPacket(buf);
+		}
 	}
 }

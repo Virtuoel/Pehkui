@@ -6,7 +6,7 @@ import virtuoel.pehkui.Pehkui;
 
 public class PehkuiPacketHandler
 {
-	private static final String PROTOCOL_VERSION = Integer.toString(1);
+	private static final String PROTOCOL_VERSION = Integer.toString(2);
 	public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
 		Pehkui.id("main"), () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals, PROTOCOL_VERSION::equals
 	);
@@ -15,5 +15,6 @@ public class PehkuiPacketHandler
 	{
 		int regId = 0;
 		INSTANCE.registerMessage(regId++, ScalePacket.class, ScalePacket::encode, ScalePacket::new, ScalePacket::handle);
+		INSTANCE.registerMessage(regId++, DebugPacket.class, DebugPacket::encode, DebugPacket::new, DebugPacket::handle);
 	}
 }

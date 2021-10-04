@@ -1,5 +1,7 @@
 package virtuoel.pehkui.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
@@ -219,8 +221,12 @@ public class ScaleUtils
 		return !scaleData.isReset();
 	}
 	
+	private static final ThreadLocal<Collection<ScaleData>> SYNCED_SCALE_DATA = ThreadLocal.withInitial(ArrayList::new);
+	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
+		final Collection<ScaleData> syncedScales = SYNCED_SCALE_DATA.get();
+		
 		ScaleData scaleData;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
@@ -228,13 +234,19 @@ public class ScaleUtils
 			
 			if (condition.test(scaleData))
 			{
-				packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(scaleData), NetworkDirection.PLAY_TO_CLIENT));
+				syncedScales.add(scaleData);
 				
 				if (unmark)
 				{
 					scaleData.markForSync(false);
 				}
 			}
+		}
+		
+		if (!syncedScales.isEmpty())
+		{
+			packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(entity, syncedScales), NetworkDirection.PLAY_TO_CLIENT));
+			syncedScales.clear();
 		}
 	}
 	

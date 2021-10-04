@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.spongepowered.asm.mixin.MixinEnvironment;
+
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
@@ -25,7 +27,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.loading.FMLLoader;
+import net.minecraftforge.fml.network.NetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.network.DebugPacket;
+import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
 
 public class DebugCommand
@@ -175,7 +180,13 @@ public class DebugCommand
 	
 	private static int runMixinTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
-		context.getSource().sendFeedback(new LiteralText("NYI"), false);
+		context.getSource().getPlayer().networkHandler.sendPacket(
+			PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), NetworkDirection.PLAY_TO_CLIENT)
+		);
+		
+		context.getSource().sendFeedback(new LiteralText("Starting Mixin environment audit..."), false);
+		MixinEnvironment.getCurrentEnvironment().audit();
+		context.getSource().sendFeedback(new LiteralText("Mixin environment audit complete!"), false);
 		
 		return 1;
 	}
