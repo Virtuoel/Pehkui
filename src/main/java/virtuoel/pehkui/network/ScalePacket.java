@@ -65,7 +65,7 @@ public class ScalePacket
 				
 				if (entity != null)
 				{
-					for (int i = msg.quantity; i > 0; i--)
+					for (int i = 0; i < msg.quantity; i++)
 					{
 						if (ScaleRegistries.SCALE_TYPES.containsKey(msg.typeIds[i]))
 						{
