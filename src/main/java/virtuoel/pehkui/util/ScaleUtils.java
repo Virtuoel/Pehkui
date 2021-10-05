@@ -1,5 +1,7 @@
 package virtuoel.pehkui.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
@@ -219,24 +221,20 @@ public class ScaleUtils
 		return !scaleData.isReset();
 	}
 	
+	private static final ThreadLocal<Collection<ScaleData>> SYNCED_SCALE_DATA = ThreadLocal.withInitial(ArrayList::new);
+	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
 	{
-		final int id = entity.getId();
-		final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer()).writeVarInt(id);
-		
-		int qty = 0;
-		final int qtyIndex = buffer.writerIndex();
-		buffer.writeInt(qty);
+		final Collection<ScaleData> syncedScales = SYNCED_SCALE_DATA.get();
 		
 		ScaleData scaleData;
-		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+		for (final Entry<ScaleType, ScaleData> entry : ((PehkuiEntityExtensions) entity).pehkui_getScales().entrySet())
 		{
-			scaleData = entry.getValue().getScaleData(entity);
+			scaleData = entry.getValue();
 			
 			if (condition.test(scaleData))
 			{
-				scaleData.toPacket(buffer.writeIdentifier(entry.getKey()));
-				qty++;
+				syncedScales.add(scaleData);
 				
 				if (unmark)
 				{
@@ -245,15 +243,21 @@ public class ScaleUtils
 			}
 		}
 		
-		if (qty != 0)
+		if (!syncedScales.isEmpty())
 		{
-			final int index = buffer.writerIndex();
+			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 			
-			buffer.writerIndex(qtyIndex);
-			buffer.writeInt(qty);
-			buffer.writerIndex(index);
+			buffer.writeVarInt(entity.getId());
+			buffer.writeInt(syncedScales.size());
+			
+			for (final ScaleData s : syncedScales)
+			{
+				buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, s.getScaleType()));
+				s.toPacket(buffer);
+			}
 			
 			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
+			syncedScales.clear();
 		}
 	}
 	

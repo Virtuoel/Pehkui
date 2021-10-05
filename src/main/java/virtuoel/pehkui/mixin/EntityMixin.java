@@ -63,6 +63,12 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return scaleData;
 	}
 	
+	@Override
+	public Map<ScaleType, ScaleData> pehkui_getScales()
+	{
+		return pehkui_scaleTypes;
+	}
+	
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
