@@ -209,13 +209,35 @@ public class ScaleCommand
 			.then(CommandManager.literal("get")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.then(CommandManager.argument("scalingFactor", FloatArgumentType.floatArg())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
+								final int scaled = (int) (scale * FloatArgumentType.getFloat(context, "scalingFactor"));
+								context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale) + " (" + scaled + ")"), false);
+								
+								return scaled;
+							})
+						)
 						.executes(context ->
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
 							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 							
-							return 1;
+							return (int) scale;
+						})
+					)
+					.then(CommandManager.argument("scalingFactor", FloatArgumentType.floatArg())
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
+							final int scaled = (int) (scale * FloatArgumentType.getFloat(context, "scalingFactor"));
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale) + " (" + scaled + ")"), false);
+							
+							return scaled;
 						})
 					)
 					.executes(context ->
@@ -224,15 +246,36 @@ public class ScaleCommand
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						
-						return 1;
+						return (int) scale;
+					})
+				)
+				.then(CommandManager.argument("scalingFactor", FloatArgumentType.floatArg())
+					.executes(context ->
+					{
+						final float scale = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
+						final int scaled = (int) (scale * FloatArgumentType.getFloat(context, "scalingFactor"));
+						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale) + " (" + scaled + ")"), false);
+						
+						return scaled;
 					})
 				)
 				.then(CommandManager.argument("entity", EntityArgumentType.entity())
+					.then(CommandManager.argument("scalingFactor", FloatArgumentType.floatArg())
+						.executes(context ->
+						{
+							final float scale = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
+							final int scaled = (int) (scale * FloatArgumentType.getFloat(context, "scalingFactor"));
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale) + " (" + scaled + ")"), false);
+							
+							return scaled;
+						})
+					)
 					.executes(context ->
 					{
 						final float scale = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getBaseScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
-						return 1;
+						
+						return (int) scale;
 					})
 				)
 				.executes(context ->
@@ -240,7 +283,7 @@ public class ScaleCommand
 					final float scale = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getBaseScale();
 					context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 					
-					return 1;
+					return (int) scale;
 				})
 			);
 		
@@ -253,13 +296,35 @@ public class ScaleCommand
 			.then(CommandManager.literal("compute")
 				.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.then(CommandManager.argument("scalingFactor", FloatArgumentType.floatArg())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScale();
+								final int scaled = (int) (scale * FloatArgumentType.getFloat(context, "scalingFactor"));
+								context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale) + " (" + scaled + ")"), false);
+								
+								return scaled;
+							})
+						)
 						.executes(context ->
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							final float scale = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getScale();
 							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 							
-							return 1;
+							return (int) scale;
+						})
+					)
+					.then(CommandManager.argument("scalingFactor", FloatArgumentType.floatArg())
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getScale();
+							final int scaled = (int) (scale * FloatArgumentType.getFloat(context, "scalingFactor"));
+							context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale) + " (" + scaled + ")"), false);
+							
+							return scaled;
 						})
 					)
 					.executes(context ->
@@ -268,7 +333,7 @@ public class ScaleCommand
 						final float scale = type.getScaleData(context.getSource().getEntityOrThrow()).getScale();
 						context.getSource().sendFeedback(new LiteralText("Scale: " + format(scale)), false);
 						
-						return 1;
+						return (int) scale;
 					})
 				)
 			);
