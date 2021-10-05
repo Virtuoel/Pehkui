@@ -228,9 +228,9 @@ public class ScaleUtils
 		final Collection<ScaleData> syncedScales = SYNCED_SCALE_DATA.get();
 		
 		ScaleData scaleData;
-		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+		for (final Entry<ScaleType, ScaleData> entry : ((PehkuiEntityExtensions) entity).pehkui_getScales().entrySet())
 		{
-			scaleData = entry.getValue().getScaleData(entity);
+			scaleData = entry.getValue();
 			
 			if (condition.test(scaleData))
 			{
