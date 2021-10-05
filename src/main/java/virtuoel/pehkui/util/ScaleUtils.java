@@ -3,6 +3,7 @@ package virtuoel.pehkui.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.Map.Entry;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -22,6 +23,7 @@ import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
@@ -67,6 +69,8 @@ public class ScaleUtils
 		
 		ScaleType type;
 		ScaleData sourceData;
+		ScaleData targetData;
+		SortedSet<ScaleModifier> targetModifiers;
 		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 		{
 			type = entry.getValue();
@@ -74,7 +78,12 @@ public class ScaleUtils
 			
 			if (sourceData.shouldPersist() || keptScales.contains(entry.getKey().toString()))
 			{
-				type.getScaleData(target).fromScale(sourceData);
+				targetData = type.getScaleData(target);
+				targetData.fromScale(sourceData);
+				
+				targetModifiers = targetData.getBaseValueModifiers();
+				targetModifiers.clear();
+				targetModifiers.addAll(sourceData.getBaseValueModifiers());
 			}
 		}
 	}
