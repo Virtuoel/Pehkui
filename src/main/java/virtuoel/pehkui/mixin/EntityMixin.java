@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -26,7 +27,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.Constants;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -72,7 +72,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
-		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", Constants.NBT.TAG_COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
+		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
 		{
 			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			
@@ -82,7 +82,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 			{
 				key = entry.getKey().toString();
 				
-				if (typeData.contains(key, Constants.NBT.TAG_COMPOUND))
+				if (typeData.contains(key, NbtType.COMPOUND))
 				{
 					scaleData = pehkui_getScaleData(entry.getValue());
 					scaleData.readNbt(typeData.getCompound(key));

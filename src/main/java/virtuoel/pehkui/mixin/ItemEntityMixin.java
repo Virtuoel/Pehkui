@@ -8,7 +8,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.util.math.Box;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = ItemEntity.class, priority = 1050)
+@Mixin(ItemEntity.class)
 public class ItemEntityMixin
 {
 	@ModifyArg(method = "tryMerge", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getEntitiesByClass(Ljava/lang/Class;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"))
