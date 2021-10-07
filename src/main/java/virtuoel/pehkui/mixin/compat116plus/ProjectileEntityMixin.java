@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ProjectileEntity.class)
 public abstract class ProjectileEntityMixin
 {
-	@ModifyArg(method = "shouldLeaveOwner", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"))
+	@ModifyArg(method = "method_26961", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"))
 	private Box shouldLeaveOwnerModifyExpand(Box value)
 	{
 		final float width = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);

@@ -1,0 +1,14 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+license="MIT"
+issueTrackerURL="https://github.com/Virtuoel/Pehkui/issues"
+[[mods]]
+modId="pehkui"
+version="${version}"
+displayName="Pehkui"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/pehkui/"
+logoFile="pehkui_icon.png"
+authors="Virtuoel"
+description='''
+Allows resizing of most entities.
+'''

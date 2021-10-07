@@ -11,6 +11,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public class EntityMixin
 {
+	/*
 	@ModifyArg(method = "fall", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"))
 	private float onFallModifyFallDistance(float distance)
 	{
@@ -26,4 +27,5 @@ public class EntityMixin
 		
 		return distance;
 	}
+	*/
 }

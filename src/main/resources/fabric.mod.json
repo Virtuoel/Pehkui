@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
 	"id": "pehkui",
-	"name": "Pehkui",
-	"version": "${version}",
-	"description": "Fabric mod that allows resizing of most entities.",
+	"name": "Pehkui (Forge Version)",
+	"version": "0.0.0+forge",
+	"description": "Forge version of Pehkui, but you are playing on a Fabric instance! Did you download the wrong mod .jar?",
 	"authors":
 	[
 		"Virtuoel"
@@ -21,26 +21,13 @@
 		"sources": "https://github.com/Virtuoel/Pehkui"
 	},
 	"license": "MIT",
-	"icon": "assets/pehkui/icon.png",
+	"icon": "pehkui_icon.png",
 	"environment": "*",
-	"depends":
-	{
-		"fabricloader": ">=0.11.6",
-		"fabric-api-base": "*"
-	},
 	"entrypoints":
 	{
 		"main":
 		[
-			"virtuoel.pehkui.Pehkui"
-		],
-		"client":
-		[
-			"virtuoel.pehkui.PehkuiClient"
+			"virtuoel.pehkui.util.FabricEntrypoint::onInitialize"
 		]
-	},
-	"mixins":
-	[
-		"pehkui.mixins.json"
-	]
+	}
 }

@@ -11,22 +11,22 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
-import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
-import virtuoel.pehkui.Pehkui;
+import net.minecraftforge.fml.network.NetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
+import virtuoel.pehkui.network.PehkuiPacketHandler;
+import virtuoel.pehkui.network.ScalePacket;
 
 public class ScaleUtils
 {
@@ -34,9 +34,9 @@ public class ScaleUtils
 	{
 		final ScaleType type = data.getScaleType();
 		
-		type.getPreTickEvent().invoker().onEvent(data);
+		type.getPreTickEvent().forEach(s -> s.onEvent(data));
 		data.tick();
-		type.getPostTickEvent().invoker().onEvent(data);
+		type.getPostTickEvent().forEach(s -> s.onEvent(data));
 	}
 	
 	public static void loadAverageScales(Entity target, Entity source, Entity... sources)
@@ -254,18 +254,7 @@ public class ScaleUtils
 		
 		if (!syncedScales.isEmpty())
 		{
-			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
-			
-			buffer.writeVarInt(entity.getId());
-			buffer.writeInt(syncedScales.size());
-			
-			for (final ScaleData s : syncedScales)
-			{
-				buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, s.getScaleType()));
-				s.toPacket(buffer);
-			}
-			
-			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
+			packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(entity, syncedScales), NetworkDirection.PLAY_TO_CLIENT));
 			syncedScales.clear();
 		}
 	}

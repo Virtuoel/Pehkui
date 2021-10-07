@@ -25,6 +25,7 @@ public abstract class EntityCalculateDimensionsMixin
 	{
 		final Entity self = (Entity) (Object) this;
 		
+		/* // TODO 1.17
 		if (self.world.isClient && self.getType() == EntityType.PLAYER && current.width > previous.width && !ScaleUtils.isAboveCollisionThreshold(self))
 		{
 			final Vec3d lastCenter = self.getPos().add(0.0D, previous.height / 2.0D, 0.0D);
@@ -34,5 +35,6 @@ public abstract class EntityCalculateDimensionsMixin
 			self.world.findClosestCollision(self, voxelShape, lastCenter, current.width, current.height, current.width)
 			.ifPresent(vec -> self.setPosition(vec.add(0.0D, (-current.height) / 2.0D, 0.0D)));
 		}
+		*/
 	}
 }
