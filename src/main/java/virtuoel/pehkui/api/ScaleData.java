@@ -547,13 +547,16 @@ public class ScaleData
 	
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
-		this.baseScale = scaleData.getBaseScale();
-		this.prevBaseScale = scaleData.getPrevBaseScale();
-		this.initialScale = scaleData.getInitialScale();
-		this.targetScale = scaleData.getTargetScale();
-		this.scaleTicks = scaleData.scaleTicks;
-		this.totalScaleTicks = scaleData.totalScaleTicks;
-		this.persistent = scaleData.getPersistence();
+		if (scaleData != this)
+		{
+			this.baseScale = scaleData.getBaseScale();
+			this.prevBaseScale = scaleData.getPrevBaseScale();
+			this.initialScale = scaleData.getInitialScale();
+			this.targetScale = scaleData.getTargetScale();
+			this.scaleTicks = scaleData.scaleTicks;
+			this.totalScaleTicks = scaleData.totalScaleTicks;
+			this.persistent = scaleData.getPersistence();
+		}
 		
 		if (notifyListener)
 		{
