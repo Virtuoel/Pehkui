@@ -4,7 +4,6 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
@@ -13,6 +12,7 @@ import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
 import virtuoel.pehkui.util.MixinTargetClasses;
+import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 public class PehkuiClient implements ClientModInitializer
@@ -20,7 +20,7 @@ public class PehkuiClient implements ClientModInitializer
 	@Override
 	public void onInitializeClient()
 	{
-		if (FabricLoader.getInstance().isModLoaded("fabric-networking-api-v1"))
+		if (ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
 		{
 			ClientPlayNetworking.registerGlobalReceiver(Pehkui.SCALE_PACKET, (client, handler, buf, sender) ->
 			{

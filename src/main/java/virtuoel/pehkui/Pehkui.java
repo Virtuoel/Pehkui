@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.util.Identifier;
@@ -17,6 +16,7 @@ import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.util.ModLoaderUtils;
 
 public class Pehkui implements ModInitializer
 {
@@ -33,7 +33,7 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		if (FabricLoader.getInstance().isModLoaded("fabric-command-api-v1"))
+		if (ModLoaderUtils.isModLoaded("fabric-command-api-v1"))
 		{
 			ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
 			ArgumentTypes.register(id("scale_modifier").toString(), ScaleModifierArgumentType.class, new ConstantArgumentSerializer<>(ScaleModifierArgumentType::scaleModifier));

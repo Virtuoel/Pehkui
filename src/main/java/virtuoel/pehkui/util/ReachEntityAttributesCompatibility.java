@@ -4,12 +4,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.LivingEntity;
 
 public class ReachEntityAttributesCompatibility
 {
-	public static final boolean LOADED = FabricLoader.getInstance().isModLoaded("reach-entity-attributes");
+	public static final boolean LOADED = ModLoaderUtils.isModLoaded("reach-entity-attributes");
 	
 	public static final ReachEntityAttributesCompatibility INSTANCE = new ReachEntityAttributesCompatibility();
 	
