@@ -43,7 +43,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		
 		if (scale != 1.0F)
 		{
-			((PlayerEntity) (Object) this).airStrafingSpeed *= scale;
+			((PlayerEntity) (Object) this).flyingSpeed *= scale;
 		}
 	}
 	
