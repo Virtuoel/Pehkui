@@ -7,7 +7,7 @@ import net.minecraft.SharedConstants;
 
 public class MulticonnectCompatibility
 {
-	private static final boolean MULTICONNECT_LOADED = false; // FabricLoader.getInstance().isModLoaded("multiconnect");
+	private static final boolean MULTICONNECT_LOADED = ModLoaderUtils.isModLoaded("multiconnect");
 	
 	public static final MulticonnectCompatibility INSTANCE = new MulticonnectCompatibility();
 	

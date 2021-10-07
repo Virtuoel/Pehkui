@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 
 public class IdentityCompatibility
 {
-	private static final boolean IDENTITY_LOADED = false; // FabricLoader.getInstance().isModLoaded("identity");
+	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
 	
 	public static final IdentityCompatibility INSTANCE = new IdentityCompatibility();
 	

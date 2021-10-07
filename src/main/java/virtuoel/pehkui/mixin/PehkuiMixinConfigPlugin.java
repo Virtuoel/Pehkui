@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
 public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
@@ -30,11 +31,11 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		return null;
 	}
 	
-	private static final boolean REACH_ATTRIBUTES_LOADED = false; // FabricLoader.getInstance().isModLoaded("reach-entity-attributes");
-	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = false; // FabricLoader.getInstance().isModLoaded("step-height-entity-attribute");
-	private static final boolean IDENTITY_LOADED = false; // FabricLoader.getInstance().isModLoaded("identity");
-	private static final boolean OPTIFABRIC_LOADED = false; // FabricLoader.getInstance().isModLoaded("optifabric");
-	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true; // FabricLoader.getInstance().isModLoaded("patchwork-events-entity");
+	private static final boolean REACH_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("reach-entity-attributes");
+	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("step-height-entity-attribute");
+	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
+	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
+	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = ModLoaderUtils.isModLoaded("patchwork-events-entity");
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)

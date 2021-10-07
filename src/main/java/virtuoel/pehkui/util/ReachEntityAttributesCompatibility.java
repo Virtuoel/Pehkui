@@ -8,7 +8,7 @@ import net.minecraft.entity.LivingEntity;
 
 public class ReachEntityAttributesCompatibility
 {
-	public static final boolean LOADED = false; // FabricLoader.getInstance().isModLoaded("reach-entity-attributes");
+	public static final boolean LOADED = ModLoaderUtils.isModLoaded("reach-entity-attributes");
 	
 	public static final ReachEntityAttributesCompatibility INSTANCE = new ReachEntityAttributesCompatibility();
 	
