@@ -28,13 +28,13 @@ import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
 
@@ -67,7 +67,7 @@ public class DebugCommand
 								}
 								catch (IllegalArgumentException e)
 								{
-									context.getSource().sendError(new LiteralText("Invalid UUID \"" + uuidString + "\"."));
+									context.getSource().sendError(I18nUtils.translate("commands.pehkui.debug.delete.uuid.invalid", "Invalid UUID \"%s\".", uuidString));
 									return 0;
 								}
 								
@@ -185,7 +185,10 @@ public class DebugCommand
 		
 		// TODO set command block w/ entity to void and block destroy under player pos
 		
-		context.getSource().sendFeedback(new LiteralText("Tests succeeded."), false);
+		int successes = -1;
+		int total = -1;
+		
+		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.test.success", "Tests succeeded: %d/%d", successes, total), false);
 		
 		return 1;
 	}
@@ -222,9 +225,9 @@ public class DebugCommand
 			)
 		);
 		
-		context.getSource().sendFeedback(new LiteralText("Starting Mixin environment audit..."), false);
+		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit (client)..."), false);
 		MixinEnvironment.getCurrentEnvironment().audit();
-		context.getSource().sendFeedback(new LiteralText("Mixin environment audit complete!"), false);
+		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.end", "Mixin environment audit complete!"), false);
 		
 		return 1;
 	}
@@ -245,10 +248,12 @@ public class DebugCommand
 		
 		if (fails > 0)
 		{
-			response.accept(new LiteralText("Failed classes: \"" + String.join("\", \"", failed) + "\""));
+			response.accept(I18nUtils.translate("commands.pehkui.debug.test.mixin.failed", "Failed classes: %s", "\"" + String.join("\", \"", failed) + "\""));
 		}
 		
-		response.accept(new LiteralText(String.format("%d successes and %d fails out of %d mixined %s%s classes", successes, fails, total, resolveMappings ? "intermediary " : "", client ? "client" : "server")));
+		final String lang = "commands.pehkui.debug.test.mixin.results." + (resolveMappings ? "intermediary" : "named") + (client ? ".client" : ".server");
+		final String defaultStr = "%d successes and %d fails out of %d mixined " + (resolveMappings ? "intermediary " : "") + (client ? "client" : "server") + " classes";
+		response.accept(I18nUtils.translate(lang, defaultStr, successes, fails, total));
 	}
 	
 	public static void classloadMixinTargets(final String[] classes, final boolean resolveMappings, final Collection<String> succeeded, final Collection<String> failed)

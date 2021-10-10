@@ -6,11 +6,11 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
+import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -85,9 +85,9 @@ public class PehkuiClient implements ClientModInitializer
 								MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 							);
 							
-							client.player.sendMessage(new LiteralText("Starting Mixin environment audit (client)..."), false);
+							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit (client)..."), false);
 							MixinEnvironment.getCurrentEnvironment().audit();
-							client.player.sendMessage(new LiteralText("Mixin environment audit (client) complete!"), false);
+							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.end", "Starting Mixin environment audit (client)..."), false);
 							
 							break;
 						case GARBAGE_COLLECT:

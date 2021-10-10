@@ -15,6 +15,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.TranslatableText;
+import virtuoel.pehkui.util.I18nUtils;
 
 public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationArgumentType.Operation>
 {
@@ -22,10 +23,10 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	
 	private static final Collection<String> EXAMPLES = Arrays.asList(SUGGESTIONS);
 	private static final SimpleCommandExceptionType INVALID_OPERATION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.invalid", new Object[0])
+		new TranslatableText("arguments.operation.invalid", I18nUtils.EMPTY_VARARGS)
 	);
 	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.div0", new Object[0])
+		new TranslatableText("arguments.operation.div0", I18nUtils.EMPTY_VARARGS)
 	);
 	
 	public static ScaleOperationArgumentType operation()

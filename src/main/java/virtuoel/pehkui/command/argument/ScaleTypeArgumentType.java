@@ -14,17 +14,20 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.util.CommandUtils;
+import virtuoel.pehkui.util.I18nUtils;
 
 public class ScaleTypeArgumentType implements ArgumentType<ScaleType>
 {
 	private static final Collection<String> EXAMPLES = Arrays.asList("base", Pehkui.MOD_ID + ":base");
-	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType(arg -> new LiteralText("Unknown scale type '" + arg + "'"));
+	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType(arg ->
+	{
+		return I18nUtils.translate("argument.pehkui.type.invalid", "Unknown scale type '%s'", arg);
+	});
 	
 	@Override
 	public ScaleType parse(StringReader stringReader) throws CommandSyntaxException
