@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -123,6 +124,17 @@ public abstract class LivingEntityMixin extends EntityMixin
 		if (scale != 1.0F)
 		{
 			info.setReturnValue(info.getReturnValueF() * scale);
+		}
+	}
+	
+	@Inject(method = "getAttackDistanceScalingFactor", at = @At("RETURN"), cancellable = true)
+	private void onGetAttackDistanceScalingFactor(@Nullable Entity entity, CallbackInfoReturnable<Double> info)
+	{
+		final float scale = ScaleUtils.getVisibilityScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			info.setReturnValue(info.getReturnValueD() * scale);
 		}
 	}
 	

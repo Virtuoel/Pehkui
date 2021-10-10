@@ -355,6 +355,16 @@ public class ScaleUtils
 		return getTypedScale(entity, ScaleTypes.VIEW_BOBBING, tickDelta);
 	}
 	
+	public static float getVisibilityScale(Entity entity)
+	{
+		return getVisibilityScale(entity, 1.0F);
+	}
+	
+	public static float getVisibilityScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.VISIBILITY, tickDelta);
+	}
+	
 	public static float getMotionScale(Entity entity)
 	{
 		return getMotionScale(entity, 1.0F);
