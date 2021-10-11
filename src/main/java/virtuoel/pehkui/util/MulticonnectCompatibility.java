@@ -2,8 +2,7 @@ package virtuoel.pehkui.util;
 
 import java.lang.reflect.Field;
 import java.util.Optional;
-
-import net.minecraft.SharedConstants;
+import java.util.function.IntPredicate;
 
 public class MulticonnectCompatibility
 {
@@ -34,25 +33,23 @@ public class MulticonnectCompatibility
 		}
 	}
 	
-	public int getProtocolVersion()
+	public <T> T getProtocolDependantValue(IntPredicate protocolPredicate, T trueValue, T defaultValue)
 	{
-		final int version = SharedConstants.getGameVersion().getProtocolVersion();
-		
 		if (this.enabled)
 		{
 			return protocolVersion.map(f ->
 			{
 				try
 				{
-					return (int) f.get(null);
+					return protocolPredicate.test((int) f.get(null)) ? trueValue : defaultValue;
 				}
 				catch (IllegalAccessException | IllegalArgumentException e)
 				{
-					return version;
+					return defaultValue;
 				}
-			}).orElse(version);
+			}).orElse(defaultValue);
 		}
 		
-		return version;
+		return defaultValue;
 	}
 }
