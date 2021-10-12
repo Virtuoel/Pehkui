@@ -1,0 +1,25 @@
+{
+	"argument.entity.options.pehkui.scale_range.description": "Entities with scale value",
+	"argument.entity.options.pehkui.scale_type.description": "Entities with scale type",
+	"argument.pehkui.modifier.invalid": "Unknown scale modifier '%s'",
+	"argument.pehkui.type.invalid": "Unknown scale type '%s'",
+	
+	"commands.pehkui.debug.audit.end": "Mixin environment audit complete!",
+	"commands.pehkui.debug.audit.start": "Starting Mixin environment audit (client)...",
+	"commands.pehkui.debug.delete.uuid.invalid": "Invalid UUID \"%s\".",
+	"commands.pehkui.debug.test.mixin.failed": "Failed classes: %s",
+	"commands.pehkui.debug.test.mixin.results.intermediary.client": "%d successes and %d fails out of %d mixined intermediary client classes",
+	"commands.pehkui.debug.test.mixin.results.intermediary.server": "%d successes and %d fails out of %d mixined intermediary server classes",
+	"commands.pehkui.debug.test.mixin.results.named.client": "%d successes and %d fails out of %d mixined client classes",
+	"commands.pehkui.debug.test.mixin.results.named.server": "%d successes and %d fails out of %d mixined server classes",
+	"commands.pehkui.debug.test.success": "Tests succeeded: %d/%d",
+	
+	"commands.pehkui.scale.delay.get.message": "Delay: %d ticks",
+	"commands.pehkui.scale.get.factor.message": "Scale: %s (%d)",
+	"commands.pehkui.scale.get.message": "Scale: %s",
+	"commands.pehkui.scale.modifier.get.message": "%s",
+	"commands.pehkui.scale.persist.default.false": "Persistent: default (false)",
+	"commands.pehkui.scale.persist.default.true": "Persistent: default (true)",
+	"commands.pehkui.scale.persist.false": "Persistent: false",
+	"commands.pehkui.scale.persist.true": "Persistent: true"
+}

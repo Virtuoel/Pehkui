@@ -1,31 +1,25 @@
 package virtuoel.pehkui.command;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 
 import net.minecraft.command.EntitySelectorReader;
 import net.minecraft.predicate.NumberRange.FloatRange;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
+import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.mixin.EntitySelectorOptionsInvoker;
 import virtuoel.pehkui.util.CommandUtils;
+import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
 
 public class PehkuiEntitySelectorOptions
 {
-	private static final Object[] EMPTY_ARGUMENTS = new Object[0];
-	
-	public static final Text SCALE_RANGE_DESCRIPTION = new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_range.description", EMPTY_ARGUMENTS);
-	public static final Text SCALE_TYPE_DESCRIPTION = new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.description", EMPTY_ARGUMENTS);
-	
-	public static final DynamicCommandExceptionType INVALID_SCALE_TYPE_EXCEPTION = new DynamicCommandExceptionType(
-		object -> new TranslatableText("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.invalid", object)
-	);
+	public static final Text SCALE_RANGE_DESCRIPTION = I18nUtils.translate("argument.entity.options." + Pehkui.MOD_ID + ".scale_range.description", "Entities with scale value");
+	public static final Text SCALE_TYPE_DESCRIPTION = I18nUtils.translate("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.description", "Entities with scale type");
 	
 	public static void register()
 	{
@@ -87,7 +81,7 @@ public class PehkuiEntitySelectorOptions
 		if (scaleType == null || (scaleType == defaultType && !id.equals(defaultId)))
 		{
 			reader.getReader().setCursor(i);
-			throw INVALID_SCALE_TYPE_EXCEPTION.createWithContext(reader.getReader(), id.toString());
+			throw ScaleTypeArgumentType.INVALID_ENTRY_EXCEPTION.createWithContext(reader.getReader(), id.toString());
 		}
 		
 		return scaleType;

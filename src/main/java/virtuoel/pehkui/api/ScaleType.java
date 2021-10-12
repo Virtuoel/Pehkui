@@ -1,6 +1,5 @@
 package virtuoel.pehkui.api;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -9,6 +8,8 @@ import java.util.function.ToDoubleBiFunction;
 import org.jetbrains.annotations.ApiStatus;
 
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -220,12 +221,12 @@ public class ScaleType
 			
 			if (this.affectsDimensions)
 			{
-				type.getScaleChangedEvent().add(Builder::calculateDimensions);
+				type.getScaleChangedEvent().register(Builder::calculateDimensions);
 			}
 			
 			if (!this.dependentModifiers.isEmpty())
 			{
-				type.getScaleChangedEvent().add(createModifiedDataSyncEvent(this.dependentModifiers));
+				type.getScaleChangedEvent().register(createModifiedDataSyncEvent(this.dependentModifiers));
 			}
 			
 			return type;
@@ -272,25 +273,40 @@ public class ScaleType
 		}
 	}
 	
-	private final Collection<ScaleEventCallback> scaleChangedEvent = new ArrayList<>();
+	private final Event<ScaleEventCallback> scaleChangedEvent = createScaleEvent();
 	
-	public Collection<ScaleEventCallback> getScaleChangedEvent()
+	public Event<ScaleEventCallback> getScaleChangedEvent()
 	{
 		return scaleChangedEvent;
 	}
 	
-	private final Collection<ScaleEventCallback> preTickEvent = new ArrayList<>();
+	private final Event<ScaleEventCallback> preTickEvent = createScaleEvent();
 	
-	public Collection<ScaleEventCallback> getPreTickEvent()
+	public Event<ScaleEventCallback> getPreTickEvent()
 	{
 		return preTickEvent;
 	}
 	
-	private final Collection<ScaleEventCallback> postTickEvent = new ArrayList<>();
+	private final Event<ScaleEventCallback> postTickEvent = createScaleEvent();
 	
-	public Collection<ScaleEventCallback> getPostTickEvent()
+	public Event<ScaleEventCallback> getPostTickEvent()
 	{
 		return postTickEvent;
+	}
+	
+	private static Event<ScaleEventCallback> createScaleEvent()
+	{
+		return EventFactory.createArrayBacked(
+			ScaleEventCallback.class,
+			data -> {},
+			(callbacks) -> (data) ->
+			{
+				for (ScaleEventCallback callback : callbacks)
+				{
+					callback.onEvent(data);
+				}
+			}
+		);
 	}
 	
 	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")

@@ -11,21 +11,22 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin
 {
-	@Shadow
-	abstract PlayerEntity getCameraPlayer();
+	@Shadow(remap = false)
+	abstract PlayerEntity method_1737(); // UNMAPPED_METHOD
 	
-	@Shadow @Final @Mutable
-	MinecraftClient client;
+	@Shadow(remap = false) @Final @Mutable
+	MinecraftClient field_2035; // UNMAPPED_FIELD
 	
-	@ModifyVariable(method = "renderStatusBars", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/player/PlayerEntity;getAbsorptionAmount()F"))
+	@ModifyVariable(method = MixinConstants.RENDER_STATUS_BARS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1657;method_6067()F", remap = false), remap = false)
 	private float onRenderStatusBars(float value)
 	{
-		final float healthScale = ScaleUtils.getHealthScale(getCameraPlayer(), client.getTickDelta());
+		final float healthScale = ScaleUtils.getHealthScale(method_1737(), field_2035.getTickDelta());
 		
 		return healthScale != 1.0F ? value * healthScale : value;
 	}
