@@ -1,10 +1,9 @@
 package virtuoel.pehkui.util;
 
-import org.jetbrains.annotations.Nullable;
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.SemanticVersion;
-import net.fabricmc.loader.api.Version;
+import net.minecraftforge.versions.mcp.MCPVersion;
 
 public class VersionUtils
 {
@@ -76,21 +75,8 @@ public class VersionUtils
 		return true;
 	}
 	
-	@Nullable
-	public static final SemanticVersion MINECRAFT_VERSION = lookupMinecraftVersion();
-	public static final int MAJOR = getVersionComponent(0);
-	public static final int MINOR = getVersionComponent(1);
-	public static final int PATCH = getVersionComponent(2);
-	
-	private static SemanticVersion lookupMinecraftVersion()
-	{
-		final Version version = FabricLoader.getInstance().getModContainer("minecraft").get().getMetadata().getVersion();
-		
-		return (SemanticVersion) (version instanceof SemanticVersion ? version : null);
-	}
-	
-	private static int getVersionComponent(int pos)
-	{
-		return MINECRAFT_VERSION != null ? MINECRAFT_VERSION.getVersionComponent(pos) : -1;
-	}
+	public static final ArtifactVersion MINECRAFT_VERSION = new DefaultArtifactVersion(MCPVersion.getMCVersion());
+	public static final int MAJOR = MINECRAFT_VERSION.getMajorVersion();
+	public static final int MINOR = MINECRAFT_VERSION.getMinorVersion();
+	public static final int PATCH = MINECRAFT_VERSION.getIncrementalVersion();
 }

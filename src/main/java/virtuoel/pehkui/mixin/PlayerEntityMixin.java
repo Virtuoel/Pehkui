@@ -43,7 +43,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		
 		if (scale != 1.0F)
 		{
-			((PlayerEntity) (Object) this).airStrafingSpeed *= scale;
+			((PlayerEntity) (Object) this).flyingSpeed *= scale;
 		}
 	}
 	
@@ -56,7 +56,7 @@ public abstract class PlayerEntityMixin extends LivingEntityMixin
 		{
 			final Vec3d pos = entity.getPos();
 			
-			entity.setPosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
+			entity.updatePosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
 		}
 	}
 	

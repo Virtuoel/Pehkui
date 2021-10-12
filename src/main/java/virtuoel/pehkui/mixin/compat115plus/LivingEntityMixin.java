@@ -9,7 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.mixin.EntityMixin;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(LivingEntity.class)
+@Mixin(value = LivingEntity.class, priority = 1050)
 public abstract class LivingEntityMixin extends EntityMixin
 {
 	@ModifyArg(method = "onKilledBy", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))

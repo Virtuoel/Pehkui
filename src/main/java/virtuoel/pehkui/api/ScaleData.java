@@ -10,7 +10,6 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
@@ -18,6 +17,7 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.common.util.Constants;
 
 public class ScaleData
 {
@@ -64,6 +64,8 @@ public class ScaleData
 		this.targetScale = defaultBaseScale;
 		this.scaleTicks = 0;
 		this.totalScaleTicks = scaleType.getDefaultTickDelay();
+		
+		this.persistent = scaleType.isPersistent();
 		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
 	}
@@ -333,7 +335,7 @@ public class ScaleData
 	public void onUpdate()
 	{
 		markForSync(true);
-		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
+		getScaleType().getScaleChangedEvent().forEach(s -> s.onEvent(this));
 	}
 	
 	private final List<ScaleModifier> syncedModifiers = new ArrayList<>();
@@ -383,7 +385,7 @@ public class ScaleData
 		
 		if (tag.contains("baseValueModifiers"))
 		{
-			final NbtList modifiers = tag.getList("baseValueModifiers", NbtType.STRING);
+			final NbtList modifiers = tag.getList("baseValueModifiers", Constants.NBT.TAG_STRING);
 			
 			Identifier id;
 			ScaleModifier modifier;
