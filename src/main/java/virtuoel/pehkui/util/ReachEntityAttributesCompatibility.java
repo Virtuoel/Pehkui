@@ -27,7 +27,7 @@ public class ReachEntityAttributesCompatibility
 		
 		if (this.enabled)
 		{
-			this.mainClass = ReflectionUtils.getClass("draylar.identity.registry.Components");
+			this.mainClass = ReflectionUtils.getClass("com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes");
 			
 			this.getReachDistance = ReflectionUtils.getMethod(mainClass, "getReachDistance", LivingEntity.class, Double.class);
 			this.getAttackRange = ReflectionUtils.getMethod(mainClass, "getAttackRange", LivingEntity.class, Double.class);
