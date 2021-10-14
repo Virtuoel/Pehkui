@@ -133,10 +133,6 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
-	
-	filesMatching("META-INF/mods.toml") {
-		expand "version": project.version
-	}
 }
 
 def proj = project
