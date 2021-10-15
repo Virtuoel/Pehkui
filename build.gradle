@@ -295,7 +295,7 @@ curseforge {
 				def game_versions = project.curseforge_release_versions.split(", ")
 				display_name_prefix = "[${game_versions[0]} - ${game_versions[-1].split("-")[0]}] "
 				if(game_versions[0] == game_versions[-1].split("-")[0]) {
-					display_name_prefix = "[${game_versions[0]}]"
+					display_name_prefix = "[${game_versions[0]}] "
 				}
 				game_versions.each { String gameVersion ->
 					addGameVersion gameVersion
@@ -303,7 +303,7 @@ curseforge {
 			}
 			
 			if(project.hasProperty("forge_version")) {
-				display_name_prefix += " [Forge] "
+				display_name_prefix += "[Forge] "
 			}
 			
 			mainArtifact(remapJar) {
