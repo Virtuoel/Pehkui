@@ -101,23 +101,6 @@ api fg.deobf("com.github.Virtuoel:Pehkui:${pehkui_version}")
 modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
 </td></table></details>
-
-### Fixing Mixins of Dependencies on Forge with ForgeGradle
-
-<details>
-<summary>Show/Hide Fix for Dependency Mixins on Forge</summary><table width=100%><td>
-
-If you're using Forge with ForgeGradle, make sure refmap remapping is enabled in your `build.gradle`'s run configuration blocks.
-
-Make sure the following lines are present in the `client {}`, `server {}`, and `data {}` run configuration blocks.
-
-```groovy
-property 'mixin.env.remapRefMap', 'true'
-property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
-```
-
-Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE.
-</td></table></details>
 </td></table></details>
 <!--
 ## API Information
