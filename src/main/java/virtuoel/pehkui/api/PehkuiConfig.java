@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.util.Identifier;
@@ -15,7 +14,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.loading.LogMarkers;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
 
@@ -35,8 +33,8 @@ public class PehkuiConfig
 	@SubscribeEvent
 	public static void onLoad(ModConfig.Loading configEvent)
 	{
-		LogManager.getLogger().debug(
-			LogMarkers.FORGEMOD, "Loaded Pehkui config file {}", configEvent.getConfig().getFileName()
+		Pehkui.LOGGER.debug(
+			"Loaded Pehkui config file {}", configEvent.getConfig().getFileName()
 		);
 	}
 	
@@ -44,8 +42,8 @@ public class PehkuiConfig
 	@SubscribeEvent
 	public static void onFileChange(ModConfig.Reloading configEvent)
 	{
-		LogManager.getLogger().debug(
-			LogMarkers.FORGEMOD, "Pehkui config just got changed on the file system!"
+		Pehkui.LOGGER.debug(
+			"Pehkui config just got changed on the file system!"
 		);
 	}
 	

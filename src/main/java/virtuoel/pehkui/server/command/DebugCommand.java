@@ -28,9 +28,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.network.NetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.network.DebugPacket;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
+import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
 
 public class DebugCommand
