@@ -26,11 +26,10 @@ public abstract class EntityCalculateDimensionsMixin
 	protected boolean firstUpdate;
 	
 	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/entity/Entity;refreshPosition()V"))
-	private void onCalculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, @Coerce Object sizeEvent, EntityDimensions current)
+	private void onCalculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current, @Coerce Object sizeEvent)
 	{
 		final Entity self = (Entity) (Object) this;
 		
-		/* // TODO 1.17
 		if (self.world.isClient && self.getType() == EntityType.PLAYER && current.width > previous.width && !ScaleUtils.isAboveCollisionThreshold(self))
 		{
 			final Vec3d lastCenter = self.getPos().add(0.0D, previous.height / 2.0D, 0.0D);
@@ -40,6 +39,5 @@ public abstract class EntityCalculateDimensionsMixin
 			self.world.findClosestCollision(self, voxelShape, lastCenter, current.width, current.height, current.width)
 			.ifPresent(vec -> self.setPosition(vec.add(0.0D, (-current.height) / 2.0D, 0.0D)));
 		}
-		*/
 	}
 }

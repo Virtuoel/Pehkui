@@ -1,7 +1,7 @@
 package virtuoel.pehkui.network;
 
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 import virtuoel.pehkui.Pehkui;
 
 public class PehkuiPacketHandler

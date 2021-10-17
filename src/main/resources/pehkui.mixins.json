@@ -105,6 +105,7 @@
 		"compat117plus.ProjectileUtilMixin",
 		"compat117plus.SlimeEntityMixin",
 		"compat117plus.patchwork.compat.EntityCalculateDimensionsMixin",
+		"compat117plus.patchwork.compat.IForgeItemMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
 		"identity.compat115.IdentityComponentMixin",

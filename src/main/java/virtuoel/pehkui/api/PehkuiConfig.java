@@ -13,7 +13,7 @@ import net.minecraft.util.InvalidIdentifierException;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
 
@@ -31,7 +31,7 @@ public class PehkuiConfig
 	
 	@ApiStatus.Internal
 	@SubscribeEvent
-	public static void onLoad(ModConfig.Loading configEvent)
+	public static void onLoad(ModConfigEvent.Loading configEvent)
 	{
 		Pehkui.LOGGER.debug(
 			"Loaded Pehkui config file {}", configEvent.getConfig().getFileName()
@@ -40,7 +40,7 @@ public class PehkuiConfig
 	
 	@ApiStatus.Internal
 	@SubscribeEvent
-	public static void onFileChange(ModConfig.Reloading configEvent)
+	public static void onFileChange(ModConfigEvent.Reloading configEvent)
 	{
 		Pehkui.LOGGER.debug(
 			"Pehkui config just got changed on the file system!"

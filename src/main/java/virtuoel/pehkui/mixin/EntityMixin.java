@@ -9,13 +9,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.injection.ModifyArgs;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -168,7 +168,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return movement;
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	@ModifyArgs(method = "pushAwayFrom", at = @dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.injection.At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
 	private void modifyPushSelfAwayFromOther(Args args, Entity other)
 	{
 		final float otherScale = ScaleUtils.getMotionScale(other);
@@ -180,7 +180,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		}
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	@ModifyArgs(method = "pushAwayFrom", at = @dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.injection.At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
 	private void modifyPushOtherAwayFromSelf(Args args, Entity other)
 	{
 		final float ownScale = ScaleUtils.getMotionScale((Entity) (Object) this);

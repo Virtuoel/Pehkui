@@ -10,7 +10,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -26,7 +26,7 @@ public class ScalePacket
 	
 	public ScalePacket(Entity entity, Collection<ScaleData> scales)
 	{
-		this.id = entity.getEntityId();
+		this.id = entity.getId();
 		this.quantity = scales.size();
 		
 		this.scaleData = scales.toArray(new ScaleData[quantity]);

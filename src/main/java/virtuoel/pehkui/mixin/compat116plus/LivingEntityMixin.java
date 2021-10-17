@@ -10,7 +10,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin
 {
-	@ModifyConstant(method = "method_29242", constant = @Constant(floatValue = 4.0F))
+	@ModifyConstant(method = "updateLimbs", constant = @Constant(floatValue = 4.0F))
 	private float modifyLimbDistance(float value, LivingEntity livingEntity, boolean bl)
 	{
 		return ScaleUtils.modifyLimbDistance(value, livingEntity);
