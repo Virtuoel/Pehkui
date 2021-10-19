@@ -20,6 +20,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
@@ -41,6 +42,7 @@ public class Pehkui
 	
 	public Pehkui()
 	{
+		ScaleType.INVALID.getClass();
 		ScaleTypes.INVALID.getClass();
 		
 		ScaleTypes.REACH.getPostTickEvent().add(s ->
