@@ -39,6 +39,7 @@
 		"ServerPlayNetworkHandlerMixin",
 		"SkeletonHorseEntityMixin",
 		"ThrownEntityMixin",
+		"TrackTargetGoalMixin",
 		"compat114.LivingEntityMixin",
 		"compat115.FireballEntityMixin",
 		"compat115.ZombieEntityMixin",
