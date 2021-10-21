@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.hit.HitResult;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 
 @Mixin(GameRenderer.class)
@@ -59,11 +60,14 @@ public class GameRendererMixin
 		
 		if (entity != null)
 		{
-			final double baseEntityReach = client.interactionManager.hasExtendedReach() ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
-			final double entityReach = ReachEntityAttributesCompatibility.INSTANCE.getAttackRange(client.player, baseEntityReach);
-			final double entityReachSquared = entityReach * entityReach;
-			
-			return entityReachSquared;
+			if (this.client.crosshairTarget == null || this.client.crosshairTarget.getType() == HitResult.Type.MISS)
+			{
+				final double baseEntityReach = client.interactionManager.hasExtendedReach() ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
+				final double entityReach = ReachEntityAttributesCompatibility.INSTANCE.getAttackRange(client.player, baseEntityReach);
+				final double entityReachSquared = entityReach * entityReach;
+				
+				return entityReachSquared;
+			}
 		}
 		
 		return value;
