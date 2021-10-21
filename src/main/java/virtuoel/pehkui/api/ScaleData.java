@@ -332,6 +332,10 @@ public class ScaleData
 		return this.shouldSync;
 	}
 	
+	/**
+	 * Marks this to be synced to clients and also invokes scale change events.
+	 * <p>Gets called by methods that modify the scale. Doesn't typically need to be called from outside.
+	 */
 	public void onUpdate()
 	{
 		markForSync(true);
