@@ -108,6 +108,8 @@ public class ScaleUtils
 		return volume > threshold;
 	}
 	
+	public static final double DEFAULT_MAXIMUM_REACH_BELOW_1_17 = 32.0D * 16.0D / 4.0D;
+	
 	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
 	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P32F;
 	
@@ -124,7 +126,15 @@ public class ScaleUtils
 		
 		final float ret = value / scale;
 		
-		if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
+		if (ret == Float.POSITIVE_INFINITY)
+		{
+			return MINIMUM_LIMB_MOTION_SCALE;
+		}
+		else if (ret == Float.NEGATIVE_INFINITY)
+		{
+			return -MINIMUM_LIMB_MOTION_SCALE;
+		}
+		else if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
 		{
 			return ret;
 		}

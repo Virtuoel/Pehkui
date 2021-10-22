@@ -16,6 +16,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
+import virtuoel.pehkui.util.ScaleUtils;
+import virtuoel.pehkui.util.VersionUtils;
 
 public class PehkuiConfig
 {
@@ -170,6 +172,7 @@ public class PehkuiConfig
 			Identifier id;
 			String namespace, path;
 			ScaleType type;
+			double defaultMax;
 			ForgeConfigSpec.DoubleValue min, max;
 			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 			{
@@ -187,13 +190,15 @@ public class PehkuiConfig
 					
 					path = id.getPath();
 					
+					defaultMax = ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE;
+					
 					builder.push(path);
 					min = builder
 						.translation("pehkui.configgui.scale_limits." + path + ".minimum")
-						.defineInRange("minimum", Float.MIN_VALUE, Float.MIN_VALUE, Float.MAX_VALUE);
+						.defineInRange("minimum", Float.MIN_VALUE, Float.MIN_VALUE, defaultMax);
 					max = builder
 						.translation("pehkui.configgui.scale_limits." + path + ".maximum")
-						.defineInRange("maximum", Float.MAX_VALUE, Float.MIN_VALUE, Float.MAX_VALUE);
+						.defineInRange("maximum", defaultMax, Float.MIN_VALUE, defaultMax);
 					
 					type.getDefaultBaseValueModifiers().add(
 						ScaleRegistries.register(
