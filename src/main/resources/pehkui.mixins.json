@@ -99,6 +99,7 @@
 		"compat116plus.TargetPredicateMixin",
 		"compat116plus.VillagerBreedTaskMixin",
 		"compat116plus.VillagerEntityMixin",
+		"compat117plus.AxolotlEntityMixin",
 		"compat117plus.EntityCalculateDimensionsMixin",
 		"compat117plus.EntityMixin",
 		"compat117plus.LivingEntityMixin",

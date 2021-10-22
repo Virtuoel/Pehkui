@@ -29,10 +29,10 @@ public class ReachEntityAttributesCompatibility
 		{
 			this.mainClass = ReflectionUtils.getClass("com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes");
 			
-			this.getReachDistance = ReflectionUtils.getMethod(mainClass, "getReachDistance", LivingEntity.class, Double.class);
-			this.getAttackRange = ReflectionUtils.getMethod(mainClass, "getAttackRange", LivingEntity.class, Double.class);
-			this.getSquaredReachDistance = ReflectionUtils.getMethod(mainClass, "getSquaredReachDistance", LivingEntity.class, Double.class);
-			this.getSquaredAttackRange = ReflectionUtils.getMethod(mainClass, "getSquaredAttackRange", LivingEntity.class, Double.class);
+			this.getReachDistance = ReflectionUtils.getMethod(mainClass, "getReachDistance", LivingEntity.class, double.class);
+			this.getAttackRange = ReflectionUtils.getMethod(mainClass, "getAttackRange", LivingEntity.class, double.class);
+			this.getSquaredReachDistance = ReflectionUtils.getMethod(mainClass, "getSquaredReachDistance", LivingEntity.class, double.class);
+			this.getSquaredAttackRange = ReflectionUtils.getMethod(mainClass, "getSquaredAttackRange", LivingEntity.class, double.class);
 		}
 		else
 		{
