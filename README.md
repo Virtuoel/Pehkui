@@ -26,7 +26,7 @@ Library mod for the Fabric and Forge mod loaders that allows mod developers to m
 
 ### Fabric Versions
 Supported Versions of `Pehkui-x.y.z+1.14.4-1.18`:  
-`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `21w41a`
+`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `21w42a`
 
 ### Forge Versions
 
