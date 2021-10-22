@@ -126,7 +126,15 @@ public class ScaleUtils
 		
 		final float ret = value / scale;
 		
-		if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
+		if (ret == Float.POSITIVE_INFINITY)
+		{
+			return MINIMUM_LIMB_MOTION_SCALE;
+		}
+		else if (ret == Float.NEGATIVE_INFINITY)
+		{
+			return -MINIMUM_LIMB_MOTION_SCALE;
+		}
+		else if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
 		{
 			return ret;
 		}
