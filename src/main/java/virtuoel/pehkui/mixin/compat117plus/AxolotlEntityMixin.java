@@ -5,10 +5,10 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AxolotlEntity;
+// import net.minecraft.entity.passive.AxolotlEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(AxolotlEntity.class)
+@Mixin(/*Axolotl*/Entity.class) // TODO 1.17
 public class AxolotlEntityMixin
 {
 	@ModifyConstant(method = "squaredAttackRange", constant = @Constant(doubleValue = 1.5D))
