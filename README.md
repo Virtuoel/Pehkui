@@ -26,15 +26,15 @@ Library mod for the Fabric and Forge mod loaders that allows mod developers to m
 
 ### Fabric Versions
 Supported Versions of `Pehkui-x.y.z+1.14.4-1.18`:  
-`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `21w39a`
+`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `21w41a`
 
 ### Forge Versions
 
 Supported Versions of `Pehkui-x.y.z+1.16.5-forge`:  
 `1.16.5`
-<!--
+
 Supported Versions of `Pehkui-x.y.z+1.17.1-forge`:  
-`1.17.1`-->
+`1.17.1`
 </td></table></details>
 
 ## Mod Features
@@ -45,7 +45,7 @@ Pehkui allows mod developers to:
 
 - Change the size of entities through modifying scale data
 - Affect other properties of an entity that are considered as dependant on the size</br>(e.g. movement speed, explosion size, reach distance)
-- Have the scalable properties of an entity be affected by other scale data types or by external data through scale modifiers
+- Have the scalable properties of an entity be affected by other scale data types or by external data</br>through scale modifiers
 </td></table></details>
 </td></table></details>
 
@@ -62,7 +62,7 @@ Pehkui allows mod developers to:
 <details open>
 <summary>Show/Hide Maven Information</summary><table width=100%><td>
 
-To make use of Pehkui in your own mod, you'll first need to go to your `repositories` block near the top of your `build.gradle` and </br>add JitPack to the bottom of the block like below:
+To make use of Pehkui in your own mod, you'll first need to go to your `repositories` block near the</br>top of your `build.gradle` and add JitPack to the bottom of the block like below:
 
 ```groovy
 repositories {
@@ -79,9 +79,9 @@ repositories {
 <details open>
 <summary>Show/Hide Dependency Configuration Information</summary><table width=100%><td>
 
-Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your `gradle.properties`, replacing `x.y.z-w` with one </br>of the available version strings from the [list of release tags](../../tags).
+Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your `gradle.properties`,</br>replacing `x.y.z-w` with one of the available version strings from the [list of release tags](../../tags).
 
-Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from below depending on your mod loader:
+Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from below</br>depending on your mod loader:
 
 #### Developing for Fabric with Loom
 
