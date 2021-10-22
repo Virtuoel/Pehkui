@@ -10,6 +10,8 @@ import net.minecraft.util.Identifier;
 import virtuoel.kanos_config.api.JsonConfigBuilder;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
+import virtuoel.pehkui.util.ScaleUtils;
+import virtuoel.pehkui.util.VersionUtils;
 
 public class PehkuiConfig
 {
@@ -84,7 +86,7 @@ public class PehkuiConfig
 					path = id.getPath();
 					
 					min = builder.doubleConfig(path + ".minimum", Float.MIN_VALUE);
-					max = builder.doubleConfig(path + ".maximum", Float.MAX_VALUE);
+					max = builder.doubleConfig(path + ".maximum", ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE);
 					
 					type.getDefaultBaseValueModifiers().add(
 						ScaleRegistries.register(
