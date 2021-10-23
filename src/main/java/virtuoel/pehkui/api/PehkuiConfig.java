@@ -96,6 +96,7 @@ public class PehkuiConfig
 		public final ForgeConfigSpec.BooleanValue keepAllScalesOnRespawn;
 		public final ConfigValue<List<? extends String>> scalesKeptOnRespawn;
 		public final ForgeConfigSpec.BooleanValue accurateNetherPortals;
+		@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 		public final ForgeConfigSpec.DoubleValue largeScaleCollisionThreshold;
 		public final ForgeConfigSpec.BooleanValue enableDebugCommands;
 		
