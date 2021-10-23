@@ -17,7 +17,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
-import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = Entity.class, priority = 1010)
 public abstract class EntityCalculateDimensionsMixin
@@ -30,7 +29,7 @@ public abstract class EntityCalculateDimensionsMixin
 	{
 		final Entity self = (Entity) (Object) this;
 		
-		if (self.world.isClient && self.getType() == EntityType.PLAYER && current.width > previous.width && !ScaleUtils.isAboveCollisionThreshold(self))
+		if (self.world.isClient && self.getType() == EntityType.PLAYER && current.width > previous.width)
 		{
 			final Vec3d lastCenter = self.getPos().add(0.0D, previous.height / 2.0D, 0.0D);
 			final double w = Math.max(0.0F, current.width - previous.width) + 1.0E-6D;

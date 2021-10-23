@@ -150,7 +150,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 		
 		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
 		
-		if (width > 1.0F && !ScaleUtils.isAboveCollisionThreshold(self))
+		if (width > 1.0F)
 		{
 			final Box bounds = self.getBoundingBox();
 			

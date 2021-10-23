@@ -32,7 +32,8 @@ public class PehkuiConfig
 		
 		public final Supplier<Boolean> accurateNetherPortals;
 		
-		public final Supplier<Double> largeScaleCollisionThreshold;
+		@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
+		public final Supplier<Double> largeScaleCollisionThreshold = () -> (double) ScaleUtils.DEFAULT_MAXIMUM_POSITIVE_SCALE;
 		public final Supplier<Boolean> enableDebugCommands;
 		
 		public final Supplier<Boolean> scaledFallDamage;
@@ -52,7 +53,6 @@ public class PehkuiConfig
 			
 			this.accurateNetherPortals = builder.booleanConfig("accurateNetherPortals", true);
 			
-			this.largeScaleCollisionThreshold = builder.doubleConfig("largeScaleCollisionThreshold", 26.0D);
 			this.enableDebugCommands = builder.booleanConfig("enableDebugCommands", false);
 			
 			this.scaledFallDamage = builder.booleanConfig("scaledFallDamage", true);

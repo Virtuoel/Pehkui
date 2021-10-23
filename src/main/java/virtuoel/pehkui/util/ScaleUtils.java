@@ -96,18 +96,6 @@ public class ScaleUtils
 		}
 	}
 	
-	public static boolean isAboveCollisionThreshold(Entity entity)
-	{
-		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(entity);
-		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(entity);
-		final double volume = widthScale * widthScale * heightScale;
-		
-		final double scaleThreshold = PehkuiConfig.COMMON.largeScaleCollisionThreshold.get();
-		final double threshold = scaleThreshold * scaleThreshold * scaleThreshold;
-		
-		return volume > threshold;
-	}
-	
 	public static final double DEFAULT_MAXIMUM_REACH_BELOW_1_17 = 32.0D * 16.0D / 4.0D;
 	
 	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;

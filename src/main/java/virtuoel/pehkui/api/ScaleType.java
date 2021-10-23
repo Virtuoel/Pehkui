@@ -241,10 +241,7 @@ public class ScaleType
 				final PehkuiEntityExtensions en = (PehkuiEntityExtensions) e;
 				final boolean onGround = en.pehkui_getOnGround();
 				
-				if (!ScaleUtils.isAboveCollisionThreshold(e))
-				{
-					e.calculateDimensions();
-				}
+				e.calculateDimensions();
 				
 				en.pehkui_setOnGround(onGround);
 			}
