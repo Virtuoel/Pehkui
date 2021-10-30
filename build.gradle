@@ -87,13 +87,13 @@ dependencies {
 		if(project.hasProperty("fabric_api_version")) {
 			if(!project.hasProperty("fabric_modules") && !project.hasProperty("api_fabric_modules") && !project.hasProperty("impl_fabric_modules")) {
 				modCompileOnly "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}", excludeLoader
-				modRuntime "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}", excludeLoader
+				modLocalRuntime "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}", excludeLoader
 			}
 			
 			if(project.hasProperty("fabric_modules")) {
 				project.fabric_modules.split(", ").each { String module ->
 					modCompileOnly fabricApi.module(module, project.fabric_api_version), excludeLoader
-					modRuntime fabricApi.module(module, project.fabric_api_version), excludeLoader
+					modLocalRuntime fabricApi.module(module, project.fabric_api_version), excludeLoader
 				}
 			}
 			
@@ -118,7 +118,7 @@ dependencies {
 		
 		if(project.hasProperty("modmenu_version")) {
 			modCompileOnly "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
-			modRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
+			modLocalRuntime "com.terraformersmc:modmenu:${modmenu_version}", excludeFabric
 		}
 		
 		if(project.hasProperty("kanos_config_tag")) {
