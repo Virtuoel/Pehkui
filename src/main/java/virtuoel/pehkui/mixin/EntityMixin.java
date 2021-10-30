@@ -26,7 +26,6 @@ import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -38,7 +37,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements PehkuiEntityExtensions
 {
-	@Shadow World world;
 	@Shadow boolean onGround;
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
