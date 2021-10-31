@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 	RavagerEntity.class,
 	SpiderEntity.class
 })
-public abstract class EntityMountedHeightOffsetMixin extends EntityMixin
+public abstract class EntityMountedHeightOffsetMixin
 {
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)

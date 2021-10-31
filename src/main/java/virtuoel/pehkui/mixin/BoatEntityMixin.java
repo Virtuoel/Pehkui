@@ -9,7 +9,7 @@ import net.minecraft.entity.vehicle.BoatEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(BoatEntity.class)
-public abstract class BoatEntityMixin extends EntityMixin
+public abstract class BoatEntityMixin
 {
 	@ModifyArg(method = "tick", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double onTickMovementExpandXProxy(double value)

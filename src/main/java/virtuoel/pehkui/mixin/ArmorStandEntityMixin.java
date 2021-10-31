@@ -12,7 +12,7 @@ import net.minecraft.entity.decoration.ArmorStandEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ArmorStandEntity.class)
-public abstract class ArmorStandEntityMixin extends EntityMixin
+public abstract class ArmorStandEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)

@@ -9,7 +9,7 @@ import net.minecraft.entity.passive.LlamaEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LlamaEntity.class)
-public abstract class LlamaEntityMixin extends LivingEntityMixin
+public abstract class LlamaEntityMixin
 {
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.3F))
 	private float updatePassengerPositionModifyOffset(float value)

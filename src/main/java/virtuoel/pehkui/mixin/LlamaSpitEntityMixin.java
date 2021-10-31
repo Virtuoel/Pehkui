@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LlamaSpitEntity.class)
-public class LlamaSpitEntityMixin extends EntityMixin
+public class LlamaSpitEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/passive/LlamaEntity;)V")
 	private void onConstruct(World world, LlamaEntity owner, CallbackInfo info)

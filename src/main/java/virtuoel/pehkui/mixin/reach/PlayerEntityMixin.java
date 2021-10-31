@@ -6,11 +6,10 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import virtuoel.pehkui.mixin.LivingEntityMixin;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntityMixin
+public abstract class PlayerEntityMixin
 {
 	@ModifyConstant(method = "attack", constant = @Constant(doubleValue = 9.0D))
 	private double attackModifyDistance(double value)

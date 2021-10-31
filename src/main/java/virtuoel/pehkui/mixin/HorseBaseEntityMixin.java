@@ -9,7 +9,7 @@ import net.minecraft.entity.passive.HorseBaseEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = HorseBaseEntity.class, priority = 1050)
-public abstract class HorseBaseEntityMixin extends LivingEntityMixin
+public abstract class HorseBaseEntityMixin
 {
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.7F))
 	private float updatePassengerPositionModifyHorizontalOffset(float value)

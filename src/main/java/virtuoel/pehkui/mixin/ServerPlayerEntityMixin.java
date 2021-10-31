@@ -9,7 +9,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class ServerPlayerEntityMixin extends EntityMixin
+public abstract class ServerPlayerEntityMixin
 {
 	@Inject(at = @At("HEAD"), method = "copyFrom")
 	private void onCopyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info)
