@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EvokerFangsEntity.class)
-public class EvokerFangsEntityMixin extends EntityMixin
+public class EvokerFangsEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;DDDFILnet/minecraft/entity/LivingEntity;)V")
 	private void onConstruct(World world, double x, double y, double z, float yaw, int warmup, LivingEntity owner, CallbackInfo info)

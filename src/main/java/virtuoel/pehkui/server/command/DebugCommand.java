@@ -187,7 +187,7 @@ public class DebugCommand
 			PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), NetworkDirection.PLAY_TO_CLIENT)
 		);
 		
-		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit (client)..."), false);
+		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);
 		MixinEnvironment.getCurrentEnvironment().audit();
 		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.end", "Mixin environment audit complete!"), false);
 		

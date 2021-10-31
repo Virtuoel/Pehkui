@@ -22,7 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(PlayerEntity.class)
-public abstract class PlayerEntityMixin extends LivingEntityMixin
+public abstract class PlayerEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
 	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)

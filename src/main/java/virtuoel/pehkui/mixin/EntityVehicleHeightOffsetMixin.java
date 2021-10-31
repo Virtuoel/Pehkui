@@ -26,7 +26,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 	AnimalEntity.class,
 	PlayerEntity.class
 })
-public abstract class EntityVehicleHeightOffsetMixin extends EntityMixin
+public abstract class EntityVehicleHeightOffsetMixin
 {
 	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
 	private void onGetHeightOffset(CallbackInfoReturnable<Double> info)

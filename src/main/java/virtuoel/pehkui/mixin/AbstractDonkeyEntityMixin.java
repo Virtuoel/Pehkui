@@ -10,7 +10,7 @@ import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(AbstractDonkeyEntity.class)
-public abstract class AbstractDonkeyEntityMixin extends EntityMixin
+public abstract class AbstractDonkeyEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)

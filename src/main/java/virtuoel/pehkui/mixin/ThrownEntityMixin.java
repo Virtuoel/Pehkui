@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ThrownEntity.class)
-public abstract class ThrownEntityMixin extends EntityMixin
+public abstract class ThrownEntityMixin
 {
 	@Shadow
 	protected abstract float getGravity();

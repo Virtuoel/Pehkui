@@ -9,7 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends EntityMixin
+public abstract class LivingEntityMixin
 {
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))
 	private float modifyLimbDistance(float value)

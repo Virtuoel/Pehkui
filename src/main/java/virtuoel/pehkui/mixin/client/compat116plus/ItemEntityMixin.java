@@ -7,11 +7,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
-import virtuoel.pehkui.mixin.EntityMixin;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ItemEntity.class)
-public abstract class ItemEntityMixin extends EntityMixin
+public abstract class ItemEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/ItemEntity;)V")
 	private void onConstruct(ItemEntity entity, CallbackInfo info)
