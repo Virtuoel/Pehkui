@@ -7,15 +7,18 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ServerPlayerInteractionManager.class)
 public class ServerPlayerInteractionManagerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 1.5D))
-	private double processBlockBreakingActionModifyEyeHeight(double value)
+	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 36.0D))
+	private double processBlockBreakingActionModifyDistance(double value)
 	{
-		return player.getStandingEyeHeight();
+		final float scale = ScaleUtils.getBlockReachScale(player);
+		
+		return scale > 1.0F ? scale * scale * value : value;
 	}
 }
