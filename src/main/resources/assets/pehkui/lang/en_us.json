@@ -5,7 +5,9 @@
 	"argument.pehkui.type.invalid": "Unknown scale type '%s'",
 	
 	"commands.pehkui.debug.audit.end": "Mixin environment audit complete!",
-	"commands.pehkui.debug.audit.start": "Starting Mixin environment audit (client)...",
+	"commands.pehkui.debug.audit.end.client": "Mixin environment audit (client) complete!",
+	"commands.pehkui.debug.audit.start": "Starting Mixin environment audit...",
+	"commands.pehkui.debug.audit.start.client": "Starting Mixin environment audit (client)...",
 	"commands.pehkui.debug.delete.uuid.invalid": "Invalid UUID \"%s\".",
 	"commands.pehkui.debug.test.mixin.failed": "Failed classes: %s",
 	"commands.pehkui.debug.test.mixin.results.intermediary.client": "%d successes and %d fails out of %d mixined intermediary client classes",

@@ -225,7 +225,7 @@ public class DebugCommand
 			)
 		);
 		
-		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit (client)..."), false);
+		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);
 		MixinEnvironment.getCurrentEnvironment().audit();
 		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.end", "Mixin environment audit complete!"), false);
 		

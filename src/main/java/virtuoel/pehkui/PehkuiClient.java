@@ -85,9 +85,9 @@ public class PehkuiClient implements ClientModInitializer
 								MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 							);
 							
-							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit (client)..."), false);
+							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start.client", "Starting Mixin environment audit (client)..."), false);
 							MixinEnvironment.getCurrentEnvironment().audit();
-							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.end", "Starting Mixin environment audit (client)..."), false);
+							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.end.client", "Mixin environment audit (client) complete!"), false);
 							
 							break;
 						case GARBAGE_COLLECT:
