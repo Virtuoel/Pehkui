@@ -1,7 +1,6 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -43,7 +42,7 @@ public abstract class PlayerEntityMixin
 		
 		if (scale != 1.0F)
 		{
-			((PlayerEntity) (Object) this).airStrafingSpeed *= scale;
+			((PlayerEntity) (Object) this).flyingSpeed *= scale;
 		}
 	}
 	
@@ -56,7 +55,7 @@ public abstract class PlayerEntityMixin
 		{
 			final Vec3d pos = entity.getPos();
 			
-			entity.setPosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
+			entity.updatePosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
 		}
 	}
 	
@@ -84,33 +83,5 @@ public abstract class PlayerEntityMixin
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@Unique private static final ThreadLocal<Float> pehkui$WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
-	@Unique private static final ThreadLocal<Float> pehkui$HEIGHT_SCALE = ThreadLocal.withInitial(() -> 1.0F);
-	
-	@Inject(method = "attack", at = @At("HEAD"))
-	private void onAttack(Entity target, CallbackInfo info)
-	{
-		pehkui$WIDTH_SCALE.set(ScaleUtils.getBoundingBoxWidthScale(target));
-		pehkui$HEIGHT_SCALE.set(ScaleUtils.getBoundingBoxHeightScale(target));
-	}
-	
-	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onAttackExpandXProxy(double value)
-	{
-		return value * pehkui$WIDTH_SCALE.get();
-	}
-	
-	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onAttackExpandYProxy(double value)
-	{
-		return value * pehkui$HEIGHT_SCALE.get();
-	}
-	
-	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onAttackExpandZProxy(double value)
-	{
-		return value * pehkui$WIDTH_SCALE.get();
 	}
 }

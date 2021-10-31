@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.block.ScaffoldingBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -25,7 +24,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
-import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
@@ -166,10 +164,47 @@ public abstract class LivingEntityMixin
 			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (((PehkuiBlockStateExtensions) self.world.getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
+				if (self.world.getBlockState(pos).isScaffolding(self))
 				{
 					final Vec3d prev = info.getReturnValue();
 					info.setReturnValue(new Vec3d(prev.x, Math.max(self.getVelocity().y, -0.15D), prev.z));
+					break;
+				}
+			}
+		}
+	}
+	
+	@Inject(method = "isClimbing()Z", at = @At(value = "RETURN"), cancellable = true)
+	private void onIsClimbing(CallbackInfoReturnable<Boolean> info)
+	{
+		final LivingEntity self = (LivingEntity) (Object) this;
+		
+		if (info.getReturnValueZ() || self.isSpectator())
+		{
+			return;
+		}
+		
+		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
+		
+		if (width > 1.0F)
+		{
+			final Box bounds = self.getBoundingBox();
+			
+			final double halfUnscaledXLength = (bounds.getXLength() / width) / 2.0D;
+			final int minX = MathHelper.floor(bounds.minX + halfUnscaledXLength);
+			final int maxX = MathHelper.floor(bounds.maxX - halfUnscaledXLength);
+			
+			final int minY = MathHelper.floor(bounds.minY);
+			
+			final double halfUnscaledZLength = (bounds.getZLength() / width) / 2.0D;
+			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
+			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
+			
+			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
+			{
+				if (self.world.getBlockState(pos).isLadder(self.world, pos, self))
+				{
+					info.setReturnValue(true);
 					break;
 				}
 			}
