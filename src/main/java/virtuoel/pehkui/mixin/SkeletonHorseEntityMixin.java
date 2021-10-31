@@ -10,7 +10,7 @@ import net.minecraft.entity.mob.SkeletonHorseEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(SkeletonHorseEntity.class)
-public abstract class SkeletonHorseEntityMixin extends EntityMixin
+public abstract class SkeletonHorseEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
 	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)

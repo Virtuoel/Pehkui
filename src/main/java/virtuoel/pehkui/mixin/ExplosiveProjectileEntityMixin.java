@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ExplosiveProjectileEntity.class)
-public abstract class ExplosiveProjectileEntityMixin extends EntityMixin
+public abstract class ExplosiveProjectileEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;DDDLnet/minecraft/world/World;)V")
 	private void onConstruct(EntityType<? extends ExplosiveProjectileEntity> type, LivingEntity owner, double directionX, double directionY, double directionZ, World world, CallbackInfo info)
