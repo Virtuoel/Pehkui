@@ -50,15 +50,18 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
-		ScaleData scaleData = pehkui_scaleTypes.get(type);
-		
-		if (!pehkui_scaleTypes.containsKey(type))
+		synchronized (pehkui_scaleTypes)
 		{
-			pehkui_scaleTypes.put(type, null);
-			pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+			ScaleData scaleData = pehkui_scaleTypes.get(type);
+			
+			if (!pehkui_scaleTypes.containsKey(type))
+			{
+				pehkui_scaleTypes.put(type, null);
+				pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+			}
+			
+			return scaleData;
 		}
-		
-		return scaleData;
 	}
 	
 	@Override
