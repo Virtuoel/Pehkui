@@ -47,62 +47,65 @@ public class DebugCommand
 	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
-		commandDispatcher.register(
-			CommandManager.literal("scale")
-			.requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			})
-			.then(CommandManager.literal("debug")
-				.then(CommandManager.literal("delete_scale_data")
-					.then(CommandManager.literal("uuid")
-						.then(CommandManager.argument("uuid", StringArgumentType.string())
-							.executes(context ->
-							{
-								final String uuidString = StringArgumentType.getString(context, "uuid");
-								
-								try
+		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableCommands.get())
+		{
+			commandDispatcher.register(
+				CommandManager.literal("scale")
+				.requires(commandSource ->
+				{
+					return commandSource.hasPermissionLevel(2);
+				})
+				.then(CommandManager.literal("debug")
+					.then(CommandManager.literal("delete_scale_data")
+						.then(CommandManager.literal("uuid")
+							.then(CommandManager.argument("uuid", StringArgumentType.string())
+								.executes(context ->
 								{
-									MARKED_UUIDS.add(UUID.fromString(uuidString));
-								}
-								catch (IllegalArgumentException e)
-								{
-									context.getSource().sendError(I18nUtils.translate("commands.pehkui.debug.delete.uuid.invalid", "Invalid UUID \"%s\".", uuidString));
-									return 0;
-								}
-								
-								return 1;
-							})
-						)
-					)
-					.then(CommandManager.literal("username")
-						.then(CommandManager.argument("username", StringArgumentType.string())
-							.executes(context ->
-							{
-								MARKED_USERNAMES.add(StringArgumentType.getString(context, "username").toLowerCase(Locale.ROOT));
-								
-								return 1;
-							})
-						)
-					)
-				)
-				.then(CommandManager.literal("garbage_collect")
-					.executes(context ->
-					{
-						context.getSource().getPlayer().networkHandler.sendPacket(
-							new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
-								new PacketByteBuf(Unpooled.buffer())
-								.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
+									final String uuidString = StringArgumentType.getString(context, "uuid");
+									
+									try
+									{
+										MARKED_UUIDS.add(UUID.fromString(uuidString));
+									}
+									catch (IllegalArgumentException e)
+									{
+										context.getSource().sendError(I18nUtils.translate("commands.pehkui.debug.delete.uuid.invalid", "Invalid UUID \"%s\".", uuidString));
+										return 0;
+									}
+									
+									return 1;
+								})
 							)
-						);
-						
-						System.gc();
-						
-						return 1;
-					})
+						)
+						.then(CommandManager.literal("username")
+							.then(CommandManager.argument("username", StringArgumentType.string())
+								.executes(context ->
+								{
+									MARKED_USERNAMES.add(StringArgumentType.getString(context, "username").toLowerCase(Locale.ROOT));
+									
+									return 1;
+								})
+							)
+						)
+					)
+					.then(CommandManager.literal("garbage_collect")
+						.executes(context ->
+						{
+							context.getSource().getPlayer().networkHandler.sendPacket(
+								new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
+									new PacketByteBuf(Unpooled.buffer())
+									.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
+								)
+							);
+							
+							System.gc();
+							
+							return 1;
+						})
+					)
 				)
-			)
-		);
+			);
+		}
 		
 		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{
