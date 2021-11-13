@@ -215,7 +215,11 @@ public class ScaleUtils
 	
 	public static void syncScalesIfNeeded(Entity entity, Consumer<Packet<?>> packetSender)
 	{
-		syncScales(entity, packetSender, ScaleData::shouldSync, true);
+		if (((PehkuiEntityExtensions) entity).pehkui_shouldSyncScales())
+		{
+			syncScales(entity, packetSender, ScaleData::shouldSync, true);
+			((PehkuiEntityExtensions) entity).pehkui_setShouldSyncScales(false);
+		}
 	}
 	
 	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
