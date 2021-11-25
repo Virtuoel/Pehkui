@@ -323,7 +323,10 @@ public class ScaleData
 		if (e != null && e.world != null && !e.world.isClient)
 		{
 			this.shouldSync = sync;
-			((PehkuiEntityExtensions) e).pehkui_setShouldSyncScales(true);
+			if (this.shouldSync)
+			{
+				((PehkuiEntityExtensions) e).pehkui_setShouldSyncScales(true);
+			}
 		}
 	}
 	
