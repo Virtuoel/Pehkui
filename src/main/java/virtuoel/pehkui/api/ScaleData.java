@@ -18,6 +18,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.util.Constants;
+import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
 public class ScaleData
 {
@@ -324,6 +325,10 @@ public class ScaleData
 		if (e != null && e.world != null && !e.world.isClient)
 		{
 			this.shouldSync = sync;
+			if (this.shouldSync)
+			{
+				((PehkuiEntityExtensions) e).pehkui_setShouldSyncScales(true);
+			}
 		}
 	}
 	

@@ -16,6 +16,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraftforge.fml.loading.FMLLoader;
+import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -35,6 +37,11 @@ public class ScaleCommand
 	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
+		if (FMLLoader.isProduction() && !PehkuiConfig.COMMON.enableCommands.get())
+		{
+			return;
+		}
+		
 		final LiteralArgumentBuilder<ServerCommandSource> builder =
 			CommandManager.literal("scale")
 			.requires(commandSource ->

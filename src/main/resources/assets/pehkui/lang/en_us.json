@@ -36,9 +36,10 @@
 	"pehkui.configgui.scaledProjectiles": "Whether the shot projectile scale should be enabled",
 	"pehkui.configgui.scaledExplosions": "Whether the explosion scale should be enabled",
 	"pehkui.configgui.keepAllScalesOnRespawn": "Whether all scales should not get reset on respawn",
-	"pehkui.configgui.accurateNetherPortals": "Whether the collision of Nether Portals should be adjusted to fit the selection box",
 	"pehkui.configgui.scalesKeptOnRespawn": "A list of scale type IDs that should not be reset on respawn",
+	"pehkui.configgui.accurateNetherPortals": "Whether the collision of Nether Portals should be adjusted to fit the selection box",
 	"pehkui.configgui.largeScaleCollisionThreshold": "Above this scale, certain collisions will be ignored, possibly helping with lag",
+	"pehkui.configgui.enableCommands": "Whether commands such as /scale should be enabled",
 	"pehkui.configgui.enableDebugCommands": "Whether internal debugging commands should be enabled",
 	
 	"pehkui.configgui.scale_limits.base.minimum": "Minimum value for the scale type pehkui:base",

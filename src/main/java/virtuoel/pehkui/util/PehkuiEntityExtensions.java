@@ -13,6 +13,10 @@ public interface PehkuiEntityExtensions
 	
 	Map<ScaleType, ScaleData> pehkui_getScales();
 	
+	boolean pehkui_shouldSyncScales();
+	
+	void pehkui_setShouldSyncScales(boolean sync);
+	
 	boolean pehkui_getOnGround();
 	
 	void pehkui_setOnGround(boolean onGround);
