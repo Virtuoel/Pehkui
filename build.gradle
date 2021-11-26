@@ -150,7 +150,7 @@ eclipse {
 	else {
 		def minor = (minecraft_version.split(/\./, -1)[1] as Integer);
 		jdt {
-			javaRuntimeName = "JavaSE-${minor >= 18 ? 17 : minor >= 17 ? 16 : 8}"
+			javaRuntimeName = "JavaSE-${minor >= 18 ? 17 : minor >= 17 ? 16 : 1.8}"
 		}
 	}
 }
