@@ -42,55 +42,58 @@ public class DebugCommand
 	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
-		commandDispatcher.register(
-			CommandManager.literal("scale")
-			.requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			})
-			.then(CommandManager.literal("debug")
-				.then(CommandManager.literal("delete_scale_data")
-					.then(CommandManager.literal("uuid")
-						.then(CommandManager.argument("uuid", StringArgumentType.string())
-							.executes(context ->
-							{
-								final String uuidString = StringArgumentType.getString(context, "uuid");
-								
-								try
+		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableCommands.get())
+		{
+			commandDispatcher.register(
+				CommandManager.literal("scale")
+				.requires(commandSource ->
+				{
+					return commandSource.hasPermissionLevel(2);
+				})
+				.then(CommandManager.literal("debug")
+					.then(CommandManager.literal("delete_scale_data")
+						.then(CommandManager.literal("uuid")
+							.then(CommandManager.argument("uuid", StringArgumentType.string())
+								.executes(context ->
 								{
-									MARKED_UUIDS.add(UUID.fromString(uuidString));
-								}
-								catch (IllegalArgumentException e)
+									final String uuidString = StringArgumentType.getString(context, "uuid");
+									
+									try
+									{
+										MARKED_UUIDS.add(UUID.fromString(uuidString));
+									}
+									catch (IllegalArgumentException e)
+									{
+										context.getSource().sendError(I18nUtils.translate("commands.pehkui.debug.delete.uuid.invalid", "Invalid UUID \"%s\".", uuidString));
+										return 0;
+									}
+									
+									return 1;
+								})
+							)
+						)
+						.then(CommandManager.literal("username")
+							.then(CommandManager.argument("username", StringArgumentType.string())
+								.executes(context ->
 								{
-									context.getSource().sendError(I18nUtils.translate("commands.pehkui.debug.delete.uuid.invalid", "Invalid UUID \"%s\".", uuidString));
-									return 0;
-								}
-								
-								return 1;
-							})
+									MARKED_USERNAMES.add(StringArgumentType.getString(context, "username").toLowerCase(Locale.ROOT));
+									
+									return 1;
+								})
+							)
 						)
 					)
-					.then(CommandManager.literal("username")
-						.then(CommandManager.argument("username", StringArgumentType.string())
-							.executes(context ->
-							{
-								MARKED_USERNAMES.add(StringArgumentType.getString(context, "username").toLowerCase(Locale.ROOT));
-								
-								return 1;
-							})
-						)
+					.then(CommandManager.literal("garbage_collect")
+						.executes(context ->
+						{
+							System.gc();
+							
+							return 1;
+						})
 					)
 				)
-				.then(CommandManager.literal("garbage_collect")
-					.executes(context ->
-					{
-						System.gc();
-						
-						return 1;
-					})
-				)
-			)
-		);
+			);
+		}
 		
 		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{

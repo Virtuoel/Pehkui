@@ -142,9 +142,15 @@ eclipse {
 		buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
 		natures "org.eclipse.buildship.core.gradleprojectnature"
 	}
-	if(!proj.hasProperty("forge_version") || ((minecraft_version.split(/\./, -1)[1] as Integer) >= 17)) {
+	if(!proj.hasProperty("forge_version")) {
 		jdt {
-			javaRuntimeName = "JavaSE-16"
+			javaRuntimeName = "JavaSE-17"
+		}
+	}
+	else {
+		def minor = (minecraft_version.split(/\./, -1)[1] as Integer);
+		jdt {
+			javaRuntimeName = "JavaSE-${minor >= 18 ? 17 : minor >= 17 ? 16 : 1.8}"
 		}
 	}
 }
@@ -183,13 +189,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 publishing {
 	publications {
 		mavenJava(MavenPublication) {
-			artifact(remapJar) {
-				builtBy remapJar
-			}
-			artifact(sourcesJar) {
-				classifier = "sources"
-				builtBy remapSourcesJar
-			}
+			from components.java
 		}
 	}
 	

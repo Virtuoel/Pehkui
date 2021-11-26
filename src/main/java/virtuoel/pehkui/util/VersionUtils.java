@@ -65,6 +65,15 @@ public class VersionUtils
 				(mixinClassName.contains(".compat117minus.") && MINOR > 17) ||
 				(mixinClassName.contains(".compat1170.") && (MINOR != 17 || PATCH != 0)) ||
 				(mixinClassName.contains(".compat1170minus.") && (MINOR > 17 || (MINOR == 17 && PATCH > 0))) ||
+				(mixinClassName.contains(".compat1171.") && (MINOR != 17 || PATCH != 1)) ||
+				(mixinClassName.contains(".compat1171plus.") && (MINOR < 17 || (MINOR == 17 && PATCH < 1))) ||
+				(mixinClassName.contains(".compat1171minus.") && (MINOR > 17 || (MINOR == 17 && PATCH > 1))) ||
+				
+				(mixinClassName.contains(".compat118.") && MINOR != 18) ||
+				(mixinClassName.contains(".compat118plus.") && MINOR < 18) ||
+				(mixinClassName.contains(".compat118minus.") && MINOR > 18) ||
+				(mixinClassName.contains(".compat1180.") && (MINOR != 18 || PATCH != 0)) ||
+				(mixinClassName.contains(".compat1180minus.") && (MINOR > 18 || (MINOR == 18 && PATCH > 0))) ||
 				false
 			)
 			{

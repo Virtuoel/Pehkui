@@ -31,12 +31,16 @@ public abstract class EntityCalculateDimensionsMixin
 		
 		if (self.world.isClient && self.getType() == EntityType.PLAYER && current.width > previous.width)
 		{
-			final Vec3d lastCenter = self.getPos().add(0.0D, previous.height / 2.0D, 0.0D);
-			final double w = Math.max(0.0F, current.width - previous.width) + 1.0E-6D;
-			final double h = Math.max(0.0F, current.height - previous.height) + 1.0E-6D;
+			final double prevW = Math.min(previous.width, 4.0D);
+			final double prevH = Math.min(previous.height, 4.0D);
+			final double currW = Math.min(current.width, 4.0D);
+			final double currH = Math.min(current.height, 4.0D);
+			final Vec3d lastCenter = self.getPos().add(0.0D, prevH / 2.0D, 0.0D);
+			final double w = Math.max(0.0F, currW - prevW) + 1.0E-6D;
+			final double h = Math.max(0.0F, currH - prevH) + 1.0E-6D;
 			final VoxelShape voxelShape = VoxelShapes.cuboid(Box.of(lastCenter, w, h, w));
-			self.world.findClosestCollision(self, voxelShape, lastCenter, Math.min(current.width, 4.0D), Math.min(current.height, 4.0D), Math.min(current.width, 4.0D))
-			.ifPresent(vec -> self.setPosition(vec.add(0.0D, (-current.height) / 2.0D, 0.0D)));
+			self.world.findClosestCollision(self, voxelShape, lastCenter, currW, currH, currW)
+			.ifPresent(vec -> self.setPosition(vec.add(0.0D, -currH / 2.0D, 0.0D)));
 		}
 	}
 }

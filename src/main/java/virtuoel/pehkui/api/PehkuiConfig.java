@@ -98,6 +98,7 @@ public class PehkuiConfig
 		public final ForgeConfigSpec.BooleanValue accurateNetherPortals;
 		@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
 		public final ForgeConfigSpec.DoubleValue largeScaleCollisionThreshold;
+		public final ForgeConfigSpec.BooleanValue enableCommands;
 		public final ForgeConfigSpec.BooleanValue enableDebugCommands;
 		
 		Common(ForgeConfigSpec.Builder builder)
@@ -164,6 +165,9 @@ public class PehkuiConfig
 			this.largeScaleCollisionThreshold = builder
 				.translation("pehkui.configgui.largeScaleCollisionThreshold")
 				.defineInRange("largeScaleCollisionThreshold", 26.0D, 16.0D, 128.0D);
+			this.enableCommands = builder
+				.translation("pehkui.configgui.enableCommands")
+				.define("enableCommands", false);
 			this.enableDebugCommands = builder
 				.translation("pehkui.configgui.enableDebugCommands")
 				.define("enableDebugCommands", false);

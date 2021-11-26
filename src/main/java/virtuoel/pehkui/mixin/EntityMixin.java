@@ -40,6 +40,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Shadow boolean onGround;
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+	private boolean pehkui_shouldSyncScales = false;
 	
 	@Override
 	public ScaleData pehkui_constructScaleData(ScaleType type)
@@ -50,21 +51,36 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
-		ScaleData scaleData = pehkui_scaleTypes.get(type);
-		
-		if (!pehkui_scaleTypes.containsKey(type))
+		synchronized (pehkui_scaleTypes)
 		{
-			pehkui_scaleTypes.put(type, null);
-			pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+			ScaleData scaleData = pehkui_scaleTypes.get(type);
+			
+			if (!pehkui_scaleTypes.containsKey(type))
+			{
+				pehkui_scaleTypes.put(type, null);
+				pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+			}
+			
+			return scaleData;
 		}
-		
-		return scaleData;
 	}
 	
 	@Override
 	public Map<ScaleType, ScaleData> pehkui_getScales()
 	{
 		return pehkui_scaleTypes;
+	}
+	
+	@Override
+	public void pehkui_setShouldSyncScales(boolean sync)
+	{
+		pehkui_shouldSyncScales = sync;
+	}
+	
+	@Override
+	public boolean pehkui_shouldSyncScales()
+	{
+		return pehkui_shouldSyncScales;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "readNbt")
