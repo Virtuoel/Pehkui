@@ -35,10 +35,10 @@ Supported Versions of `Pehkui-x.y.z+1.16.5-forge`:
 
 Supported Versions of `Pehkui-x.y.z+1.17.1-forge`:  
 `1.17.1`
-<!--
+
 Supported Versions of `Pehkui-x.y.z+1.18-forge`:  
 `1.18`
--->
+
 </td></table></details>
 
 ## Mod Features
