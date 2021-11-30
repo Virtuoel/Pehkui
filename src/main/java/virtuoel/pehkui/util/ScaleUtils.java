@@ -112,22 +112,27 @@ public class ScaleUtils
 			return value;
 		}
 		
-		final float ret = value / scale;
+		return divideClamped(value, scale, MINIMUM_LIMB_MOTION_SCALE);
+	}
+	
+	public static float divideClamped(float dividend, float divisor, float limit)
+	{
+		final float ret = dividend / divisor;
 		
 		if (ret == Float.POSITIVE_INFINITY)
 		{
-			return MINIMUM_LIMB_MOTION_SCALE;
+			return limit;
 		}
 		else if (ret == Float.NEGATIVE_INFINITY)
 		{
-			return -MINIMUM_LIMB_MOTION_SCALE;
+			return -limit;
 		}
-		else if (ret > MINIMUM_LIMB_MOTION_SCALE || ret < -MINIMUM_LIMB_MOTION_SCALE)
+		else if (ret > limit || ret < -limit)
 		{
 			return ret;
 		}
 		
-		return ret < 0 ? -MINIMUM_LIMB_MOTION_SCALE : MINIMUM_LIMB_MOTION_SCALE;
+		return ret < 0 ? -limit : limit;
 	}
 	
 	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)

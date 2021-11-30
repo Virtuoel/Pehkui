@@ -86,6 +86,14 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
+	@ModifyConstant(method = "updateCapeAngles", constant = { @Constant(doubleValue = 10.0D), @Constant(doubleValue = -10.0D) })
+	private double onUpdateCapeAnglesModifyLimits(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
+	}
+	
 	@Unique private static final ThreadLocal<Float> pehkui$WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
 	@Unique private static final ThreadLocal<Float> pehkui$HEIGHT_SCALE = ThreadLocal.withInitial(() -> 1.0F);
 	
