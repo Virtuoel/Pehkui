@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.ToDoubleBiFunction;
 
-import org.jetbrains.annotations.ApiStatus;
-
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
@@ -43,13 +41,6 @@ public class ScaleType
 	public boolean getDefaultPersistence()
 	{
 		return defaultPersistence;
-	}
-	
-	@Deprecated
-	@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public boolean isPersistent()
-	{
-		return getDefaultPersistence();
 	}
 	
 	private float defaultBaseScale;
@@ -200,14 +191,6 @@ public class ScaleType
 			return this;
 		}
 		
-		@Deprecated
-		@ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-		public Builder persistent()
-		{
-			this.defaultPersistence = true;
-			return this;
-		}
-		
 		public Builder addDependentModifier(ScaleModifier scaleModifier)
 		{
 			this.dependentModifiers.add(scaleModifier);
@@ -289,57 +272,4 @@ public class ScaleType
 	{
 		return postTickEvent;
 	}
-	
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType INVALID = ScaleTypes.INVALID;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType BASE = ScaleTypes.BASE;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType WIDTH = ScaleTypes.WIDTH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType HEIGHT = ScaleTypes.HEIGHT;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType EYE_HEIGHT = ScaleTypes.EYE_HEIGHT;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType HITBOX_WIDTH = ScaleTypes.HITBOX_WIDTH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType HITBOX_HEIGHT = ScaleTypes.HITBOX_HEIGHT;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType MODEL_WIDTH = ScaleTypes.MODEL_WIDTH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType MODEL_HEIGHT = ScaleTypes.MODEL_HEIGHT;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType THIRD_PERSON = ScaleTypes.THIRD_PERSON;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType MOTION = ScaleTypes.MOTION;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType FALLING = ScaleTypes.FALLING;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType STEP_HEIGHT = ScaleTypes.STEP_HEIGHT;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType VIEW_BOBBING = ScaleTypes.VIEW_BOBBING;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType FLIGHT = ScaleTypes.FLIGHT;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType REACH = ScaleTypes.REACH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType BLOCK_REACH = ScaleTypes.BLOCK_REACH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType ENTITY_REACH = ScaleTypes.ENTITY_REACH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType KNOCKBACK = ScaleTypes.KNOCKBACK;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType ATTACK = ScaleTypes.ATTACK;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType DEFENSE = ScaleTypes.DEFENSE;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType HEALTH = ScaleTypes.HEALTH;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType DROPS = ScaleTypes.DROPS;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType HELD_ITEM = ScaleTypes.HELD_ITEM;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType PROJECTILES = ScaleTypes.PROJECTILES;
-	@Deprecated @ApiStatus.ScheduledForRemoval(inVersion = "3.0.0")
-	public static final ScaleType EXPLOSIONS = ScaleTypes.EXPLOSIONS;
 }
