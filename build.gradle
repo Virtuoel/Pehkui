@@ -52,6 +52,14 @@ if(project.hasProperty("forge_version")) {
 		}
 	}
 }
+else {
+	loom {
+		def access_widener_file = file("src/main/resources/${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.accesswidener");
+		if (access_widener_file.exists()) {
+			accessWidenerPath = access_widener_file
+		}
+	}
+}
 
 loom {
 	mixin {
