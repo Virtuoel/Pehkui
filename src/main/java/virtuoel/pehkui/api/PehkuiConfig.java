@@ -162,7 +162,7 @@ public class PehkuiConfig
 				);
 			this.enableCommands = builder
 				.translation("pehkui.configgui.enableCommands")
-				.define("enableCommands", false);
+				.define("enableCommands", true);
 			this.enableDebugCommands = builder
 				.translation("pehkui.configgui.enableDebugCommands")
 				.define("enableDebugCommands", false);
