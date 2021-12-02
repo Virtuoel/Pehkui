@@ -11,12 +11,12 @@ import org.jetbrains.annotations.Nullable;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.common.util.Constants;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
 public class ScaleData
@@ -363,7 +363,7 @@ public class ScaleData
 		
 		if (tag.contains("baseValueModifiers"))
 		{
-			final NbtList modifiers = tag.getList("baseValueModifiers", Constants.NBT.TAG_STRING);
+			final NbtList modifiers = tag.getList("baseValueModifiers", NbtElement.STRING_TYPE);
 			
 			Identifier id;
 			ScaleModifier modifier;

@@ -23,9 +23,9 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.common.util.Constants;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
@@ -86,7 +86,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
-		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", Constants.NBT.TAG_COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
+		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtElement.COMPOUND_TYPE) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
 		{
 			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			
@@ -96,7 +96,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 			{
 				key = entry.getKey().toString();
 				
-				if (typeData.contains(key, Constants.NBT.TAG_COMPOUND))
+				if (typeData.contains(key, NbtElement.COMPOUND_TYPE))
 				{
 					scaleData = pehkui_getScaleData(entry.getValue());
 					scaleData.readNbt(typeData.getCompound(key));
