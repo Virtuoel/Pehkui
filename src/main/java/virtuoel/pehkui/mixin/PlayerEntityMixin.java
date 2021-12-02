@@ -42,7 +42,7 @@ public abstract class PlayerEntityMixin
 		
 		if (scale != 1.0F)
 		{
-			((PlayerEntity) (Object) this).flyingSpeed *= scale;
+			((PlayerEntity) (Object) this).airStrafingSpeed *= scale;
 		}
 	}
 	
