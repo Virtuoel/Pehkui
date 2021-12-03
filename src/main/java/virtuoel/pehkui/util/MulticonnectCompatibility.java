@@ -16,7 +16,7 @@ public class MulticonnectCompatibility
 	
 	private boolean enabled;
 	
-	public MulticonnectCompatibility()
+	private MulticonnectCompatibility()
 	{
 		this.enabled = MULTICONNECT_LOADED;
 		
