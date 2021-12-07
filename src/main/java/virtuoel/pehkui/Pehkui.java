@@ -16,6 +16,7 @@ import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.ModLoaderUtils;
 
 public class Pehkui implements ModInitializer
@@ -47,6 +48,8 @@ public class Pehkui implements ModInitializer
 				DebugCommand.register(commandDispatcher, dedicated);
 			});
 		}
+		
+		ImmersivePortalsCompatibility.INSTANCE.getClass();
 	}
 	
 	public static Identifier id(String path)
