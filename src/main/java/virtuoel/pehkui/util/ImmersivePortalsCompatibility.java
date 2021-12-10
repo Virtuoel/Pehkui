@@ -47,6 +47,17 @@ public class ImmersivePortalsCompatibility
 				ReflectionUtils.setField(interfaceClass, "getBaseScale", null, getBaseScale);
 				ReflectionUtils.setField(interfaceClass, "setBaseScale", null, setBaseScale);
 			}
+			
+			final Optional<Class<?>> globalClass = ReflectionUtils.getClass(
+				"qouteall.imm_ptl.core.IPGlobal",
+				"qouteall.imm_ptl.core.Global",
+				"com.qouteall.immersive_portals.Global"
+			);
+			
+			if (globalClass.isPresent())
+			{
+				ReflectionUtils.setField(globalClass, "enableDepthClampForPortalRendering", null, true);
+			}
 		}
 	}
 }
