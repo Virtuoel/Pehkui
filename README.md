@@ -106,12 +106,12 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
 </td></table></details>
 
-### Fixing Mixins of Dependencies on Forge with ForgeGradle
+### Fixing Mixins of Dependencies If Using Older ForgeGradle (4 and below)
 
 <details>
-<summary>Show/Hide Fix for Dependency Mixins on Forge</summary><table width=100%><td>
+<summary>Show/Hide Fix for Dependency Mixins on Older ForgeGradle</summary><table width=100%><td>
 
-If you're using Forge with ForgeGradle, make sure refmap remapping is enabled in your `build.gradle`'s run configuration blocks.
+If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled in your `build.gradle`'s run configuration blocks.
 
 Make sure the following lines are present in the `client {}`, `server {}`, and `data {}` run configuration blocks.
 
