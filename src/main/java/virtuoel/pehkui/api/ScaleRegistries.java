@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Maps;
 
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
@@ -47,7 +48,7 @@ public class ScaleRegistries
 	
 	private static <E> BiMap<Identifier, E> create(Identifier id, Identifier defaultId, Supplier<E> defaultEntry)
 	{
-		final BiMap<Identifier, E> registry = HashBiMap.create();
+		final BiMap<Identifier, E> registry = Maps.synchronizedBiMap(HashBiMap.create());
 		REGISTRY_IDS.put(registry, id);
 		DEFAULT_IDS.put(id, defaultId);
 		DEFAULT_ENTRIES.put(id, defaultEntry);
