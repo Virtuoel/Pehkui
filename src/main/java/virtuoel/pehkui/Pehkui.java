@@ -28,6 +28,8 @@ import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
+import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mod(Pehkui.MOD_ID)
@@ -87,6 +89,8 @@ public class Pehkui
 		PehkuiEntitySelectorOptions.register();
 		
 		PehkuiPacketHandler.init();
+		
+		ImmersivePortalsCompatibility.INSTANCE.getClass();
 	}
 	
 	@SubscribeEvent
