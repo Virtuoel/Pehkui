@@ -23,12 +23,10 @@ public class ImmersivePortalsCompatibility
 		
 		if (this.enabled)
 		{
-			Optional<Class<?>> interfaceClass = ReflectionUtils.getClass("qouteall.imm_ptl.core.PehkuiInterface");
-			
-			if (!interfaceClass.isPresent())
-			{
-				interfaceClass = ReflectionUtils.getClass("com.qouteall.immersive_portals.PehkuiInterface");
-			}
+			final Optional<Class<?>> interfaceClass = ReflectionUtils.getClass(
+				"qouteall.imm_ptl.core.PehkuiInterface",
+				"com.qouteall.immersive_portals.PehkuiInterface"
+			);
 			
 			if (interfaceClass.isPresent())
 			{
@@ -43,27 +41,12 @@ public class ImmersivePortalsCompatibility
 					d.setBaseScale(s);
 				};
 				
-				setField(interfaceClass, "getThirdPersonScale", null, getThirdPersonScale);
-				setField(interfaceClass, "getBlockReachScale", null, getBlockReachScale);
-				setField(interfaceClass, "getMotionScale", null, getMotionScale);
-				setField(interfaceClass, "getBaseScale", null, getBaseScale);
-				setField(interfaceClass, "setBaseScale", null, setBaseScale);
+				ReflectionUtils.setField(interfaceClass, "getThirdPersonScale", null, getThirdPersonScale);
+				ReflectionUtils.setField(interfaceClass, "getBlockReachScale", null, getBlockReachScale);
+				ReflectionUtils.setField(interfaceClass, "getMotionScale", null, getMotionScale);
+				ReflectionUtils.setField(interfaceClass, "getBaseScale", null, getBaseScale);
+				ReflectionUtils.setField(interfaceClass, "setBaseScale", null, setBaseScale);
 			}
 		}
-	}
-	
-	private static void setField(final Optional<Class<?>> classObj, final String fieldName, Object object, Object value)
-	{
-		ReflectionUtils.getField(classObj, fieldName).ifPresent(f ->
-		{
-			try
-			{
-				f.set(object, value);
-			}
-			catch (IllegalArgumentException | IllegalAccessException e)
-			{
-				
-			}
-		});
 	}
 }

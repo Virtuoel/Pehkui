@@ -24,6 +24,21 @@ public final class ReflectionUtils
 		});
 	}
 	
+	public static void setField(final Optional<Class<?>> classObj, final String fieldName, Object object, Object value)
+	{
+		ReflectionUtils.getField(classObj, fieldName).ifPresent(f ->
+		{
+			try
+			{
+				f.set(object, value);
+			}
+			catch (IllegalArgumentException | IllegalAccessException e)
+			{
+				
+			}
+		});
+	}
+	
 	public static Optional<Method> getMethod(final Optional<Class<?>> classObj, final String methodName, Class<?>... args)
 	{
 		return classObj.map(c ->
@@ -42,6 +57,23 @@ public final class ReflectionUtils
 		});
 	}
 	
+	public static Optional<Class<?>> getClass(final String className, final String... classNames)
+	{
+		Optional<Class<?>> ret = getClass(className);
+		
+		for (final String name : classNames)
+		{
+			if (ret.isPresent())
+			{
+				return ret;
+			}
+			
+			ret = getClass(name);
+		}
+		
+		return ret;
+	}
+	
 	public static Optional<Class<?>> getClass(final String className)
 	{
 		try
@@ -52,6 +84,7 @@ public final class ReflectionUtils
 		{
 			
 		}
+		
 		return Optional.empty();
 	}
 	
