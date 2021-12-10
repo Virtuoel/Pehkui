@@ -24,7 +24,7 @@ public class IdentityCompatibility
 	
 	private boolean enabled;
 	
-	public IdentityCompatibility()
+	private IdentityCompatibility()
 	{
 		this.enabled = IDENTITY_LOADED;
 		

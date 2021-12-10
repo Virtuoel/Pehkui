@@ -25,8 +25,8 @@ Library mod for the Fabric and Forge mod loaders that allows mod developers to m
 <summary>Show/Hide Supported Minecraft Versions</summary><table width=100%><td>
 
 ### Fabric Versions
-Supported Versions of `Pehkui-x.y.z+1.14.4-1.18`:  
-`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `1.18`
+Supported Versions of `Pehkui-x.y.z+1.14.4-1.18.1`:  
+`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `1.18.1`
 
 ### Forge Versions
 
@@ -36,8 +36,8 @@ Supported Versions of `Pehkui-x.y.z+1.16.5-forge`:
 Supported Versions of `Pehkui-x.y.z+1.17.1-forge`:  
 `1.17.1`
 
-Supported Versions of `Pehkui-x.y.z+1.18-forge`:  
-`1.18`
+Supported Versions of `Pehkui-x.y.z+1.18.1-forge`:  
+`1.18.1`
 
 </td></table></details>
 
@@ -104,6 +104,23 @@ api fg.deobf("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```groovy
 modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
+</td></table></details>
+
+### Fixing Mixins of Dependencies If Using Older ForgeGradle (4 and below)
+
+<details>
+<summary>Show/Hide Fix for Dependency Mixins on Older ForgeGradle</summary><table width=100%><td>
+
+If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled in your `build.gradle`'s run configuration blocks.
+
+Make sure the following lines are present in the `client {}`, `server {}`, and `data {}` run configuration blocks.
+
+```groovy
+property 'mixin.env.remapRefMap', 'true'
+property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+```
+
+Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE.
 </td></table></details>
 </td></table></details>
 <!--
