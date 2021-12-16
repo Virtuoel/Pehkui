@@ -7,6 +7,7 @@ public class ScaleModifiers
 {
 	public static final ScaleModifier IDENTITY = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_MODIFIERS));
 	public static final ScaleModifier BASE_MULTIPLIER = register("base_multiplier", new TypedScaleModifier(() -> ScaleTypes.BASE));
+	public static final ScaleModifier BASE_DIVISOR = register("base_divisor", new TypedScaleModifier(() -> ScaleTypes.BASE, (m, t) -> m / t));
 	public static final ScaleModifier MOTION_MULTIPLIER = register("motion_multiplier", new TypedScaleModifier(() -> ScaleTypes.MOTION));
 	public static final ScaleModifier MOTION_DIVISOR = register("motion_divisor", new TypedScaleModifier(() -> ScaleTypes.MOTION, (m, t) -> m / t));
 	public static final ScaleModifier WIDTH_MULTIPLIER = register("width_multiplier", new TypedScaleModifier(() -> ScaleTypes.WIDTH));

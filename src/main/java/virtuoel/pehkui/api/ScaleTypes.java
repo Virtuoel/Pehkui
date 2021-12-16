@@ -6,7 +6,7 @@ import virtuoel.pehkui.Pehkui;
 public class ScaleTypes
 {
 	public static final ScaleType INVALID = register(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES));
-	public static final ScaleType BASE = registerBaseScale("base");
+	public static final ScaleType BASE = registerDimensionScale("base", null, ScaleModifiers.BASE_MULTIPLIER, ScaleModifiers.BASE_DIVISOR);
 	public static final ScaleType WIDTH = registerDimensionScale("width", ScaleModifiers.BASE_MULTIPLIER, ScaleModifiers.WIDTH_MULTIPLIER);
 	public static final ScaleType HEIGHT = registerDimensionScale("height", ScaleModifiers.BASE_MULTIPLIER, ScaleModifiers.HEIGHT_MULTIPLIER);
 	public static final ScaleType EYE_HEIGHT = registerDimensionScale("eye_height", ScaleModifiers.HEIGHT_MULTIPLIER);
@@ -24,6 +24,8 @@ public class ScaleTypes
 	public static final ScaleType REACH = register("reach", ScaleModifiers.BASE_MULTIPLIER);
 	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifiers.REACH_MULTIPLIER);
 	public static final ScaleType ENTITY_REACH = register("entity_reach", ScaleModifiers.REACH_MULTIPLIER);
+	public static final ScaleType MINING_SPEED = register("mining_speed");
+	public static final ScaleType ATTACK_SPEED = register("attack_speed");
 	public static final ScaleType KNOCKBACK = register("knockback");
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");
@@ -56,8 +58,12 @@ public class ScaleTypes
 	
 	private static ScaleType register(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
 	{
-		final ScaleType.Builder builder = ScaleType.Builder.create()
-			.addBaseValueModifier(valueModifier);
+		final ScaleType.Builder builder = ScaleType.Builder.create();
+		
+		if (valueModifier != null)
+		{
+			builder.addBaseValueModifier(valueModifier);
+		}
 		
 		for (ScaleModifier scaleModifier : dependantModifiers)
 		{
@@ -67,20 +73,15 @@ public class ScaleTypes
 		return register(Pehkui.id(path), builder);
 	}
 	
-	private static ScaleType registerBaseScale(String path)
-	{
-		final ScaleType.Builder builder = ScaleType.Builder.create()
-			.affectsDimensions()
-			.addDependentModifier(ScaleModifiers.BASE_MULTIPLIER);
-		
-		return register(Pehkui.id(path), builder);
-	}
-	
 	private static ScaleType registerDimensionScale(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
 	{
 		final ScaleType.Builder builder = ScaleType.Builder.create()
-			.affectsDimensions()
-			.addBaseValueModifier(valueModifier);
+			.affectsDimensions();
+		
+		if (valueModifier != null)
+		{
+			builder.addBaseValueModifier(valueModifier);
+		}
 		
 		for (ScaleModifier scaleModifier : dependantModifiers)
 		{
