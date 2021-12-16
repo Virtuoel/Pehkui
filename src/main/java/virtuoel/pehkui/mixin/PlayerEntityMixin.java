@@ -19,6 +19,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -95,8 +96,8 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? value / scale : value;
 	}
 	
-	@Inject(at = @At("RETURN"), method = "getBlockBreakingSpeed", cancellable = true)
-	private void onGetBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> info)
+	@Inject(at = @At("RETURN"), method = "getDigSpeed", cancellable = true, remap = false)
+	private void onGetBlockBreakingSpeed(BlockState block, BlockPos pos, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
 		
