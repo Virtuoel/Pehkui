@@ -24,6 +24,8 @@ public class ScaleTypes
 	public static final ScaleType REACH = register("reach", ScaleModifiers.BASE_MULTIPLIER);
 	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifiers.REACH_MULTIPLIER);
 	public static final ScaleType ENTITY_REACH = register("entity_reach", ScaleModifiers.REACH_MULTIPLIER);
+	public static final ScaleType MINING_SPEED = register("mining_speed");
+	public static final ScaleType ATTACK_SPEED = register("attack_speed");
 	public static final ScaleType KNOCKBACK = register("knockback");
 	public static final ScaleType ATTACK = register("attack");
 	public static final ScaleType DEFENSE = register("defense");

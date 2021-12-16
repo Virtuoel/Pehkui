@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -84,6 +85,25 @@ public abstract class PlayerEntityMixin
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "getAttackCooldownProgressPerTick", constant = @Constant(doubleValue = 20.0D))
+	private double getAttackCooldownProgressPerTickModifyMultiplier(double value)
+	{
+		final float scale = ScaleUtils.getAttackSpeedScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? value / scale : value;
+	}
+	
+	@Inject(at = @At("RETURN"), method = "getBlockBreakingSpeed", cancellable = true)
+	private void onGetBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> info)
+	{
+		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			info.setReturnValue(info.getReturnValueF() * scale);
+		}
 	}
 	
 	@ModifyConstant(method = "updateCapeAngles", constant = { @Constant(doubleValue = 10.0D), @Constant(doubleValue = -10.0D) })
