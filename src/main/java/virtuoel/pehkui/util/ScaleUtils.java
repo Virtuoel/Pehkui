@@ -401,6 +401,26 @@ public class ScaleUtils
 		return getConfigurableTypedScale(entity, ScaleTypes.ENTITY_REACH, PehkuiConfig.COMMON.scaledReach::get, tickDelta);
 	}
 	
+	public static float getMiningSpeedScale(Entity entity)
+	{
+		return getMiningSpeedScale(entity, 1.0F);
+	}
+	
+	public static float getMiningSpeedScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.MINING_SPEED, tickDelta);
+	}
+	
+	public static float getAttackSpeedScale(Entity entity)
+	{
+		return getAttackSpeedScale(entity, 1.0F);
+	}
+	
+	public static float getAttackSpeedScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.ATTACK_SPEED, tickDelta);
+	}
+	
 	public static float getKnockbackScale(Entity entity)
 	{
 		return getKnockbackScale(entity, 1.0F);

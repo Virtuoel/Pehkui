@@ -20,9 +20,17 @@ public class ClientPlayerEntityMixin
 	}
 	
 	@ModifyConstant(method = "tickMovement", constant = @Constant(floatValue = 3.0F))
-	private float onTickMovementModifyFlightSpeed(float value)
+	private float tickMovementModifyFlightSpeed(float value)
 	{
 		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "autoJump", constant = { @Constant(floatValue = 1.2F), @Constant(floatValue = 0.75F) })
+	private float autoJumpModifyHeightAndBoost(float value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
 	}
