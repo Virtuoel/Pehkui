@@ -1,6 +1,7 @@
 package virtuoel.pehkui.util;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Optional;
 import java.util.function.IntPredicate;
 
@@ -10,9 +11,9 @@ public class MulticonnectCompatibility
 	
 	public static final MulticonnectCompatibility INSTANCE = new MulticonnectCompatibility();
 	
-	private final Optional<Class<?>> connectionInfoClass;
-	
-	private final Optional<Field> protocolVersion;
+	private final Optional<Class<?>> multiconnectApiClass;
+	private final Optional<Method> instanceMethod;
+	private final Optional<Method> protocolVersion;
 	
 	private boolean enabled;
 	
@@ -22,13 +23,16 @@ public class MulticonnectCompatibility
 		
 		if (this.enabled)
 		{
-			this.connectionInfoClass = ReflectionUtils.getClass("net.earthcomputer.multiconnect.impl.ConnectionInfo");
+			this.multiconnectApiClass = ReflectionUtils.getClass("net.earthcomputer.multiconnect.api.MultiConnectAPI");
 			
-			this.protocolVersion = ReflectionUtils.getField(connectionInfoClass, "protocolVersion");
+			this.instanceMethod = ReflectionUtils.getMethod(multiconnectApiClass, "instance");
+			
+			this.protocolVersion = ReflectionUtils.getMethod(multiconnectApiClass, "getProtocolVersion");
 		}
 		else
 		{
-			this.connectionInfoClass = Optional.empty();
+			this.multiconnectApiClass = Optional.empty();
+			this.instanceMethod = Optional.empty();
 			this.protocolVersion = Optional.empty();
 		}
 	}
@@ -37,17 +41,21 @@ public class MulticonnectCompatibility
 	{
 		if (this.enabled)
 		{
-			return protocolVersion.map(f ->
+			return instanceMethod.flatMap(m ->
 			{
-				try
+				return protocolVersion.map(f ->
 				{
-					return protocolPredicate.test((int) f.get(null)) ? trueValue : defaultValue;
-				}
-				catch (IllegalAccessException | IllegalArgumentException e)
-				{
-					return defaultValue;
-				}
-			}).orElse(defaultValue);
+					try
+					{
+						return protocolPredicate.test((int) f.invoke(m.invoke(null))) ? trueValue : defaultValue;
+					}
+					catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+					{
+						return defaultValue;
+					}
+				});
+			})
+			.orElse(defaultValue);
 		}
 		
 		return defaultValue;
