@@ -22,7 +22,7 @@ public class ServerPlayNetworkHandlerMixin
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		
-		if (scale > 1.0F)
+		if (scale != 1.0F)
 		{
 			return reach.getValue() * scale;
 		}
