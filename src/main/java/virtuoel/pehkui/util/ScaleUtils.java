@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
@@ -20,6 +21,9 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
@@ -275,6 +279,106 @@ public class ScaleUtils
 			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
 			syncedScales.clear();
 		}
+	}
+	
+	public static double getBlockXOffset(Direction direction, BlockPos pos, PlayerEntity player)
+	{
+		final int offset = direction.getOffsetX();
+		
+		if (offset > 0)
+		{
+			return 1;
+		}
+		else if (offset < 0)
+		{
+			return 0;
+		}
+		
+		return getBlockXOffset(pos, player);
+	}
+	
+	public static double getBlockXOffset(BlockPos pos, PlayerEntity player)
+	{
+		final int blockCoord = pos.getX();
+		final int playerCoord = player.getBlockX();
+		
+		if (playerCoord == blockCoord)
+		{
+			return player.getX() - (double) blockCoord;
+		}
+		else if (playerCoord > blockCoord)
+		{
+			return 1;
+		}
+		
+		return 0;
+	}
+	
+	public static double getBlockYOffset(Direction direction, BlockPos pos, PlayerEntity player)
+	{
+		final int offset = direction.getOffsetY();
+		
+		if (offset > 0)
+		{
+			return 1;
+		}
+		else if (offset < 0)
+		{
+			return 0;
+		}
+		
+		return getBlockYOffset(pos, player);
+	}
+	
+	public static double getBlockYOffset(BlockPos pos, PlayerEntity player)
+	{
+		final int blockCoord = pos.getY();
+		final double eyeY = player.getEyeY();
+		final int playerCoord = MathHelper.floor(eyeY);
+		
+		if (playerCoord == blockCoord)
+		{
+			return eyeY - (double) blockCoord;
+		}
+		else if (playerCoord > blockCoord)
+		{
+			return 1;
+		}
+		
+		return 0;
+	}
+	
+	public static double getBlockZOffset(Direction direction, BlockPos pos, PlayerEntity player)
+	{
+		final int offset = direction.getOffsetZ();
+		
+		if (offset > 0)
+		{
+			return 1;
+		}
+		else if (offset < 0)
+		{
+			return 0;
+		}
+		
+		return getBlockZOffset(pos, player);
+	}
+	
+	public static double getBlockZOffset(BlockPos pos, PlayerEntity player)
+	{
+		final int blockCoord = pos.getZ();
+		final int playerCoord = player.getBlockZ();
+		
+		if (playerCoord == blockCoord)
+		{
+			return player.getZ() - (double) blockCoord;
+		}
+		else if (playerCoord > blockCoord)
+		{
+			return 1;
+		}
+		
+		return 0;
 	}
 	
 	public static float getEyeHeightScale(Entity entity)

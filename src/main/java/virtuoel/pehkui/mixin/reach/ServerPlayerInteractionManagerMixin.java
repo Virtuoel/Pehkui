@@ -19,6 +19,6 @@ public class ServerPlayerInteractionManagerMixin
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		
-		return scale > 1.0F ? scale * scale * value : value;
+		return scale != 1.0F ? scale * scale * value : value;
 	}
 }
