@@ -300,11 +300,12 @@ public class ScaleUtils
 	public static double getBlockXOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getX();
-		final int playerCoord = player.getBlockX();
+		final double feetCoord = player.getPos().getX();
+		final int playerCoord = MathHelper.floor(feetCoord);
 		
 		if (playerCoord == blockCoord)
 		{
-			return player.getX() - (double) blockCoord;
+			return feetCoord - (double) blockCoord;
 		}
 		else if (playerCoord > blockCoord)
 		{
@@ -333,12 +334,12 @@ public class ScaleUtils
 	public static double getBlockYOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getY();
-		final double eyeY = player.getEyeY();
-		final int playerCoord = MathHelper.floor(eyeY);
+		final double eyeCoord = player.getPos().getY() + player.getStandingEyeHeight();
+		final int playerCoord = MathHelper.floor(eyeCoord);
 		
 		if (playerCoord == blockCoord)
 		{
-			return eyeY - (double) blockCoord;
+			return eyeCoord - (double) blockCoord;
 		}
 		else if (playerCoord > blockCoord)
 		{
@@ -367,11 +368,12 @@ public class ScaleUtils
 	public static double getBlockZOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getZ();
-		final int playerCoord = player.getBlockZ();
+		final double feetCoord = player.getPos().getZ();
+		final int playerCoord = MathHelper.floor(feetCoord);
 		
 		if (playerCoord == blockCoord)
 		{
-			return player.getZ() - (double) blockCoord;
+			return feetCoord - (double) blockCoord;
 		}
 		else if (playerCoord > blockCoord)
 		{
