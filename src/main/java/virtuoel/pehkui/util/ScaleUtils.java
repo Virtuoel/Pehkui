@@ -300,12 +300,14 @@ public class ScaleUtils
 	public static double getBlockXOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getX();
-		final double feetCoord = player.getPos().getX();
-		final int playerCoord = MathHelper.floor(feetCoord);
+		final Direction gravity = GravityChangerCompatibility.INSTANCE.getGravityDirection(player);
+		final double offset = player.getStandingEyeHeight() * -gravity.getOffsetX();
+		final double headCoord = player.getPos().getX() + offset;
+		final int playerCoord = MathHelper.floor(headCoord);
 		
 		if (playerCoord == blockCoord)
 		{
-			return feetCoord - (double) blockCoord;
+			return headCoord - (double) blockCoord;
 		}
 		else if (playerCoord > blockCoord)
 		{
@@ -334,12 +336,14 @@ public class ScaleUtils
 	public static double getBlockYOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getY();
-		final double eyeCoord = player.getPos().getY() + player.getStandingEyeHeight();
-		final int playerCoord = MathHelper.floor(eyeCoord);
+		final Direction gravity = GravityChangerCompatibility.INSTANCE.getGravityDirection(player);
+		final double offset = player.getStandingEyeHeight() * -gravity.getOffsetY();
+		final double headCoord = player.getPos().getY() + offset;
+		final int playerCoord = MathHelper.floor(headCoord);
 		
 		if (playerCoord == blockCoord)
 		{
-			return eyeCoord - (double) blockCoord;
+			return headCoord - (double) blockCoord;
 		}
 		else if (playerCoord > blockCoord)
 		{
@@ -368,12 +372,14 @@ public class ScaleUtils
 	public static double getBlockZOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getZ();
-		final double feetCoord = player.getPos().getZ();
-		final int playerCoord = MathHelper.floor(feetCoord);
+		final Direction gravity = GravityChangerCompatibility.INSTANCE.getGravityDirection(player);
+		final double offset = player.getStandingEyeHeight() * -gravity.getOffsetZ();
+		final double headCoord = player.getPos().getZ() + offset;
+		final int playerCoord = MathHelper.floor(headCoord);
 		
 		if (playerCoord == blockCoord)
 		{
-			return feetCoord - (double) blockCoord;
+			return headCoord - (double) blockCoord;
 		}
 		else if (playerCoord > blockCoord)
 		{
