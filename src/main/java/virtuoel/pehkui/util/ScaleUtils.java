@@ -281,22 +281,6 @@ public class ScaleUtils
 		}
 	}
 	
-	public static double getBlockXOffset(Direction direction, BlockPos pos, PlayerEntity player)
-	{
-		final int offset = direction.getOffsetX();
-		
-		if (offset > 0)
-		{
-			return 1;
-		}
-		else if (offset < 0)
-		{
-			return 0;
-		}
-		
-		return getBlockXOffset(pos, player);
-	}
-	
 	public static double getBlockXOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getX();
@@ -317,22 +301,6 @@ public class ScaleUtils
 		return 0;
 	}
 	
-	public static double getBlockYOffset(Direction direction, BlockPos pos, PlayerEntity player)
-	{
-		final int offset = direction.getOffsetY();
-		
-		if (offset > 0)
-		{
-			return 1;
-		}
-		else if (offset < 0)
-		{
-			return 0;
-		}
-		
-		return getBlockYOffset(pos, player);
-	}
-	
 	public static double getBlockYOffset(BlockPos pos, PlayerEntity player)
 	{
 		final int blockCoord = pos.getY();
@@ -351,22 +319,6 @@ public class ScaleUtils
 		}
 		
 		return 0;
-	}
-	
-	public static double getBlockZOffset(Direction direction, BlockPos pos, PlayerEntity player)
-	{
-		final int offset = direction.getOffsetZ();
-		
-		if (offset > 0)
-		{
-			return 1;
-		}
-		else if (offset < 0)
-		{
-			return 0;
-		}
-		
-		return getBlockZOffset(pos, player);
 	}
 	
 	public static double getBlockZOffset(BlockPos pos, PlayerEntity player)
