@@ -83,7 +83,7 @@ repositories {
 <details open>
 <summary>Show/Hide Dependency Configuration Information</summary><table width=100%><td>
 
-Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your `gradle.properties`,</br>replacing `x.y.z-w` with one of the available version strings from the [list of release tags](../../tags).
+Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your `gradle.properties`,</br>replacing `x.y.z-w` with one of the available version strings from the [list of release tags](../../../tags).
 
 Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from below</br>depending on your mod loader:
 
