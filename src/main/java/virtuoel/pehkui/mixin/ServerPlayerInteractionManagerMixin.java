@@ -20,24 +20,24 @@ public class ServerPlayerInteractionManagerMixin
 	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 1.5D))
 	private double processBlockBreakingActionModifyDistance(double value)
 	{
-		return player.getStandingEyeHeight();
+		return 0;
 	}
 	
 	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 0.5D, ordinal = 0))
 	private double processBlockBreakingActionModifyXOffset(double value, BlockPos pos, PlayerActionC2SPacket.Action action, Direction direction, int worldHeight)
 	{
-		return ScaleUtils.getBlockXOffset(direction, pos, player);
+		return ScaleUtils.getBlockXOffset(pos, player);
 	}
 	
 	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 0.5D, ordinal = 1))
 	private double processBlockBreakingActionModifyYOffset(double value, BlockPos pos, PlayerActionC2SPacket.Action action, Direction direction, int worldHeight)
 	{
-		return ScaleUtils.getBlockYOffset(direction, pos, player);
+		return ScaleUtils.getBlockYOffset(pos, player);
 	}
 	
 	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 0.5D, ordinal = 2))
 	private double processBlockBreakingActionModifyZOffset(double value, BlockPos pos, PlayerActionC2SPacket.Action action, Direction direction, int worldHeight)
 	{
-		return ScaleUtils.getBlockZOffset(direction, pos, player);
+		return ScaleUtils.getBlockZOffset(pos, player);
 	}
 }
