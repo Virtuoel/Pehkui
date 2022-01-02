@@ -2,6 +2,7 @@ package virtuoel.pehkui.mixin.compat116plus;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -13,7 +14,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "net.minecraft.entity.mob.EvokerEntity$SummonVexGoal")
 public class SummonVexGoalMixin
 {
-	@Shadow @Final EvokerEntity field_7267;
+	@Shadow @Final @Mutable
+	EvokerEntity field_7267;
 	
 	@ModifyArg(method = "castSpell()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
 	private Entity castSpellSpawnEntityAndPassengersProxy(Entity vexEntity)
