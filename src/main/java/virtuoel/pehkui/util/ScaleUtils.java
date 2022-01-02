@@ -439,6 +439,16 @@ public class ScaleUtils
 		return getTypedScale(entity, ScaleTypes.VISIBILITY, tickDelta);
 	}
 	
+	public static float getJumpHeightScale(Entity entity)
+	{
+		return getJumpHeightScale(entity, 1.0F);
+	}
+	
+	public static float getJumpHeightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.JUMP_HEIGHT, tickDelta);
+	}
+	
 	public static float getMotionScale(Entity entity)
 	{
 		return getMotionScale(entity, 1.0F);

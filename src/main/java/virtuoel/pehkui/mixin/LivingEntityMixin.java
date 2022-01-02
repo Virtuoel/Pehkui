@@ -138,6 +138,17 @@ public abstract class LivingEntityMixin
 		}
 	}
 	
+	@Inject(method = "getJumpVelocity", at = @At("RETURN"), cancellable = true)
+	private void onGetJumpVelocity(CallbackInfoReturnable<Float> info)
+	{
+		final float scale = ScaleUtils.getJumpHeightScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			info.setReturnValue(info.getReturnValueF() * scale);
+		}
+	}
+	
 	@Inject(method = "applyClimbingSpeed(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "RETURN"), cancellable = true)
 	private void onApplyClimbingSpeed(Vec3d motion, CallbackInfoReturnable<Vec3d> info)
 	{
