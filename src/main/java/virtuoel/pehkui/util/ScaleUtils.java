@@ -286,19 +286,20 @@ public class ScaleUtils
 		final int blockCoord = pos.getX();
 		final Direction gravity = GravityChangerCompatibility.INSTANCE.getGravityDirection(player);
 		final double offset = player.getStandingEyeHeight() * -gravity.getOffsetX();
-		final double headCoord = player.getPos().getX() + offset;
-		final int playerCoord = MathHelper.floor(headCoord);
+		final double footCoord = player.getPos().getX();
+		final double headCoord = footCoord + offset;
+		final int headCoordFloored = MathHelper.floor(headCoord);
 		
-		if (playerCoord == blockCoord)
+		if (headCoordFloored == blockCoord)
 		{
-			return headCoord - (double) blockCoord;
+			return footCoord - (double) headCoordFloored;
 		}
-		else if (playerCoord > blockCoord)
+		else if (headCoordFloored > blockCoord)
 		{
-			return 1;
+			return 1.0F - offset;
 		}
 		
-		return 0;
+		return -offset;
 	}
 	
 	public static double getBlockYOffset(BlockPos pos, PlayerEntity player)
@@ -306,19 +307,20 @@ public class ScaleUtils
 		final int blockCoord = pos.getY();
 		final Direction gravity = GravityChangerCompatibility.INSTANCE.getGravityDirection(player);
 		final double offset = player.getStandingEyeHeight() * -gravity.getOffsetY();
-		final double headCoord = player.getPos().getY() + offset;
-		final int playerCoord = MathHelper.floor(headCoord);
+		final double footCoord = player.getPos().getY();
+		final double headCoord = footCoord + offset;
+		final int headCoordFloored = MathHelper.floor(headCoord);
 		
-		if (playerCoord == blockCoord)
+		if (headCoordFloored == blockCoord)
 		{
-			return headCoord - (double) blockCoord;
+			return footCoord - (double) headCoordFloored;
 		}
-		else if (playerCoord > blockCoord)
+		else if (headCoordFloored > blockCoord)
 		{
-			return 1;
+			return 1.0F - offset;
 		}
 		
-		return 0;
+		return -offset;
 	}
 	
 	public static double getBlockZOffset(BlockPos pos, PlayerEntity player)
@@ -326,19 +328,20 @@ public class ScaleUtils
 		final int blockCoord = pos.getZ();
 		final Direction gravity = GravityChangerCompatibility.INSTANCE.getGravityDirection(player);
 		final double offset = player.getStandingEyeHeight() * -gravity.getOffsetZ();
-		final double headCoord = player.getPos().getZ() + offset;
-		final int playerCoord = MathHelper.floor(headCoord);
+		final double footCoord = player.getPos().getZ();
+		final double headCoord = footCoord + offset;
+		final int headCoordFloored = MathHelper.floor(headCoord);
 		
-		if (playerCoord == blockCoord)
+		if (headCoordFloored == blockCoord)
 		{
-			return headCoord - (double) blockCoord;
+			return footCoord - (double) headCoordFloored;
 		}
-		else if (playerCoord > blockCoord)
+		else if (headCoordFloored > blockCoord)
 		{
-			return 1;
+			return 1.0F - offset;
 		}
 		
-		return 0;
+		return -offset;
 	}
 	
 	public static float getEyeHeightScale(Entity entity)
