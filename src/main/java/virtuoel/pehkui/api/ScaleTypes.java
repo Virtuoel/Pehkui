@@ -20,6 +20,7 @@ public class ScaleTypes
 	public static final ScaleType STEP_HEIGHT = register("step_height", ScaleModifiers.MOTION_MULTIPLIER);
 	public static final ScaleType VIEW_BOBBING = register("view_bobbing", ScaleModifiers.MOTION_MULTIPLIER);
 	public static final ScaleType VISIBILITY = register("visibility", ScaleModifiers.BASE_MULTIPLIER);
+	public static final ScaleType JUMP_HEIGHT = register("jump_height");
 	public static final ScaleType FLIGHT = register("flight");
 	public static final ScaleType REACH = register("reach", ScaleModifiers.BASE_MULTIPLIER);
 	public static final ScaleType BLOCK_REACH = register("block_reach", ScaleModifiers.REACH_MULTIPLIER);
