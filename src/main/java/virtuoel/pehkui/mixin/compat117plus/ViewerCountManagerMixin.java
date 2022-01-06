@@ -10,17 +10,15 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.block.BlockState;
-// import net.minecraft.block.entity.ViewerCountManager;
+import net.minecraft.block.entity.ViewerCountManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
-// @Mixin(ViewerCountManager.class) // TODO 1.17
-@Mixin(ScaleUtils.class)
+@Mixin(ViewerCountManager.class)
 public class ViewerCountManagerMixin
 {
-	/*
 	@Shadow
 	int viewerCount;
 	
@@ -66,5 +64,4 @@ public class ViewerCountManagerMixin
 	{
 		return viewerSearchRange;
 	}
-	*/
 }
