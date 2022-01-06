@@ -31,7 +31,8 @@ public class ClientPlayerEntityMixin
 	private float autoJumpModifyHeightAndBoost(float value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float jumpScale = ScaleUtils.getJumpHeightScale((Entity) (Object) this);
 		
-		return scale != 1.0F ? scale * value : value;
+		return scale != 1.0F || jumpScale != 1.0F ? scale * jumpScale * value : value;
 	}
 }
