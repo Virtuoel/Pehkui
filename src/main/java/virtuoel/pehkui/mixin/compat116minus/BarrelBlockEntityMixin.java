@@ -15,8 +15,8 @@ import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 @Mixin(BarrelBlockEntity.class)
 public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensions
 {
-	@Shadow(remap = false)
-	int field_17583;
+	@Shadow
+	int viewerCount;
 	
 	@Unique
 	float viewerSearchRange = 5.0F;
@@ -27,12 +27,12 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		return viewerSearchRange;
 	}
 	
-	@Inject(at = @At("HEAD"), method = "method_5435(Lnet/minecraft/class_1657;)V", remap = false)
+	@Inject(at = @At("HEAD"), method = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V")
 	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
-		if (field_17583 < 0)
+		if (viewerCount < 0)
 		{
-			field_17583 = 0;
+			viewerCount = 0;
 			
 			viewerSearchRange = 5.0F;
 		}
@@ -50,12 +50,12 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "method_5432(Lnet/minecraft/class_1657;)V", remap = false)
+	@Inject(at = @At("HEAD"), method = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V")
 	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
-		if (field_17583 <= 1)
+		if (viewerCount <= 1)
 		{
-			field_17583 = 1;
+			viewerCount = 1;
 			
 			viewerSearchRange = 5.0F;
 		}
