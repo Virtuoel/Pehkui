@@ -73,6 +73,7 @@
 		"compat115plus.compat116minus.LivingEntityMixin",
 		"compat116.EntityMixin",
 		"compat116.ProjectileUtilMixin",
+		"compat116minus.BarrelBlockEntityMixin",
 		"compat116minus.ChestBlockEntityMixin",
 		"compat116minus.EntityCalculateDimensionsMixin",
 		"compat116minus.EntityMixin",

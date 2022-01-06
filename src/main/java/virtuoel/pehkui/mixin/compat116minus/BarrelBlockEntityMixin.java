@@ -7,12 +7,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.entity.BarrelBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 
-@Mixin(ChestBlockEntity.class)
+@Mixin(BarrelBlockEntity.class)
 public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensions
 {
 	@Shadow(remap = false)
