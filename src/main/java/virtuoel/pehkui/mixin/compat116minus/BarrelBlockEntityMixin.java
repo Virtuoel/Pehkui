@@ -15,11 +15,11 @@ import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 @Mixin(ChestBlockEntity.class)
 public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensions
 {
-	@Unique
-	float viewerSearchRange = 5.0F;
-	
 	@Shadow(remap = false)
 	int field_17583;
+	
+	@Unique
+	float viewerSearchRange = 5.0F;
 	
 	@Override
 	public float pehkui_getViewerSearchRange()
@@ -28,7 +28,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 	}
 	
 	@Inject(at = @At("HEAD"), method = "method_5435(Lnet/minecraft/class_1657;)V", remap = false)
-	private void onOnInvOpen(PlayerEntity player, CallbackInfo info)
+	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_17583 < 0)
 		{
@@ -51,7 +51,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 	}
 	
 	@Inject(at = @At("HEAD"), method = "method_5432(Lnet/minecraft/class_1657;)V", remap = false)
-	private void onOnInvClose(PlayerEntity player, CallbackInfo info)
+	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_17583 <= 1)
 		{
