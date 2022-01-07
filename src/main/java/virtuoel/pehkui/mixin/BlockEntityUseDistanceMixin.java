@@ -27,7 +27,7 @@ public abstract class BlockEntityUseDistanceMixin
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 0.5D, ordinal = 1))
 	private double canPlayerUseModifyYOffset(double value, PlayerEntity player)
 	{
-		return ScaleUtils.getBlockYOffset(((BlockEntity) (Object) this).getPos(), player) - player.getStandingEyeHeight();
+		return ScaleUtils.getBlockYOffset(((BlockEntity) (Object) this).getPos(), player);
 	}
 	
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 0.5D, ordinal = 2))
