@@ -7,10 +7,12 @@ import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -19,6 +21,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -61,22 +64,18 @@ public abstract class PlayerEntityMixin
 		}
 	}
 	
-	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onTickMovementExpandXProxy(double value)
+	@ModifyArgs(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private void onTickMovementModifyExpand(Args args)
 	{
-		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
-	}
-	
-	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onTickMovementExpandYProxy(double value)
-	{
-		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
-	}
-	
-	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onTickMovementExpandZProxy(double value)
-	{
-		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			final int index = args.get(0) instanceof Box ? 1 : 0;
+			args.set(index, args.<Double>get(index) * scale);
+			args.set(index + 1, args.<Double>get(index + 1) * scale);
+			args.set(index + 2, args.<Double>get(index + 2) * scale);
+		}
 	}
 	
 	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = { @Constant(floatValue = 0.5F, ordinal = 1), @Constant(floatValue = 0.5F, ordinal = 2), @Constant(floatValue = 0.5F, ordinal = 3) })
