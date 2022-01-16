@@ -119,7 +119,6 @@
 		"identity.compat116.IdentityComponentMixin",
 		"reach.BlockEntityUseDistanceMixin",
 		"reach.EnderChestBlockEntityMixin",
-		"reach.LecternBlockEntityMixin",
 		"reach.PlayerEntityMixin",
 		"reach.ServerPlayerInteractionManagerMixin",
 		"reach.ServerPlayNetworkHandlerMixin",
