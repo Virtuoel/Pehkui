@@ -1,5 +1,7 @@
 package virtuoel.pehkui.api;
 
+import net.minecraft.nbt.NbtCompound;
+
 public class ScaleModifier implements Comparable<ScaleModifier>
 {
 	private final float priority;
@@ -45,5 +47,10 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	public float modifyPrevScale(final ScaleData scaleData, final float modifiedScale)
 	{
 		return modifiedScale;
+	}
+	
+	public void readNbt(NbtCompound compound)
+	{
+		// TODO Auto-generated method stub
 	}
 }
