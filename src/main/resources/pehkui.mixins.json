@@ -162,6 +162,8 @@
 		"client.compat117plus.InGameHudMixin",
 		"client.compat117plus.ItemRendererMixin",
 		"client.compat117plus.compat1181minus.ClientPlayNetworkHandlerMixin",
+		"client.compat1181minus.ClientPlayerEntityMixin",
+		"client.compat1182plus.ClientPlayerEntityMixin",
 		"client.compat1182plus.ClientPlayNetworkHandlerMixin",
 		"reach.client.ClientPlayerInteractionManagerMixin",
 		"reach.client.GameRendererMixin",
