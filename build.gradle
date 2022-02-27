@@ -1,5 +1,5 @@
 plugins {
-	id "dev.architectury.loom" version "0.11.+"
+	id "dev.architectury.loom" version "0.10.+"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"
@@ -69,7 +69,7 @@ loom {
 }
 
 quiltflower {
-	addToRuntimeClasspath = true
+	addToRuntimeClasspath = !project.hasProperty("forge_version")
 	preferences {
 		ind = "\t"
 	}
