@@ -12,7 +12,7 @@ import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(ServerPlayNetworkHandler.class)
+@Mixin(value = ServerPlayNetworkHandler.class, priority = 990)
 public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
@@ -30,7 +30,7 @@ public class ServerPlayNetworkHandlerMixin
 		return reach.getValue();
 	}
 	*/
-	@ModifyConstant(method = "onPlayerInteractEntity", constant = @Constant(doubleValue = 36.0D))
+	@ModifyConstant(method = "onPlayerInteractEntity", require = 0, constant = @Constant(doubleValue = 36.0D))
 	private double onPlayerInteractEntityModifyDistance(double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale(player);
