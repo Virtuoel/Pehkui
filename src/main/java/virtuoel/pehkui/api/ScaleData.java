@@ -367,10 +367,26 @@ public class ScaleData
 			
 			Identifier id;
 			ScaleModifier modifier;
+			NbtElement element;
 			for (int i = 0; i < modifiers.size(); i++)
 			{
-				id = Identifier.tryParse(modifiers.getString(i));
-				modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
+				element = modifiers.get(i);
+				if (element.getType() == NbtElement.STRING_TYPE)
+				{
+					id = Identifier.tryParse(modifiers.getString(i));
+					modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
+				}
+				else if (element.getType() == NbtElement.COMPOUND_TYPE)
+				{
+					final NbtCompound compound = modifiers.getCompound(i);
+					id = Identifier.tryParse(compound.getString("id"));
+					modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
+					modifier.readNbt(compound);
+				}
+				else
+				{
+					modifier = null;
+				}
 				
 				if (modifier != null)
 				{

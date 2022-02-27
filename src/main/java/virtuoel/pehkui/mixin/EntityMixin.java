@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,9 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.injection.ModifyArgs;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -182,28 +181,36 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return movement;
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.injection.At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void modifyPushSelfAwayFromOther(Args args, Entity other)
+	@Unique private static final ThreadLocal<Entity> pehkui$COLLIDING = new ThreadLocal<>();
+	
+	@Inject(at = @At("HEAD"), method = "pushAwayFrom")
+	private void onPushAwayFrom(Entity other, CallbackInfo info)
 	{
-		final float otherScale = ScaleUtils.getMotionScale(other);
-		
-		if (otherScale != 1.0F)
-		{
-			args.set(0, args.<Double>get(0) * otherScale);
-			args.set(2, args.<Double>get(2) * otherScale);
-		}
+		pehkui$COLLIDING.set(other);
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @dev.architectury.patchedmixin.staticmixin.spongepowered.asm.mixin.injection.At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void modifyPushOtherAwayFromSelf(Args args, Entity other)
+	@ModifyArg(method = "pushAwayFrom", index = 0, at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private double onPushAwayFromModifyOwnXProxy(double value)
 	{
-		final float ownScale = ScaleUtils.getMotionScale((Entity) (Object) this);
-		
-		if (ownScale != 1.0F)
-		{
-			args.set(0, args.<Double>get(0) * ownScale);
-			args.set(2, args.<Double>get(2) * ownScale);
-		}
+		return value * ScaleUtils.getMotionScale(pehkui$COLLIDING.get());
+	}
+	
+	@ModifyArg(method = "pushAwayFrom", index = 2, at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private double onPushAwayFromModifyOwnZProxy(double value)
+	{
+		return value * ScaleUtils.getMotionScale(pehkui$COLLIDING.get());
+	}
+	
+	@ModifyArg(method = "pushAwayFrom", index = 0, at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private double onPushAwayFromModifyOtherXProxy(double value)
+	{
+		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
+	}
+	
+	@ModifyArg(method = "pushAwayFrom", index = 2, at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private double onPushAwayFromModifyOtherZProxy(double value)
+	{
+		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)

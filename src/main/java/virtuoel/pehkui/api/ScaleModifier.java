@@ -1,5 +1,9 @@
 package virtuoel.pehkui.api;
 
+import org.jetbrains.annotations.ApiStatus;
+
+import net.minecraft.nbt.NbtCompound;
+
 public class ScaleModifier implements Comparable<ScaleModifier>
 {
 	private final float priority;
@@ -45,5 +49,11 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 	public float modifyPrevScale(final ScaleData scaleData, final float modifiedScale)
 	{
 		return modifiedScale;
+	}
+	
+	@ApiStatus.Internal
+	public void readNbt(NbtCompound compound)
+	{
+		
 	}
 }

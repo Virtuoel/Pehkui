@@ -33,6 +33,7 @@ bin
 .metadata
 .classpath
 .project
+.checkstyle
 
 # other
 
