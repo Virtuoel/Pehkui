@@ -1,5 +1,7 @@
 package virtuoel.pehkui.api;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import net.minecraft.nbt.NbtCompound;
 
 public class ScaleModifier implements Comparable<ScaleModifier>
@@ -49,8 +51,9 @@ public class ScaleModifier implements Comparable<ScaleModifier>
 		return modifiedScale;
 	}
 	
+	@ApiStatus.Internal
 	public void readNbt(NbtCompound compound)
 	{
-		// TODO Auto-generated method stub
+		
 	}
 }
