@@ -78,4 +78,63 @@ public class GravityChangerCompatibility
 		return Direction.DOWN;
 	}
 	
+	public float getXCorrection(PlayerEntity player)
+	{
+		if (this.enabled)
+		{
+			final Direction gravity = getGravityDirection(player);
+			
+			switch (gravity)
+			{
+				case WEST:
+					return 1.5F;
+				case EAST:
+					return -1.5F;
+				default:
+					break;
+			}
+		}
+		
+		return 0.0F;
+	}
+	
+	public float getYCorrection(PlayerEntity player)
+	{
+		if (this.enabled)
+		{
+			final Direction gravity = getGravityDirection(player);
+			
+			switch (gravity)
+			{
+				case UP:
+					return -3.0F;
+				case DOWN:
+					break;
+				default:
+					return -1.5F;
+			}
+		}
+		
+		return 0.0F;
+	}
+	
+	public float getZCorrection(PlayerEntity player)
+	{
+		if (this.enabled)
+		{
+			final Direction gravity = getGravityDirection(player);
+			
+			switch (gravity)
+			{
+				case NORTH:
+					return 1.5F;
+				case SOUTH:
+					return -1.5F;
+				default:
+					break;
+			}
+		}
+		
+		return 0.0F;
+	}
 }
