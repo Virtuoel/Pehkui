@@ -5,7 +5,7 @@ plugins {
 	id "com.github.breadmoirai.github-release" version "2.2.12"
 	id "io.github.juuxel.loom-quiltflower" version "1.6.0"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
-	id "com.modrinth.minotaur" version "1.2.1"
+	id "com.modrinth.minotaur" version "2.+"
 }
 
 repositories {
@@ -226,15 +226,17 @@ publishing {
 
 githubRelease {
 	token project.hasProperty("github_releases_token") ? project.github_releases_token : ""
+	
 	if(project.hasProperty("github_repository_owner")) {
 		owner project.github_repository_owner
 	}
+	
 	if(project.hasProperty("github_repository")) {
 		repo project.github_repository
 	}
 	
 	if(project.hasProperty("forge_version")) {
-		tagName project.mod_version + "-forge"
+		tagName "${project.mod_version}-${project.minecraft_version}-forge"
 	}
 	
 	if(project.hasProperty("loader_version")) {
@@ -244,6 +246,10 @@ githubRelease {
 	if(project.hasProperty("github_branch")) {
 		targetCommitish project.github_branch
 	}
+	
+	body generateMarkdownChangelog()
+	
+	overwrite true
 	
 	releaseName project.version
 	
@@ -284,6 +290,41 @@ String generateHTMLChangelog() {
 	
 	if(project.hasProperty("changelog_fabric_api_version")) {
 		changelog_text += "<p><a href=\"https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all\" rel=\"nofollow\">Fabric API <code>${changelog_fabric_api_version}</code></a></p>\n"
+	}
+	
+	return changelog_text
+}
+
+String generateMarkdownChangelog() {
+	String changelog_text = ""
+	
+	File file = file("changelog.txt")
+	if(file.exists())
+	{
+		file.eachLine { String line ->
+			if(!line.isAllWhitespace())
+			{
+				changelog_text += "${line.stripIndent()}  \n"
+			}
+		}
+		changelog_text += "&nbsp;  \n"
+	}
+	
+	changelog_text += "Last successfully tested on:  \n"
+	changelog_text += "Minecraft version " + '`' + "${minecraft_version}" + '`' + "  \n"
+	
+	if(project.hasProperty("forge_version")) {
+		changelog_text += "Forge " + '`' + "${forge_version}" + '`' + "  \n"
+	}
+	
+	if(project.hasProperty("fabric_loader_version")) {
+		changelog_text += "Fabric Loader " + '`' + "${fabric_loader_version}" + '`' + "  \n"
+	}
+	
+	changelog_text += "Yarn mappings " + '`' + "${yarn_mappings}" + '`' + "  \n"
+	
+	if(project.hasProperty("changelog_fabric_api_version")) {
+		changelog_text += "[Fabric API " + '`' + "${changelog_fabric_api_version}" + '`' + "](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)  \n"
 	}
 	
 	return changelog_text
@@ -377,9 +418,9 @@ curseforge {
 	}
 }
 
-import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.dependencies.ModDependency
 
-task publishModrinth (type: TaskModrinthUpload) {
+modrinth {
 	if(project.hasProperty("modrinth_token")) {
 		token = project.properties.modrinth_token
 	}
@@ -390,40 +431,42 @@ task publishModrinth (type: TaskModrinthUpload) {
 		versionType = project.modrinth_version_type
 		
 		if(project.hasProperty("modrinth_mod_loaders")) {
-			project.modrinth_mod_loaders.split(", ").each { String loader ->
-				addLoader loader
-			}
+			loaders = project.modrinth_mod_loaders.split(", ") as List
 		}
 		
 		if(project.hasProperty("modrinth_release_versions")) {
-			project.modrinth_release_versions.split(", ").each { String gameVersion ->
-				addGameVersion gameVersion
-			}
+			gameVersions = project.modrinth_release_versions.split(", ") as List
 		}
+		
+		def deps = []
 		
 		if(project.hasProperty("modrinth_required_dep_ids")) {
 			project.modrinth_required_dep_ids.split(", ").each { String slug ->
-				addDependency(slug, "required")
+				deps << new ModDependency(slug, "required")
 			}
 		}
 		
 		if(project.hasProperty("modrinth_optional_dep_ids")) {
 			project.modrinth_optional_dep_ids.split(", ").each { String slug ->
-				addDependency(slug, "optional")
+				deps << new ModDependency(slug, "optional")
 			}
 		}
 		
 		if(project.hasProperty("modrinth_incompatible_dep_ids")) {
 			project.modrinth_incompatible_dep_ids.split(", ").each { String slug ->
-				addDependency(slug, "incompatible")
+				deps << new ModDependency(slug, "incompatible")
 			}
 		}
+		
+		dependencies = deps
 		
 		versionName = "${archives_base_name} ${project.mod_version}"
 		
 		versionNumber = project.version
 		
+		changelog = generateMarkdownChangelog()
+		
 		uploadFile = remapJar
-		addFile sourcesJar
+		additionalFiles = files("${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
 	}
 }
