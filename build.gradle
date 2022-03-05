@@ -175,6 +175,11 @@ tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
 
+tasks.withType(AbstractArchiveTask) {
+	preserveFileTimestamps = false
+	reproducibleFileOrder = true
+}
+
 jar {
 	from "LICENSE"
 	manifest
@@ -254,6 +259,11 @@ githubRelease {
 	releaseName project.version
 	
 	releaseAssets = files("${project.buildDir}/libs/${archivesBaseName}-${version}.jar", "${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
+}
+
+tasks.named("githubRelease") {
+	dependsOn remapJar
+	dependsOn remapSourcesJar
 }
 
 if(project.hasProperty("fabric_api_version")) {
@@ -407,13 +417,18 @@ curseforge {
 			addArtifact(sourcesJar) {
 				displayName = "${archives_base_name} ${project.mod_version} Source Code"
 			}
-			
-			afterEvaluate {
-				uploadTask.dependsOn remapSourcesJar
-			}
 		}
 		options {
 			forgeGradleIntegration = false
+		}
+	}
+}
+
+if(project.hasProperty("curseforge_id")) {
+	afterEvaluate {
+		tasks.named("curseforge${project.curseforge_id}") {
+			dependsOn remapJar
+			dependsOn remapSourcesJar
 		}
 	}
 }
