@@ -180,6 +180,10 @@ tasks.withType(AbstractArchiveTask) {
 	reproducibleFileOrder = true
 }
 
+java {
+	withSourcesJar()
+}
+
 jar {
 	from "LICENSE"
 	manifest
@@ -192,9 +196,7 @@ jar {
 	}
 }
 
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+tasks.named("sourcesJar") {
 	exclude "fabric.mod.json"
 	exclude "META-INF/mods.toml"
 	manifest
