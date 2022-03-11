@@ -3,6 +3,8 @@ package virtuoel.pehkui.util;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleType;
@@ -46,6 +48,17 @@ public class CombinedScaleData extends ScaleData
 	}
 	
 	@Override
+	public void setScale(float scale)
+	{
+		super.setScale(scale);
+		
+		for (final ScaleData d : getData())
+		{
+			d.setScale(scale);
+		}
+	}
+	
+	@Override
 	public void setTargetScale(float targetScale)
 	{
 		super.setTargetScale(targetScale);
@@ -64,6 +77,17 @@ public class CombinedScaleData extends ScaleData
 		for (final ScaleData d : getData())
 		{
 			d.setScaleTickDelay(ticks);
+		}
+	}
+	
+	@Override
+	public void setPersistence(@Nullable Boolean persistent)
+	{
+		super.setPersistence(persistent);
+		
+		for (final ScaleData d : getData())
+		{
+			d.setPersistence(persistent);
 		}
 	}
 	
