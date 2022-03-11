@@ -82,7 +82,7 @@ public class PehkuiClient implements ClientModInitializer
 								true,
 								true,
 								MixinTargetClasses.Common.INTERMEDIARY_CLASSES,
-								MixinTargetClasses.Server.INTERMEDIARY_CLASSES
+								MixinTargetClasses.Client.INTERMEDIARY_CLASSES
 							);
 							
 							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start.client", "Starting Mixin environment audit (client)..."), false);
