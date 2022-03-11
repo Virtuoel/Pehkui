@@ -129,8 +129,7 @@ public class ScaleData
 			else
 			{
 				this.scaleTicks++;
-				final float nextScale = currScale + ((targetScale - this.initialScale) / (float) scaleTickDelay);
-				setBaseScale(nextScale);
+				setBaseScale(calculateNextTickScale());
 			}
 		}
 		else
@@ -260,14 +259,28 @@ public class ScaleData
 	{
 		targetScale = (float) getScaleType().clampTargetScale(this, targetScale);
 		
+		this.scaleTicks = calculateRemainingScaleTicks();
+		this.initialScale = getTargetScale();
+		this.targetScale = targetScale;
+		
+		markForSync(true);
+	}
+	
+	@ApiStatus.Internal
+	@ApiStatus.NonExtendable
+	protected float calculateNextTickScale()
+	{
+		return getBaseScale() + ((getTargetScale() - this.initialScale) / (float) getScaleTickDelay());
+	}
+	
+	@ApiStatus.Internal
+	@ApiStatus.NonExtendable
+	protected int calculateRemainingScaleTicks()
+	{
 		final float lastTarget = getTargetScale();
 		final int remaining = Math.round(getScaleTickDelay() * ((lastTarget - getBaseScale()) / (lastTarget - getInitialScale())));
 		
-		this.initialScale = lastTarget;
-		this.targetScale = targetScale;
-		this.scaleTicks = remaining;
-		
-		markForSync(true);
+		return remaining;
 	}
 	
 	/**
