@@ -94,8 +94,8 @@ public class MixinConstants
 	// Client
 	public static final String BUILD_GEOMETRY = METHOD_3074 + "(L" + CLASS_287 + ";L" + CLASS_4184 + ";FFFFFF)V";
 	public static final String LERP = "L" + CLASS_3532 + ";" + METHOD_16436 + "(DDD)D";
-	public static final String RENDER_SECOND_PASS = METHOD_3887 + "(L" + CLASS_1690 + ";DDDFF)V";
-	public static final String RENDER_PASS = "L" + CLASS_554 + ";" + METHOD_2836 + "(L" + CLASS_1297 + ";FFFFFF)V";
+	public static final String RENDER_SECOND_PASS = METHOD_3887; // desc
+	public static final String RENDER_PASS = METHOD_2836; // desc
 	public static final String RENDER_OVERLAYS = METHOD_3232 + "(F)V";
 	public static final String RENDER = METHOD_3954 + "(L" + CLASS_1297 + ";DDDFFZ)V";
 	public static final String RENDER_IN_WORLD = "L" + CLASS_897 + ";" + METHOD_3936 + "(L" + CLASS_1297 + ";DDDFF)V";
@@ -165,6 +165,6 @@ public class MixinConstants
 	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT READY
 	
 	// 1.16.2 Plus
-	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT READY
-	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V"; // COMMIT READY
+	public static final String ON_PLAYER_RESPAWN = METHOD_11117; // desc, ready
+	public static final String AFTER_SPAWN = METHOD_5823; // desc, ready
 }
