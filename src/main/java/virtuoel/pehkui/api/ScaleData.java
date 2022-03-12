@@ -146,7 +146,7 @@ public class ScaleData
 			{
 				this.prevBaseScale = currScale;
 				
-				invalidateCachedScales();
+				this.cachedPrevScale = Float.NaN;
 			}
 			
 			if (this.initialScale != targetScale)
