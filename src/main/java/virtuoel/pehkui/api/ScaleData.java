@@ -1,7 +1,5 @@
 package virtuoel.pehkui.api;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
 
@@ -30,19 +28,24 @@ public class ScaleData
 	private int totalScaleTicks;
 	private Boolean persistent = null;
 	
-	private boolean shouldSync = false;
+	private boolean shouldSync;
 	
 	private final ScaleType scaleType;
 	
 	@Nullable
 	private final Entity entity;
 	
-	private final SortedSet<ScaleModifier> baseValueModifiers = new ObjectAVLTreeSet<>();
+	private final SortedSet<ScaleModifier> baseValueModifiers;
+	private final SortedSet<ScaleModifier> differingModifierCache;
+	private boolean trackModifierChanges;
+	private float cachedScale = Float.NaN;
+	private float cachedPrevScale = Float.NaN;
 	
 	/**
 	 * @see {@link ScaleType#getScaleData(Entity)}
 	 * @see {@link ScaleData.Builder#create()}
 	 */
+	@SuppressWarnings("serial")
 	@ApiStatus.Internal
 	protected ScaleData(ScaleType scaleType, @Nullable Entity entity)
 	{
@@ -58,7 +61,56 @@ public class ScaleData
 		this.scaleTicks = 0;
 		this.totalScaleTicks = scaleType.getDefaultTickDelay();
 		
+		this.shouldSync = false;
+		
+		this.baseValueModifiers = new ObjectAVLTreeSet<ScaleModifier>()
+		{
+			@Override
+			public boolean add(ScaleModifier arg0)
+			{
+				if (super.add(arg0))
+				{
+					invalidateCachedScales();
+					
+					if (ScaleData.this.trackModifierChanges)
+					{
+						invalidateCachedModifiers();
+						onUpdate();
+					}
+					
+					return true;
+				}
+				
+				return false;
+			}
+			
+			@Override
+			public boolean remove(Object arg0)
+			{
+				if (super.remove(arg0))
+				{
+					invalidateCachedScales();
+					
+					if (ScaleData.this.trackModifierChanges)
+					{
+						invalidateCachedModifiers();
+						onUpdate();
+					}
+					
+					return true;
+				}
+				
+				return false;
+			}
+		};
+		
+		this.differingModifierCache = new ObjectAVLTreeSet<>();
+		
+		this.trackModifierChanges = false;
+		
 		getBaseValueModifiers().addAll(getScaleType().getDefaultBaseValueModifiers());
+		
+		this.trackModifierChanges = true;
 	}
 	
 	/**
@@ -67,6 +119,8 @@ public class ScaleData
 	 */
 	public void tick()
 	{
+		invalidateCachedScales();
+		
 		final float currScale = getBaseScale();
 		final float targetScale = getTargetScale();
 		
@@ -83,8 +137,7 @@ public class ScaleData
 			else
 			{
 				this.scaleTicks++;
-				final float nextScale = currScale + ((targetScale - this.initialScale) / (float) scaleTickDelay);
-				setBaseScale(nextScale);
+				setBaseScale(calculateNextTickScale());
 			}
 		}
 		else
@@ -92,6 +145,8 @@ public class ScaleData
 			if (this.prevBaseScale != currScale)
 			{
 				this.prevBaseScale = currScale;
+				
+				this.cachedPrevScale = Float.NaN;
 			}
 			
 			if (this.initialScale != targetScale)
@@ -174,11 +229,21 @@ public class ScaleData
 	 */
 	public float getScale(float delta)
 	{
+		if (!Float.isNaN(cachedScale) && delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
+		{
+			return cachedScale;
+		}
+		
 		float value = getBaseScale(delta);
 		
 		for (final ScaleModifier m : getBaseValueModifiers())
 		{
 			value = m.modifyScale(this, value, delta);
+		}
+		
+		if (delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
+		{
+			cachedScale = value;
 		}
 		
 		return value;
@@ -214,14 +279,28 @@ public class ScaleData
 	{
 		targetScale = (float) getScaleType().clampTargetScale(this, targetScale);
 		
+		this.scaleTicks = calculateRemainingScaleTicks();
+		this.initialScale = getTargetScale();
+		this.targetScale = targetScale;
+		
+		markForSync(true);
+	}
+	
+	@ApiStatus.Internal
+	@ApiStatus.NonExtendable
+	protected float calculateNextTickScale()
+	{
+		return getBaseScale() + ((getTargetScale() - this.initialScale) / (float) getScaleTickDelay());
+	}
+	
+	@ApiStatus.Internal
+	@ApiStatus.NonExtendable
+	protected int calculateRemainingScaleTicks()
+	{
 		final float lastTarget = getTargetScale();
 		final int remaining = Math.round(getScaleTickDelay() * ((lastTarget - getBaseScale()) / (lastTarget - getInitialScale())));
 		
-		this.initialScale = lastTarget;
-		this.targetScale = targetScale;
-		this.scaleTicks = remaining;
-		
-		markForSync(true);
+		return remaining;
 	}
 	
 	/**
@@ -252,12 +331,19 @@ public class ScaleData
 	 */
 	public float getPrevScale()
 	{
+		if (!Float.isNaN(cachedPrevScale))
+		{
+			return cachedPrevScale;
+		}
+		
 		float value = getPrevBaseScale();
 		
 		for (final ScaleModifier m : getBaseValueModifiers())
 		{
 			value = m.modifyPrevScale(this, value);
 		}
+		
+		cachedPrevScale = value;
 		
 		return value;
 	}
@@ -313,33 +399,38 @@ public class ScaleData
 	 */
 	public void onUpdate()
 	{
+		invalidateCachedScales();
 		markForSync(true);
 		getScaleType().getScaleChangedEvent().forEach(s -> s.onEvent(this));
 	}
 	
-	private final List<ScaleModifier> syncedModifiers = new ArrayList<>();
+	private void invalidateCachedModifiers()
+	{
+		this.differingModifierCache.clear();
+		this.differingModifierCache.addAll(getBaseValueModifiers());
+		this.differingModifierCache.removeAll(getScaleType().getDefaultBaseValueModifiers());
+	}
+	
+	private void invalidateCachedScales()
+	{
+		this.cachedScale = Float.NaN;
+		this.cachedPrevScale = Float.NaN;
+	}
 	
 	public PacketByteBuf toPacket(PacketByteBuf buffer)
 	{
-		syncedModifiers.clear();
-		
-		syncedModifiers.addAll(getBaseValueModifiers());
-		syncedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
-		
 		buffer.writeFloat(this.baseScale)
 		.writeFloat(this.prevBaseScale)
 		.writeFloat(this.initialScale)
 		.writeFloat(this.targetScale)
 		.writeInt(this.scaleTicks)
 		.writeInt(this.totalScaleTicks)
-		.writeInt(syncedModifiers.size());
+		.writeInt(this.differingModifierCache.size());
 		
-		for (final ScaleModifier modifier : syncedModifiers)
+		for (final ScaleModifier modifier : this.differingModifierCache)
 		{
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
 		}
-		
-		syncedModifiers.clear();
 		
 		return buffer;
 	}
@@ -355,6 +446,8 @@ public class ScaleData
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
 		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : null;
+		
+		this.trackModifierChanges = false;
 		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
@@ -394,7 +487,15 @@ public class ScaleData
 					baseValueModifiers.add(modifier);
 				}
 			}
+			
+			invalidateCachedModifiers();
 		}
+		else
+		{
+			this.differingModifierCache.clear();
+		}
+		
+		this.trackModifierChanges = true;
 		
 		onUpdate();
 	}
@@ -438,16 +539,11 @@ public class ScaleData
 			tag.putBoolean("persistent", persistent);
 		}
 		
-		final List<ScaleModifier> savedModifiers = new ArrayList<>();;
-		
-		savedModifiers.addAll(getBaseValueModifiers());
-		savedModifiers.removeAll(getScaleType().getDefaultBaseValueModifiers());
-		
-		if (!savedModifiers.isEmpty())
+		if (!this.differingModifierCache.isEmpty())
 		{
 			final NbtList modifiers = new NbtList();
 			
-			for (ScaleModifier modifier : savedModifiers)
+			for (final ScaleModifier modifier : this.differingModifierCache)
 			{
 				modifiers.add(NbtOps.INSTANCE.createString(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier).toString()));
 			}
@@ -476,10 +572,18 @@ public class ScaleData
 		this.totalScaleTicks = type.getDefaultTickDelay();
 		this.persistent = null;
 		
+		invalidateCachedScales();
+		
+		this.trackModifierChanges = false;
+		
 		final SortedSet<ScaleModifier> baseValueModifiers = getBaseValueModifiers();
 		
 		baseValueModifiers.clear();
 		baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
+		
+		this.differingModifierCache.clear();
+		
+		this.trackModifierChanges = true;
 		
 		if (notifyListener)
 		{
@@ -490,6 +594,12 @@ public class ScaleData
 	}
 	
 	public boolean isReset()
+	{
+		return hasDefaultValues();
+	}
+	
+	@ApiStatus.Internal
+	public boolean hasDefaultValues()
 	{
 		final ScaleType type = getScaleType();
 		final float defaultBaseScale = type.getDefaultBaseScale();
@@ -524,7 +634,7 @@ public class ScaleData
 			return false;
 		}
 		
-		if (!getBaseValueModifiers().equals(getScaleType().getDefaultBaseValueModifiers()))
+		if (!this.differingModifierCache.isEmpty())
 		{
 			return false;
 		}
@@ -553,6 +663,8 @@ public class ScaleData
 			this.scaleTicks = scaleData.scaleTicks;
 			this.totalScaleTicks = scaleData.totalScaleTicks;
 			this.persistent = scaleData.getPersistence();
+			
+			invalidateCachedScales();
 		}
 		
 		if (notifyListener)
