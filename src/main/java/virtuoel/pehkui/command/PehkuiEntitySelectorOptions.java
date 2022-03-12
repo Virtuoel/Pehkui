@@ -3,6 +3,9 @@ package virtuoel.pehkui.command;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.command.EntitySelectorReader;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.predicate.NumberRange.FloatRange;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -14,12 +17,14 @@ import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.mixin.EntitySelectorOptionsInvoker;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.I18nUtils;
+import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
 
 public class PehkuiEntitySelectorOptions
 {
 	public static final Text SCALE_RANGE_DESCRIPTION = I18nUtils.translate("argument.entity.options." + Pehkui.MOD_ID + ".scale_range.description", "Entities with scale value");
 	public static final Text SCALE_TYPE_DESCRIPTION = I18nUtils.translate("argument.entity.options." + Pehkui.MOD_ID + ".scale_type.description", "Entities with scale type");
+	public static final Text SCALE_NBT_DESCRIPTION = I18nUtils.translate("argument.entity.options." + Pehkui.MOD_ID + ".scale_nbt.description", "Entities with scale NBT");
 	
 	public static void register()
 	{
@@ -49,6 +54,23 @@ public class PehkuiEntitySelectorOptions
 			r -> cast(r).pehkui_setComputedScaleType(parseScaleType(r)),
 			r -> cast(r).pehkui_getComputedScaleType() == ScaleTypes.INVALID,
 			SCALE_TYPE_DESCRIPTION
+		);
+		
+		EntitySelectorOptionsInvoker.callPutOption(
+			Pehkui.id("scale_nbt").toString().replace(':', '.'),
+			r ->
+			{
+				final boolean negated = r.readNegationCharacter();
+				final NbtCompound parsed = (new StringNbtReader(r.getReader())).parseCompound();
+				r.setPredicate(entity ->
+				{
+					final NbtCompound nbt = ((PehkuiEntityExtensions) entity).pehkui_writeScaleNbt(new NbtCompound());
+					
+					return NbtHelper.matches(parsed, nbt, true) != negated;
+				});
+			},
+			reader -> true,
+			SCALE_NBT_DESCRIPTION
 		);
 	}
 	

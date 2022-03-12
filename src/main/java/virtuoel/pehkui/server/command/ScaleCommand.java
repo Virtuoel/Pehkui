@@ -10,10 +10,13 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.command.EntityDataObject;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
@@ -27,6 +30,7 @@ import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.util.I18nUtils;
+import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
 public class ScaleCommand
 {
@@ -57,6 +61,7 @@ public class ScaleCommand
 		registerModifier(builder);
 		registerDelay(builder);
 		registerPersist(builder);
+		registerNbt(builder);
 		
 		commandDispatcher.register(builder);
 	}
@@ -793,6 +798,60 @@ public class ScaleCommand
 			);
 		
 		return builder;
+	}
+	
+	private static LiteralArgumentBuilder<ServerCommandSource> registerNbt(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
+			.then(CommandManager.literal("nbt")
+				.then(CommandManager.literal("get")
+					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.executes(context ->
+						{
+							final EntityDataObject obj = new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity"));
+							
+							final NbtCompound nbt = obj.getNbt();
+							context.getSource().sendFeedback(obj.feedbackQuery(nbt), false);
+							
+							return nbt.getSize();
+						})
+					)
+					.executes(context ->
+					{
+						final EntityDataObject obj = new EntityScaleDataObject(context.getSource().getEntityOrThrow());
+						
+						final NbtCompound nbt = obj.getNbt();
+						context.getSource().sendFeedback(obj.feedbackQuery(nbt), false);
+						
+						return nbt.getSize();
+					})
+				)
+			);
+		
+		return builder;
+	}
+	
+	private static class EntityScaleDataObject extends EntityDataObject
+	{
+		private final Entity entity;
+		
+		public EntityScaleDataObject(Entity entity)
+		{
+			super(entity);
+			this.entity = entity;
+		}
+		
+		@Override
+		public void setNbt(NbtCompound nbt) throws CommandSyntaxException
+		{
+			((PehkuiEntityExtensions) entity).pehkui_readScaleNbt(nbt);
+		}
+		
+		@Override
+		public NbtCompound getNbt()
+		{
+			return ((PehkuiEntityExtensions) entity).pehkui_writeScaleNbt(new NbtCompound());
+		}
 	}
 	
 	private static Text scaleText(float scale)

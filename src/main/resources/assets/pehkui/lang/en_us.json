@@ -1,6 +1,7 @@
 {
 	"argument.entity.options.pehkui.scale_range.description": "Entities with scale value",
 	"argument.entity.options.pehkui.scale_type.description": "Entities with scale type",
+	"argument.entity.options.pehkui.scale_nbt.description": "Entities with scale NBT",
 	"argument.pehkui.modifier.invalid": "Unknown scale modifier '%s'",
 	"argument.pehkui.type.invalid": "Unknown scale type '%s'",
 	
