@@ -2,6 +2,7 @@ package virtuoel.pehkui.util;
 
 import java.util.Map;
 
+import net.minecraft.nbt.NbtCompound;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleType;
 
@@ -16,6 +17,8 @@ public interface PehkuiEntityExtensions
 	boolean pehkui_shouldSyncScales();
 	
 	void pehkui_setShouldSyncScales(boolean sync);
+	
+	void pehkui_writeScaleNbt(NbtCompound nbt);
 	
 	boolean pehkui_getOnGround();
 	

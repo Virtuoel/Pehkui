@@ -108,13 +108,19 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("HEAD"), method = "writeNbt")
 	private void onWriteNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
 	{
+		pehkui_writeScaleNbt(tag);
+	}
+	
+	@Override
+	public void pehkui_writeScaleNbt(NbtCompound nbt)
+	{
 		final NbtCompound typeData = new NbtCompound();
 		
 		ScaleData scaleData;
 		NbtCompound compound;
-		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+		for (final Entry<ScaleType, ScaleData> entry : pehkui_scaleTypes.entrySet())
 		{
-			scaleData = pehkui_getScaleData(entry.getValue());
+			scaleData = entry.getValue();
 			
 			if (!scaleData.isReset())
 			{
@@ -124,14 +130,14 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 				
 				if (compound.getSize() != 0)
 				{
-					typeData.put(entry.getKey().toString(), compound);
+					typeData.put(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, entry.getKey()).toString(), compound);
 				}
 			}
 		}
 		
 		if (typeData.getSize() > 0)
 		{
-			tag.put(Pehkui.MOD_ID + ":scale_data_types", typeData);
+			nbt.put(Pehkui.MOD_ID + ":scale_data_types", typeData);
 		}
 	}
 	
