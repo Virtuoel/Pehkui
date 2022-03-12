@@ -1,7 +1,6 @@
 package virtuoel.pehkui.api;
 
 import java.util.Objects;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.jetbrains.annotations.ApiStatus;
@@ -120,6 +119,8 @@ public class ScaleData
 	 */
 	public void tick()
 	{
+		invalidateCachedScales();
+		
 		final float currScale = getBaseScale();
 		final float targetScale = getTargetScale();
 		
@@ -228,7 +229,7 @@ public class ScaleData
 	 */
 	public float getScale(float delta)
 	{
-		if (!Float.isNaN(cachedScale) && delta == 1.0F)
+		if (!Float.isNaN(cachedScale) && delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
 		{
 			return cachedScale;
 		}
@@ -240,7 +241,7 @@ public class ScaleData
 			value = m.modifyScale(this, value, delta);
 		}
 		
-		if (delta == 1.0F)
+		if (delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
 		{
 			cachedScale = value;
 		}
