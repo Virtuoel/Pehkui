@@ -116,22 +116,14 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	{
 		final NbtCompound typeData = new NbtCompound();
 		
-		ScaleData scaleData;
 		NbtCompound compound;
 		for (final Entry<ScaleType, ScaleData> entry : pehkui_scaleTypes.entrySet())
 		{
-			scaleData = entry.getValue();
+			compound = entry.getValue().writeNbt(new NbtCompound());
 			
-			if (!scaleData.isReset())
+			if (compound.getSize() != 0)
 			{
-				compound = new NbtCompound();
-				
-				scaleData.writeNbt(compound);
-				
-				if (compound.getSize() != 0)
-				{
-					typeData.put(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, entry.getKey()).toString(), compound);
-				}
+				typeData.put(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, entry.getKey()).toString(), compound);
 			}
 		}
 		
