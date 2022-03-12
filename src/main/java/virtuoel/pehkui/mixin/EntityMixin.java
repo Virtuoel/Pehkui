@@ -41,6 +41,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	private boolean pehkui_shouldSyncScales = false;
+	private boolean pehkui_shouldIgnoreScaleNbt = false;
 	
 	@Override
 	public ScaleData pehkui_constructScaleData(ScaleType type)
@@ -83,6 +84,18 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return pehkui_shouldSyncScales;
 	}
 	
+	@Override
+	public boolean pehkui_shouldIgnoreScaleNbt()
+	{
+		return pehkui_shouldIgnoreScaleNbt;
+	}
+	
+	@Override
+	public void pehkui_setShouldIgnoreScaleNbt(boolean ignore)
+	{
+		pehkui_shouldIgnoreScaleNbt = ignore;
+	}
+	
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
@@ -92,6 +105,11 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Override
 	public void pehkui_readScaleNbt(NbtCompound nbt)
 	{
+		if (pehkui_shouldIgnoreScaleNbt())
+		{
+			return;
+		}
+		
 		if (nbt.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, nbt))
 		{
 			final NbtCompound typeData = nbt.getCompound(Pehkui.MOD_ID + ":scale_data_types");
@@ -118,8 +136,13 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Override
-	public void pehkui_writeScaleNbt(NbtCompound nbt)
+	public NbtCompound pehkui_writeScaleNbt(NbtCompound nbt)
 	{
+		if (pehkui_shouldIgnoreScaleNbt())
+		{
+			return nbt;
+		}
+		
 		final NbtCompound typeData = new NbtCompound();
 		
 		NbtCompound compound;
@@ -137,6 +160,8 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		{
 			nbt.put(Pehkui.MOD_ID + ":scale_data_types", typeData);
 		}
+		
+		return nbt;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")

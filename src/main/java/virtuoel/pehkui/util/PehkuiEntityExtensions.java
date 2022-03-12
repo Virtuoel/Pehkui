@@ -18,9 +18,13 @@ public interface PehkuiEntityExtensions
 	
 	void pehkui_setShouldSyncScales(boolean sync);
 	
+	boolean pehkui_shouldIgnoreScaleNbt();
+	
+	void pehkui_setShouldIgnoreScaleNbt(boolean ignore);
+	
 	void pehkui_readScaleNbt(NbtCompound nbt);
 	
-	void pehkui_writeScaleNbt(NbtCompound nbt);
+	NbtCompound pehkui_writeScaleNbt(NbtCompound nbt);
 	
 	boolean pehkui_getOnGround();
 	
