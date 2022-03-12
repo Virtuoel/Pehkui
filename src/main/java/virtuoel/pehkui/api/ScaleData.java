@@ -595,6 +595,12 @@ public class ScaleData
 	
 	public boolean isReset()
 	{
+		return hasDefaultValues();
+	}
+	
+	@ApiStatus.Internal
+	public boolean hasDefaultValues()
+	{
 		final ScaleType type = getScaleType();
 		final float defaultBaseScale = type.getDefaultBaseScale();
 		

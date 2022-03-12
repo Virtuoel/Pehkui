@@ -86,9 +86,15 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
-		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
+		pehkui_readScaleNbt(tag);
+	}
+	
+	@Override
+	public void pehkui_readScaleNbt(NbtCompound nbt)
+	{
+		if (nbt.contains(Pehkui.MOD_ID + ":scale_data_types", NbtType.COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, nbt))
 		{
-			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
+			final NbtCompound typeData = nbt.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			
 			String key;
 			ScaleData scaleData;
