@@ -40,6 +40,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	private boolean pehkui_shouldSyncScales = false;
+	private boolean pehkui_shouldIgnoreScaleNbt = false;
 	
 	@Override
 	public ScaleData pehkui_constructScaleData(ScaleType type)
@@ -82,12 +83,35 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return pehkui_shouldSyncScales;
 	}
 	
+	@Override
+	public boolean pehkui_shouldIgnoreScaleNbt()
+	{
+		return pehkui_shouldIgnoreScaleNbt;
+	}
+	
+	@Override
+	public void pehkui_setShouldIgnoreScaleNbt(boolean ignore)
+	{
+		pehkui_shouldIgnoreScaleNbt = ignore;
+	}
+	
 	@Inject(at = @At("HEAD"), method = "readNbt")
 	private void onReadNbt(NbtCompound tag, CallbackInfo info)
 	{
-		if (tag.contains(Pehkui.MOD_ID + ":scale_data_types", Constants.NBT.TAG_COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, tag))
+		pehkui_readScaleNbt(tag);
+	}
+	
+	@Override
+	public void pehkui_readScaleNbt(NbtCompound nbt)
+	{
+		if (pehkui_shouldIgnoreScaleNbt())
 		{
-			final NbtCompound typeData = tag.getCompound(Pehkui.MOD_ID + ":scale_data_types");
+			return;
+		}
+		
+		if (nbt.contains(Pehkui.MOD_ID + ":scale_data_types", Constants.NBT.TAG_COMPOUND) && !DebugCommand.unmarkEntityForScaleReset((Entity) (Object) this, nbt))
+		{
+			final NbtCompound typeData = nbt.getCompound(Pehkui.MOD_ID + ":scale_data_types");
 			
 			String key;
 			ScaleData scaleData;
@@ -107,31 +131,36 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("HEAD"), method = "writeNbt")
 	private void onWriteNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
 	{
+		pehkui_writeScaleNbt(tag);
+	}
+	
+	@Override
+	public NbtCompound pehkui_writeScaleNbt(NbtCompound nbt)
+	{
+		if (pehkui_shouldIgnoreScaleNbt())
+		{
+			return nbt;
+		}
+		
 		final NbtCompound typeData = new NbtCompound();
 		
-		ScaleData scaleData;
 		NbtCompound compound;
-		for (Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+		for (final Entry<ScaleType, ScaleData> entry : pehkui_scaleTypes.entrySet())
 		{
-			scaleData = pehkui_getScaleData(entry.getValue());
+			compound = entry.getValue().writeNbt(new NbtCompound());
 			
-			if (!scaleData.isReset())
+			if (compound.getSize() != 0)
 			{
-				compound = new NbtCompound();
-				
-				scaleData.writeNbt(compound);
-				
-				if (compound.getSize() != 0)
-				{
-					typeData.put(entry.getKey().toString(), compound);
-				}
+				typeData.put(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, entry.getKey()).toString(), compound);
 			}
 		}
 		
 		if (typeData.getSize() > 0)
 		{
-			tag.put(Pehkui.MOD_ID + ":scale_data_types", typeData);
+			nbt.put(Pehkui.MOD_ID + ":scale_data_types", typeData);
 		}
+		
+		return nbt;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")
