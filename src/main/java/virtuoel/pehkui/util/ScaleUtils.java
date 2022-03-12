@@ -233,12 +233,12 @@ public class ScaleUtils
 	
 	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
 	{
-		syncScales(entity, packetSender, ScaleUtils::isScaleDataNotReset, false);
+		syncScales(entity, packetSender, ScaleUtils::hasScaleDataChanged, false);
 	}
 	
-	private static boolean isScaleDataNotReset(final ScaleData scaleData)
+	private static boolean hasScaleDataChanged(final ScaleData scaleData)
 	{
-		return !scaleData.isReset();
+		return !scaleData.hasDefaultValues();
 	}
 	
 	private static final ThreadLocal<Collection<ScaleData>> SYNCED_SCALE_DATA = ThreadLocal.withInitial(ArrayList::new);
