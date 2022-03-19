@@ -1,5 +1,6 @@
 package virtuoel.pehkui.util;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +19,7 @@ import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
@@ -39,7 +41,7 @@ public class CommandUtils
 		void register(String id, Class<? extends T> argClass, Supplier<T> supplier);
 	}
 	
-	public static final Method REGISTER_ARGUMENT_TYPE;
+	public static final Method REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE;
 	
 	static
 	{
@@ -50,6 +52,7 @@ public class CommandUtils
 		
 		try
 		{
+			final boolean is116Minus = VersionUtils.MINOR <= 16;
 			final boolean is118Minus = VersionUtils.MINOR <= 18;
 			
 			if (is118Minus)
@@ -57,6 +60,9 @@ public class CommandUtils
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2316", "method_10017", "(Ljava/lang/String;Ljava/lang/Class;Lnet/minecraft/class_2314;)V");
 				h.put(0, ArgumentTypes.class.getMethod(mapped, String.class, Class.class, ArgumentSerializer.class));
 			}
+			
+			mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2096$class_2099", "method_9047", is116Minus ? "(F)Z" : "(D)Z");
+			h.put(1, NumberRange.FloatRange.class.getMethod(mapped, is116Minus ? float.class : double.class));
 		}
 		catch (NoSuchMethodException | SecurityException e1)
 		{
@@ -65,6 +71,24 @@ public class CommandUtils
 		}
 		
 		REGISTER_ARGUMENT_TYPE = h.get(0);
+		TEST_FLOAT_RANGE = h.get(1);
+	}
+	
+	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
+	{
+		try
+		{
+			if (TEST_FLOAT_RANGE != null)
+			{
+				return (boolean) TEST_FLOAT_RANGE.invoke(range, value);
+			}
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+		{
+			Pehkui.LOGGER.catching(e);
+		}
+		
+		return false;
 	}
 	
 	public static <T extends ArgumentType<?>> void registerConstantArgumentType(String id, Class<? extends T> argClass, Supplier<T> supplier)
