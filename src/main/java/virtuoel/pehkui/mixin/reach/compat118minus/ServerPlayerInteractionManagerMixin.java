@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.reach;
+package virtuoel.pehkui.mixin.reach.compat118minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,7 +14,7 @@ public class ServerPlayerInteractionManagerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyConstant(method = "processBlockBreakingAction", constant = @Constant(doubleValue = 36.0D))
+	@ModifyConstant(method = "method_14263", constant = @Constant(doubleValue = 36.0D), remap = false)
 	private double processBlockBreakingActionModifyDistance(double value)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
