@@ -4,6 +4,7 @@
 	"package": "virtuoel.pehkui.mixin",
 	"compatibilityLevel": "JAVA_8",
 	"plugin": "virtuoel.pehkui.mixin.PehkuiMixinConfigPlugin",
+	"refmap": "Pehkui-refmap.json",
 	"mixins":
 	[
 		"AbstractDonkeyEntityMixin",
