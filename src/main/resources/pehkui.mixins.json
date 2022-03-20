@@ -117,6 +117,8 @@
 		"compat118minus.ServerPlayerInteractionManagerMixin",
 		"compat118minus.ServerPlayNetworkHandlerMixin",
 		"compat119plus.ArgumentTypesMixin",
+		"compat119plus.ServerPlayerInteractionManagerMixin",
+		"compat119plus.ServerPlayNetworkHandlerMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
 		"identity.compat115.IdentityComponentMixin",
