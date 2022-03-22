@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.predicate.NumberRange;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
+import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
 
 @Mixin(EntitySelectorReader.class)
@@ -37,13 +38,13 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 		if (!this.pehkui$scaleRange.isDummy())
 		{
 			final ScaleType scaleType = this.pehkui$scaleType == ScaleTypes.INVALID ? ScaleTypes.BASE : this.pehkui$scaleType;
-			setPredicate(e -> this.pehkui$scaleRange.test(scaleType.getScaleData(e).getBaseScale()));
+			setPredicate(e -> CommandUtils.testFloatRange(this.pehkui$scaleRange, scaleType.getScaleData(e).getBaseScale()));
 		}
 		
 		if (!this.pehkui$computedScaleRange.isDummy())
 		{
 			final ScaleType scaleType = this.pehkui$computedScaleType == ScaleTypes.INVALID ? ScaleTypes.BASE : this.pehkui$computedScaleType;
-			setPredicate(e -> this.pehkui$computedScaleRange.test(scaleType.getScaleData(e).getScale()));
+			setPredicate(e -> CommandUtils.testFloatRange(this.pehkui$computedScaleRange, scaleType.getScaleData(e).getScale()));
 		}
 	}
 	
