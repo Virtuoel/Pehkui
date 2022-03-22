@@ -5,8 +5,6 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.command.argument.ArgumentTypes;
-import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -22,18 +20,17 @@ import net.minecraftforge.fml.config.ModConfig;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
-import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
-import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
-import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
+import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.GravityChangerCompatibility;
 import virtuoel.pehkui.util.IdentityCompatibility;
 import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 import virtuoel.pehkui.util.ScaleUtils;
+import virtuoel.pehkui.util.VersionUtils;
 
 @Mod(Pehkui.MOD_ID)
 public class Pehkui
@@ -85,9 +82,10 @@ public class Pehkui
 		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
 		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
 		
-		ArgumentTypes.register(id("scale_type").toString(), ScaleTypeArgumentType.class, new ConstantArgumentSerializer<>(ScaleTypeArgumentType::scaleType));
-		ArgumentTypes.register(id("scale_modifier").toString(), ScaleModifierArgumentType.class, new ConstantArgumentSerializer<>(ScaleModifierArgumentType::scaleModifier));
-		ArgumentTypes.register(id("scale_operation").toString(), ScaleOperationArgumentType.class, new ConstantArgumentSerializer<>(ScaleOperationArgumentType::operation));
+		if (VersionUtils.MINOR <= 18)
+		{
+			CommandUtils.registerArgumentTypes(CommandUtils::registerConstantArgumentType);
+		}
 		
 		PehkuiEntitySelectorOptions.register();
 		
