@@ -28,7 +28,7 @@ import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
 
 public class CommandUtils
 {
-	public static void registerArgumentTypes(ArgumentTypeConsumer<ArgumentType<?>> consumer)
+	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
 	{
 		consumer.register(Pehkui.id("scale_type").toString(), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
 		consumer.register(Pehkui.id("scale_modifier").toString(), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
@@ -36,9 +36,9 @@ public class CommandUtils
 	}
 	
 	@FunctionalInterface
-	public interface ArgumentTypeConsumer<T extends ArgumentType<?>>
+	public interface ArgumentTypeConsumer
 	{
-		void register(String id, Class<? extends T> argClass, Supplier<T> supplier);
+		<T extends ArgumentType<?>> void register(String id, Class<T> argClass, Supplier<T> supplier);
 	}
 	
 	public static final Method REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE;
