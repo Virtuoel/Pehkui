@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.reach.compat118minus;
+package virtuoel.pehkui.mixin.reach;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,11 +14,11 @@ public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyConstant(method = "onPlayerInteractEntity", constant = @Constant(doubleValue = 36.0D))
-	private double onPlayerInteractEntityModifyDistance(double value)
+	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
+	private double onPlayerInteractBlockModifyDistance(double value)
 	{
-		final float scale = ScaleUtils.getEntityReachScale(player);
+		final float scale = ScaleUtils.getBlockReachScale(player);
 		
-		return scale > 1.0F ? scale * scale * value : value;
+		return scale != 1.0F ? scale * scale * value : value;
 	}
 }
