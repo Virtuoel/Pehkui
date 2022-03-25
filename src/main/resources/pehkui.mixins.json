@@ -28,7 +28,6 @@
 		"HorseBaseEntityMixin",
 		"HorseScreenHandlerMixin",
 		"ItemEntityMixin",
-		"LecternBlockEntityMixin",
 		"LivingEntityMixin",
 		"LlamaEntityMixin",
 		"LlamaSpitEntityMixin",
