@@ -38,6 +38,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EntityMixin implements PehkuiEntityExtensions
 {
 	@Shadow boolean onGround;
+	@Shadow boolean firstUpdate;
 	
 	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	private boolean pehkui_shouldSyncScales = false;
@@ -242,6 +243,12 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		{
 			info.cancel();
 		}
+	}
+	
+	@Override
+	public boolean pehkui_isFirstUpdate()
+	{
+		return this.firstUpdate;
 	}
 	
 	@Override

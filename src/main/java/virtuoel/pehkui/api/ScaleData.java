@@ -229,7 +229,10 @@ public class ScaleData
 	 */
 	public float getScale(float delta)
 	{
-		if (!Float.isNaN(cachedScale) && delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
+		final Entity e = getEntity();
+		final boolean canCache = delta == 1.0F && e != null && e.world != null && !e.world.isClient && !((PehkuiEntityExtensions) e).pehkui_isFirstUpdate();
+		
+		if (canCache && !Float.isNaN(cachedScale))
 		{
 			return cachedScale;
 		}
@@ -241,7 +244,7 @@ public class ScaleData
 			value = m.modifyScale(this, value, delta);
 		}
 		
-		if (delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
+		if (canCache)
 		{
 			cachedScale = value;
 		}
