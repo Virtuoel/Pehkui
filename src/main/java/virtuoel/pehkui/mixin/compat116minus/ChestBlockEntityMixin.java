@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -13,6 +14,7 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 
@@ -31,7 +33,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		return viewerSearchRange;
 	}
 	
-	@Inject(at = @At("HEAD"), method = "method_5435(Lnet/minecraft/class_1657;)V", remap = false)
+	@Inject(at = @At("HEAD"), target = @Desc(value = MixinConstants.ON_OPEN, args = { PlayerEntity.class }), remap = false)
 	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_11928 < 0)
@@ -54,7 +56,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "method_5432(Lnet/minecraft/class_1657;)V", remap = false)
+	@Inject(at = @At("HEAD"), target = @Desc(value = MixinConstants.ON_CLOSE, args = { PlayerEntity.class }), remap = false)
 	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_11928 <= 1)
@@ -65,7 +67,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		}
 	}
 	
-	@ModifyConstant(method = "method_17765(Lnet/minecraft/class_1937;Lnet/minecraft/class_2624;III)I", constant = @Constant(floatValue = 5.0F), remap = false)
+	@ModifyConstant(target = @Desc(value = MixinConstants.COUNT_VIEWERS, args = { World.class, LockableContainerBlockEntity.class, int.class, int.class, int.class }, ret = int.class), constant = @Constant(floatValue = 5.0F), remap = false)
 	private static float countViewersModifyDistance(float value, World world, LockableContainerBlockEntity container, int x, int y, int z)
 	{
 		if (container instanceof ViewerCountingBlockEntityExtensions)

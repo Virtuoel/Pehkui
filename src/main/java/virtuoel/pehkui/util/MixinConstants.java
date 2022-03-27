@@ -49,9 +49,15 @@ public class MixinConstants
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
 	private static final String METHOD_5757 = "method_5757";
+	private static final String METHOD_5435 = "method_5435";
+	private static final String METHOD_5432 = "method_5432";
+	private static final String METHOD_17765 = "method_17765";
+	private static final String METHOD_5623 = "method_5623";
+	private static final String METHOD_9554 = "method_9554";
 	private static final String METHOD_5650 = "method_5650";
 	private static final String METHOD_11117 = "method_11117";
 	private static final String METHOD_5823 = "method_5823";
+	private static final String METHOD_14263 = "method_14263";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -126,6 +132,11 @@ public class MixinConstants
 	public static final String IS_INSIDE_WALL = METHOD_5757;
 	
 	// 1.16 Minus
+	public static final String ON_OPEN = METHOD_5435;
+	public static final String ON_CLOSE = METHOD_5432;
+	public static final String COUNT_VIEWERS = METHOD_17765;
+	public static final String FALL = METHOD_5623;
+	public static final String ON_LANDED_UPON = METHOD_9554;
 	public static final String REMOVE = METHOD_5650;
 	
 	// 1.16 Minus Client
@@ -135,4 +146,7 @@ public class MixinConstants
 	// 1.16.2 Plus
 	public static final String ON_PLAYER_RESPAWN = METHOD_11117;
 	public static final String AFTER_SPAWN = METHOD_5823;
+	
+	// 1.18 Minus
+	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263;
 }
