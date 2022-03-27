@@ -30,8 +30,8 @@ public class MixinConstants
 	private static final String METHOD_6249 = "method_6249";
 	private static final String METHOD_23883 = "method_23883";
 	private static final String METHOD_22973 = "method_22973";
+	private static final String METHOD_23177 = "method_23177";
 	private static final String METHOD_7492 = "method_7492";
-	private static final String METHOD_5692 = "method_5692";
 	private static final String METHOD_6959 = "method_6959";
 	private static final String METHOD_5800 = "method_5800";
 	private static final String METHOD_7148 = "method_7148";
@@ -45,6 +45,7 @@ public class MixinConstants
 	private static final String METHOD_7872 = "method_7872";
 	private static final String METHOD_6194 = "method_6194";
 	private static final String METHOD_1760 = "method_1760";
+	private static final String METHOD_6067 = "method_6067";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
 	private static final String METHOD_5757 = "method_5757";
@@ -54,112 +55,84 @@ public class MixinConstants
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
-	private static final String CLASS_1937 = "net/minecraft/class_1937";
-	private static final String CLASS_1297 = "net/minecraft/class_1297";
 	private static final String CLASS_1657 = "net/minecraft/class_1657";
-	private static final String CLASS_1927 = "net/minecraft/class_1927";
-	private static final String CLASS_1268 = "net/minecraft/class_1268";
-	private static final String CLASS_1296 = "net/minecraft/class_1296";
-	private static final String CLASS_1642 = "net/minecraft/class_1642";
-	private static final String CLASS_1640 = "net/minecraft/class_1640";
-	private static final String CLASS_1590 = "net/minecraft/class_1590";
-	private static final String CLASS_239 = "net/minecraft/class_239";
-	private static final String CLASS_3494 = "net/minecraft/class_3494";
-	private static final String CLASS_1538 = "net/minecraft/class_1538";
-	private static final String CLASS_243 = "net/minecraft/class_243";
-	private static final String CLASS_1646 = "net/minecraft/class_1646";
-	private static final String CLASS_3218 = "net/minecraft/class_3218";
-	private static final String CLASS_1641 = "net/minecraft/class_1641";
-	private static final String CLASS_1299 = "net/minecraft/class_1299";
-	private static final String CLASS_1309 = "net/minecraft/class_1309";
-	private static final String CLASS_1324 = "net/minecraft/class_1324";
-	private static final String CLASS_4587 = "net/minecraft/class_4587";
-	private static final String CLASS_4597 = "net/minecraft/class_4597";
-	
-	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
-	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
 	
 	// 1.14
 	public static final String DEATH = METHOD_6078;
 	public static final String POST_DEATH = METHOD_6108;
-	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z";
+	public static final String SPAWN_ENTITY = METHOD_8649;
 	
 	// Client
-	public static final String BUILD_GEOMETRY = METHOD_3074; // desc
-	public static final String LERP = METHOD_16436; // desc
-	public static final String RENDER_SECOND_PASS = METHOD_3887; // desc
-	public static final String RENDER_PASS = METHOD_2836; // desc
-	public static final String RENDER_OVERLAYS = METHOD_3232; // desc
-	public static final String RENDER = METHOD_3954; // desc
-	public static final String RENDER_IN_WORLD = METHOD_3936; // desc
-	public static final String RENDER_LABEL = METHOD_3923; // desc
-	public static final String GET_HEIGHT = METHOD_17682; // desc
-	public static final String POST_RENDER = METHOD_3939; // desc
-	public static final String RENDER_SHADOW = METHOD_3934; // desc
-	public static final String BOB_VIEW = METHOD_3186; // desc
+	public static final String BUILD_GEOMETRY = METHOD_3074;
+	public static final String LERP = METHOD_16436;
+	public static final String RENDER_SECOND_PASS = METHOD_3887;
+	public static final String RENDER_PASS = METHOD_2836;
+	public static final String RENDER_OVERLAYS = METHOD_3232;
+	public static final String RENDER = METHOD_3954;
+	public static final String RENDER_IN_WORLD = METHOD_3936;
+	public static final String RENDER_LABEL = METHOD_3923;
+	public static final String GET_HEIGHT = METHOD_17682;
+	public static final String POST_RENDER = METHOD_3939;
+	public static final String RENDER_SHADOW = METHOD_3934;
+	public static final String BOB_VIEW = METHOD_3186;
 	public static final String FIELD_5973 = "field_5973";
 	public static final String HORIZONTAL_SPEED = "L" + CLASS_1657 + ";" + FIELD_5973 + ":F";
 	public static final String FIELD_6039 = "field_6039";
 	public static final String PREV_HORIZONTAL_SPEED = "L" + CLASS_1657 + ";" + FIELD_6039 + ":F";
-	public static final String APPLY_CAMERA_TRANSFORMATIONS = METHOD_3185; //desc
-	public static final String RENDER_HAND = METHOD_3172; // desc
-	public static final String RENDER_CENTER = METHOD_3178; // desc
-	public static final String RENDER_ABOVE_CLOUDS = METHOD_3206; // desc
-	public static final String RENDER_HELD_ITEM = METHOD_4016; // desc
-	public static final String RENDER_LEASH = METHOD_4073; // desc
+	public static final String APPLY_CAMERA_TRANSFORMATIONS = METHOD_3185;
+	public static final String RENDER_HAND = METHOD_3172;
+	public static final String RENDER_CENTER = METHOD_3178;
+	public static final String RENDER_ABOVE_CLOUDS = METHOD_3206;
+	public static final String RENDER_HELD_ITEM = METHOD_4016;
+	public static final String RENDER_LEASH = METHOD_4073;
 	
 	// 1.15
 	public static final String EXPLOSIVE_PROJECTILE_ON_COLLISION = METHOD_7469;
-	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
-	public static final String INTERACT_MOB = METHOD_5992 + "(L" + CLASS_1657 + ";L" + CLASS_1268 + ";)Z";
-	public static final String PASSIVE_ENTITY_REFRESH_POS_AND_ANGLES = "L" + CLASS_1296 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String ZOMBIE_REFRESH_POS_AND_ANGLES = "L" + CLASS_1642 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String WITCH_REFRESH_POS_AND_ANGLES = "L" + CLASS_1640 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String BREED = METHOD_6249 + "()V";
+	public static final String CREATE_EXPLOSION = METHOD_8537;
+	public static final String INTERACT_MOB = METHOD_5992;
+	public static final String REFRESH_POS_AND_ANGLES = METHOD_5808;
+	public static final String BREED = METHOD_6249;
 	
 	// 1.15 Plus 1.16 Minus
-	public static final String DROP_XP = METHOD_23883; // COMMIT READY
+	public static final String DROP_XP = METHOD_23883;
 	
 	// 1.15 Plus 1.16 Minus Client
-	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973; // COMMIT READY
+	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973;
+	public static final String RENDER_ITEM = METHOD_23177;
 	
 	// 1.15 Minus
-	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
-	public static final String UPDATE_MOVEMENT_IN_FLUID = METHOD_5692 + "(L" + CLASS_3494 + ";)Z";
-	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
+	public static final String THROWN_ENTTIY_ON_COLLISION = METHOD_7492;
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
-	public static final String ON_STRUCK_BY_LIGHTNING = METHOD_5800 + "(L" + CLASS_1538 + ";)V";
+	public static final String ON_STRUCK_BY_LIGHTNING = METHOD_5800;
 	public static final String CAST_SPELL = METHOD_7148;
-	public static final String SET_VELOCITY = METHOD_7485 + "(DDDFF)V";
-	public static final String MULTIPLY = "L" + CLASS_243 + ";" + METHOD_1021 + "(D)L" + CLASS_243 + ";";
-	public static final String CREATE_CHILD = METHOD_18970 + "(L" + CLASS_1646 + ";L" + CLASS_1646 + ";)Ljava/util/Optional;";
-	public static final String FINISH_CONVERSION = METHOD_7197 + "(L" + CLASS_3218 + ";)V";
-	public static final String ZOMBIE_COPY_POS_AND_ROT = "L" + CLASS_1642 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
-	public static final String ZOMBIE_VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1641 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
-	public static final String VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1646 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
-	public static final String CONVERT_TO = METHOD_7200 + "(L" + CLASS_1299 + ";)V";
-	public static final String ON_KILLED_OTHER = METHOD_5874 + "(L" + CLASS_1309 + ";)V";
+	public static final String SET_VELOCITY = METHOD_7485;
+	public static final String MULTIPLY = METHOD_1021;
+	public static final String CREATE_CHILD = METHOD_18970;
+	public static final String FINISH_CONVERSION = METHOD_7197;
+	public static final String COPY_POS_AND_ROT = METHOD_5719;
+	public static final String CONVERT_TO = METHOD_7200;
+	public static final String ON_KILLED_OTHER = METHOD_5874;
 	
 	// 1.15 Minus Reach
-	public static final String RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
-	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
+	public static final String RAYCAST = METHOD_7872;
+	public static final String GET_VALUE = METHOD_6194;
 	
 	// 1.15 Client
-	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
+	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926;
 	public static final String RENDER_SHADOW_PART = METHOD_23163;
 	
 	// 1.16
-	public static final String IS_INSIDE_WALL = METHOD_5757 + "()Z"; // COMMIT READY
+	public static final String IS_INSIDE_WALL = METHOD_5757;
 	
 	// 1.16 Minus
-	public static final String REMOVE = METHOD_5650; // COMMIT READY
+	public static final String REMOVE = METHOD_5650;
 	
 	// 1.16 Minus Client
-	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT READY
+	public static final String RENDER_STATUS_BARS = METHOD_1760;
+	public static final String GET_ABSORPTION_AMOUNT = METHOD_6067;
 	
 	// 1.16.2 Plus
-	public static final String ON_PLAYER_RESPAWN = METHOD_11117; // desc, ready
-	public static final String AFTER_SPAWN = METHOD_5823; // desc, ready
+	public static final String ON_PLAYER_RESPAWN = METHOD_11117;
+	public static final String AFTER_SPAWN = METHOD_5823;
 }

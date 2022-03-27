@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,7 +20,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PigEntity.class)
 public class PigEntityMixin
 {
-	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
+	@Inject(target = @Desc(value = MixinConstants.ON_STRUCK_BY_LIGHTNING, args = { LightningEntity.class }), locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, desc = @Desc(owner = ZombifiedPiglinEntity.class, value = MixinConstants.REFRESH_POS_AND_ANGLES, args = { double.class, double.class, double.class, float.class, float.class }), remap = false), remap = false)
 	private void onOnStruckByLightning(LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
 		ScaleUtils.loadScale(zombifiedPiglinEntity, (Entity) (Object) this);
