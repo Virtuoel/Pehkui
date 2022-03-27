@@ -462,7 +462,6 @@ public class ScaleCommand
 										final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
 										final ScaleData data = type.getScaleData(e);
 										data.getBaseValueModifiers().add(modifier);
-										data.onUpdate();
 									}
 									
 									return 1;
@@ -474,7 +473,6 @@ public class ScaleCommand
 								final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 								data.getBaseValueModifiers().add(modifier);
-								data.onUpdate();
 								
 								return 1;
 							})
@@ -493,7 +491,6 @@ public class ScaleCommand
 										final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
 										final ScaleData data = type.getScaleData(e);
 										data.getBaseValueModifiers().remove(modifier);
-										data.onUpdate();
 									}
 									
 									return 1;
@@ -505,7 +502,6 @@ public class ScaleCommand
 								final ScaleModifier modifier = ScaleModifierArgumentType.getScaleModifierArgument(context, "scale_modifier");
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 								data.getBaseValueModifiers().remove(modifier);
-								data.onUpdate();
 								
 								return 1;
 							})
