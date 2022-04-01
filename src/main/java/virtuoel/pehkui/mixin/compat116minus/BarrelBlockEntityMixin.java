@@ -4,13 +4,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.block.entity.BarrelBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 
@@ -29,7 +27,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		return viewerSearchRange;
 	}
 	
-	@Inject(at = @At("HEAD"), target = @Desc(value = MixinConstants.ON_OPEN, args = { PlayerEntity.class }), remap = false)
+	@Inject(at = @At("HEAD"), method = "method_5435(Lnet/minecraft/class_1657;)V", remap = false)
 	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_17583 < 0)
@@ -52,7 +50,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), target = @Desc(value = MixinConstants.ON_CLOSE, args = { PlayerEntity.class }), remap = false)
+	@Inject(at = @At("HEAD"), method = "method_5432(Lnet/minecraft/class_1657;)V", remap = false)
 	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_17583 <= 1)

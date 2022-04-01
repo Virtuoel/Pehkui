@@ -2,22 +2,16 @@ package virtuoel.pehkui.mixin.compat116minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
 public class EntityMixin
 {
-	@ModifyArg(target = @Desc(value = MixinConstants.FALL, args = { double.class, boolean.class, BlockState.class, BlockPos.class }), at = @At(value = "INVOKE", desc = @Desc(owner = Block.class, value = MixinConstants.ON_LANDED_UPON, args = { World.class, BlockPos.class, Entity.class, float.class }), remap = false), remap = false)
+	@ModifyArg(method = "method_5623(DZLnet/minecraft/class_2680;Lnet/minecraft/class_2338;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/class_2248;method_9554(Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1297;F)V", remap = false), remap = false)
 	private float onFallModifyFallDistance(float distance)
 	{
 		final float scale = ScaleUtils.getFallingScale((Entity) (Object) this);

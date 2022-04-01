@@ -3,20 +3,18 @@ package virtuoel.pehkui.mixin.client.compat114;
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(MobEntityRenderer.class)
 public class MobEntityRendererMixin<T extends MobEntity>
 {
-	@Inject(target = @Desc(value = MixinConstants.RENDER_LEASH, args = { MobEntity.class, double.class, double.class, double.class, float.class, float.class }), at = @At(value = "HEAD"), remap = false)
+	@Inject(method = "method_4073", at = @At(value = "HEAD"), remap = false)
 	private void onRenderLeashPreRender(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		final Entity attached = entity.getHoldingEntity();
@@ -32,7 +30,7 @@ public class MobEntityRendererMixin<T extends MobEntity>
 		}
 	}
 	
-	@Inject(target = @Desc(value = MixinConstants.RENDER_LEASH, args = { MobEntity.class, double.class, double.class, double.class, float.class, float.class }), at = @At(value = "RETURN"), remap = false)
+	@Inject(method = "method_4073", at = @At(value = "RETURN"), remap = false)
 	private void onRenderLeashPostRender(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		if (entity.getHoldingEntity() != null)

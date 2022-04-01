@@ -5,15 +5,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ItemPickupParticle;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -23,7 +19,7 @@ public class ItemPickupParticleMixin
 	@Shadow(remap = false) @Final @Mutable Entity field_3821; // UNMAPPED_FIELD
 	@Shadow(remap = false) @Final @Mutable float field_3822; // UNMAPPED_FIELD
 	
-	@ModifyArg(target = @Desc(value = MixinConstants.BUILD_GEOMETRY, args = { BufferBuilder.class, Camera.class, float.class, float.class, float.class, float.class, float.class, float.class }), index = 2, at = @At(value = "INVOKE", desc = @Desc(owner = MathHelper.class, value = MixinConstants.LERP, args = { double.class, double.class, double.class }, ret = double.class), ordinal = 4, remap = false), remap = false)
+	@ModifyArg(method = MixinConstants.BUILD_GEOMETRY, index = 2, at = @At(value = "INVOKE", target = MixinConstants.LERP, ordinal = 4, remap = false), remap = false)
 	private double buildGeometryModifyOffset(double value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());

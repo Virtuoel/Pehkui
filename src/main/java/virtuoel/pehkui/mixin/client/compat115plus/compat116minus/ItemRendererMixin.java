@@ -3,7 +3,6 @@ package virtuoel.pehkui.mixin.client.compat115plus.compat116minus;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -15,13 +14,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
-	@Inject(target = @Desc(value = MixinConstants.RENDER_ITEM, args = { LivingEntity.class, ItemStack.class, ModelTransformation.Mode.class, boolean.class, MatrixStack.class, VertexConsumerProvider.class, World.class, int.class, int.class }), at = @At(value = "HEAD"), remap = false)
+	@Inject(method = "method_23177(Lnet/minecraft/class_1309;Lnet/minecraft/class_1799;Lnet/minecraft/class_809$class_811;ZLnet/minecraft/class_4587;Lnet/minecraft/class_4597;Lnet/minecraft/class_1937;II)V", at = @At(value = "HEAD"), remap = false)
 	private void onRenderItemPreRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
 		matrices.push();
@@ -40,7 +38,7 @@ public class ItemRendererMixin
 		matrices.push();
 	}
 	
-	@Inject(target = @Desc(value = MixinConstants.RENDER_ITEM, args = { LivingEntity.class, ItemStack.class, ModelTransformation.Mode.class, boolean.class, MatrixStack.class, VertexConsumerProvider.class, World.class, int.class, int.class }), at = @At(value = "RETURN"), remap = false)
+	@Inject(method = "method_23177(Lnet/minecraft/class_1309;Lnet/minecraft/class_1799;Lnet/minecraft/class_809$class_811;ZLnet/minecraft/class_4587;Lnet/minecraft/class_4597;Lnet/minecraft/class_1937;II)V", at = @At(value = "RETURN"), remap = false)
 	private void onRenderItemPostRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
 		matrices.pop();
