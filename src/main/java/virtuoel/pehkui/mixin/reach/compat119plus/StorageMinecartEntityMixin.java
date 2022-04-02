@@ -4,14 +4,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import net.minecraft.class_7265;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.StorageMinecartEntity;
+import net.minecraft.entity.vehicle.VehicleInventory;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(StorageMinecartEntity.class)
-public abstract class StorageMinecartEntityMixin implements class_7265
+public abstract class StorageMinecartEntityMixin implements VehicleInventory
 {
 	@Inject(method = "canPlayerUse", at = @At("RETURN"), cancellable = true)
 	private void canPlayerUseModifyDistance(PlayerEntity playerEntity, CallbackInfoReturnable<Boolean> info)
