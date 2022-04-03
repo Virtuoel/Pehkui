@@ -135,6 +135,7 @@ public class PehkuiConfig
 	
 	private static String synced(final String name, final String codecKey)
 	{
-		return ConfigSyncUtils.markConfigForSync(name, codecKey);
+		ConfigSyncUtils.setupSyncableConfig(name, codecKey);
+		return name;
 	}
 }

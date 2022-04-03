@@ -169,11 +169,14 @@ public class ConfigSyncUtils
 	
 	public static <T> MutableConfigEntry<T> createSyncedConfig(final String name, final Supplier<T> supplier, final Consumer<T> consumer)
 	{
-		if (SYNCED_CONFIGS.containsKey(name) && SYNCED_CONFIGS.get(name) == null)
+		if (SYNCED_CONFIGS.containsKey(name))
 		{
-			final SyncableConfigEntry<T> entry = new SyncableConfigEntry<T>(name, supplier, consumer);
-			
-			SYNCED_CONFIGS.put(name, entry);
+			@SuppressWarnings("unchecked")
+			SyncableConfigEntry<T> entry = (SyncableConfigEntry<T>) SYNCED_CONFIGS.get(name);
+			if (entry == null)
+			{
+				SYNCED_CONFIGS.put(name, entry = new SyncableConfigEntry<T>(name, supplier, consumer));
+			}
 			
 			return entry;
 		}
@@ -181,11 +184,10 @@ public class ConfigSyncUtils
 		return new NamedConfigEntry<T>(name, supplier, consumer);
 	}
 	
-	public static String markConfigForSync(final String name, final String codecKey)
+	public static void setupSyncableConfig(final String name, final String codecKey)
 	{
 		SYNCED_CONFIGS.put(name, null);
 		SYNCED_CONFIG_CODECS.put(name, Objects.requireNonNull(CODECS.get(codecKey), String.format("Codec \"%s\" not found for config \"%s\"", codecKey, name)));
-		return name;
 	}
 	
 	private static class SyncableConfigEntry<T> extends NamedConfigEntry<T>
