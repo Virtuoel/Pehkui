@@ -31,12 +31,42 @@ public class ConfigSyncUtils
 			{
 				final double v = b.readDouble();
 				
-				return () ->
-				{
-					e.setSyncedValue(v);
-				};
+				return () -> e.setSyncedValue(v);
 			},
 			(b, e) -> b.writeDouble(e.getValue())
+		));
+		CODECS.put("boolean", new ConfigEntryCodec<Boolean>(
+			(b, e) ->
+			{
+				final boolean v = b.readBoolean();
+				
+				return () -> e.setSyncedValue(v);
+			},
+			(b, e) -> b.writeBoolean(e.getValue())
+		));
+		CODECS.put("string_list", new ConfigEntryCodec<List<String>>(
+			(b, e) ->
+			{
+				final List<String> v = new ArrayList<>();
+				
+				final int size = b.readVarInt();
+				for (int i = 0; i < size; i++)
+				{
+					v.add(b.readString());
+				}
+				
+				return () -> e.setSyncedValue(v);
+			},
+			(b, e) ->
+			{
+				final List<String> list = e.getValue();
+				
+				b.writeVarInt(list.size());
+				for (final String v : list)
+				{
+					b.writeString(v);
+				}
+			}
 		));
 	}
 	
