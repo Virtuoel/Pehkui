@@ -57,23 +57,23 @@ public class PehkuiConfig
 		
 		private Common(final JsonConfigBuilder builder)
 		{
-			this.keepAllScalesOnRespawn = builder.booleanConfig("keepAllScalesOnRespawn", false);
-			this.scalesKeptOnRespawn = builder.stringListConfig("scalesKeptOnRespawn");
+			this.keepAllScalesOnRespawn = builder.booleanConfig(synced("keepAllScalesOnRespawn", "boolean"), false);
+			this.scalesKeptOnRespawn = builder.stringListConfig(synced("scalesKeptOnRespawn", "string_list"));
 			
-			this.accurateNetherPortals = builder.booleanConfig("accurateNetherPortals", true);
+			this.accurateNetherPortals = builder.booleanConfig(synced("accurateNetherPortals", "boolean"), true);
 			
 			this.enableCommands = builder.booleanConfig("enableCommands", true);
 			this.enableDebugCommands = builder.booleanConfig("enableDebugCommands", false);
 			
-			this.scaledFallDamage = builder.booleanConfig("scaledFallDamage", true);
-			this.scaledMotion = builder.booleanConfig("scaledMotion", true);
-			this.scaledReach = builder.booleanConfig("scaledReach", true);
-			this.scaledAttack = builder.booleanConfig("scaledAttack", true);
-			this.scaledDefense = builder.booleanConfig("scaledDefense", true);
-			this.scaledHealth = builder.booleanConfig("scaledHealth", true);
-			this.scaledItemDrops = builder.booleanConfig("scaledItemDrops", true);
-			this.scaledProjectiles = builder.booleanConfig("scaledProjectiles", true);
-			this.scaledExplosions = builder.booleanConfig("scaledExplosions", true);
+			this.scaledFallDamage = builder.booleanConfig(synced("scaledFallDamage", "boolean"), true);
+			this.scaledMotion = builder.booleanConfig(synced("scaledMotion", "boolean"), true);
+			this.scaledReach = builder.booleanConfig(synced("scaledReach", "boolean"), true);
+			this.scaledAttack = builder.booleanConfig(synced("scaledAttack", "boolean"), true);
+			this.scaledDefense = builder.booleanConfig(synced("scaledDefense", "boolean"), true);
+			this.scaledHealth = builder.booleanConfig(synced("scaledHealth", "boolean"), true);
+			this.scaledItemDrops = builder.booleanConfig(synced("scaledItemDrops", "boolean"), true);
+			this.scaledProjectiles = builder.booleanConfig(synced("scaledProjectiles", "boolean"), true);
+			this.scaledExplosions = builder.booleanConfig(synced("scaledExplosions", "boolean"), true);
 			
 			Identifier id;
 			String namespace, path;
