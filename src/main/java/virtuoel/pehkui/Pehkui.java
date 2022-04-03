@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
@@ -12,6 +13,7 @@ import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.ScaleCommand;
 import virtuoel.pehkui.util.CommandUtils;
+import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.GravityChangerCompatibility;
 import virtuoel.pehkui.util.IdentityCompatibility;
 import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
@@ -51,6 +53,18 @@ public class Pehkui implements ModInitializer
 			});
 		}
 		
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+		{
+			if (!server.isHost(handler.getPlayer().getGameProfile()))
+			{
+				ConfigSyncUtils.writeConfigs(handler);
+			}
+			else
+			{
+				ConfigSyncUtils.resetSyncedConfigs();
+			}
+		});
+		
 		GravityChangerCompatibility.INSTANCE.getClass();
 		IdentityCompatibility.INSTANCE.getClass();
 		ImmersivePortalsCompatibility.INSTANCE.getClass();
@@ -69,5 +83,6 @@ public class Pehkui implements ModInitializer
 	}
 	
 	public static final Identifier SCALE_PACKET = id("scale");
+	public static final Identifier CONFIG_SYNC_PACKET = id("config_sync");
 	public static final Identifier DEBUG_PACKET = id("debug");
 }

@@ -2,14 +2,17 @@ package virtuoel.pehkui.api;
 
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.util.Identifier;
 import virtuoel.kanos_config.api.JsonConfigBuilder;
+import virtuoel.kanos_config.api.MutableConfigEntry;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
+import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
@@ -19,7 +22,14 @@ public class PehkuiConfig
 	public static final JsonConfigBuilder BUILDER = new JsonConfigBuilder(
 		Pehkui.MOD_ID,
 		"config.json"
-	);
+	)
+	{
+		@Override
+		public <T> MutableConfigEntry<T> createConfigEntry(final String name, final Supplier<T> supplier, final Consumer<T> consumer)
+		{
+			return ConfigSyncUtils.createSyncedConfig(name, supplier, consumer);
+		}
+	};
 	
 	public static final Client CLIENT = new Client(BUILDER);
 	public static final Common COMMON = new Common(BUILDER);
@@ -85,8 +95,8 @@ public class PehkuiConfig
 					
 					path = id.getPath();
 					
-					min = builder.doubleConfig(path + ".minimum", Float.MIN_VALUE);
-					max = builder.doubleConfig(path + ".maximum", ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE);
+					min = builder.doubleConfig(synced(path + ".minimum", "double"), Float.MIN_VALUE);
+					max = builder.doubleConfig(synced(path + ".maximum", "double"), ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE);
 					
 					type.getDefaultBaseValueModifiers().add(
 						ScaleRegistries.register(
@@ -121,5 +131,10 @@ public class PehkuiConfig
 	private PehkuiConfig()
 	{
 		
+	}
+	
+	private static String synced(final String name, final String codecKey)
+	{
+		return ConfigSyncUtils.markConfigForSync(name, codecKey);
 	}
 }

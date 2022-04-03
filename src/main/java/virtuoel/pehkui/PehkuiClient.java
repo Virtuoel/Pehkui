@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
+import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.ModLoaderUtils;
@@ -47,6 +48,11 @@ public class PehkuiClient implements ClientModInitializer
 						}
 					});
 				}
+			});
+			
+			ClientPlayNetworking.registerGlobalReceiver(Pehkui.CONFIG_SYNC_PACKET, (client, handler, buf, sender) ->
+			{
+				client.execute(ConfigSyncUtils.readConfigs(buf));
 			});
 			
 			ClientPlayNetworking.registerGlobalReceiver(Pehkui.DEBUG_PACKET, (client, handler, buf, sender) ->
