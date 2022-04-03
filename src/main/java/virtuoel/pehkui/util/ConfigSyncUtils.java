@@ -1,6 +1,7 @@
 package virtuoel.pehkui.util;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,19 +79,40 @@ public class ConfigSyncUtils
 		});
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void writeConfigs(final ServerPlayNetworkHandler networkHandler)
+	{
+		syncConfigs(networkHandler, SYNCED_CONFIGS.values());
+	}
+	
+	public static void syncConfigs(final ServerPlayNetworkHandler networkHandler, final String... configEntryKeys)
+	{
+		final List<SyncableConfigEntry<?>> entries = new ArrayList<>();
+		
+		SyncableConfigEntry<?> entry;
+		for (final String key : configEntryKeys)
+		{
+			if (SYNCED_CONFIGS.containsKey(key) && (entry = SYNCED_CONFIGS.get(key)) != null)
+			{
+				entries.add(entry);
+			}
+		}
+		
+		syncConfigs(networkHandler, entries);
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void syncConfigs(final ServerPlayNetworkHandler networkHandler, final Collection<SyncableConfigEntry<?>> configEntries)
 	{
 		if (ServerPlayNetworking.canSend(networkHandler, Pehkui.CONFIG_SYNC_PACKET))
 		{
 			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 			
-			buffer.writeVarInt(SYNCED_CONFIGS.size());
-			SYNCED_CONFIGS.values().forEach((entry) ->
+			buffer.writeVarInt(configEntries.size());
+			for (SyncableConfigEntry<?> entry : configEntries)
 			{
 				buffer.writeString(entry.getName());
 				((ConfigEntryCodec) SYNCED_CONFIG_CODECS.get(entry.getName())).write(buffer, entry);
-			});
+			}
 			
 			networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.CONFIG_SYNC_PACKET, buffer));
 		}
@@ -104,10 +126,20 @@ public class ConfigSyncUtils
 		final List<Runnable> tasks = new ArrayList<>();
 		
 		String name;
+		ConfigEntryCodec codec;
+		SyncableConfigEntry entry;
 		for (int i = 0; i < qty; i++)
 		{
 			name = buffer.readString();
-			tasks.add(((ConfigEntryCodec) SYNCED_CONFIG_CODECS.get(name)).read(buffer, SYNCED_CONFIGS.get(name)));
+			
+			codec = SYNCED_CONFIG_CODECS.get(name);
+			entry = SYNCED_CONFIGS.get(name);
+			if (codec == null || entry == null)
+			{
+				break;
+			}
+			
+			tasks.add(codec.read(buffer, entry));
 		}
 		
 		return () -> tasks.forEach(Runnable::run);
