@@ -53,17 +53,20 @@ public class Pehkui implements ModInitializer
 			});
 		}
 		
-		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+		if (ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
 		{
-			if (!server.isHost(handler.player.getGameProfile()))
+			ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
 			{
-				ConfigSyncUtils.writeConfigs(handler);
-			}
-			else
-			{
-				ConfigSyncUtils.resetSyncedConfigs();
-			}
-		});
+				if (!server.isHost(handler.player.getGameProfile()))
+				{
+					ConfigSyncUtils.writeConfigs(handler);
+				}
+				else
+				{
+					ConfigSyncUtils.resetSyncedConfigs();
+				}
+			});
+		}
 		
 		GravityChangerCompatibility.INSTANCE.getClass();
 		IdentityCompatibility.INSTANCE.getClass();

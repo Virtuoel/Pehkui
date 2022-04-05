@@ -100,21 +100,26 @@ public class ConfigSyncUtils
 		syncConfigs(networkHandler, entries);
 	}
 	
+	private static final boolean NETWORKING_API_LOADED = ModLoaderUtils.isModLoaded("fabric-networking-api-v1");
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static void syncConfigs(final ServerPlayNetworkHandler networkHandler, final Collection<SyncableConfigEntry<?>> configEntries)
 	{
-		if (ServerPlayNetworking.canSend(networkHandler, Pehkui.CONFIG_SYNC_PACKET))
+		if (NETWORKING_API_LOADED)
 		{
-			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
-			
-			buffer.writeVarInt(configEntries.size());
-			for (SyncableConfigEntry<?> entry : configEntries)
+			if (ServerPlayNetworking.canSend(networkHandler, Pehkui.CONFIG_SYNC_PACKET))
 			{
-				buffer.writeString(entry.getName());
-				((ConfigEntryCodec) SYNCED_CONFIG_CODECS.get(entry.getName())).write(buffer, entry);
+				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+				
+				buffer.writeVarInt(configEntries.size());
+				for (SyncableConfigEntry<?> entry : configEntries)
+				{
+					buffer.writeString(entry.getName());
+					((ConfigEntryCodec) SYNCED_CONFIG_CODECS.get(entry.getName())).write(buffer, entry);
+				}
+				
+				networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.CONFIG_SYNC_PACKET, buffer));
 			}
-			
-			networkHandler.sendPacket(new CustomPayloadS2CPacket(Pehkui.CONFIG_SYNC_PACKET, buffer));
 		}
 	}
 	
