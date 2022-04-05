@@ -28,24 +28,34 @@ public class ConfigSyncUtils
 	static
 	{
 		CODECS.put("double", new ConfigEntryCodec<Double>(
+			(b, e) -> b.writeDouble(e.getValue()),
 			(b, e) ->
 			{
 				final double v = b.readDouble();
 				
 				return () -> e.setSyncedValue(v);
-			},
-			(b, e) -> b.writeDouble(e.getValue())
+			}
 		));
 		CODECS.put("boolean", new ConfigEntryCodec<Boolean>(
+			(b, e) -> b.writeBoolean(e.getValue()),
 			(b, e) ->
 			{
 				final boolean v = b.readBoolean();
 				
 				return () -> e.setSyncedValue(v);
-			},
-			(b, e) -> b.writeBoolean(e.getValue())
+			}
 		));
 		CODECS.put("string_list", new ConfigEntryCodec<List<String>>(
+			(b, e) ->
+			{
+				final List<String> list = e.getValue();
+				
+				b.writeVarInt(list.size());
+				for (final String v : list)
+				{
+					b.writeString(v);
+				}
+			},
 			(b, e) ->
 			{
 				final List<String> v = new ArrayList<>();
@@ -57,16 +67,6 @@ public class ConfigSyncUtils
 				}
 				
 				return () -> e.setSyncedValue(v);
-			},
-			(b, e) ->
-			{
-				final List<String> list = e.getValue();
-				
-				b.writeVarInt(list.size());
-				for (final String v : list)
-				{
-					b.writeString(v);
-				}
 			}
 		));
 	}
@@ -143,6 +143,10 @@ public class ConfigSyncUtils
 			{
 				break;
 			}
+			else
+			{
+				Pehkui.LOGGER.warn("Received unknown config from server: \"{}\"", name);
+			}
 			
 			tasks.add(codec.read(buffer, entry));
 		}
@@ -152,23 +156,23 @@ public class ConfigSyncUtils
 	
 	private static class ConfigEntryCodec<T>
 	{
-		final BiFunction<PacketByteBuf, SyncableConfigEntry<T>, Runnable> reader;
 		final BiConsumer<PacketByteBuf, SyncableConfigEntry<T>> writer;
+		final BiFunction<PacketByteBuf, SyncableConfigEntry<T>, Runnable> reader;
 		
-		public ConfigEntryCodec(final BiFunction<PacketByteBuf, SyncableConfigEntry<T>, Runnable> reader, final BiConsumer<PacketByteBuf, SyncableConfigEntry<T>> writer)
+		public ConfigEntryCodec(final BiConsumer<PacketByteBuf, SyncableConfigEntry<T>> writer, final BiFunction<PacketByteBuf, SyncableConfigEntry<T>, Runnable> reader)
 		{
-			this.reader = reader;
 			this.writer = writer;
-		}
-		
-		public Runnable read(final PacketByteBuf buffer, final SyncableConfigEntry<T> entry)
-		{
-			return reader.apply(buffer, entry);
+			this.reader = reader;
 		}
 		
 		public void write(final PacketByteBuf buffer, final SyncableConfigEntry<T> entry)
 		{
 			writer.accept(buffer, entry);
+		}
+		
+		public Runnable read(final PacketByteBuf buffer, final SyncableConfigEntry<T> entry)
+		{
+			return reader.apply(buffer, entry);
 		}
 	}
 	
