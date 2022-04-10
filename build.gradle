@@ -85,9 +85,14 @@ if(project.hasProperty("fabric_version")) {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
-	mappings loom.layered {
-		project.yarn_mappings.split(", ").each { String mapping ->
-			mappings "net.fabricmc:yarn:${mapping}:v2"
+	if(!project.yarn_mappings.contains(", ")) {
+		mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+	}
+	else {
+		mappings loom.layered {
+			project.yarn_mappings.split(", ").each { String mapping ->
+				mappings "net.fabricmc:yarn:${mapping}:v2"
+			}
 		}
 	}
 	
