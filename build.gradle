@@ -492,7 +492,6 @@ modrinth {
 		changelog = generateMarkdownChangelog()
 		
 		uploadFile = remapJar
-		additionalFiles = files("${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
 	}
 }
 
