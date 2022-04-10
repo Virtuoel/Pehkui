@@ -137,15 +137,17 @@ public class ConfigSyncUtils
 		{
 			name = buffer.readString();
 			
-			codec = SYNCED_CONFIG_CODECS.get(name);
 			entry = SYNCED_CONFIGS.get(name);
-			if (codec == null || entry == null)
+			codec = SYNCED_CONFIG_CODECS.get(name);
+			if (entry == null)
 			{
+				Pehkui.LOGGER.warn("Received unknown config \"{}\" from server.", name);
 				break;
 			}
-			else
+			else if (codec == null)
 			{
-				Pehkui.LOGGER.warn("Received unknown config from server: \"{}\"", name);
+				Pehkui.LOGGER.warn("Codec \"{}\" not found. Could not parse config \"{}\" from server.", codec, name);
+				break;
 			}
 			
 			tasks.add(codec.read(buffer, entry));
