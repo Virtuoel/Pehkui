@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.entity.ShulkerEntityRenderer;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.util.math.Direction;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -15,9 +16,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ShulkerEntityRendererMixin
 {
 	@Inject(at = @At("RETURN"), method = "method_4058", remap = false)
-	private void onSetupTransforms(ShulkerEntity entity, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
+	private void onSetupTransforms(LivingEntity entity, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
 	{
-		final Direction face = entity.getAttachedFace();
+		final Direction face = entity instanceof ShulkerEntity ? ((ShulkerEntity) entity).getAttachedFace() : Direction.DOWN;
+		
 		if (face != Direction.DOWN)
 		{
 			final float h = ScaleUtils.getModelHeightScale(entity, tickDelta);
