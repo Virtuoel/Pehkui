@@ -10,12 +10,13 @@ import net.minecraft.client.render.entity.ShulkerEntityRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.util.math.Direction;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ShulkerEntityRenderer.class)
 public class ShulkerEntityRendererMixin
 {
-	@Inject(at = @At("RETURN"), method = "method_4058", remap = false)
+	@Inject(at = @At("RETURN"), method = MixinConstants.SETUP_TRANSFORMS, remap = false)
 	private void onSetupTransforms(LivingEntity entity, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
 	{
 		final Direction face = entity instanceof ShulkerEntity ? ((ShulkerEntity) entity).getAttachedFace() : Direction.DOWN;
