@@ -90,7 +90,9 @@ Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding lin
 #### Developing for Fabric with Loom
 
 ```groovy
-modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
+modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
+	exclude group: "net.fabricmc.fabric-api"
+})
 ```
 
 #### Developing for Forge with ForgeGradle
