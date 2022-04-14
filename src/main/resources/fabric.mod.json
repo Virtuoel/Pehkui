@@ -26,7 +26,8 @@
 	"depends":
 	{
 		"fabricloader": ">=0.13.3",
-		"fabric-api-base": "*"
+		"fabric-api-base": "*",
+		"kanos_config": "*"
 	},
 	"entrypoints":
 	{

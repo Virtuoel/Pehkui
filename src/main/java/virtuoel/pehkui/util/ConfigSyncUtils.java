@@ -21,9 +21,9 @@ import virtuoel.pehkui.Pehkui;
 
 public class ConfigSyncUtils
 {
-	private static final Map<String, SyncableConfigEntry<?>> SYNCED_CONFIGS = new HashMap<>();
-	private static final Map<String, ConfigEntryCodec<?>> SYNCED_CONFIG_CODECS = new HashMap<>();
-	private static final Map<String, ConfigEntryCodec<?>> CODECS = new HashMap<>();
+	public static final Map<String, SyncableConfigEntry<?>> SYNCED_CONFIGS = new HashMap<>();
+	public static final Map<String, ConfigEntryCodec<?>> SYNCED_CONFIG_CODECS = new HashMap<>();
+	public static final Map<String, ConfigEntryCodec<?>> CODECS = new HashMap<>();
 	
 	static
 	{
