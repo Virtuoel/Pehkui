@@ -25,7 +25,7 @@ public class PehkuiConfig
 	)
 	{
 		@Override
-		public <T> MutableConfigEntry<T> createConfigEntry(final String name, final Supplier<T> supplier, final Consumer<T> consumer)
+		public <T> MutableConfigEntry<T> createConfigEntry(final String name, final T defaultValue, final Supplier<T> supplier, final Consumer<T> consumer)
 		{
 			return ConfigSyncUtils.createSyncedConfig(name, supplier, consumer);
 		}
