@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -34,6 +35,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
@@ -47,14 +49,27 @@ public class DebugCommand
 	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
+		final LiteralArgumentBuilder<ServerCommandSource> builder =
+			CommandManager.literal("scale")
+			.requires(commandSource ->
+			{
+				return commandSource.hasPermissionLevel(2);
+			});
+		
+		final boolean splitConfigs = true;
+		
+		builder
+			.then(CommandManager.literal("debug")
+				.then(CommandManager.literal("config")
+					.then(ConfigSyncUtils.registerConfigGetterCommands(splitConfigs))
+					.then(ConfigSyncUtils.registerConfigSetterCommands(splitConfigs))
+					.then(ConfigSyncUtils.registerConfigResetCommands(splitConfigs))
+				)
+			);
+		
 		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableCommands.get())
 		{
-			commandDispatcher.register(
-				CommandManager.literal("scale")
-				.requires(commandSource ->
-				{
-					return commandSource.hasPermissionLevel(2);
-				})
+			builder
 				.then(CommandManager.literal("debug")
 					.then(CommandManager.literal("delete_scale_data")
 						.then(CommandManager.literal("uuid")
@@ -103,18 +118,12 @@ public class DebugCommand
 							return 1;
 						})
 					)
-				)
-			);
+				);
 		}
 		
 		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{
-			commandDispatcher.register(
-				CommandManager.literal("scale")
-				.requires(commandSource ->
-				{
-					return commandSource.hasPermissionLevel(2);
-				})
+			builder
 				.then(CommandManager.literal("debug")
 					.then(CommandManager.literal("run_mixin_tests")
 						.executes(DebugCommand::runMixinTests)
@@ -122,9 +131,10 @@ public class DebugCommand
 					.then(CommandManager.literal("run_tests")
 						.executes(DebugCommand::runTests)
 					)
-				)
-			);
+				);
 		}
+		
+		commandDispatcher.register(builder);
 	}
 	
 	private static final Collection<UUID> MARKED_UUIDS = new HashSet<>();
