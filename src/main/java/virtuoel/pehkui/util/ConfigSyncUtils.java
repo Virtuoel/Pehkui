@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
@@ -31,8 +32,10 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TranslatableText;
+import virtuoel.kanos_config.api.JsonConfigHandler;
 import virtuoel.kanos_config.api.MutableConfigEntry;
 import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.api.PehkuiConfig;
 
 public class ConfigSyncUtils
 {
@@ -99,7 +102,15 @@ public class ConfigSyncUtils
 		});
 	}
 	
-	public static void writeConfigs(final ServerPlayNetworkHandler networkHandler)
+	public static void syncConfigs(final Collection<ServerPlayerEntity> players)
+	{
+		for (final ServerPlayerEntity player : players)
+		{
+			syncConfigs(player.networkHandler, SYNCED_CONFIGS.values());
+		}
+	}
+	
+	public static void syncConfigs(final ServerPlayNetworkHandler networkHandler)
 	{
 		syncConfigs(networkHandler, SYNCED_CONFIGS.values());
 	}
@@ -250,13 +261,68 @@ public class ConfigSyncUtils
 		SYNCED_CONFIG_CODECS.put(name, Objects.requireNonNull(CODECS.get(codecKey), String.format("Codec \"%s\" not found for config \"%s\"", codecKey, name)));
 	}
 	
+	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigSyncCommands()
+	{
+		return CommandManager.literal("sync")
+			.executes(context ->
+			{
+				syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+				
+				return 1;
+			});
+	}
+	
+	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigFileCommands()
+	{
+		final LiteralArgumentBuilder<ServerCommandSource> builder = CommandManager.literal("file");
+		
+		final JsonConfigHandler config = PehkuiConfig.BUILDER.config;
+		
+		builder
+			.then(CommandManager.literal("save")
+				.executes(context ->
+				{
+					config.save();
+					
+					return 1;
+				})
+			)
+			.then(CommandManager.literal("load")
+				.executes(context ->
+				{
+					final JsonObject disk = config.load();
+					config.onConfigChanged();
+					config.save(disk);
+					config.load();
+					
+					syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+					
+					return 1;
+				})
+			)
+			.then(CommandManager.literal("delete")
+				.executes(context ->
+				{
+					config.onConfigChanged();
+					config.save(new JsonObject());
+					config.get();
+					
+					syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+					
+					return 1;
+				})
+			);
+		
+		return builder;
+	}
+	
 	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigGetterCommands(final boolean splitKeys)
 	{
 		final LiteralArgumentBuilder<ServerCommandSource> builder = CommandManager.literal("get");
 		
 		String[] keys;
 		ArgumentBuilder<ServerCommandSource, ?> root, temp;
-		for (final Entry<String, MutableConfigEntry<?>> entry : ConfigSyncUtils.CONFIGS.entrySet())
+		for (final Entry<String, MutableConfigEntry<?>> entry : CONFIGS.entrySet())
 		{
 			final String key = entry.getKey();
 			final MutableConfigEntry<?> cfg = entry.getValue();
@@ -301,10 +367,10 @@ public class ConfigSyncUtils
 		ArgumentType<?> argType;
 		String[] keys;
 		ArgumentBuilder<ServerCommandSource, ?> root, temp;
-		for (final Entry<String, SyncableConfigEntry<?>> entry : ConfigSyncUtils.SYNCED_CONFIGS.entrySet())
+		for (final Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
 		{
 			final String key = entry.getKey();
-			final ConfigEntryCodec<?> codec = ConfigSyncUtils.SYNCED_CONFIG_CODECS.get(key);
+			final ConfigEntryCodec<?> codec = SYNCED_CONFIG_CODECS.get(key);
 			argType = codec.getArgumentType();
 			
 			if (argType == null)
@@ -338,7 +404,7 @@ public class ConfigSyncUtils
 					
 					for (final ServerPlayerEntity p : context.getSource().getWorld().getServer().getPlayerManager().getPlayerList())
 					{
-						ConfigSyncUtils.syncConfigs(p.networkHandler, cfgs);
+						syncConfigs(p.networkHandler, cfgs);
 					}
 					
 					return 1;

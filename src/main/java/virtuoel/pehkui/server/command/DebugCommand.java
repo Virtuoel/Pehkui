@@ -61,6 +61,8 @@ public class DebugCommand
 		builder
 			.then(CommandManager.literal("debug")
 				.then(CommandManager.literal("config")
+					.then(ConfigSyncUtils.registerConfigFileCommands())
+					.then(ConfigSyncUtils.registerConfigSyncCommands())
 					.then(ConfigSyncUtils.registerConfigGetterCommands(splitConfigs))
 					.then(ConfigSyncUtils.registerConfigSetterCommands(splitConfigs))
 					.then(ConfigSyncUtils.registerConfigResetCommands(splitConfigs))
