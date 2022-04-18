@@ -1,5 +1,7 @@
 package virtuoel.pehkui.util;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +27,7 @@ import com.mojang.brigadier.context.CommandContext;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.command.CommandManager;
@@ -293,7 +296,7 @@ public class ConfigSyncUtils
 					final JsonObject disk = config.load();
 					config.onConfigChanged();
 					config.save(disk);
-					config.load();
+					config.get();
 					
 					syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
 					
@@ -304,12 +307,20 @@ public class ConfigSyncUtils
 				.executes(context ->
 				{
 					config.onConfigChanged();
-					config.save(new JsonObject());
-					config.get();
-					
-					syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
-					
-					return 1;
+					try
+					{
+						Files.deleteIfExists(FabricLoader.getInstance().getConfigDir().resolve(Pehkui.MOD_ID).resolve("config.json").normalize());
+						config.get();
+						syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+						
+						return 1;
+					}
+					catch (IOException e)
+					{
+						Pehkui.LOGGER.catching(e);
+						
+						return 0;
+					}
 				})
 			);
 		
