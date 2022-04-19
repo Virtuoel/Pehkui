@@ -644,6 +644,70 @@ public class ScaleCommand
 						return 1;
 					})
 				)
+				.then(CommandManager.literal("reset")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final int ticks = type.getDefaultTickDelay();
+								
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleData data = type.getScaleData(e);
+									
+									data.setScaleTickDelay(ticks);
+								}
+								
+								context.getSource().sendFeedback(delayText(ticks), false);
+								
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final int ticks = type.getDefaultTickDelay();
+							
+							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+							
+							data.setScaleTickDelay(ticks);
+							
+							context.getSource().sendFeedback(delayText(ticks), false);
+							
+							return 1;
+						})
+					)
+					.then(CommandManager.argument("targets", EntityArgumentType.entities())
+						.executes(context ->
+						{
+							final int ticks = ScaleTypes.BASE.getDefaultTickDelay();
+							
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								final ScaleData data = ScaleTypes.BASE.getScaleData(e);
+								
+								data.setScaleTickDelay(ticks);
+							}
+							
+							context.getSource().sendFeedback(delayText(ticks), false);
+							
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						final int ticks = ScaleTypes.BASE.getDefaultTickDelay();
+						
+						final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
+						
+						data.setScaleTickDelay(ticks);
+						
+						context.getSource().sendFeedback(delayText(ticks), false);
+						
+						return 1;
+					})
+				)
 			);
 		
 		return builder;
