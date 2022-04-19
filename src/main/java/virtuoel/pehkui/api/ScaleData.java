@@ -364,6 +364,7 @@ public class ScaleData
 	public void setPersistence(@Nullable Boolean persistent)
 	{
 		this.persistent = persistent;
+		markForSync(true);
 	}
 	
 	public @Nullable Boolean getPersistence()
@@ -434,6 +435,8 @@ public class ScaleData
 		{
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
 		}
+		
+		buffer.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
 		
 		return buffer;
 	}
