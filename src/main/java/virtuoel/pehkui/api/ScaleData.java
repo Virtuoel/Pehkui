@@ -481,7 +481,6 @@ public class ScaleData
 					final NbtCompound compound = modifiers.getCompound(i);
 					id = Identifier.tryParse(compound.getString("id"));
 					modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
-					modifier.readNbt(compound);
 				}
 				else
 				{
