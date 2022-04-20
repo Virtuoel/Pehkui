@@ -34,7 +34,6 @@ import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.TranslatableText;
 import virtuoel.kanos_config.api.JsonConfigHandler;
 import virtuoel.kanos_config.api.MutableConfigEntry;
 import virtuoel.pehkui.Pehkui;
@@ -343,7 +342,14 @@ public class ConfigSyncUtils
 			root = CommandManager.literal(keys[keys.length - 1])
 				.executes(context ->
 				{
-					context.getSource().sendFeedback(new TranslatableText("commands.pehkui.debug.config.value", key, String.valueOf(cfg.getValue())), false);
+					context.getSource().sendFeedback(
+						I18nUtils.translate(
+							"commands.pehkui.debug.config.value",
+							"Config \"%s\" is now set to \"%s\"",
+							key, String.valueOf(cfg.getValue())
+						),
+						false
+					);
 					
 					return 1;
 				});
@@ -409,7 +415,14 @@ public class ConfigSyncUtils
 					
 					final String newValue = String.valueOf(cfg.getValue());
 					
-					context.getSource().sendFeedback(new TranslatableText("commands.pehkui.debug.config." + (asSetterCommands ? "changed" : "reset"), key, oldValue, newValue), false);
+					context.getSource().sendFeedback(
+						I18nUtils.translate(
+							"commands.pehkui.debug.config." + (asSetterCommands ? "changed" : "reset"),
+							asSetterCommands ? "Config \"%s\" was changed from \"%s\" to \"%s\"" : "Config \"%s\" was reset from \"%s\" to default \"%s\"",
+							key, oldValue, newValue
+						),
+						false
+					);
 					
 					final Collection<SyncableConfigEntry<?>> cfgs = Collections.singleton(cfg);
 					

@@ -5,10 +5,10 @@ import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(HorseBaseEntity.class)
+@Mixin(AbstractHorseEntity.class)
 public class HorseBaseEntityMixin
 {
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))

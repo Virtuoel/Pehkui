@@ -33,6 +33,7 @@
 		"LlamaSpitEntityMixin",
 		"MobEntityMixin",
 		"NbtPredicateMixin",
+		"OperationArgumentTypeAccessor",
 		"PersistentProjectileEntityMixin",
 		"PlayerEntityMixin",
 		"PlayerManagerMixin",
