@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.function.ToDoubleBiFunction;
 
+import org.jetbrains.annotations.ApiStatus;
+
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -25,11 +27,20 @@ public class ScaleType
 		this.baseScaleClampFunction = builder.baseScaleClampFunction;
 		this.targetScaleClampFunction = builder.targetScaleClampFunction;
 		this.defaultPersistence = builder.defaultPersistence;
+		this.affectsDimensions = builder.affectsDimensions;
 	}
 	
 	public ScaleData getScaleData(Entity entity)
 	{
 		return ((PehkuiEntityExtensions) entity).pehkui_getScaleData(this);
+	}
+	
+	private boolean affectsDimensions;
+	
+	@ApiStatus.Internal
+	public boolean getAffectsDimensions()
+	{
+		return affectsDimensions;
 	}
 	
 	private boolean defaultPersistence;

@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -230,7 +231,7 @@ public class ScaleData
 	public float getScale(float delta)
 	{
 		final Entity e = getEntity();
-		final boolean canCache = delta == 1.0F && e != null && e.world != null && !e.world.isClient && !((PehkuiEntityExtensions) e).pehkui_isFirstUpdate();
+		final boolean canCache = delta == 1.0F && e != null && e.world != null && !e.world.isClient && (e.getType() != EntityType.PLAYER || !getScaleType().getAffectsDimensions()) && !((PehkuiEntityExtensions) e).pehkui_isFirstUpdate();
 		
 		if (canCache && !Float.isNaN(cachedScale))
 		{
