@@ -3,9 +3,9 @@ package virtuoel.pehkui.util;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 
 public class I18nUtils
 {
@@ -18,8 +18,8 @@ public class I18nUtils
 		return translate(unlocalized, defaultLocalized, EMPTY_VARARGS);
 	}
 	
-	private static final Function<String, Object> LITERAL = LiteralText::new;
-	private static final BiFunction<String, Object[], Object> TRANSLATABLE = TranslatableText::new;
+	private static final Function<String, Object> LITERAL = LiteralTextContent::new;
+	private static final BiFunction<String, Object[], Object> TRANSLATABLE = TranslatableTextContent::new;
 	
 	public static Text translate(final String unlocalized, final String defaultLocalized, final Object... args)
 	{
