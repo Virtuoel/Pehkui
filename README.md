@@ -111,10 +111,36 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
 </td></table></details>
 
-### Fixing Mixins of Dependencies If Using Older ForgeGradle (4 and below)
+### Fixing Mixins of Dependencies If Using ForgeGradle
 
 <details>
-<summary>Show/Hide Fix for Dependency Mixins on Older ForgeGradle</summary><table width=100%><td>
+<summary>Show/Hide Fix on ForgeGradle</summary><table width=100%><td>
+
+If you're using Forge with ForgeGradle, make sure the `mixingradle` plugin is present and applied:
+
+Make sure the following line is present in your `build.gradle`'s `buildscript { repositories {} }` block.
+
+```groovy
+maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
+```
+
+Then make sure the following line is present in your `build.gradle`'s `buildscript { dependencies {} }` block.
+
+```groovy
+classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"
+```
+
+Next, make sure the following line is present in your `build.gradle`.
+
+```groovy
+apply plugin: "org.spongepowered.mixin"
+```
+
+Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE.
+</td></table></details>
+<details>
+
+<summary>Show/Hide Fix on Older ForgeGradle (4 and below)</summary><table width=100%><td>
 
 If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled in your `build.gradle`'s run configuration blocks.
 
