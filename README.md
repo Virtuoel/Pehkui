@@ -122,7 +122,7 @@ Make sure the following lines are present in the `client {}`, `server {}`, and `
 
 ```groovy
 property 'mixin.env.remapRefMap', 'true'
-property 'mixin.env.refMapRemappingFile', "${buildDir}/createSrgToMcp/output.srg"
+property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 ```
 
 Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE.
