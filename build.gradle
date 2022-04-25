@@ -40,6 +40,8 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 def ENV = System.getenv()
 
+TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
+
 group = project.maven_group
 archivesBaseName = project.archives_base_name
 version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + (project.hasProperty("metadata_minecraft_versions") ? project.metadata_minecraft_versions : project.minecraft_version)
