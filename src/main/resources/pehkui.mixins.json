@@ -45,6 +45,7 @@
 		"SkeletonHorseEntityMixin",
 		"ThrownEntityMixin",
 		"TrackTargetGoalMixin",
+		"WitherEntityMixin",
 		"compat114.LivingEntityMixin",
 		"compat115.FireballEntityMixin",
 		"compat115.ZombieEntityMixin",
