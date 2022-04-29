@@ -1,4 +1,4 @@
-# Copyright (c) 2021 Virtuoel. All Rights Reserved.
+# Copyright (c) 2021 - 2022 Virtuoel. All Rights Reserved.
 
 name: Bug Report
 description: File a bug report
@@ -23,6 +23,7 @@ body:
         - 1.16.5
         - 1.17.1
         - 1.18.1
+        - 1.18.2
         - Other (specify below)
     validations:
       required: true

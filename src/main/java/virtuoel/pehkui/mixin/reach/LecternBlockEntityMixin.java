@@ -34,4 +34,11 @@ public abstract class LecternBlockEntityMixin
 	{
 		return ScaleUtils.getBlockZOffset(field_17391.getPos(), player);
 	}
+	
+	@ModifyConstant(method = "canPlayerUse(Lnet/minecraft/entity/player/PlayerEntity;)Z", constant = @Constant(doubleValue = 64.0D))
+	private double canPlayerUseModifyDistance(double value, PlayerEntity player)
+	{
+		final float scale = ScaleUtils.getBlockReachScale(player);
+		return scale != 1.0F ? scale * scale * value : value;
+	}
 }

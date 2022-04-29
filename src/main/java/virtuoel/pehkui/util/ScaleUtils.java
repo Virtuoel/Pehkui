@@ -219,6 +219,13 @@ public class ScaleUtils
 			scaleData.put("baseValueModifiers", modifiers);
 		}
 		
+		final byte persistent = buffer.readByte();
+		
+		if (persistent != -1)
+		{
+			scaleData.putBoolean("persistent", persistent == 1);
+		}
+		
 		return scaleData;
 	}
 	

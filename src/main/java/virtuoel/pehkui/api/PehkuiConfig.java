@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.util.Identifier;
@@ -51,19 +50,18 @@ public class PehkuiConfig
 	
 	static
 	{
-		Pair<?, ForgeConfigSpec> specPair;
+		final ForgeConfigSpec.Builder client, common, server;
+		client = new ForgeConfigSpec.Builder();
+		common = new ForgeConfigSpec.Builder();
+		server = new ForgeConfigSpec.Builder();
 		
-		specPair = new ForgeConfigSpec.Builder().configure(Client::new);
-		clientSpec = specPair.getRight();
-		CLIENT = (Client) specPair.getLeft();
+		CLIENT = new Client(client);
+		COMMON = new Common(common);
+		SERVER = new Server(server);
 		
-		specPair = new ForgeConfigSpec.Builder().configure(Common::new);
-		commonSpec = specPair.getRight();
-		COMMON = (Common) specPair.getLeft();
-		
-		specPair = new ForgeConfigSpec.Builder().configure(Server::new);
-		serverSpec = specPair.getRight();
-		SERVER = (Server) specPair.getLeft();
+		clientSpec = client.build();
+		commonSpec = common.build();
+		serverSpec = server.build();
 	}
 	
 	public static class Client

@@ -13,6 +13,7 @@ import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 
@@ -31,7 +32,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		return viewerSearchRange;
 	}
 	
-	@Inject(at = @At("HEAD"), method = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V")
+	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN)
 	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (viewerCount < 0)
@@ -54,7 +55,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V")
+	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE)
 	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (viewerCount <= 1)
@@ -65,7 +66,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		}
 	}
 	
-	@ModifyConstant(method = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I", constant = @Constant(floatValue = 5.0F))
+	@ModifyConstant(method = MixinConstants.COUNT_VIEWERS, constant = @Constant(floatValue = 5.0F))
 	private static float countViewersModifyDistance(float value, World world, LockableContainerBlockEntity container, int x, int y, int z)
 	{
 		if (container instanceof ViewerCountingBlockEntityExtensions)

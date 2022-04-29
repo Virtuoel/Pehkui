@@ -14,20 +14,15 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.TranslatableText;
-import virtuoel.pehkui.util.I18nUtils;
+import virtuoel.pehkui.mixin.OperationArgumentTypeAccessor;
 
 public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationArgumentType.Operation>
 {
 	private static final String[] SUGGESTIONS = new String[] { "set", "add", "subtract", "multiply", "divide", "power" };
 	
 	private static final Collection<String> EXAMPLES = Arrays.asList(SUGGESTIONS);
-	private static final SimpleCommandExceptionType INVALID_OPERATION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.invalid", I18nUtils.EMPTY_VARARGS)
-	);
-	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = new SimpleCommandExceptionType(
-		new TranslatableText("arguments.operation.div0", I18nUtils.EMPTY_VARARGS)
-	);
+	private static final SimpleCommandExceptionType INVALID_OPERATION = OperationArgumentTypeAccessor.getInvalidOperationException();
+	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = OperationArgumentTypeAccessor.getDivisionZeroException();
 	
 	public static ScaleOperationArgumentType operation()
 	{
