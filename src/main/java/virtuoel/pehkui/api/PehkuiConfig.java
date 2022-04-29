@@ -165,6 +165,18 @@ public class PehkuiConfig
 				.translation("pehkui.configgui.enableDebugCommands")
 				.define("enableDebugCommands", false);
 			
+			builder.pop();
+		}
+	}
+	
+	public static class Server
+	{
+		Server(ForgeConfigSpec.Builder builder)
+		{
+			builder
+				.comment("Server configuration settings")
+				.push("server");
+			
 			builder.push("scale_limits");
 			
 			Identifier id;
@@ -211,17 +223,6 @@ public class PehkuiConfig
 			}
 			builder.pop();
 			
-			builder.pop();
-		}
-	}
-	
-	public static class Server
-	{
-		Server(ForgeConfigSpec.Builder builder)
-		{
-			builder
-				.comment("Server configuration settings")
-				.push("server");
 			builder.pop();
 		}
 	}
