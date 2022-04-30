@@ -11,12 +11,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
-	@Inject(method = "method_4016(Lnet/minecraft/class_1799;Lnet/minecraft/class_1309;Lnet/minecraft/class_809$class_811;Z)V", at = @At(value = "HEAD"), remap = false)
+	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"), remap = false)
 	private void onRenderHeldItemPreRender(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		GL11.glPushMatrix();
@@ -35,7 +36,7 @@ public class ItemRendererMixin
 		GL11.glPushMatrix();
 	}
 	
-	@Inject(method = "method_4016(Lnet/minecraft/class_1799;Lnet/minecraft/class_1309;Lnet/minecraft/class_809$class_811;Z)V", at = @At(value = "RETURN"), remap = false)
+	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "RETURN"), remap = false)
 	private void onRenderHeldItemPostRender(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		GL11.glPopMatrix();

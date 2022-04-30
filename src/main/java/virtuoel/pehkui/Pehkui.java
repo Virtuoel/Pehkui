@@ -2,8 +2,8 @@ package virtuoel.pehkui;
 
 import java.util.UUID;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.logging.ILogger;
+import org.spongepowered.asm.service.MixinService;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
@@ -37,7 +37,7 @@ public class Pehkui
 {
 	public static final String MOD_ID = "pehkui";
 	
-	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	public static final ILogger LOGGER = MixinService.getService().getLogger(MOD_ID);
 	
 	public static final UUID REACH_MODIFIER = UUID.fromString("d82ebc57-0753-43e5-95b5-895dc1071e12");
 	
@@ -116,5 +116,6 @@ public class Pehkui
 	}
 	
 	public static final Identifier SCALE_PACKET = id("scale");
+	public static final Identifier CONFIG_SYNC_PACKET = id("config_sync");
 	public static final Identifier DEBUG_PACKET = id("debug");
 }
