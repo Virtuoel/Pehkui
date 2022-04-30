@@ -26,6 +26,8 @@ public interface PehkuiEntityExtensions
 	
 	NbtCompound pehkui_writeScaleNbt(NbtCompound nbt);
 	
+	boolean pehkui_isFirstUpdate();
+	
 	boolean pehkui_getOnGround();
 	
 	void pehkui_setOnGround(boolean onGround);

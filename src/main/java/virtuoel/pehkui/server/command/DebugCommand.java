@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
@@ -42,14 +43,16 @@ public class DebugCommand
 	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
+		final LiteralArgumentBuilder<ServerCommandSource> builder =
+			CommandManager.literal("scale")
+			.requires(commandSource ->
+			{
+				return commandSource.hasPermissionLevel(2);
+			});
+		
 		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableCommands.get())
 		{
-			commandDispatcher.register(
-				CommandManager.literal("scale")
-				.requires(commandSource ->
-				{
-					return commandSource.hasPermissionLevel(2);
-				})
+			builder
 				.then(CommandManager.literal("debug")
 					.then(CommandManager.literal("delete_scale_data")
 						.then(CommandManager.literal("uuid")
@@ -91,18 +94,12 @@ public class DebugCommand
 							return 1;
 						})
 					)
-				)
-			);
+				);
 		}
 		
 		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{
-			commandDispatcher.register(
-				CommandManager.literal("scale")
-				.requires(commandSource ->
-				{
-					return commandSource.hasPermissionLevel(2);
-				})
+			builder
 				.then(CommandManager.literal("debug")
 					.then(CommandManager.literal("run_mixin_tests")
 						.executes(DebugCommand::runMixinTests)
@@ -110,9 +107,10 @@ public class DebugCommand
 					.then(CommandManager.literal("run_tests")
 						.executes(DebugCommand::runTests)
 					)
-				)
-			);
+				);
 		}
+		
+		commandDispatcher.register(builder);
 	}
 	
 	private static final Collection<UUID> MARKED_UUIDS = new HashSet<>();

@@ -22,7 +22,7 @@ public class ArgumentTypesMixin
 {
 	/*
 	@Shadow
-	private static <A extends ArgumentType<?>, T extends ArgumentSerializer.class_7217<A>> ArgumentSerializer<A, T> register(Registry<ArgumentSerializer<?, ?>> registry, String string, Class<? extends A> class_, ArgumentSerializer<A, T> argumentSerializer)
+	private static <A extends ArgumentType<?>, T extends ArgumentSerializer.ArgumentTypeProperties<A>> ArgumentSerializer<A, T> register(Registry<ArgumentSerializer<?, ?>> registry, String string, Class<? extends A> class_, ArgumentSerializer<A, T> argumentSerializer)
 	{
 		return argumentSerializer;
 	}
@@ -35,7 +35,7 @@ public class ArgumentTypesMixin
 			@Override
 			public <T extends ArgumentType<?>> void register(String id, Class<T> argClass, Supplier<T> supplier)
 			{
-				ArgumentTypesMixin.register(registry, id.toString(), argClass, ConstantArgumentSerializer.method_41999(supplier));
+				ArgumentTypesMixin.register(registry, id.toString(), argClass, ConstantArgumentSerializer.of(supplier));
 			}
 		});
 	}
