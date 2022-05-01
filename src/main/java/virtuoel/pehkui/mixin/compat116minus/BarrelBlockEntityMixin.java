@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.block.entity.BarrelBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 
@@ -27,7 +28,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		return viewerSearchRange;
 	}
 	
-	@Inject(at = @At("HEAD"), method = "method_5435(Lnet/minecraft/class_1657;)V", remap = false)
+	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN)
 	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_17583 < 0)
@@ -50,7 +51,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = "method_5432(Lnet/minecraft/class_1657;)V", remap = false)
+	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE)
 	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_17583 <= 1)

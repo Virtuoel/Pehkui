@@ -3,7 +3,7 @@ plugins {
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"
-	id "io.github.juuxel.loom-quiltflower" version "1.6.0"
+	id "io.github.juuxel.loom-quiltflower" version "1.7.1"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -39,6 +39,8 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 def ENV = System.getenv()
+
+TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 
 group = project.maven_group
 archivesBaseName = project.archives_base_name
@@ -85,7 +87,16 @@ if(project.hasProperty("fabric_version")) {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
-	mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+	if(!project.yarn_mappings.contains(", ")) {
+		mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
+	}
+	else {
+		mappings loom.layered {
+			project.yarn_mappings.split(", ").each { String mapping ->
+				mappings "net.fabricmc:yarn:${mapping}:v2"
+			}
+		}
+	}
 	
 	if(project.hasProperty("forge_version")) {
 		forge "net.minecraftforge:forge:${forge_version}"
@@ -488,7 +499,6 @@ modrinth {
 		changelog = generateMarkdownChangelog()
 		
 		uploadFile = remapJar
-		additionalFiles = files("${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
 	}
 }
 

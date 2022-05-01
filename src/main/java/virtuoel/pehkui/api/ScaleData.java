@@ -8,6 +8,7 @@ import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
@@ -228,7 +229,10 @@ public class ScaleData
 	 */
 	public float getScale(float delta)
 	{
-		if (!Float.isNaN(cachedScale) && delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
+		final Entity e = getEntity();
+		final boolean canCache = delta == 1.0F && e != null && e.world != null && !e.world.isClient && (e.getType() != EntityType.PLAYER || !getScaleType().getAffectsDimensions()) && !((PehkuiEntityExtensions) e).pehkui_isFirstUpdate();
+		
+		if (canCache && !Float.isNaN(cachedScale))
 		{
 			return cachedScale;
 		}
@@ -240,7 +244,7 @@ public class ScaleData
 			value = m.modifyScale(this, value, delta);
 		}
 		
-		if (delta == 1.0F && getEntity() != null && getEntity().world != null && !getEntity().world.isClient)
+		if (canCache)
 		{
 			cachedScale = value;
 		}
@@ -360,6 +364,7 @@ public class ScaleData
 	public void setPersistence(@Nullable Boolean persistent)
 	{
 		this.persistent = persistent;
+		markForSync(true);
 	}
 	
 	public @Nullable Boolean getPersistence()
@@ -431,6 +436,8 @@ public class ScaleData
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
 		}
 		
+		buffer.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
+		
 		return buffer;
 	}
 	
@@ -474,7 +481,6 @@ public class ScaleData
 					final NbtCompound compound = modifiers.getCompound(i);
 					id = Identifier.tryParse(compound.getString("id"));
 					modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
-					modifier.readNbt(compound);
 				}
 				else
 				{
