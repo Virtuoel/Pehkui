@@ -2,7 +2,9 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
@@ -27,5 +29,37 @@ public abstract class BoatEntityMixin
 	private double onTickMovementExpandZProxy(double value)
 	{
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+	}
+	
+	@ModifyConstant(method = "getUnderWaterLocation", constant = @Constant(doubleValue = 0.001))
+	private double onGetUnderWaterLocationModifyOffset(double value)
+	{
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		
+		return scale > 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "updateVelocity", constant = @Constant(doubleValue = 0.06153846016296973))
+	private double onUpdateVelocityModifyMultiplier(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		return scale > 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "updateVelocity", constant = @Constant(doubleValue = -7.0E-4))
+	private double onUpdateVelocityModifySinking(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
+	}
+	
+	@ModifyConstant(method = "checkBoatInWater", constant = @Constant(doubleValue = 0.001))
+	private double onCheckBoatInWaterModifyOffset(double value)
+	{
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		
+		return scale > 1.0F ? scale * value : value;
 	}
 }
