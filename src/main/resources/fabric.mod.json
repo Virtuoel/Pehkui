@@ -3,7 +3,7 @@
 	"id": "pehkui",
 	"name": "Pehkui (Forge Version)",
 	"version": "0.0.0+forge",
-	"description": "Forge version of Pehkui, but you are playing on a Fabric instance! Did you download the wrong mod .jar?",
+	"description": "Forge version of Pehkui, but you are playing on a Fabric or Quilt instance! Did you download the wrong mod .jar?",
 	"authors":
 	[
 		"Virtuoel"
