@@ -233,13 +233,13 @@ publishing {
 	
 	repositories {
 		mavenLocal()
-		if(project.hasProperty("github_maven_owner")) {
+		if(project.hasProperty("maven_repo") && project.hasProperty("maven_username") && project.hasProperty("maven_password")) {
 			maven {
-				url = "https://maven.pkg.github.com/${github_maven_owner}"
+				url = project.maven_repo
 				
 				credentials {
-					username project.properties.github_username
-					password project.properties.github_packages_token
+					username project.maven_username
+					password project.maven_password
 				}
 			}
 		}
