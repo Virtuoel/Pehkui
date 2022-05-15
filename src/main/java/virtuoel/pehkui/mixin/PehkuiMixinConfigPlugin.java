@@ -3,10 +3,12 @@ package virtuoel.pehkui.mixin;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import net.minecraftforge.fml.loading.FMLLoader;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
@@ -59,6 +61,10 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		else if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
 		{
 			return PATCHWORK_ENTITY_EVENTS_LOADED == mixinClassName.contains(".patchwork.compat.");
+		}
+		else if (mixinClassName.endsWith("IForgeEntityMixin"))
+		{
+			return new DefaultArtifactVersion("40.1.16").compareTo(new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString())) <= 0;
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))
