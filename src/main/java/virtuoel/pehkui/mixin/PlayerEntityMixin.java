@@ -56,7 +56,9 @@ public abstract class PlayerEntityMixin
 	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
 	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info, double y, ItemEntity entity)
 	{
-		final float scale = ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
+		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
+		
+		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
