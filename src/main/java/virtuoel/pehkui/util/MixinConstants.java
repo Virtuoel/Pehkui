@@ -34,6 +34,7 @@ public class MixinConstants
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_5692 = "method_5692";
 	private static final String METHOD_6959 = "method_6959";
+	private static final String METHOD_19949 = "method_19949";
 	private static final String METHOD_5800 = "method_5800";
 	private static final String METHOD_7148 = "method_7148";
 	private static final String METHOD_7485 = "method_7485";
@@ -154,6 +155,7 @@ public class MixinConstants
 	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
+	public static final String GIVE_TO_TARGET = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_1309 + ";)V";
 	public static final String ON_STRUCK_BY_LIGHTNING = METHOD_5800 + "(L" + CLASS_1538 + ";)V";
 	public static final String CAST_SPELL = METHOD_7148;
 	public static final String SET_VELOCITY = METHOD_7485 + "(DDDFF)V";
@@ -188,10 +190,13 @@ public class MixinConstants
 	public static final String FALL = METHOD_5623 + "(DZL" + CLASS_2680 + ";L" + CLASS_2338 + ";)V"; // COMMIT READY
 	public static final String ON_LANDED_UPON = "L" + CLASS_2248 + ";" + METHOD_9554 + "(L" + CLASS_1937 + ";L" + CLASS_2338 + ";L" + CLASS_1297 + ";F)V"; // COMMIT READY
 	
+	// 1.16 Plus 1.18 Minus
+	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT READY
+	
 	// 1.16 Minus Client
 	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT READY
 	
-	// 1.16.2 Plus
+	// 1.16.2 Plus Client
 	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT READY
 	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V"; // COMMIT READY
 	
