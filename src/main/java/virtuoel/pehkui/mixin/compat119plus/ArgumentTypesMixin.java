@@ -21,9 +21,9 @@ import virtuoel.pehkui.util.CommandUtils.ArgumentTypeConsumer;
 public class ArgumentTypesMixin
 {
 	@Shadow
-	private static <A extends ArgumentType<?>, T extends ArgumentSerializer.ArgumentTypeProperties<A>> ArgumentSerializer<A, T> register(Registry<ArgumentSerializer<?, ?>> registry, String string, Class<? extends A> class_, ArgumentSerializer<A, T> argumentSerializer)
+	private static <A extends ArgumentType<?>, T extends ArgumentSerializer.ArgumentTypeProperties<A>> ArgumentSerializer<A, T> register(Registry<ArgumentSerializer<?, ?>> registry, String id, Class<? extends A> clazz, ArgumentSerializer<A, T> serializer)
 	{
-		return argumentSerializer;
+		return serializer;
 	}
 	
 	@Inject(at = @At("RETURN"), method = "register(Lnet/minecraft/util/registry/Registry;)Lnet/minecraft/command/argument/serialize/ArgumentSerializer;")

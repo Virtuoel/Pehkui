@@ -108,7 +108,7 @@ public class DebugCommand
 					.then(CommandManager.literal("garbage_collect")
 						.executes(context ->
 						{
-							context.getSource().getPlayer().networkHandler.sendPacket(
+							context.getSource().getPlayerOrThrow().networkHandler.sendPacket(
 								new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
 									new PacketByteBuf(Unpooled.buffer())
 									.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
@@ -163,7 +163,7 @@ public class DebugCommand
 	
 	private static int runTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
-		ServerPlayerEntity player = context.getSource().getPlayer();
+		ServerPlayerEntity player = context.getSource().getPlayerOrThrow();
 		
 		Direction dir = player.getHorizontalFacing();
 		Direction opposite = dir.getOpposite();
@@ -233,7 +233,7 @@ public class DebugCommand
 			MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 		);
 		
-		context.getSource().getPlayer().networkHandler.sendPacket(
+		context.getSource().getPlayerOrThrow().networkHandler.sendPacket(
 			new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
 				new PacketByteBuf(Unpooled.buffer())
 				.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
