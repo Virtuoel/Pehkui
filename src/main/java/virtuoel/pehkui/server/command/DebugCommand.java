@@ -42,11 +42,6 @@ import virtuoel.pehkui.util.NbtCompoundExtensions;
 
 public class DebugCommand
 {
-	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher, final boolean dedicated)
-	{
-		register(commandDispatcher);
-	}
-	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
 		final LiteralArgumentBuilder<ServerCommandSource> builder =

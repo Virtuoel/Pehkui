@@ -34,11 +34,6 @@ import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
 public class ScaleCommand
 {
-	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher, final boolean dedicated)
-	{
-		register(commandDispatcher);
-	}
-	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
 		if (!FabricLoader.getInstance().isDevelopmentEnvironment() && !PehkuiConfig.COMMON.enableCommands.get())

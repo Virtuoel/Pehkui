@@ -4,14 +4,11 @@ import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
-import virtuoel.pehkui.server.command.DebugCommand;
-import virtuoel.pehkui.server.command.ScaleCommand;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.GravityChangerCompatibility;
@@ -37,21 +34,14 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		if (ModLoaderUtils.isModLoaded("fabric-command-api-v1"))
+		if (VersionUtils.MINOR <= 18)
 		{
-			if (VersionUtils.MINOR <= 18)
-			{
-				CommandUtils.registerArgumentTypes(CommandUtils::registerConstantArgumentType);
-			}
-			
-			PehkuiEntitySelectorOptions.register();
-			
-			CommandRegistrationCallback.EVENT.register((commandDispatcher, dedicated) ->
-			{
-				ScaleCommand.register(commandDispatcher, dedicated);
-				DebugCommand.register(commandDispatcher, dedicated);
-			});
+			CommandUtils.registerArgumentTypes(CommandUtils::registerConstantArgumentType);
 		}
+		
+		PehkuiEntitySelectorOptions.register();
+		
+		CommandUtils.registerCommands();
 		
 		if (ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
 		{

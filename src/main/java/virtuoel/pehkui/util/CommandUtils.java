@@ -14,6 +14,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.command.argument.ArgumentTypes;
@@ -25,9 +26,37 @@ import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
+import virtuoel.pehkui.server.command.DebugCommand;
+import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
+	public static void registerCommands()
+	{
+		if (ModLoaderUtils.isModLoaded("fabric-command-api-v2"))
+		{
+			registerV2ApiCommands();
+		}
+		else if (ModLoaderUtils.isModLoaded("fabric-command-api-v1"))
+		{
+			registerV1ApiCommands();
+		}
+	}
+	
+	private static void registerV2ApiCommands()
+	{
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) ->
+		{
+			ScaleCommand.register(dispatcher);
+			DebugCommand.register(dispatcher);
+		});
+	}
+	
+	private static void registerV1ApiCommands()
+	{
+		// TODO
+	}
+	
 	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
 	{
 		consumer.register(Pehkui.id("scale_type").toString(), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
