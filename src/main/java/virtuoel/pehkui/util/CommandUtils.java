@@ -1,13 +1,21 @@
 package virtuoel.pehkui.util;
 
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
@@ -15,12 +23,14 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.predicate.NumberRange;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
@@ -35,7 +45,7 @@ public class CommandUtils
 	{
 		if (ModLoaderUtils.isModLoaded("fabric-command-api-v2"))
 		{
-			registerV2ApiCommands();
+			V2ApiClassloading.registerV2ApiCommands();
 		}
 		else if (ModLoaderUtils.isModLoaded("fabric-command-api-v1"))
 		{
@@ -43,18 +53,59 @@ public class CommandUtils
 		}
 	}
 	
-	private static void registerV2ApiCommands()
+	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
 	{
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) ->
+		ScaleCommand.register(dispatcher);
+		DebugCommand.register(dispatcher);
+	}
+	
+	private static class V2ApiClassloading
+	{
+		private static void registerV2ApiCommands()
 		{
-			ScaleCommand.register(dispatcher);
-			DebugCommand.register(dispatcher);
-		});
+			CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) ->
+			{
+				registerCommands(dispatcher);
+			});
+		}
 	}
 	
 	private static void registerV1ApiCommands()
 	{
-		// TODO
+		try
+		{
+			final Lookup lookup = MethodHandles.lookup();
+			
+			final Method staticRegister = CommandUtils.class.getDeclaredMethod("registerV1ApiCommands", CommandDispatcher.class, boolean.class);
+			final MethodHandle staticRegisterHandle = lookup.unreflect(staticRegister);
+			final MethodType staticRegisterType = staticRegisterHandle.type();
+			
+			final Class<?> callbackClass = Class.forName("net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback");
+			
+			@SuppressWarnings("unchecked")
+			final Event<Object> registerEvent = (Event<Object>) callbackClass.getField("EVENT").get(null);
+			
+			final Method register = callbackClass.getDeclaredMethod("register", CommandDispatcher.class, boolean.class);
+			final MethodType registerType = MethodType.methodType(register.getReturnType(), register.getParameterTypes());
+			
+			final MethodType factoryMethodType = MethodType.methodType(callbackClass);
+			
+			final CallSite lambdaFactory = LambdaMetafactory.metafactory(lookup, "register", factoryMethodType, registerType, staticRegisterHandle, staticRegisterType);
+			final MethodHandle factoryInvoker = lambdaFactory.getTarget();
+			
+			final Object eventLambda = factoryInvoker.asType(factoryMethodType).invokeWithArguments(Collections.emptyList());
+			
+			registerEvent.register(eventLambda);
+		}
+		catch (Throwable e)
+		{
+			Pehkui.LOGGER.catching(e);
+		}
+	}
+	
+	protected static void registerV1ApiCommands(final CommandDispatcher<ServerCommandSource> dispatcher, final boolean dedicated)
+	{
+		registerCommands(dispatcher);
 	}
 	
 	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
