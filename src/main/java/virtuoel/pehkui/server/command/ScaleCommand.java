@@ -911,12 +911,24 @@ public class ScaleCommand
 	
 	private static Text scaleText(float scale)
 	{
+		final long denominator = (long) (1.0F / scale);
+		if (((long) scale) != 1L && Float.compare(scale, 1.0F / denominator) == 0)
+		{
+			return I18nUtils.translate("commands.pehkui.scale.get.fraction.message", "Scale: %s (1/%s)", format(scale), format(denominator));
+		}
+		
 		return I18nUtils.translate("commands.pehkui.scale.get.message", "Scale: %s", format(scale));
 	}
 	
 	private static Text scaleText(float scale, int multiplied)
 	{
-		return I18nUtils.translate("commands.pehkui.scale.get.factor.message", "Scale: %s (%d)", format(scale), multiplied);
+		final long denominator = (long) (1.0F / scale);
+		if (((long) scale) != 1L && Float.compare(scale, 1.0F / denominator) == 0)
+		{
+			return I18nUtils.translate("commands.pehkui.scale.get.fraction.factor.message", "Scale: %s (1/%s) | (%s)", format(scale), format(denominator), format(multiplied));
+		}
+		
+		return I18nUtils.translate("commands.pehkui.scale.get.factor.message", "Scale: %s | (%s)", format(scale), format(multiplied));
 	}
 	
 	private static Text modifierText(String modifierString)
@@ -926,7 +938,7 @@ public class ScaleCommand
 	
 	private static Text delayText(int ticks)
 	{
-		return I18nUtils.translate("commands.pehkui.scale.delay.get.message", "Delay: %d ticks", ticks);
+		return I18nUtils.translate("commands.pehkui.scale.delay.get.message", "Delay: %s ticks", format(ticks));
 	}
 	
 	private static Text persistenceText(Boolean persist, ScaleType type)
@@ -942,8 +954,18 @@ public class ScaleCommand
 	
 	static
 	{
-		SCALE_FORMAT = new DecimalFormat("0");
+		SCALE_FORMAT = new DecimalFormat("#,##0");
 		SCALE_FORMAT.setMaximumFractionDigits(340);
+	}
+	
+	private static String format(int scale)
+	{
+		return SCALE_FORMAT.format(scale);
+	}
+	
+	private static String format(long scale)
+	{
+		return SCALE_FORMAT.format(scale);
 	}
 	
 	private static String format(float scale)
