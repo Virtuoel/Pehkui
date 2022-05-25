@@ -15,6 +15,7 @@
 		"CrossbowItemMixin",
 		"EnderChestBlockEntityMixin",
 		"EnderCrystalEntityMixin",
+		"EnderDragonEntityMixin",
 		"EntityMixin",
 		"EntityMountedHeightOffsetMixin",
 		"EntitySelectorOptionsInvoker",
