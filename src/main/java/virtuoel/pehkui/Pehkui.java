@@ -21,8 +21,6 @@ import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
-import virtuoel.pehkui.server.command.DebugCommand;
-import virtuoel.pehkui.server.command.ScaleCommand;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.GravityChangerCompatibility;
 import virtuoel.pehkui.util.IdentityCompatibility;
@@ -101,8 +99,7 @@ public class Pehkui
 	@SubscribeEvent
 	public void onRegisterCommands(RegisterCommandsEvent event)
 	{
-		ScaleCommand.register(event.getDispatcher());
-		DebugCommand.register(event.getDispatcher());
+		CommandUtils.registerCommands(event.getDispatcher());
 	}
 	
 	public static Identifier id(String path)

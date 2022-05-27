@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client.compat115plus;
+package virtuoel.pehkui.mixin.client.compat115plus.compat118minus;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
