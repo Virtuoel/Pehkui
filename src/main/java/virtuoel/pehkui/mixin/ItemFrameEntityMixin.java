@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
@@ -15,7 +16,7 @@ public abstract class ItemFrameEntityMixin
 	@ModifyArg(method = "updateAttachmentPosition()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
 	private Box onUpdateAttachmentPositionModifyBox(Box box)
 	{
-		final ItemFrameEntity entity = (ItemFrameEntity) (Object) this;
+		final AbstractDecorationEntity entity = (AbstractDecorationEntity) (Object) this;
 		
 		final Direction facing = entity.getHorizontalFacing();
 		
