@@ -2,6 +2,8 @@ package virtuoel.pehkui;
 
 import java.util.UUID;
 
+import org.apache.maven.artifact.versioning.ArtifactVersion;
+import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
@@ -17,6 +19,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.loading.FMLLoader;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
@@ -37,35 +40,49 @@ public class Pehkui
 	
 	public static final ILogger LOGGER = MixinService.getService().getLogger(MOD_ID);
 	
+	private static final ArtifactVersion FORGE_VERSION = new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString());
+	
 	public static final UUID REACH_MODIFIER = UUID.fromString("d82ebc57-0753-43e5-95b5-895dc1071e12");
 	
 	public Pehkui()
 	{
 		ScaleTypes.INVALID.getClass();
 		
+		final boolean usingAttribute = new DefaultArtifactVersion("40.1.21").compareTo(FORGE_VERSION) > 0;
+		
 		ScaleTypes.REACH.getPostTickEvent().add(s ->
 		{
 			final Entity e = s.getEntity();
 			
-			if (e instanceof PlayerEntity && !e.world.isClient)
+			if (!e.world.isClient && e instanceof PlayerEntity)
 			{
 				final EntityAttributeInstance attribute = ((PlayerEntity) e).getAttributeInstance(ForgeMod.REACH_DISTANCE.get());
 				
 				if (attribute != null)
 				{
-					final double scale = ScaleUtils.getBlockReachScale(e) - 1.0D;
 					final EntityAttributeModifier modifier = attribute.getModifier(REACH_MODIFIER);
-					
-					if (modifier == null || Double.compare(scale, modifier.getValue()) != 0)
+					if (!usingAttribute)
 					{
 						if (modifier != null)
 						{
 							attribute.removeModifier(REACH_MODIFIER);
 						}
+					}
+					else
+					{
+						final double scale = ScaleUtils.getBlockReachScale(e) - 1.0D;
 						
-						if (Double.compare(scale, 0.0D) != 0)
+						if (modifier == null || Double.compare(scale, modifier.getValue()) != 0)
 						{
-							attribute.addPersistentModifier(new EntityAttributeModifier(REACH_MODIFIER, "Reach Scale", scale, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+							if (modifier != null)
+							{
+								attribute.removeModifier(REACH_MODIFIER);
+							}
+							
+							if (Double.compare(scale, 0.0D) != 0)
+							{
+								attribute.addPersistentModifier(new EntityAttributeModifier(REACH_MODIFIER, "Reach Scale", scale, EntityAttributeModifier.Operation.MULTIPLY_BASE));
+							}
 						}
 					}
 				}

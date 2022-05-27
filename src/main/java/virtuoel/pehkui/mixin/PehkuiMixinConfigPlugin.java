@@ -3,6 +3,7 @@ package virtuoel.pehkui.mixin;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -39,6 +40,8 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
 	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true;
 	
+	private static final ArtifactVersion FORGE_VERSION = new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString());
+	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
 	{
@@ -64,7 +67,15 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		}
 		else if (mixinClassName.endsWith("IForgeEntityMixin"))
 		{
-			return new DefaultArtifactVersion("40.1.16").compareTo(new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString())) <= 0;
+			return new DefaultArtifactVersion("40.1.16").compareTo(FORGE_VERSION) <= 0;
+		}
+		else if (mixinClassName.endsWith("IForgePlayerMixin"))
+		{
+			return new DefaultArtifactVersion("40.1.21").compareTo(FORGE_VERSION) <= 0;
+		}
+		else if (mixinClassName.equals(MIXIN_PACKAGE + ".reach.client.ClientPlayerInteractionManagerMixin") || mixinClassName.equals(MIXIN_PACKAGE + ".reach.client.GameRendererMixin"))
+		{
+			return new DefaultArtifactVersion("40.1.21").compareTo(FORGE_VERSION) > 0;
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))

@@ -134,6 +134,7 @@
 		"identity.compat116.IdentityComponentMixin",
 		"reach.BlockEntityUseDistanceMixin",
 		"reach.EnderChestBlockEntityMixin",
+		"reach.IForgePlayerMixin",
 		"reach.PlayerEntityMixin",
 		"reach.ServerPlayNetworkHandlerMixin",
 		"reach.compat.ReachEntityAttributesMixin",
