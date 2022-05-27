@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
@@ -13,14 +14,23 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.command.argument.ArgumentTypes;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.predicate.NumberRange;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
+import virtuoel.pehkui.server.command.DebugCommand;
+import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
+	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
+	{
+		ScaleCommand.register(dispatcher);
+		DebugCommand.register(dispatcher);
+	}
+	
 	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
 	{
 		consumer.register(Pehkui.id("scale_type").toString(), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);

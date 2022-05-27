@@ -20,9 +20,11 @@
 	"commands.pehkui.debug.config.changed": "Config \"%s\" was changed from \"%s\" to \"%s\"",
 	"commands.pehkui.debug.config.reset": "Config \"%s\" was reset from \"%s\" to default \"%s\"",
 	
-	"commands.pehkui.scale.delay.get.message": "Delay: %d ticks",
-	"commands.pehkui.scale.get.factor.message": "Scale: %s (%d)",
+	"commands.pehkui.scale.delay.get.message": "Delay: %s ticks",
 	"commands.pehkui.scale.get.message": "Scale: %s",
+	"commands.pehkui.scale.get.fraction.message": "Scale: %s (1/%s)",
+	"commands.pehkui.scale.get.factor.message": "Scale: %s | (%s)",
+	"commands.pehkui.scale.get.fraction.factor.message": "Scale: %s (1/%s) | (%s)",
 	"commands.pehkui.scale.modifier.get.message": "%s",
 	"commands.pehkui.scale.persist.default.false": "Persistent: default (false)",
 	"commands.pehkui.scale.persist.default.true": "Persistent: default (true)",
