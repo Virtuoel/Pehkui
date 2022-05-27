@@ -36,11 +36,6 @@ import virtuoel.pehkui.util.NbtCompoundExtensions;
 
 public class DebugCommand
 {
-	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher, final boolean dedicated)
-	{
-		register(commandDispatcher);
-	}
-	
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
 		final LiteralArgumentBuilder<ServerCommandSource> builder =
@@ -89,6 +84,10 @@ public class DebugCommand
 					.then(CommandManager.literal("garbage_collect")
 						.executes(context ->
 						{
+							context.getSource().getPlayer().networkHandler.sendPacket(
+								PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.GARBAGE_COLLECT), NetworkDirection.PLAY_TO_CLIENT)
+							);
+							
 							System.gc();
 							
 							return 1;
