@@ -22,6 +22,7 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.loader.api.FabricLoader;
@@ -53,6 +54,18 @@ public class CommandUtils
 		}
 	}
 	
+	public static void registerArgumentTypes()
+	{
+		if (ModLoaderUtils.isModLoaded("fabric-command-api-v2") && ModLoaderUtils.isModLoaded("fabric-registry-sync-v0"))
+		{
+			V2ApiClassloading.registerArgumentTypes();
+		}
+		else if (VersionUtils.MINOR <= 18)
+		{
+			registerArgumentTypes(CommandUtils::registerConstantArgumentType);
+		}
+	}
+	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
 	{
 		ScaleCommand.register(dispatcher);
@@ -66,6 +79,18 @@ public class CommandUtils
 			CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) ->
 			{
 				registerCommands(dispatcher);
+			});
+		}
+		
+		private static void registerArgumentTypes()
+		{
+			CommandUtils.registerArgumentTypes(new ArgumentTypeConsumer()
+			{
+				@Override
+				public <T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier)
+				{
+					ArgumentTypeRegistry.registerArgumentType(id, argClass, ConstantArgumentSerializer.of(supplier));
+				}
 			});
 		}
 	}
@@ -110,15 +135,15 @@ public class CommandUtils
 	
 	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
 	{
-		consumer.register(Pehkui.id("scale_type").toString(), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
-		consumer.register(Pehkui.id("scale_modifier").toString(), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
-		consumer.register(Pehkui.id("scale_operation").toString(), ScaleOperationArgumentType.class, ScaleOperationArgumentType::operation);
+		consumer.register(Pehkui.id("scale_type"), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
+		consumer.register(Pehkui.id("scale_modifier"), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
+		consumer.register(Pehkui.id("scale_operation"), ScaleOperationArgumentType.class, ScaleOperationArgumentType::operation);
 	}
 	
 	@FunctionalInterface
 	public interface ArgumentTypeConsumer
 	{
-		<T extends ArgumentType<?>> void register(String id, Class<T> argClass, Supplier<T> supplier);
+		<T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier);
 	}
 	
 	public static final Method REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE;
@@ -171,13 +196,13 @@ public class CommandUtils
 		return false;
 	}
 	
-	public static <T extends ArgumentType<?>> void registerConstantArgumentType(String id, Class<? extends T> argClass, Supplier<T> supplier)
+	public static <T extends ArgumentType<?>> void registerConstantArgumentType(Identifier id, Class<? extends T> argClass, Supplier<T> supplier)
 	{
 		if (REGISTER_ARGUMENT_TYPE != null)
 		{
 			try
 			{
-				REGISTER_ARGUMENT_TYPE.invoke(null, id, argClass, ConstantArgumentSerializer.class.getConstructor(Supplier.class).newInstance(supplier));
+				REGISTER_ARGUMENT_TYPE.invoke(null, id.toString(), argClass, ConstantArgumentSerializer.class.getConstructor(Supplier.class).newInstance(supplier));
 			}
 			catch (Throwable e)
 			{

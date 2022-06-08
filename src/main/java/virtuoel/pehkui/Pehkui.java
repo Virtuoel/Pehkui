@@ -17,7 +17,6 @@ import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
-import virtuoel.pehkui.util.VersionUtils;
 
 public class Pehkui implements ModInitializer
 {
@@ -34,10 +33,7 @@ public class Pehkui implements ModInitializer
 	@Override
 	public void onInitialize()
 	{
-		if (VersionUtils.MINOR <= 18)
-		{
-			CommandUtils.registerArgumentTypes(CommandUtils::registerConstantArgumentType);
-		}
+		CommandUtils.registerArgumentTypes();
 		
 		PehkuiEntitySelectorOptions.register();
 		
