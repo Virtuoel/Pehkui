@@ -16,13 +16,23 @@ public class VersionUtils
 	
 	static
 	{
-		final int[][] ranges = {{1, 14, 4}, {1, 15, 2}, {1, 16, 5}, {1, 17, 1}, {1, 18, 2}, {1, 19, 1}};
+		final int[][] ranges =
+		{
+			{1, 14, 4},
+			{1, 15, 2},
+			{1, 16, 5},
+			{1, 17, 1},
+			{1, 18, 2},
+			{1, 19, 1},
+		};
+		
 		final String prefix = ".compat%s%s";
 		
 		for (final int[] range : ranges)
 		{
 			final int major = range[0];
 			final int minor = range[1];
+			
 			final String predicatePrefix = String.format(prefix, major, minor);
 			final String predicateMinor = predicatePrefix + ".";
 			final String predicateMinorPlus = predicatePrefix + "plus.";
@@ -41,6 +51,7 @@ public class VersionUtils
 			for (int i = 1; i <= maxPatch; i++)
 			{
 				final int patch = i;
+				
 				final String predicatePatch = predicatePrefix + patch + ".";
 				final String predicatePatchPlus = predicatePrefix + patch + "plus.";
 				final String predicatePatchMinus = predicatePrefix + patch + "minus.";
