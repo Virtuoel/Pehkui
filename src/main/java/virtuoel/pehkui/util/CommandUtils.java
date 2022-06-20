@@ -27,7 +27,7 @@ import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
-	private static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
+	public static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
 	
 	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_TYPE = COMMAND_ARGUMENT_TYPES.register(
 		"scale_type",
@@ -50,11 +50,6 @@ public class CommandUtils
 				ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
 			)
 	);
-	
-	public static void init()
-	{
-		
-	}
 	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
 	{
