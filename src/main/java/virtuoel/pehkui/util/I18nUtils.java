@@ -1,7 +1,6 @@
 package virtuoel.pehkui.util;
 
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 public class I18nUtils
 {
@@ -14,6 +13,6 @@ public class I18nUtils
 	
 	public static Text translate(final String unlocalized, final String defaultLocalized, final Object... args)
 	{
-		return new TranslatableText(unlocalized, args);
+		return Text.translatable(unlocalized, args);
 	}
 }

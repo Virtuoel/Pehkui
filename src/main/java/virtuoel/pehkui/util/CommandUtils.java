@@ -4,18 +4,20 @@ import java.util.Locale;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.command.argument.ArgumentTypes;
+import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
@@ -25,12 +27,33 @@ import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
-	public static void registerArgumentTypes()
+	private static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
+	
+	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_TYPE = COMMAND_ARGUMENT_TYPES.register(
+		"scale_type",
+		() -> ArgumentTypes.registerByClass(
+			ScaleTypeArgumentType.class,
+			ConstantArgumentSerializer.of(ScaleTypeArgumentType::scaleType)
+		)
+	);
+	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_MODIFIER = COMMAND_ARGUMENT_TYPES.register(
+		"scale_modifier",
+		() -> ArgumentTypes.registerByClass(
+			ScaleModifierArgumentType.class,
+			ConstantArgumentSerializer.of(ScaleModifierArgumentType::scaleModifier)
+		)
+	);
+	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_OPERATION = COMMAND_ARGUMENT_TYPES.register(
+		"scale_operation",
+		() -> ArgumentTypes.registerByClass(
+			ScaleOperationArgumentType.class,
+			ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
+		)
+	);
+	
+	public static void init()
 	{
-		if (VersionUtils.MINOR <= 18)
-		{
-			registerArgumentTypes(CommandUtils::registerConstantArgumentType);
-		}
+		
 	}
 	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
@@ -39,27 +62,9 @@ public class CommandUtils
 		DebugCommand.register(dispatcher);
 	}
 	
-	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
-	{
-		consumer.register(Pehkui.id("scale_type"), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
-		consumer.register(Pehkui.id("scale_modifier"), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
-		consumer.register(Pehkui.id("scale_operation"), ScaleOperationArgumentType.class, ScaleOperationArgumentType::operation);
-	}
-	
-	@FunctionalInterface
-	public interface ArgumentTypeConsumer
-	{
-		<T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier);
-	}
-	
 	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
 	{
 		return range.test(value);
-	}
-	
-	public static <T extends ArgumentType<?>> void registerConstantArgumentType(Identifier id, Class<T> argClass, Supplier<T> supplier)
-	{
-		ArgumentTypes.register(id.toString(), argClass, new ConstantArgumentSerializer<T>(supplier));
 	}
 	
 	public static CompletableFuture<Suggestions> suggestIdentifiersIgnoringNamespace(String namespace, Iterable<Identifier> candidates, SuggestionsBuilder builder)

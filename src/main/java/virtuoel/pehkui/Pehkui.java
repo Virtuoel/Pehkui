@@ -96,7 +96,7 @@ public class Pehkui
 		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
 		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
 		
-		CommandUtils.registerArgumentTypes();
+		CommandUtils.init();
 		
 		PehkuiEntitySelectorOptions.register();
 		
