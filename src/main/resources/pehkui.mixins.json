@@ -126,7 +126,6 @@
 		"compat117plus.patchwork.compat.IForgeItemMixin",
 		"compat118minus.ServerPlayerInteractionManagerMixin",
 		"compat118minus.ServerPlayNetworkHandlerMixin",
-		"compat119plus.ArgumentTypesMixin",
 		"compat119plus.LookTargetUtilMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
