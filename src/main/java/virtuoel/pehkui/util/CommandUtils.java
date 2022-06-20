@@ -16,6 +16,8 @@ import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import virtuoel.pehkui.Pehkui;
@@ -27,7 +29,7 @@ import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
-	public static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
+	private static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
 	
 	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_TYPE = COMMAND_ARGUMENT_TYPES.register(
 		"scale_type",
@@ -50,6 +52,13 @@ public class CommandUtils
 				ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
 			)
 	);
+	
+	public static void registerArgumentTypes()
+	{
+		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
+		COMMAND_ARGUMENT_TYPES.register(modEventBus);
+	}
 	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
 	{

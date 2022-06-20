@@ -15,12 +15,10 @@ import net.minecraft.util.Identifier;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLLoader;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
@@ -98,9 +96,7 @@ public class Pehkui
 		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
 		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
 		
-		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		
-		CommandUtils.COMMAND_ARGUMENT_TYPES.register(modEventBus);
+		CommandUtils.registerArgumentTypes();
 		
 		PehkuiEntitySelectorOptions.register();
 		
