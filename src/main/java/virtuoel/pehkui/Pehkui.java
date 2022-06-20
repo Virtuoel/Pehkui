@@ -31,7 +31,6 @@ import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 import virtuoel.pehkui.util.ScaleUtils;
-import virtuoel.pehkui.util.VersionUtils;
 
 @Mod(Pehkui.MOD_ID)
 public class Pehkui
@@ -97,10 +96,7 @@ public class Pehkui
 		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
 		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
 		
-		if (VersionUtils.MINOR <= 18)
-		{
-			CommandUtils.registerArgumentTypes(CommandUtils::registerConstantArgumentType);
-		}
+		CommandUtils.registerArgumentTypes();
 		
 		PehkuiEntitySelectorOptions.register();
 		

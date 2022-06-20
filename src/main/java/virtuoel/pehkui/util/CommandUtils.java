@@ -25,6 +25,14 @@ import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
+	public static void registerArgumentTypes()
+	{
+		if (VersionUtils.MINOR <= 18)
+		{
+			registerArgumentTypes(CommandUtils::registerConstantArgumentType);
+		}
+	}
+	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
 	{
 		ScaleCommand.register(dispatcher);
@@ -33,15 +41,15 @@ public class CommandUtils
 	
 	public static void registerArgumentTypes(ArgumentTypeConsumer consumer)
 	{
-		consumer.register(Pehkui.id("scale_type").toString(), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
-		consumer.register(Pehkui.id("scale_modifier").toString(), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
-		consumer.register(Pehkui.id("scale_operation").toString(), ScaleOperationArgumentType.class, ScaleOperationArgumentType::operation);
+		consumer.register(Pehkui.id("scale_type"), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
+		consumer.register(Pehkui.id("scale_modifier"), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
+		consumer.register(Pehkui.id("scale_operation"), ScaleOperationArgumentType.class, ScaleOperationArgumentType::operation);
 	}
 	
 	@FunctionalInterface
 	public interface ArgumentTypeConsumer
 	{
-		<T extends ArgumentType<?>> void register(String id, Class<T> argClass, Supplier<T> supplier);
+		<T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier);
 	}
 	
 	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
@@ -49,9 +57,9 @@ public class CommandUtils
 		return range.test(value);
 	}
 	
-	public static <T extends ArgumentType<?>> void registerConstantArgumentType(String id, Class<T> argClass, Supplier<T> supplier)
+	public static <T extends ArgumentType<?>> void registerConstantArgumentType(Identifier id, Class<T> argClass, Supplier<T> supplier)
 	{
-		ArgumentTypes.register(id, argClass, new ConstantArgumentSerializer<T>(supplier));
+		ArgumentTypes.register(id.toString(), argClass, new ConstantArgumentSerializer<T>(supplier));
 	}
 	
 	public static CompletableFuture<Suggestions> suggestIdentifiersIgnoringNamespace(String namespace, Iterable<Identifier> candidates, SuggestionsBuilder builder)
