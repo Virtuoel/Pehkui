@@ -32,23 +32,23 @@ public class CommandUtils
 	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_TYPE = COMMAND_ARGUMENT_TYPES.register(
 		"scale_type",
 		() -> ArgumentTypes.registerByClass(
-			ScaleTypeArgumentType.class,
-			ConstantArgumentSerializer.of(ScaleTypeArgumentType::scaleType)
-		)
+				ScaleTypeArgumentType.class,
+				ConstantArgumentSerializer.of(ScaleTypeArgumentType::scaleType)
+			)
 	);
 	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_MODIFIER = COMMAND_ARGUMENT_TYPES.register(
 		"scale_modifier",
 		() -> ArgumentTypes.registerByClass(
-			ScaleModifierArgumentType.class,
-			ConstantArgumentSerializer.of(ScaleModifierArgumentType::scaleModifier)
-		)
+				ScaleModifierArgumentType.class,
+				ConstantArgumentSerializer.of(ScaleModifierArgumentType::scaleModifier)
+			)
 	);
 	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_OPERATION = COMMAND_ARGUMENT_TYPES.register(
 		"scale_operation",
 		() -> ArgumentTypes.registerByClass(
-			ScaleOperationArgumentType.class,
-			ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
-		)
+				ScaleOperationArgumentType.class,
+				ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
+			)
 	);
 	
 	public static void init()
