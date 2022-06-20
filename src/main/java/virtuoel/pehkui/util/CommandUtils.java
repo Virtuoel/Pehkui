@@ -19,7 +19,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
@@ -29,35 +28,35 @@ import virtuoel.pehkui.server.command.ScaleCommand;
 
 public class CommandUtils
 {
-	private static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
-	
-	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_TYPE = COMMAND_ARGUMENT_TYPES.register(
-		"scale_type",
-		() -> ArgumentTypes.registerByClass(
-				ScaleTypeArgumentType.class,
-				ConstantArgumentSerializer.of(ScaleTypeArgumentType::scaleType)
-			)
-	);
-	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_MODIFIER = COMMAND_ARGUMENT_TYPES.register(
-		"scale_modifier",
-		() -> ArgumentTypes.registerByClass(
-				ScaleModifierArgumentType.class,
-				ConstantArgumentSerializer.of(ScaleModifierArgumentType::scaleModifier)
-			)
-	);
-	public static final RegistryObject<ArgumentSerializer<?, ?>> SCALE_OPERATION = COMMAND_ARGUMENT_TYPES.register(
-		"scale_operation",
-		() -> ArgumentTypes.registerByClass(
-				ScaleOperationArgumentType.class,
-				ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
-			)
-	);
-	
 	public static void registerArgumentTypes()
 	{
 		final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 		
-		COMMAND_ARGUMENT_TYPES.register(modEventBus);
+		final DeferredRegister<ArgumentSerializer<?, ?>> registry = DeferredRegister.create(Registry.COMMAND_ARGUMENT_TYPE_KEY, Pehkui.MOD_ID);
+		
+		registry.register(
+			"scale_type",
+			() -> ArgumentTypes.registerByClass(
+					ScaleTypeArgumentType.class,
+					ConstantArgumentSerializer.of(ScaleTypeArgumentType::scaleType)
+				)
+		);
+		registry.register(
+			"scale_modifier",
+			() -> ArgumentTypes.registerByClass(
+					ScaleModifierArgumentType.class,
+					ConstantArgumentSerializer.of(ScaleModifierArgumentType::scaleModifier)
+				)
+		);
+		registry.register(
+			"scale_operation",
+			() -> ArgumentTypes.registerByClass(
+					ScaleOperationArgumentType.class,
+					ConstantArgumentSerializer.of(ScaleOperationArgumentType::operation)
+				)
+		);
+		
+		registry.register(modEventBus);
 	}
 	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
