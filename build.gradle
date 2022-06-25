@@ -3,7 +3,7 @@ plugins {
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.2.12"
-	id "io.github.juuxel.loom-quiltflower" version "1.7.2"
+	id "io.github.juuxel.loom-quiltflower" version "1.7.3"
 	id "com.matthewprenger.cursegradle" version "1.4.0"
 	id "com.modrinth.minotaur" version "2.+"
 }
