@@ -101,7 +101,7 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
 #### Developing for Forge with ForgeGradle
 
 ```groovy
-api fg.deobf("com.github.Virtuoel:Pehkui:${pehkui_version}")
+implementation fg.deobf("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
 
 #### Developing for Forge with Architectury Loom
