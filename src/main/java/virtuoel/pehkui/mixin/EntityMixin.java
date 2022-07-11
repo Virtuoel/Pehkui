@@ -39,7 +39,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Shadow boolean onGround;
 	@Shadow boolean firstUpdate;
 	
-	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+	private Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
 	private boolean pehkui_shouldSyncScales = false;
 	private boolean pehkui_shouldIgnoreScaleNbt = false;
 	
@@ -52,14 +52,16 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
-		synchronized (pehkui_scaleTypes)
+		final Map<ScaleType, ScaleData> scaleTypes = pehkui_getScales();
+		
+		synchronized (scaleTypes)
 		{
-			ScaleData scaleData = pehkui_scaleTypes.get(type);
+			ScaleData scaleData = scaleTypes.get(type);
 			
-			if (scaleData == null && !pehkui_scaleTypes.containsKey(type))
+			if (scaleData == null && !scaleTypes.containsKey(type))
 			{
-				pehkui_scaleTypes.put(type, null);
-				pehkui_scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+				scaleTypes.put(type, null);
+				scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
 			}
 			
 			return scaleData;
@@ -69,6 +71,17 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Override
 	public Map<ScaleType, ScaleData> pehkui_getScales()
 	{
+		if (pehkui_scaleTypes == null)
+		{
+			synchronized (this)
+			{
+				if (pehkui_scaleTypes == null)
+				{
+					pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+				}
+			}
+		}
+		
 		return pehkui_scaleTypes;
 	}
 	
@@ -146,7 +159,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		final NbtCompound typeData = new NbtCompound();
 		
 		NbtCompound compound;
-		for (final Entry<ScaleType, ScaleData> entry : pehkui_scaleTypes.entrySet())
+		for (final Entry<ScaleType, ScaleData> entry : pehkui_getScales().entrySet())
 		{
 			compound = entry.getValue().writeNbt(new NbtCompound());
 			
