@@ -52,7 +52,7 @@ Pehkui allows mod developers to:
 
 - Change the size of entities through modifying scale data
 - Affect other properties of an entity that are considered as dependant on the size</br>(e.g. movement speed, explosion size, reach distance)
-- Have the scalable properties of an entity be affected by other scale data types or by external data</br>through scale modifiers
+- Have the scalable properties of an entity be affected by other scale data types or by</br>external data through scale modifiers
 </td></table></details>
 </td></table></details>
 
@@ -69,7 +69,7 @@ Pehkui allows mod developers to:
 <details open>
 <summary>Show/Hide Maven Information</summary><table width=100%><td>
 
-To make use of Pehkui in your own mod, you'll first need to go to your `repositories` block near the</br>top of your `build.gradle` and add JitPack to the bottom of the block like below:
+To make use of Pehkui in your own mod, you'll first need to go to your `repositories` block</br>near the top of your `build.gradle` and add JitPack to the bottom of the block like below:
 
 ```groovy
 repositories {
@@ -86,9 +86,9 @@ repositories {
 <details open>
 <summary>Show/Hide Dependency Configuration Information</summary><table width=100%><td>
 
-Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your `gradle.properties`,</br>replacing `x.y.z-w` with one of the available version strings from the [list of release tags](../../../tags).
+Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your</br>`gradle.properties`, replacing `x.y.z-w` with one of the available version strings from the</br>[list of release tags](../../../tags).
 
-Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from below</br>depending on your mod loader:
+Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from</br>below depending on your mod loader:
 
 #### Developing for Fabric with Loom
 
@@ -142,7 +142,7 @@ Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`
 
 <summary>Show/Hide Fix on Older ForgeGradle (4 and below)</summary><table width=100%><td>
 
-If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled in your `build.gradle`'s run configuration blocks.
+If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled in your `build.gradle`'s run</br>configuration blocks.
 
 Make sure the following lines are present in the `client {}`, `server {}`, and `data {}` run configuration blocks.
 
@@ -151,7 +151,7 @@ property 'mixin.env.remapRefMap', 'true'
 property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 ```
 
-Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE.
+Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or</br>`genVSCodeRuns` depending on your IDE.
 </td></table></details>
 </td></table></details>
 <!--
