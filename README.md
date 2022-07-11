@@ -69,15 +69,23 @@ Pehkui allows mod developers to:
 <details open>
 <summary>Show/Hide Maven Information</summary><table width=100%><td>
 
-To make use of Pehkui in your own mod, you'll first need to go to your `repositories` block</br>near the top of your `build.gradle` and add JitPack to the bottom of the block like below:
+To make use of Pehkui in your own mod, you'll first need to go to the `repositories` block</br>of your `build.gradle`, typically found right before the `dependencies` block, and add</br>the JitPack Maven to the bottom of the block like below:
 
 ```groovy
+// ...
+
 repositories {
-	// ... your other maven repositories above ...
+	// ... your other Maven repositories above, if any ...
 	maven {
 		url = "https://jitpack.io"
 	}
 }
+
+dependencies {
+	// ...
+}
+
+// ...
 ```
 </td></table></details>
 
@@ -116,7 +124,7 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
 <details>
 <summary>Show/Hide Fix on ForgeGradle</summary><table width=100%><td>
 
-If you're using Forge with ForgeGradle, make sure the `mixingradle` plugin is present and applied:
+If you're using Forge with ForgeGradle, make sure the `mixingradle` plugin is present and</br>applied:
 
 Make sure the following line is present in your `build.gradle`'s `buildscript { repositories {} }` block.
 
@@ -136,7 +144,7 @@ Next, make sure the following line is present in your `build.gradle`.
 apply plugin: "org.spongepowered.mixin"
 ```
 
-Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or `genVSCodeRuns` depending on your IDE.
+Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`, or</br>`genVSCodeRuns` depending on your IDE.
 </td></table></details>
 <details>
 
