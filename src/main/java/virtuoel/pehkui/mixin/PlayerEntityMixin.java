@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -49,18 +48,23 @@ public abstract class PlayerEntityMixin
 		}
 	}
 	
-	@Inject(method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setPickupDelay(I)V"))
-	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info, double y, ItemEntity entity)
+	@Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")
+	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info)
 	{
-		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
+		final ItemEntity entity = info.getReturnValue();
 		
-		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
-		
-		if (scale != 1.0F)
+		if (entity != null)
 		{
-			final Vec3d pos = entity.getPos();
+			ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 			
-			entity.updatePosition(pos.x, y + ((1.0F - scale) * 0.3D), pos.z);
+			final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
+			
+			if (scale != 1.0F)
+			{
+				final Vec3d pos = entity.getPos();
+				
+				entity.updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.3D), pos.z);
+			}
 		}
 	}
 	
