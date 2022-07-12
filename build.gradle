@@ -261,7 +261,7 @@ githubRelease {
 		tagName "${project.mod_version}-${project.minecraft_version}-forge"
 	}
 	
-	if(project.hasProperty("loader_version")) {
+	if(project.hasProperty("fabric_loader_version")) {
 		tagName project.mod_version
 	}
 	
