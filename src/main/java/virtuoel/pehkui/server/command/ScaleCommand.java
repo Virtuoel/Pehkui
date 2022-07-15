@@ -20,12 +20,15 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleEasing;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
+import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
@@ -57,6 +60,7 @@ public class ScaleCommand
 		registerDelay(builder);
 		registerPersist(builder);
 		registerNbt(builder);
+		registerEasing(builder);
 		
 		commandDispatcher.register(builder);
 	}
@@ -707,6 +711,167 @@ public class ScaleCommand
 		
 		return builder;
 	}
+
+	private static LiteralArgumentBuilder<ServerCommandSource> registerEasing(final LiteralArgumentBuilder<ServerCommandSource> builder)
+	{
+		builder
+			.then(CommandManager.literal("easing")
+				.then(CommandManager.literal("set")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("easing", ScaleEasingArgumentType.scaleEasing())
+							.then(CommandManager.argument("targets", EntityArgumentType.entities())
+								.executes(context ->
+								{
+									final ScaleEasing easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
+									final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+
+									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+									{
+										final ScaleData data = type.getScaleData(e);
+
+										data.setEasing(easing);
+									}
+
+									return 1;
+								})
+							)
+							.executes(context ->
+							{
+								final ScaleEasing easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+
+								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+
+								data.setEasing(easing);
+
+								return 1;
+							})
+						)
+					)
+					.then(CommandManager.argument("easing", ScaleEasingArgumentType.scaleEasing())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								final ScaleEasing easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
+
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleData data = ScaleTypes.BASE.getScaleData(e);
+
+									data.setEasing(easing);
+								}
+
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleEasing easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
+
+							final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
+
+							data.setEasing(easing);
+
+							return 1;
+						})
+					)
+				)
+				.then(CommandManager.literal("get")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("entity", EntityArgumentType.entity())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+								final ScaleEasing easing = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getEasing();
+								context.getSource().sendFeedback(easingText(easing, type), false);
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+							final ScaleEasing easing = type.getScaleData(context.getSource().getEntityOrThrow()).getEasing();
+							context.getSource().sendFeedback(easingText(easing, type), false);
+							return 1;
+						})
+					)
+					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.executes(context ->
+						{
+							final ScaleEasing easing = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getEasing();
+							context.getSource().sendFeedback(easingText(easing, ScaleTypes.BASE), false);
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						final ScaleEasing easing = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getEasing();
+						context.getSource().sendFeedback(easingText(easing, ScaleTypes.BASE), false);
+						return 1;
+					})
+				)
+				.then(CommandManager.literal("reset")
+					.then(CommandManager.argument("scale_type", ScaleTypeArgumentType.scaleType())
+						.then(CommandManager.argument("targets", EntityArgumentType.entities())
+							.executes(context ->
+							{
+								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+
+								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+								{
+									final ScaleData data = type.getScaleData(e);
+
+									data.setEasing(null);
+								}
+
+								context.getSource().sendFeedback(easingText(null, type), false);
+
+								return 1;
+							})
+						)
+						.executes(context ->
+						{
+							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
+
+							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
+
+							data.setEasing(null);
+
+							context.getSource().sendFeedback(easingText(null, type), false);
+
+							return 1;
+						})
+					)
+					.then(CommandManager.argument("targets", EntityArgumentType.entities())
+						.executes(context ->
+						{
+							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
+							{
+								final ScaleData data = ScaleTypes.BASE.getScaleData(e);
+
+								data.setEasing(null);
+							}
+
+							context.getSource().sendFeedback(easingText(null, ScaleTypes.BASE), false);
+
+							return 1;
+						})
+					)
+					.executes(context ->
+					{
+						final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
+
+						data.setEasing(null);
+
+						context.getSource().sendFeedback(easingText(null, ScaleTypes.BASE), false);
+
+						return 1;
+					})
+				)
+			);
+
+		return builder;
+	}
 	
 	private static LiteralArgumentBuilder<ServerCommandSource> registerPersist(final LiteralArgumentBuilder<ServerCommandSource> builder)
 	{
@@ -946,6 +1111,13 @@ public class ScaleCommand
 		final String unlocalized = "commands.pehkui.scale.persist." + (persist != null ? persist : ("default." + type.getDefaultPersistence()));
 		final String message = "Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")"  : persist);
 		return I18nUtils.translate(unlocalized, message);
+	}
+
+	private static Text easingText(ScaleEasing easing, ScaleType type) {
+		final Identifier easingId = easing != null ? easing.getId() : type.getDefaultEasing().getId();
+		final String unlocalized = "commands.pehkui.scale.easing" + (easing != null ? "" : ".default");
+		final String message = "Easing: " + (easing == null ? "default (" + easingId + ")" : easingId);
+		return I18nUtils.translate(unlocalized, message, easingId);
 	}
 	
 	private static final Random RANDOM = new Random();

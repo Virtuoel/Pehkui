@@ -28,6 +28,7 @@ public class ScaleData
 	private int scaleTicks;
 	private int totalScaleTicks;
 	private Boolean persistent = null;
+	private ScaleEasing easing = ScaleEasings.LINEAR;
 	
 	private boolean shouldSync;
 	
@@ -294,7 +295,7 @@ public class ScaleData
 	@ApiStatus.NonExtendable
 	protected float calculateNextTickScale()
 	{
-		return getBaseScale() + ((getTargetScale() - this.initialScale) / (float) getScaleTickDelay());
+		return Math.max(this.initialScale + getEasing().ease((float) this.scaleTicks / getScaleTickDelay()) * (getTargetScale() - this.initialScale), 0);
 	}
 	
 	@ApiStatus.Internal
@@ -378,7 +379,18 @@ public class ScaleData
 		final Boolean persist = getPersistence();
 		return persist == null ? getScaleType().getDefaultPersistence() : persist;
 	}
-	
+
+	public ScaleEasing getEasing()
+	{
+		return this.easing == null ? getScaleType().getDefaultEasing() : this.easing;
+	}
+
+	public void setEasing(ScaleEasing easing)
+	{
+		this.easing = easing;
+		markForSync(true);
+	}
+
 	public void markForSync(boolean sync)
 	{
 		final Entity e = getEntity();
@@ -438,6 +450,9 @@ public class ScaleData
 		}
 		
 		buffer.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
+		buffer.writeByte(easing != null ? 1 : 0);
+		if(easing != null)
+			buffer.writeIdentifier(easing.getId());
 		
 		return buffer;
 	}
@@ -453,6 +468,7 @@ public class ScaleData
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
 		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : null;
+		this.easing = tag.contains("easing") ? ScaleRegistries.getEntry(ScaleRegistries.SCALE_EASINGS, new Identifier(tag.getString("easing"))) : null;
 		
 		this.trackModifierChanges = false;
 		
@@ -543,6 +559,11 @@ public class ScaleData
 		if (persistent != null)
 		{
 			tag.putBoolean("persistent", persistent);
+		}
+
+		if (this.easing != null)
+		{
+			tag.putString("easing", this.easing.getId().toString());
 		}
 		
 		if (!this.differingModifierCache.isEmpty())

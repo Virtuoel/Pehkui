@@ -27,6 +27,7 @@ import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleEasing;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
@@ -224,6 +225,14 @@ public class ScaleUtils
 		if (persistent != -1)
 		{
 			scaleData.putBoolean("persistent", persistent == 1);
+		}
+
+		final byte hasEasing = buffer.readByte();
+
+		if (hasEasing == 1)
+		{
+			final Identifier easing = buffer.readIdentifier();
+			scaleData.putString("easing", easing.toString());
 		}
 		
 		return scaleData;
