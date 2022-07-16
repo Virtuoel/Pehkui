@@ -6,6 +6,7 @@ import java.util.SortedSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
@@ -28,7 +29,7 @@ public class ScaleData
 	private int scaleTicks;
 	private int totalScaleTicks;
 	private Boolean persistent = null;
-	private ScaleEasing easing = ScaleEasings.LINEAR;
+	private FloatUnaryOperator easing = ScaleEasings.LINEAR;
 	
 	private boolean shouldSync;
 	
@@ -295,7 +296,8 @@ public class ScaleData
 	@ApiStatus.NonExtendable
 	protected float calculateNextTickScale()
 	{
-		return Math.max(this.initialScale + getEasing().ease((float) this.scaleTicks / getScaleTickDelay()) * (getTargetScale() - this.initialScale), 0);
+		final FloatUnaryOperator easing = getEasing();
+		return this.initialScale + (easing != null ? easing : getScaleType().getDefaultEasing()).apply((float) this.scaleTicks / getScaleTickDelay()) * (getTargetScale() - this.initialScale);
 	}
 	
 	@ApiStatus.Internal
@@ -379,18 +381,18 @@ public class ScaleData
 		final Boolean persist = getPersistence();
 		return persist == null ? getScaleType().getDefaultPersistence() : persist;
 	}
-
-	public ScaleEasing getEasing()
+	
+	public @Nullable FloatUnaryOperator getEasing()
 	{
-		return this.easing == null ? getScaleType().getDefaultEasing() : this.easing;
+		return this.easing;
 	}
-
-	public void setEasing(ScaleEasing easing)
+	
+	public void setEasing(@Nullable FloatUnaryOperator easing)
 	{
 		this.easing = easing;
 		markForSync(true);
 	}
-
+	
 	public void markForSync(boolean sync)
 	{
 		final Entity e = getEntity();
@@ -450,9 +452,16 @@ public class ScaleData
 		}
 		
 		buffer.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
-		buffer.writeByte(easing != null ? 1 : 0);
-		if(easing != null)
-			buffer.writeIdentifier(easing.getId());
+		
+		if (this.easing != null)
+		{
+			buffer.writeBoolean(true);
+			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, this.easing));
+		}
+		else
+		{
+			buffer.writeBoolean(false);
+		}
 		
 		return buffer;
 	}
@@ -560,10 +569,11 @@ public class ScaleData
 		{
 			tag.putBoolean("persistent", persistent);
 		}
-
-		if (this.easing != null)
+		
+		final FloatUnaryOperator easing = getEasing();
+		if (easing != null)
 		{
-			tag.putString("easing", this.easing.getId().toString());
+			tag.put("easing", NbtOps.INSTANCE.createString(ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, easing).toString()));
 		}
 		
 		if (!this.differingModifierCache.isEmpty())
@@ -598,6 +608,7 @@ public class ScaleData
 		this.scaleTicks = 0;
 		this.totalScaleTicks = type.getDefaultTickDelay();
 		this.persistent = null;
+		this.easing = null;
 		
 		invalidateCachedScales();
 		
@@ -671,6 +682,11 @@ public class ScaleData
 			return false;
 		}
 		
+		if (getEasing() != null)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -690,6 +706,7 @@ public class ScaleData
 			this.scaleTicks = scaleData.scaleTicks;
 			this.totalScaleTicks = scaleData.totalScaleTicks;
 			this.persistent = scaleData.getPersistence();
+			this.easing = scaleData.getEasing();
 			
 			invalidateCachedScales();
 		}
