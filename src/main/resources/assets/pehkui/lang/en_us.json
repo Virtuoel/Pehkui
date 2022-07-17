@@ -4,6 +4,7 @@
 	"argument.entity.options.pehkui.scale_nbt.description": "Entities with scale NBT",
 	"argument.pehkui.modifier.invalid": "Unknown scale modifier '%s'",
 	"argument.pehkui.type.invalid": "Unknown scale type '%s'",
+	"argument.pehkui.easing.invalid": "Unknown easing '%s'",
 	
 	"commands.pehkui.debug.audit.end": "Mixin environment audit complete!",
 	"commands.pehkui.debug.audit.end.client": "Mixin environment audit (client) complete!",
@@ -30,6 +31,8 @@
 	"commands.pehkui.scale.persist.default.true": "Persistent: default (true)",
 	"commands.pehkui.scale.persist.false": "Persistent: false",
 	"commands.pehkui.scale.persist.true": "Persistent: true",
+	"commands.pehkui.scale.easing.default": "Easing: default (%s)",
+	"commands.pehkui.scale.easing": "Easing: %s",
 	
 	"pehkui.configgui.minimumCameraDepth": "Minimum value for the projection matrix's camera depth. Vanilla defaults to 0.05",
 	"pehkui.configgui.scaledFallDamage": "Whether fall damage should scale based on the motion scale",
