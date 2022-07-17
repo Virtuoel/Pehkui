@@ -220,14 +220,14 @@ public final class ScaleEasings
 		}
 	});
 	
-	private static FloatUnaryOperator register(Identifier id, FloatUnaryOperator easing)
-	{
-		return ScaleRegistries.register(ScaleRegistries.SCALE_EASINGS, id, easing);
-	}
-	
 	private static FloatUnaryOperator register(String path, FloatUnaryOperator easing)
 	{
 		return register(Pehkui.id(path), easing);
+	}
+	
+	private static FloatUnaryOperator register(Identifier id, FloatUnaryOperator easing)
+	{
+		return ScaleRegistries.register(ScaleRegistries.SCALE_EASINGS, id, easing);
 	}
 	
 	private ScaleEasings()
