@@ -132,7 +132,7 @@ public final class ScaleEasings
 			return x;
 		}
 		
-		if (x < 0.0F)
+		if (x < 0.5F)
 		{
 			return (float) (0.5F * Math.pow(2.0F, (20.0F * x) - 10.0F));
 		}
