@@ -113,7 +113,7 @@ public final class ScaleEasings
 		}
 		else
 		{
-			return (float) (0.5F * (Math.sqrt(-((2.0F * x) - 3.0F) * ((2.0F * x) - 1.0F)) + 1.0F));
+			return (float) (0.5F * (Math.sqrt(1.0F - (4.0F * (1.0F - x) * (1.0F - x))) + 1.0F));
 		}
 	});
 	
