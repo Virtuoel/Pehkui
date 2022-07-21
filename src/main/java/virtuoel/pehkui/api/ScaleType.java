@@ -27,6 +27,7 @@ public class ScaleType
 		this.baseScaleClampFunction = builder.baseScaleClampFunction;
 		this.targetScaleClampFunction = builder.targetScaleClampFunction;
 		this.defaultPersistence = builder.defaultPersistence;
+		this.defaultEasing = builder.defaultEasing;
 		this.affectsDimensions = builder.affectsDimensions;
 	}
 	
@@ -54,7 +55,19 @@ public class ScaleType
 	{
 		return defaultPersistence;
 	}
-	
+
+	private ScaleEasing defaultEasing;
+
+	public void setDefaultEasing(ScaleEasing defaultEasing)
+	{
+		this.defaultEasing = defaultEasing;
+	}
+
+	public ScaleEasing getDefaultEasing()
+	{
+		return defaultEasing;
+	}
+
 	private float defaultBaseScale;
 	
 	public final float getDefaultBaseScale()
@@ -138,6 +151,7 @@ public class ScaleType
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
 		private boolean defaultPersistence = false;
+		private ScaleEasing defaultEasing = ScaleEasings.LINEAR;
 		
 		public static Builder create()
 		{
@@ -194,6 +208,12 @@ public class ScaleType
 		public Builder defaultPersistence(boolean defaultPersistence)
 		{
 			this.defaultPersistence = defaultPersistence;
+			return this;
+		}
+
+		public Builder defaultEasing(ScaleEasing defaultEasing)
+		{
+			this.defaultEasing = defaultEasing;
 			return this;
 		}
 		

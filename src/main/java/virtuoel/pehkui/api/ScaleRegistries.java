@@ -20,6 +20,7 @@ public class ScaleRegistries
 	
 	public static final BiMap<Identifier, ScaleType> SCALE_TYPES = create("scale_types", "invalid", () -> ScaleTypes.INVALID);
 	public static final BiMap<Identifier, ScaleModifier> SCALE_MODIFIERS = create("scale_modifiers", "identity", () -> ScaleModifiers.IDENTITY);
+	public static final BiMap<Identifier, ScaleEasing> SCALE_EASINGS = create("scale_easings", "linear", () -> ScaleEasings.LINEAR);
 	
 	public static <E> E register(Map<Identifier, E> registry, Identifier id, E entry)
 	{
