@@ -28,7 +28,7 @@ public class ScaleData
 	private int scaleTicks;
 	private int totalScaleTicks;
 	private Boolean persistent = null;
-	private FloatUnaryOperator easing = ScaleEasings.LINEAR;
+	private FloatUnaryOperator easing = null;
 	
 	private boolean shouldSync;
 	
@@ -473,10 +473,13 @@ public class ScaleData
 		this.prevBaseScale = tag.contains("previous") ? tag.getFloat("previous") : this.baseScale;
 		this.initialScale = tag.contains("initial") ? tag.getFloat("initial") : this.baseScale;
 		this.targetScale = tag.contains("target") ? tag.getFloat("target") : this.baseScale;
+		
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
+		
 		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : null;
-		this.easing = tag.contains("easing") ? ScaleRegistries.getEntry(ScaleRegistries.SCALE_EASINGS, new Identifier(tag.getString("easing"))) : null;
+		
+		this.easing = tag.contains("easing") ? ScaleRegistries.getEntry(ScaleRegistries.SCALE_EASINGS, Identifier.tryParse(tag.getString("easing"))) : null;
 		
 		this.trackModifierChanges = false;
 		
