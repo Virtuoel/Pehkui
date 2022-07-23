@@ -17,7 +17,6 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
 public class ScaleData
@@ -140,7 +139,7 @@ public class ScaleData
 			else
 			{
 				this.scaleTicks++;
-				setBaseScale(calculateNextTickScale());
+				setBaseScale(calculateScaleForTick(this.scaleTicks));
 			}
 		}
 		else
@@ -197,7 +196,7 @@ public class ScaleData
 	 */
 	public float getBaseScale(float delta)
 	{
-		return delta == 1.0F ? baseScale : MathHelper.lerp(delta, getPrevBaseScale(), baseScale);
+		return delta == 1.0F ? baseScale : calculateScaleForTick(scaleTicks + delta);
 	}
 	
 	/**
@@ -294,10 +293,10 @@ public class ScaleData
 	
 	@ApiStatus.Internal
 	@ApiStatus.NonExtendable
-	protected float calculateNextTickScale()
+	protected float calculateScaleForTick(float tick)
 	{
 		final FloatUnaryOperator easing = getEasing();
-		return this.initialScale + (easing != null ? easing : getScaleType().getDefaultEasing()).apply((float) this.scaleTicks / getScaleTickDelay()) * (getTargetScale() - this.initialScale);
+		return this.initialScale + (easing != null ? easing : getScaleType().getDefaultEasing()).apply(tick / getScaleTickDelay()) * (getTargetScale() - this.initialScale);
 	}
 	
 	@ApiStatus.Internal
