@@ -226,6 +226,11 @@ public class ScaleUtils
 			scaleData.putBoolean("persistent", persistent == 1);
 		}
 		
+		if (buffer.readBoolean())
+		{
+			scaleData.put("easing", NbtOps.INSTANCE.createString(buffer.readString(32767)));
+		}
+		
 		return scaleData;
 	}
 	

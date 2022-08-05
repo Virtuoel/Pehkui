@@ -21,6 +21,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
@@ -49,6 +50,7 @@ public class CommandUtils
 		consumer.register(Pehkui.id("scale_type"), ScaleTypeArgumentType.class, ScaleTypeArgumentType::scaleType);
 		consumer.register(Pehkui.id("scale_modifier"), ScaleModifierArgumentType.class, ScaleModifierArgumentType::scaleModifier);
 		consumer.register(Pehkui.id("scale_operation"), ScaleOperationArgumentType.class, ScaleOperationArgumentType::operation);
+		consumer.register(Pehkui.id("scale_easing"), ScaleEasingArgumentType.class, ScaleEasingArgumentType::scaleEasing);
 	}
 	
 	@FunctionalInterface
