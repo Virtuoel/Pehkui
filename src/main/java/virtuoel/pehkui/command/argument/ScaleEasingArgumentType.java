@@ -13,7 +13,7 @@ import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
@@ -21,7 +21,7 @@ import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.I18nUtils;
 
-public class ScaleEasingArgumentType implements ArgumentType<FloatUnaryOperator>
+public class ScaleEasingArgumentType implements ArgumentType<Float2FloatFunction>
 {
 	private static final Collection<String> EXAMPLES = Arrays.asList("linear", Pehkui.MOD_ID + ":linear");
 	public static final DynamicCommandExceptionType INVALID_ENTRY_EXCEPTION = new DynamicCommandExceptionType(arg ->
@@ -30,7 +30,7 @@ public class ScaleEasingArgumentType implements ArgumentType<FloatUnaryOperator>
 	});
 	
 	@Override
-	public FloatUnaryOperator parse(StringReader stringReader) throws CommandSyntaxException
+	public Float2FloatFunction parse(StringReader stringReader) throws CommandSyntaxException
 	{
 		final Identifier identifier = Identifier.fromCommandInput(stringReader);
 		return Optional.ofNullable(ScaleRegistries.getEntry(ScaleRegistries.SCALE_EASINGS, identifier)).orElseThrow(() -> INVALID_ENTRY_EXCEPTION.create(identifier));
@@ -53,8 +53,8 @@ public class ScaleEasingArgumentType implements ArgumentType<FloatUnaryOperator>
 		return new ScaleEasingArgumentType();
 	}
 	
-	public static FloatUnaryOperator getScaleEasingArgument(CommandContext<ServerCommandSource> context, String name)
+	public static Float2FloatFunction getScaleEasingArgument(CommandContext<ServerCommandSource> context, String name)
 	{
-		return context.getArgument(name, FloatUnaryOperator.class);
+		return context.getArgument(name, Float2FloatFunction.class);
 	}
 }

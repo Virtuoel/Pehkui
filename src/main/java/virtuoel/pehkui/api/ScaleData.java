@@ -6,7 +6,7 @@ import java.util.SortedSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
@@ -28,7 +28,7 @@ public class ScaleData
 	private int scaleTicks;
 	private int totalScaleTicks;
 	private Boolean persistent = null;
-	private FloatUnaryOperator easing = null;
+	private Float2FloatFunction easing = null;
 	
 	private boolean shouldSync;
 	
@@ -295,7 +295,7 @@ public class ScaleData
 	@ApiStatus.NonExtendable
 	protected float calculateScaleForTick(float tick)
 	{
-		final FloatUnaryOperator easing = getEasing();
+		final Float2FloatFunction easing = getEasing();
 		return this.initialScale + (easing != null ? easing : getScaleType().getDefaultEasing()).apply(tick / getScaleTickDelay()) * (getTargetScale() - this.initialScale);
 	}
 	
@@ -381,12 +381,12 @@ public class ScaleData
 		return persist == null ? getScaleType().getDefaultPersistence() : persist;
 	}
 	
-	public @Nullable FloatUnaryOperator getEasing()
+	public @Nullable Float2FloatFunction getEasing()
 	{
 		return this.easing;
 	}
 	
-	public void setEasing(@Nullable FloatUnaryOperator easing)
+	public void setEasing(@Nullable Float2FloatFunction easing)
 	{
 		this.easing = easing;
 		markForSync(true);
@@ -572,7 +572,7 @@ public class ScaleData
 			tag.putBoolean("persistent", persistent);
 		}
 		
-		final FloatUnaryOperator easing = getEasing();
+		final Float2FloatFunction easing = getEasing();
 		if (easing != null)
 		{
 			tag.put("easing", NbtOps.INSTANCE.createString(ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, easing).toString()));

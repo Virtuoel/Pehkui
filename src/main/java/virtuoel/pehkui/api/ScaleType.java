@@ -7,7 +7,7 @@ import java.util.function.ToDoubleBiFunction;
 
 import org.jetbrains.annotations.ApiStatus;
 
-import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
@@ -57,14 +57,14 @@ public class ScaleType
 		return defaultPersistence;
 	}
 
-	private FloatUnaryOperator defaultEasing;
+	private Float2FloatFunction defaultEasing;
 
-	public void setDefaultEasing(FloatUnaryOperator defaultEasing)
+	public void setDefaultEasing(Float2FloatFunction defaultEasing)
 	{
 		this.defaultEasing = defaultEasing;
 	}
 
-	public FloatUnaryOperator getDefaultEasing()
+	public Float2FloatFunction getDefaultEasing()
 	{
 		return defaultEasing;
 	}
@@ -152,7 +152,7 @@ public class ScaleType
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
 		private boolean defaultPersistence = false;
-		private FloatUnaryOperator defaultEasing = ScaleEasings.LINEAR;
+		private Float2FloatFunction defaultEasing = ScaleEasings.LINEAR;
 		
 		public static Builder create()
 		{
@@ -212,7 +212,7 @@ public class ScaleType
 			return this;
 		}
 
-		public Builder defaultEasing(FloatUnaryOperator defaultEasing)
+		public Builder defaultEasing(Float2FloatFunction defaultEasing)
 		{
 			this.defaultEasing = defaultEasing;
 			return this;

@@ -14,7 +14,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.EntityDataObject;
 import net.minecraft.command.argument.EntityArgumentType;
@@ -723,7 +723,7 @@ public class ScaleCommand
 							.then(CommandManager.argument("targets", EntityArgumentType.entities())
 								.executes(context ->
 								{
-									final FloatUnaryOperator easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
+									final Float2FloatFunction easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
 									final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 									
 									for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
@@ -738,7 +738,7 @@ public class ScaleCommand
 							)
 							.executes(context ->
 							{
-								final FloatUnaryOperator easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
+								final Float2FloatFunction easing = ScaleEasingArgumentType.getScaleEasingArgument(context, "easing");
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 								
 								final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
@@ -756,7 +756,7 @@ public class ScaleCommand
 							.executes(context ->
 							{
 								final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-								final FloatUnaryOperator easing = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getEasing();
+								final Float2FloatFunction easing = type.getScaleData(EntityArgumentType.getEntity(context, "entity")).getEasing();
 								context.getSource().sendFeedback(easingText(easing, type), false);
 								return 1;
 							})
@@ -764,7 +764,7 @@ public class ScaleCommand
 						.executes(context ->
 						{
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
-							final FloatUnaryOperator easing = type.getScaleData(context.getSource().getEntityOrThrow()).getEasing();
+							final Float2FloatFunction easing = type.getScaleData(context.getSource().getEntityOrThrow()).getEasing();
 							context.getSource().sendFeedback(easingText(easing, type), false);
 							return 1;
 						})
@@ -772,14 +772,14 @@ public class ScaleCommand
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
 						.executes(context ->
 						{
-							final FloatUnaryOperator easing = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getEasing();
+							final Float2FloatFunction easing = ScaleTypes.BASE.getScaleData(EntityArgumentType.getEntity(context, "entity")).getEasing();
 							context.getSource().sendFeedback(easingText(easing, ScaleTypes.BASE), false);
 							return 1;
 						})
 					)
 					.executes(context ->
 					{
-						final FloatUnaryOperator easing = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getEasing();
+						final Float2FloatFunction easing = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow()).getEasing();
 						context.getSource().sendFeedback(easingText(easing, ScaleTypes.BASE), false);
 						return 1;
 					})
@@ -1087,7 +1087,7 @@ public class ScaleCommand
 		return I18nUtils.translate(unlocalized, message);
 	}
 	
-	private static Text easingText(@Nullable FloatUnaryOperator easing, ScaleType type)
+	private static Text easingText(@Nullable Float2FloatFunction easing, ScaleType type)
 	{
 		final String easingId = ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, easing != null ? easing : type.getDefaultEasing()).toString();
 		final String unlocalized = "commands.pehkui.scale.easing" + (easing != null ? "" : ".default");

@@ -1,6 +1,6 @@
 package virtuoel.pehkui.api;
 
-import it.unimi.dsi.fastutil.floats.FloatUnaryOperator;
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 
@@ -8,14 +8,14 @@ public final class ScaleEasings
 {
 	private static final double HALF_PI = Math.PI / 2.0D;
 	
-	public static final FloatUnaryOperator LINEAR = register("linear", FloatUnaryOperator.identity());
+	public static final Float2FloatFunction LINEAR = register("linear", x -> x);
 	
-	public static final FloatUnaryOperator QUADRATIC_IN = register("quadratic_in", x -> x * x);
-	public static final FloatUnaryOperator QUADRATIC_OUT = register("quadratic_out", x ->
+	public static final Float2FloatFunction QUADRATIC_IN = register("quadratic_in", x -> x * x);
+	public static final Float2FloatFunction QUADRATIC_OUT = register("quadratic_out", x ->
 	{
 		return -(x * (x - 2.0F));
 	});
-	public static final FloatUnaryOperator QUADRATIC_IN_OUT = register("quadratic_in_out", x ->
+	public static final Float2FloatFunction QUADRATIC_IN_OUT = register("quadratic_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -27,13 +27,13 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator CUBIC_IN = register("cubic_in", x -> x * x * x);
-	public static final FloatUnaryOperator CUBIC_OUT = register("cubic_out", x ->
+	public static final Float2FloatFunction CUBIC_IN = register("cubic_in", x -> x * x * x);
+	public static final Float2FloatFunction CUBIC_OUT = register("cubic_out", x ->
 	{
 		float f = x - 1.0F;
 		return f * f * f + 1.0F;
 	});
-	public static final FloatUnaryOperator CUBIC_IN_OUT = register("cubic_in_out", x ->
+	public static final Float2FloatFunction CUBIC_IN_OUT = register("cubic_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -46,13 +46,13 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator QUARTIC_IN = register("quartic_in", x -> x * x * x * x);
-	public static final FloatUnaryOperator QUARTIC_OUT = register("quartic_out", x ->
+	public static final Float2FloatFunction QUARTIC_IN = register("quartic_in", x -> x * x * x * x);
+	public static final Float2FloatFunction QUARTIC_OUT = register("quartic_out", x ->
 	{
 		float f = x - 1.0F;
 		return f * f * f * (1.0F - x) + 1.0F;
 	});
-	public static final FloatUnaryOperator QUARTIC_IN_OUT = register("quartic_in_out", x ->
+	public static final Float2FloatFunction QUARTIC_IN_OUT = register("quartic_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -65,13 +65,13 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator QUINTIC_IN = register("quintic_in", x -> x * x * x * x * x);
-	public static final FloatUnaryOperator QUINTIC_OUT = register("quintic_out", x ->
+	public static final Float2FloatFunction QUINTIC_IN = register("quintic_in", x -> x * x * x * x * x);
+	public static final Float2FloatFunction QUINTIC_OUT = register("quintic_out", x ->
 	{
 		float f = x - 1.0F;
 		return f * f * f * f * f + 1.0F;
 	});
-	public static final FloatUnaryOperator QUINTIC_IN_OUT = register("quintic_in_out", x ->
+	public static final Float2FloatFunction QUINTIC_IN_OUT = register("quintic_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -84,28 +84,28 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator SINE_IN = register("sine_in", x ->
+	public static final Float2FloatFunction SINE_IN = register("sine_in", x ->
 	{
 		return (float) Math.sin((x - 1.0F) * HALF_PI) + 1.0F;
 	});
-	public static final FloatUnaryOperator SINE_OUT = register("sine_out", x ->
+	public static final Float2FloatFunction SINE_OUT = register("sine_out", x ->
 	{
 		return (float) Math.sin(x * HALF_PI);
 	});
-	public static final FloatUnaryOperator SINE_IN_OUT = register("sine_in_out", x ->
+	public static final Float2FloatFunction SINE_IN_OUT = register("sine_in_out", x ->
 	{
 		return (float) (0.5F * (1.0F - Math.cos(x * Math.PI)));
 	});
 	
-	public static final FloatUnaryOperator CIRCULAR_IN = register("circular_in", x ->
+	public static final Float2FloatFunction CIRCULAR_IN = register("circular_in", x ->
 	{
 		return (float) (1.0F - Math.sqrt(1.0F - (x * x)));
 	});
-	public static final FloatUnaryOperator CIRCULAR_OUT = register("circular_out", x ->
+	public static final Float2FloatFunction CIRCULAR_OUT = register("circular_out", x ->
 	{
 		return (float) Math.sqrt((2.0F - x) * x);
 	});
-	public static final FloatUnaryOperator CIRCULAR_IN_OUT = register("circular_in_out", x ->
+	public static final Float2FloatFunction CIRCULAR_IN_OUT = register("circular_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -117,15 +117,15 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator EXPONENTIAL_IN = register("exponential_in", x ->
+	public static final Float2FloatFunction EXPONENTIAL_IN = register("exponential_in", x ->
 	{
 		return (float) (x == 0.0F ? x : Math.pow(2.0F, 10.0F * (x - 1.0F)));
 	});
-	public static final FloatUnaryOperator EXPONENTIAL_OUT = register("exponential_out", x ->
+	public static final Float2FloatFunction EXPONENTIAL_OUT = register("exponential_out", x ->
 	{
 		return (float) (x == 1.0F ? x : 1.0F - Math.pow(2.0F, -10.0F * x));
 	});
-	public static final FloatUnaryOperator EXPONENTIAL_IN_OUT = register("exponential_in_out", x ->
+	public static final Float2FloatFunction EXPONENTIAL_IN_OUT = register("exponential_in_out", x ->
 	{
 		if (x == 0.0F || x == 1.0F)
 		{
@@ -142,15 +142,15 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator ELASTIC_IN = register("elastic_in", x ->
+	public static final Float2FloatFunction ELASTIC_IN = register("elastic_in", x ->
 	{
 		return (float) (Math.sin(13.0F * HALF_PI * x) * Math.pow(2.0F, 10.0F * (x - 1.0F)));
 	});
-	public static final FloatUnaryOperator ELASTIC_OUT = register("elastic_out", x ->
+	public static final Float2FloatFunction ELASTIC_OUT = register("elastic_out", x ->
 	{
 		return (float) (Math.sin(-13.0F * HALF_PI * (x + 1.0F)) * Math.pow(2.0F, -10.0F * x) + 1.0F);
 	});
-	public static final FloatUnaryOperator ELASTIC_IN_OUT = register("elastic_in_out", x ->
+	public static final Float2FloatFunction ELASTIC_IN_OUT = register("elastic_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -162,16 +162,16 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator BACK_IN = register("back_in", x ->
+	public static final Float2FloatFunction BACK_IN = register("back_in", x ->
 	{
 		return (float) (x * x * x - x * Math.sin(x * Math.PI));
 	});
-	public static final FloatUnaryOperator BACK_OUT = register("back_out", x ->
+	public static final Float2FloatFunction BACK_OUT = register("back_out", x ->
 	{
 		float f = 1.0F - x;
 		return (float) (1.0F - (f * f * f - f * Math.sin(f * Math.PI)));
 	});
-	public static final FloatUnaryOperator BACK_IN_OUT = register("back_in_out", x ->
+	public static final Float2FloatFunction BACK_IN_OUT = register("back_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -185,11 +185,11 @@ public final class ScaleEasings
 		}
 	});
 	
-	public static final FloatUnaryOperator BOUNCE_IN = register("bounce_in", x ->
+	public static final Float2FloatFunction BOUNCE_IN = register("bounce_in", x ->
 	{
 		return 1.0F - ScaleEasings.BOUNCE_OUT.apply(1.0F - x);
 	});
-	public static final FloatUnaryOperator BOUNCE_OUT = register("bounce_out", x ->
+	public static final Float2FloatFunction BOUNCE_OUT = register("bounce_out", x ->
 	{
 		if (x < 4.0F / 11.0F)
 		{
@@ -208,7 +208,7 @@ public final class ScaleEasings
 			return (54.0F / 5.0F * x * x) - (513.0F / 25.0F * x) + 268.0F / 25.0F;
 		}
 	});
-	public static final FloatUnaryOperator BOUNCE_IN_OUT = register("bounce_in_out", x ->
+	public static final Float2FloatFunction BOUNCE_IN_OUT = register("bounce_in_out", x ->
 	{
 		if (x < 0.5F)
 		{
@@ -220,12 +220,12 @@ public final class ScaleEasings
 		}
 	});
 	
-	private static FloatUnaryOperator register(String path, FloatUnaryOperator easing)
+	private static Float2FloatFunction register(String path, Float2FloatFunction easing)
 	{
 		return register(Pehkui.id(path), easing);
 	}
 	
-	private static FloatUnaryOperator register(Identifier id, FloatUnaryOperator easing)
+	private static Float2FloatFunction register(Identifier id, Float2FloatFunction easing)
 	{
 		return ScaleRegistries.register(ScaleRegistries.SCALE_EASINGS, id, easing);
 	}
