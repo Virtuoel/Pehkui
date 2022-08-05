@@ -42,6 +42,9 @@ Supported Versions of `Pehkui-x.y.z+1.18.2-forge`:
 Supported Versions of `Pehkui-x.y.z+1.19-forge`:  
 `1.19`
 
+Supported Versions of `Pehkui-x.y.z+1.19.1-forge`:  
+`1.19.1`
+
 </td></table></details>
 
 ## Mod Features

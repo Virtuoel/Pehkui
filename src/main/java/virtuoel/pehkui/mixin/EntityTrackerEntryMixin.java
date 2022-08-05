@@ -41,4 +41,10 @@ public abstract class EntityTrackerEntryMixin
 		
 		return scale < 1.0D ? value * scale * scale : value;
 	}
+	
+	@Inject(at = @At("HEAD"), method = "syncEntityData")
+	private void onSyncEntityData(CallbackInfo info)
+	{
+		ScaleUtils.syncScalesIfNeeded(entity, this::sendSyncPacket);
+	}
 }
