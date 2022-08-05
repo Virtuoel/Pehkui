@@ -8,6 +8,7 @@ import java.util.function.ToDoubleBiFunction;
 
 import org.jetbrains.annotations.ApiStatus;
 
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
@@ -26,6 +27,7 @@ public class ScaleType
 		this.baseScaleClampFunction = builder.baseScaleClampFunction;
 		this.targetScaleClampFunction = builder.targetScaleClampFunction;
 		this.defaultPersistence = builder.defaultPersistence;
+		this.defaultEasing = builder.defaultEasing;
 		this.affectsDimensions = builder.affectsDimensions;
 	}
 	
@@ -53,7 +55,19 @@ public class ScaleType
 	{
 		return defaultPersistence;
 	}
-	
+
+	private Float2FloatFunction defaultEasing;
+
+	public void setDefaultEasing(Float2FloatFunction defaultEasing)
+	{
+		this.defaultEasing = defaultEasing;
+	}
+
+	public Float2FloatFunction getDefaultEasing()
+	{
+		return defaultEasing;
+	}
+
 	private float defaultBaseScale;
 	
 	public final float getDefaultBaseScale()
@@ -137,6 +151,7 @@ public class ScaleType
 		private boolean affectsDimensions = false;
 		private Set<ScaleModifier> dependentModifiers = new ObjectRBTreeSet<>();
 		private boolean defaultPersistence = false;
+		private Float2FloatFunction defaultEasing = ScaleEasings.LINEAR;
 		
 		public static Builder create()
 		{
@@ -193,6 +208,12 @@ public class ScaleType
 		public Builder defaultPersistence(boolean defaultPersistence)
 		{
 			this.defaultPersistence = defaultPersistence;
+			return this;
+		}
+
+		public Builder defaultEasing(Float2FloatFunction defaultEasing)
+		{
+			this.defaultEasing = defaultEasing;
 			return this;
 		}
 		
