@@ -6,6 +6,7 @@ import java.util.SortedSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,7 +16,6 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.util.Constants;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
@@ -28,6 +28,7 @@ public class ScaleData
 	private int scaleTicks;
 	private int totalScaleTicks;
 	private Boolean persistent = null;
+	private Float2FloatFunction easing = null;
 	
 	private boolean shouldSync;
 	
@@ -138,7 +139,7 @@ public class ScaleData
 			else
 			{
 				this.scaleTicks++;
-				setBaseScale(calculateNextTickScale());
+				setBaseScale(calculateScaleForTick(this.scaleTicks));
 			}
 		}
 		else
@@ -195,7 +196,7 @@ public class ScaleData
 	 */
 	public float getBaseScale(float delta)
 	{
-		return delta == 1.0F ? baseScale : MathHelper.lerp(delta, getPrevBaseScale(), baseScale);
+		return delta == 1.0F ? baseScale : calculateScaleForTick(scaleTicks + delta);
 	}
 	
 	/**
@@ -292,9 +293,10 @@ public class ScaleData
 	
 	@ApiStatus.Internal
 	@ApiStatus.NonExtendable
-	protected float calculateNextTickScale()
+	protected float calculateScaleForTick(float tick)
 	{
-		return getBaseScale() + ((getTargetScale() - this.initialScale) / (float) getScaleTickDelay());
+		final Float2FloatFunction easing = getEasing();
+		return this.initialScale + (easing != null ? easing : getScaleType().getDefaultEasing()).apply(tick / getScaleTickDelay()) * (getTargetScale() - this.initialScale);
 	}
 	
 	@ApiStatus.Internal
@@ -379,6 +381,17 @@ public class ScaleData
 		return persist == null ? getScaleType().getDefaultPersistence() : persist;
 	}
 	
+	public @Nullable Float2FloatFunction getEasing()
+	{
+		return this.easing;
+	}
+	
+	public void setEasing(@Nullable Float2FloatFunction easing)
+	{
+		this.easing = easing;
+		markForSync(true);
+	}
+	
 	public void markForSync(boolean sync)
 	{
 		final Entity e = getEntity();
@@ -439,6 +452,16 @@ public class ScaleData
 		
 		buffer.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
 		
+		if (this.easing != null)
+		{
+			buffer.writeBoolean(true);
+			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, this.easing));
+		}
+		else
+		{
+			buffer.writeBoolean(false);
+		}
+		
 		return buffer;
 	}
 	
@@ -450,9 +473,13 @@ public class ScaleData
 		this.prevBaseScale = tag.contains("previous") ? tag.getFloat("previous") : this.baseScale;
 		this.initialScale = tag.contains("initial") ? tag.getFloat("initial") : this.baseScale;
 		this.targetScale = tag.contains("target") ? tag.getFloat("target") : this.baseScale;
+		
 		this.scaleTicks = tag.contains("ticks") ? tag.getInt("ticks") : 0;
 		this.totalScaleTicks = tag.contains("total_ticks") ? tag.getInt("total_ticks") : type.getDefaultTickDelay();
+		
 		this.persistent = tag.contains("persistent") ? tag.getBoolean("persistent") : null;
+		
+		this.easing = tag.contains("easing") ? ScaleRegistries.getEntry(ScaleRegistries.SCALE_EASINGS, Identifier.tryParse(tag.getString("easing"))) : null;
 		
 		this.trackModifierChanges = false;
 		
@@ -545,6 +572,12 @@ public class ScaleData
 			tag.putBoolean("persistent", persistent);
 		}
 		
+		final Float2FloatFunction easing = getEasing();
+		if (easing != null)
+		{
+			tag.put("easing", NbtOps.INSTANCE.createString(ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, easing).toString()));
+		}
+		
 		if (!this.differingModifierCache.isEmpty())
 		{
 			final NbtList modifiers = new NbtList();
@@ -577,6 +610,7 @@ public class ScaleData
 		this.scaleTicks = 0;
 		this.totalScaleTicks = type.getDefaultTickDelay();
 		this.persistent = null;
+		this.easing = null;
 		
 		invalidateCachedScales();
 		
@@ -650,6 +684,11 @@ public class ScaleData
 			return false;
 		}
 		
+		if (getEasing() != null)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -669,6 +708,7 @@ public class ScaleData
 			this.scaleTicks = scaleData.scaleTicks;
 			this.totalScaleTicks = scaleData.totalScaleTicks;
 			this.persistent = scaleData.getPersistence();
+			this.easing = scaleData.getEasing();
 			
 			invalidateCachedScales();
 		}
