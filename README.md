@@ -25,8 +25,8 @@ Library mod for the Fabric, Forge, and Quilt mod loaders that allows mod develop
 <summary>Show/Hide Supported Minecraft Versions</summary><table width=100%><td>
 
 ### Fabric Versions
-Supported Versions of `Pehkui-x.y.z+1.14.4-1.19.1`:  
-`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `1.18.2`, `1.19`, `1.19.1`
+Supported Versions of `Pehkui-x.y.z+1.14.4-1.19.2`:  
+`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `1.18.2`, `1.19`, `1.19.2`
 
 ### Forge Versions
 
@@ -42,8 +42,8 @@ Supported Versions of `Pehkui-x.y.z+1.18.2-forge`:
 Supported Versions of `Pehkui-x.y.z+1.19-forge`:  
 `1.19`
 
-Supported Versions of `Pehkui-x.y.z+1.19.1-forge`:  
-`1.19.1`
+Supported Versions of `Pehkui-x.y.z+1.19.2-forge`:  
+`1.19.2`
 
 </td></table></details>
 
