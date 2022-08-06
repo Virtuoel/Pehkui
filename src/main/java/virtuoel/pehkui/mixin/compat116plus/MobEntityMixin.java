@@ -10,7 +10,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.MobEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(MobEntity.class)
+@Mixin(value = MobEntity.class, priority = 1050)
 public class MobEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "convertTo")

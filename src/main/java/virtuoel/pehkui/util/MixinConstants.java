@@ -29,8 +29,6 @@ public class MixinConstants
 	private static final String METHOD_5992 = "method_5992";
 	private static final String METHOD_5808 = "method_5808";
 	private static final String METHOD_6249 = "method_6249";
-	private static final String METHOD_23883 = "method_23883";
-	private static final String METHOD_22973 = "method_22973";
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_5692 = "method_5692";
 	private static final String METHOD_6959 = "method_6959";
@@ -59,7 +57,6 @@ public class MixinConstants
 	private static final String METHOD_9554 = "method_9554";
 	private static final String METHOD_11117 = "method_11117";
 	private static final String METHOD_5823 = "method_5823";
-	private static final String METHOD_14263 = "method_14263";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -143,12 +140,6 @@ public class MixinConstants
 	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String BREED = METHOD_6249 + "()V";
 	
-	// 1.15 Plus 1.16 Minus
-	public static final String DROP_XP = METHOD_23883; // COMMIT READY
-	
-	// 1.15 Plus 1.16 Minus Client
-	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973; // COMMIT READY
-	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
 	public static final String UPDATE_MOVEMENT_IN_FLUID = METHOD_5692 + "(L" + CLASS_3494 + ";)Z";
@@ -190,16 +181,16 @@ public class MixinConstants
 	public static final String FALL = METHOD_5623 + "(DZL" + CLASS_2680 + ";L" + CLASS_2338 + ";)V"; // COMMIT READY
 	public static final String ON_LANDED_UPON = "L" + CLASS_2248 + ";" + METHOD_9554 + "(L" + CLASS_1937 + ";L" + CLASS_2338 + ";L" + CLASS_1297 + ";F)V"; // COMMIT READY
 	
-	// 1.16 Plus 1.18 Minus
-	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT READY
-	
 	// 1.16 Minus Client
 	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT READY
 	
-	// 1.16.2 Plus Client
+	// 1.16 Plus 1.18 Minus
+	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT READY
+	
+	// 1.16.2 Plus
 	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT READY
 	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V"; // COMMIT READY
 	
 	// 1.18 Minus
-	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263; // COMMIT READY
+	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT READY
 }

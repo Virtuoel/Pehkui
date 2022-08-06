@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -419,7 +418,7 @@ public class ScaleData
 	{
 		invalidateCachedScales();
 		markForSync(true);
-		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
+		getScaleType().getScaleChangedEvent().forEach(s -> s.onEvent(this));
 	}
 	
 	private void invalidateCachedModifiers()
@@ -491,7 +490,7 @@ public class ScaleData
 		
 		if (tag.contains("baseValueModifiers"))
 		{
-			final NbtList modifiers = tag.getList("baseValueModifiers", NbtType.STRING);
+			final NbtList modifiers = tag.getList("baseValueModifiers", NbtElement.STRING_TYPE);
 			
 			Identifier id;
 			ScaleModifier modifier;

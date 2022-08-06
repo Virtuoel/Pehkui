@@ -6,13 +6,12 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(LivingEntity.class)
+@Mixin(value = LivingEntity.class, priority = 1050)
 public abstract class LivingEntityMixin
 {
-	@ModifyArg(method = MixinConstants.DROP_XP, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
+	@ModifyArg(method = "dropXp", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
 	private Entity dropXpModifyEntity(Entity entity)
 	{
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);

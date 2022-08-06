@@ -1,32 +1,22 @@
 package virtuoel.pehkui.mixin.reach.client;
 
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
-import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin
 {
-	@Shadow @Final MinecraftClient client;
-	
-	@Inject(at = @At("RETURN"), method = "getReachDistance", cancellable = true)
-	private void onGetReachDistance(CallbackInfoReturnable<Float> info)
+	@Inject(at = @At("RETURN"), method = "getReachDistance", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
+	private void onGetReachDistance(CallbackInfoReturnable<Float> info, float attrib)
 	{
-		if (client.player != null)
+		if (info.getReturnValueF() == attrib - 0.5F)
 		{
-			final float scale = ScaleUtils.getBlockReachScale(client.player);
-			
-			if (scale != 1.0F)
-			{
-				info.setReturnValue(info.getReturnValue() * scale);
-			}
+			info.setReturnValue(attrib * 0.9F);
 		}
 	}
 }

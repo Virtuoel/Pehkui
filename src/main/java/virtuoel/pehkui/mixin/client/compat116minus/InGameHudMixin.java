@@ -7,13 +7,12 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin
 {
-	@ModifyVariable(method = MixinConstants.RENDER_STATUS_BARS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1657;method_6067()F", remap = false), remap = false)
+	@ModifyVariable(method = "renderStatusBars", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/player/PlayerEntity;getAbsorptionAmount()F"))
 	private float onRenderStatusBars(float value)
 	{
 		final MinecraftClient client = MinecraftClient.getInstance();
