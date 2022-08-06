@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
-	/*
+	
 	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
 	private double onPlayerInteractBlockModifyDistance(double value)
 	{
@@ -21,5 +21,4 @@ public class ServerPlayNetworkHandlerMixin
 		
 		return scale != 1.0F ? scale * scale * value : value;
 	}
-	*/
 }

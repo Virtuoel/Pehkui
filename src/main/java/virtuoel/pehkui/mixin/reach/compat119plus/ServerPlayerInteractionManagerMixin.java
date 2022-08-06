@@ -15,12 +15,11 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ServerPlayerInteractionManagerMixin
 {
 	@Shadow ServerPlayerEntity player;
-	/*
+	
 	@Redirect(method = "processBlockBreakingAction", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;MAX_BREAK_SQUARED_DISTANCE:D"))
 	private double processBlockBreakingActionDistanceProxy()
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		return scale <= 1.0F ? ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE : ServerPlayNetworkHandler.MAX_BREAK_SQUARED_DISTANCE * scale * scale;
 	}
-	*/
 }

@@ -20,7 +20,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
-	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "HEAD"))
+	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "HEAD"), remap = false)
 	private void onRenderItemPreRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
 		matrices.push();
@@ -39,7 +39,7 @@ public class ItemRendererMixin
 		matrices.push();
 	}
 	
-	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "RETURN"))
+	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "RETURN"), remap = false)
 	private void onRenderItemPostRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
 		matrices.pop();

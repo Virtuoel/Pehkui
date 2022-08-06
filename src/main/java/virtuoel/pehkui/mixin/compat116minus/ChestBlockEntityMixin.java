@@ -21,7 +21,7 @@ import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtensions
 {
 	@Shadow(remap = false)
-	int field_11928;
+	int field_11928; // UNMAPPED_FIELD
 	
 	@Unique
 	float viewerSearchRange = 5.0F;
@@ -32,7 +32,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		return viewerSearchRange;
 	}
 	
-	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN)
+	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN, remap = false)
 	private void onOnOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_11928 < 0)
@@ -55,7 +55,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		}
 	}
 	
-	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE)
+	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE, remap = false)
 	private void onOnClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_11928 <= 1)
@@ -66,7 +66,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 		}
 	}
 	
-	@ModifyConstant(method = MixinConstants.COUNT_VIEWERS, constant = @Constant(floatValue = 5.0F))
+	@ModifyConstant(method = MixinConstants.COUNT_VIEWERS, constant = @Constant(floatValue = 5.0F), remap = false)
 	private static float countViewersModifyDistance(float value, World world, LockableContainerBlockEntity container, int x, int y, int z)
 	{
 		if (container instanceof ViewerCountingBlockEntityExtensions)
