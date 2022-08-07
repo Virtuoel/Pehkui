@@ -172,6 +172,7 @@
 		"client.compat115plus.MobEntityRendererMixin",
 		"client.compat115plus.PlayerEntityRendererMixin",
 		"client.compat115plus.ShulkerEntityRendererMixin",
+		"client.compat115plus.WorldRendererMixin",
 		"client.compat115plus.compat116minus.GameRendererMixin",
 		"client.compat115plus.compat116minus.ItemRendererMixin",
 		"client.compat115plus.compat118minus.ItemPickupParticleMixin",
