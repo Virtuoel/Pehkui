@@ -22,26 +22,25 @@ public class ItemRendererMixin
 	@Unique
 	private static ItemStack lastRenderedStack = null;
 	@Unique
-	private static boolean loggedError = false;
+	private static ItemStack lastLoggedStack = null;
 	
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"), remap = false)
 	private void onRenderHeldItemPreRender(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
-		if (!loggedError && lastRenderedStack != null)
+		if (lastRenderedStack != null && lastRenderedStack != lastLoggedStack)
 		{
-			final String stackKey = stack.getTranslationKey();
-			final String itemKey = stack.getItem().getTranslationKey();
+			final String stackKey = lastRenderedStack.getTranslationKey();
+			final String itemKey = lastRenderedStack.getItem().getTranslationKey();
 			if (stackKey.equals(itemKey))
 			{
-				Pehkui.LOGGER.fatal("[{}]: Matrix stack not popped after rendering item {} ({})", Pehkui.MOD_ID, stackKey, stack.getItem());
+				Pehkui.LOGGER.fatal("[{}]: Was item rendering cancelled? Matrix stack not popped after rendering item {} ({}).", Pehkui.MOD_ID, stackKey, lastRenderedStack.getItem());
 			}
 			else
 			{
-				Pehkui.LOGGER.fatal("[{}]: Matrix stack not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, stack.getItem());
+				Pehkui.LOGGER.fatal("[{}]: Was item rendering cancelled? Matrix stack not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, lastRenderedStack.getItem());
 			}
 			
-			loggedError = true;
-			lastRenderedStack = null;
+			lastLoggedStack = lastRenderedStack;
 		}
 		
 		GL11.glPushMatrix();
@@ -59,16 +58,14 @@ public class ItemRendererMixin
 		
 		GL11.glPushMatrix();
 		
-		if (!loggedError)
-		{
-			lastRenderedStack = stack;
-		}
+		lastRenderedStack = stack;
 	}
 	
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "RETURN"), remap = false)
 	private void onRenderHeldItemPostRender(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		lastRenderedStack = null;
+		lastLoggedStack = null;
 		
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
