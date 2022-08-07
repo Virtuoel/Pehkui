@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
-import virtuoel.pehkui.util.ScaleUtils;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
@@ -21,7 +21,7 @@ public class GameRendererMixin
 	@ModifyConstant(method = "getBasicProjectionMatrix(D)Lnet/minecraft/util/math/Matrix4f;", constant = @Constant(floatValue = 0.05F))
 	private float getBasicProjectionMatrixModifyDepth(float value)
 	{
-		return ScaleUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());
+		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	*/
 }
