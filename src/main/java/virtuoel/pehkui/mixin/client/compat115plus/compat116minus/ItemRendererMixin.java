@@ -2,6 +2,7 @@ package virtuoel.pehkui.mixin.client.compat115plus.compat116minus;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -14,15 +15,38 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
+	@Unique
+	private static ItemStack lastRenderedStack = null;
+	@Unique
+	private static boolean loggedError = false;
+	
 	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "HEAD"), remap = false)
 	private void onRenderItemPreRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
+		if (!loggedError && lastRenderedStack != null)
+		{
+			final String stackKey = item.getTranslationKey();
+			final String itemKey = item.getItem().getTranslationKey();
+			if (stackKey.equals(itemKey))
+			{
+				Pehkui.LOGGER.fatal("[{}]: Matrix stack not popped after rendering item {} ({})", Pehkui.MOD_ID, stackKey, item.getItem());
+			}
+			else
+			{
+				Pehkui.LOGGER.fatal("[{}]: Matrix stack not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, item.getItem());
+			}
+			
+			loggedError = true;
+			lastRenderedStack = null;
+		}
+		
 		matrices.push();
 		
 		if (!item.isEmpty() && entity != null)
@@ -37,11 +61,18 @@ public class ItemRendererMixin
 		}
 		
 		matrices.push();
+		
+		if (!loggedError)
+		{
+			lastRenderedStack = item;
+		}
 	}
 	
 	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "RETURN"), remap = false)
 	private void onRenderItemPostRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
+		lastRenderedStack = null;
+		
 		matrices.pop();
 		matrices.pop();
 	}
