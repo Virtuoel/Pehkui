@@ -24,26 +24,25 @@ public class ItemRendererMixin
 	@Unique
 	private static ItemStack lastRenderedStack = null;
 	@Unique
-	private static boolean loggedError = false;
+	private static ItemStack lastLoggedStack = null;
 	
 	@Inject(method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V", at = @At(value = "HEAD"))
 	private void onRenderItemPreRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
-		if (!loggedError && lastRenderedStack != null)
+		if (lastRenderedStack != null && lastRenderedStack != lastLoggedStack)
 		{
-			final String stackKey = item.getTranslationKey();
-			final String itemKey = item.getItem().getTranslationKey();
+			final String stackKey = lastRenderedStack.getTranslationKey();
+			final String itemKey = lastRenderedStack.getItem().getTranslationKey();
 			if (stackKey.equals(itemKey))
 			{
-				Pehkui.LOGGER.fatal("[{}]: Matrix stack not popped after rendering item {} ({})", Pehkui.MOD_ID, stackKey, item.getItem());
+				Pehkui.LOGGER.fatal("[{}]: Was item rendering cancelled? Matrix stack not popped after rendering item {} ({}).", Pehkui.MOD_ID, stackKey, lastRenderedStack.getItem());
 			}
 			else
 			{
-				Pehkui.LOGGER.fatal("[{}]: Matrix stack not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, item.getItem());
+				Pehkui.LOGGER.fatal("[{}]: Was item rendering cancelled? Matrix stack not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, lastRenderedStack.getItem());
 			}
 			
-			loggedError = true;
-			lastRenderedStack = null;
+			lastLoggedStack = lastRenderedStack;
 		}
 		
 		matrices.push();
@@ -61,16 +60,14 @@ public class ItemRendererMixin
 		
 		matrices.push();
 		
-		if (!loggedError)
-		{
-			lastRenderedStack = item;
-		}
+		lastRenderedStack = item;
 	}
 	
 	@Inject(method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V", at = @At(value = "RETURN"))
 	private void onRenderItemPostRender(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
 		lastRenderedStack = null;
+		lastLoggedStack = null;
 		
 		matrices.pop();
 		matrices.pop();
