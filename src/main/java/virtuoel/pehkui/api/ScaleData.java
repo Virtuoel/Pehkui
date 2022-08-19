@@ -1,6 +1,7 @@
 package virtuoel.pehkui.api;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.SortedSet;
 
 import org.jetbrains.annotations.ApiStatus;
@@ -139,7 +140,7 @@ public class ScaleData
 			else
 			{
 				this.scaleTicks++;
-				setBaseScale(calculateScaleForTick(this.scaleTicks));
+				setBaseScale(calculateScaleForTick(this.scaleTicks, 0));
 			}
 		}
 		else
@@ -196,7 +197,7 @@ public class ScaleData
 	 */
 	public float getBaseScale(float delta)
 	{
-		return delta == 1.0F ? baseScale : calculateScaleForTick(scaleTicks + delta);
+		return delta == 1.0F ? baseScale : calculateScaleForTick(scaleTicks, delta);
 	}
 	
 	/**
@@ -293,10 +294,17 @@ public class ScaleData
 	
 	@ApiStatus.Internal
 	@ApiStatus.NonExtendable
-	protected float calculateScaleForTick(float tick)
+	protected float calculateScaleForTick(int ticks, float delta)
 	{
-		final Float2FloatFunction easing = getEasing();
-		return this.initialScale + (easing != null ? easing : getScaleType().getDefaultEasing()).apply(tick / getScaleTickDelay()) * (getTargetScale() - this.initialScale);
+		final Float2FloatFunction easing = Optional.ofNullable(getEasing()).orElseGet(getScaleType()::getDefaultEasing);
+		
+		final float progress = (float) ticks + delta;
+		final int total = getScaleTickDelay();
+		final float range = getTargetScale() - this.initialScale;
+		final float perTick = total == 0 ? 1.0F : (easing.apply(progress / total));
+		final float next = this.initialScale + (perTick * range);
+		
+		return next;
 	}
 	
 	@ApiStatus.Internal
@@ -304,7 +312,9 @@ public class ScaleData
 	protected int calculateRemainingScaleTicks()
 	{
 		final float lastTarget = getTargetScale();
-		final int remaining = Math.round(getScaleTickDelay() * ((lastTarget - getBaseScale()) / (lastTarget - getInitialScale())));
+		final float initial = getInitialScale();
+		
+		final int remaining = lastTarget == initial ? 0 : Math.round(getScaleTickDelay() * ((lastTarget - getBaseScale()) / (lastTarget - initial)));
 		
 		return remaining;
 	}
