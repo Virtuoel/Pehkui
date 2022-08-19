@@ -301,7 +301,7 @@ public class ScaleData
 		final float progress = (float) ticks + delta;
 		final int total = getScaleTickDelay();
 		final float range = getTargetScale() - this.initialScale;
-		final float perTick = total == 0 ? 1.0F : (easing.apply(progress) / total);
+		final float perTick = total == 0 ? 1.0F : (easing.apply(progress / total));
 		final float next = this.initialScale + (perTick * range);
 		
 		return next;
