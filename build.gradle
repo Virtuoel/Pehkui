@@ -246,43 +246,6 @@ publishing {
 	}
 }
 
-githubRelease {
-	token project.hasProperty("github_releases_token") ? project.github_releases_token : ""
-	
-	if(project.hasProperty("github_repository_owner")) {
-		owner project.github_repository_owner
-	}
-	
-	if(project.hasProperty("github_repository")) {
-		repo project.github_repository
-	}
-	
-	if(project.hasProperty("forge_version")) {
-		tagName "${project.mod_version}-${project.minecraft_version}-forge"
-	}
-	
-	if(project.hasProperty("fabric_loader_version")) {
-		tagName project.mod_version
-	}
-	
-	if(project.hasProperty("github_branch")) {
-		targetCommitish project.github_branch
-	}
-	
-	body generateMarkdownChangelog()
-	
-	overwrite true
-	
-	releaseName project.version
-	
-	releaseAssets = files("${project.buildDir}/libs/${archivesBaseName}-${version}.jar", "${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
-}
-
-tasks.named("githubRelease") {
-	dependsOn remapJar
-	dependsOn remapSourcesJar
-}
-
 if(project.hasProperty("fabric_api_version")) {
 	ext.changelog_fabric_api_version = project.fabric_api_version
 }
@@ -351,10 +314,47 @@ String generateMarkdownChangelog() {
 	changelog_text += "Yarn mappings " + '`' + "${yarn_mappings}" + '`' + "  \n"
 	
 	if(project.hasProperty("changelog_fabric_api_version")) {
-		changelog_text += "[Fabric API " + '`' + "${changelog_fabric_api_version}" + '`' + "](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)  \n"
+		changelog_text += "[Fabric API " + '`' + "${changelog_fabric_api_version}" + '`' + "](https://modrinth.com/mod/fabric-api/versions)  \n"
 	}
 	
 	return changelog_text
+}
+
+githubRelease {
+	token project.hasProperty("github_releases_token") ? project.github_releases_token : ""
+	
+	if(project.hasProperty("github_repository_owner")) {
+		owner project.github_repository_owner
+	}
+	
+	if(project.hasProperty("github_repository")) {
+		repo project.github_repository
+	}
+	
+	if(project.hasProperty("forge_version")) {
+		tagName "${project.mod_version}-${project.minecraft_version}-forge"
+	}
+	
+	if(project.hasProperty("fabric_loader_version")) {
+		tagName project.mod_version
+	}
+	
+	if(project.hasProperty("github_branch")) {
+		targetCommitish project.github_branch
+	}
+	
+	body generateMarkdownChangelog()
+	
+	overwrite true
+	
+	releaseName project.version
+	
+	releaseAssets = files("${project.buildDir}/libs/${archivesBaseName}-${version}.jar", "${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
+}
+
+tasks.named("githubRelease") {
+	dependsOn remapJar
+	dependsOn remapSourcesJar
 }
 
 curseforge {

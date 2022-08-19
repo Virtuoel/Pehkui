@@ -1,7 +1,7 @@
 # Copyright (c) 2021 - 2022 Virtuoel. All Rights Reserved.
 
 name: Bug Report
-description: File a bug report
+description: Send a bug report
 title: "[Bug]: Untitled bug report"
 labels: [bug]
 assignees:
@@ -18,13 +18,13 @@ body:
       You may select more than one."
       multiple: true
       options:
-        - 1.14.4
-        - 1.15.2
-        - 1.16.5
-        - 1.17.1
-        - 1.18.2
-        - 1.19
         - 1.19.2
+        - 1.19
+        - 1.18.2
+        - 1.17.1
+        - 1.16.5
+        - 1.15.2
+        - 1.14.4
         - Other (specify below)
     validations:
       required: true
@@ -51,7 +51,7 @@ body:
     id: mod_loader_version
     attributes:
       label: Mod loader version
-      description: What Forge version or Fabric Loader version (not Fabric API) were you using?
+      description: What Forge version, Fabric Loader version (not Fabric API), or Quilt Loader version (not QSL) were you using?
       placeholder: (e.g. Fabric Loader 0.11.6, e.g. Forge 36.1.62)
     validations:
       required: true
@@ -67,7 +67,7 @@ body:
   - type: dropdown
     id: environment
     attributes:
-      label: In what environment did the problem occur?
+      label: In what kind of world or server did the problem occur?
       options:
         - My singleplayer world
         - My singleplayer world that I opened to LAN
@@ -89,7 +89,7 @@ body:
   - type: textarea
     id: other_mods
     attributes:
-      label: Full list of installed mods
+      label: Full list of installed mods and their version numbers
       description: "What mods were you running at the time? (Make sure to include their version numbers, including the version of this mod!)\n
       (Depending on which mod loader you're using and which launcher you start the game with, sometimes the launcher's logs contain the mod list which can easily be copied and pasted.)"
       placeholder: Put your full mod list here!
@@ -108,8 +108,7 @@ body:
     id: crash_logs
     attributes:
       label: Full crash report contents (if you experienced a crash)
-      description: "Crash report files are typically found within the `.minecraft/crash-reports/` folder in a file with a name similar to `crash-20xx-xx-xx_xx.xx.xx-client.txt`.\n
-      If there are multiple, make sure to select the one that corresponds to when you crashed (possibly the most recent file).\n
-      Please copy the full contents of the crash report and paste it under the `<p>` line in the box below."
+      description: "Please copy the full contents of the crash report and paste it under the `<p>` line in the box below.\n
+      Crash report files are typically found within the `.minecraft/crash-reports/` folder in a file with a name similar to `crash-20xx-xx-xx_xx.xx.xx-client.txt`.\n
+      If there are multiple reports in the folder, make sure to select the one that matches up with when you crashed (possibly the most recent file)."
       value: "<details>\n<summary>Crash report output:</summary>\n<p>\n\n"
-
