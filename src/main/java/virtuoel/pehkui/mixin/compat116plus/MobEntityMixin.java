@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class MobEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "convertTo")
-	private <T extends MobEntity> void onConvertTo(EntityType<T> entityType, boolean bl, CallbackInfoReturnable<T> info)
+	private <T extends MobEntity> void pehkui$convertTo(EntityType<T> entityType, boolean bl, CallbackInfoReturnable<T> info)
 	{
 		final MobEntity e = info.getReturnValue();
 		

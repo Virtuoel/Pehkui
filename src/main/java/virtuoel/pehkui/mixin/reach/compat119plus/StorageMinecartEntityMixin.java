@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class StorageMinecartEntityMixin implements VehicleInventory
 {
 	@Inject(method = "canPlayerUse", at = @At("RETURN"), cancellable = true)
-	private void canPlayerUseModifyDistance(PlayerEntity playerEntity, CallbackInfoReturnable<Boolean> info)
+	private void pehkui$canPlayerUse(PlayerEntity playerEntity, CallbackInfoReturnable<Boolean> info)
 	{
 		if (!info.getReturnValueZ())
 		{

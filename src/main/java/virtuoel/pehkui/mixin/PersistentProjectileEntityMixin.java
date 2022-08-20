@@ -21,7 +21,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class PersistentProjectileEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V")
-	private void onConstruct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, CallbackInfo info)
+	private void pehkui$construct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, CallbackInfo info)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(owner);
 		
@@ -36,7 +36,7 @@ public abstract class PersistentProjectileEntityMixin
 	}
 	
 	@Inject(at = @At("HEAD"), method = "setOwner")
-	private void onSetOwner(@Nullable Entity entity, CallbackInfo info)
+	private void pehkui$setOwner(@Nullable Entity entity, CallbackInfo info)
 	{
 		if (entity != null)
 		{
@@ -45,7 +45,7 @@ public abstract class PersistentProjectileEntityMixin
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 0.05000000074505806D))
-	private double tickModifyGravity(double value)
+	private double pehkui$tick$gravity(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		

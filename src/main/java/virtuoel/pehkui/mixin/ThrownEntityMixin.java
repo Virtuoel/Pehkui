@@ -22,7 +22,7 @@ public abstract class ThrownEntityMixin
 	protected abstract float getGravity();
 	
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V")
-	private void onConstruct(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, CallbackInfo info)
+	private void pehkui$construct(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, CallbackInfo info)
 	{
 		final float heightScale = ScaleUtils.getEyeHeightScale(owner);
 		if (heightScale != 1.0F)
@@ -38,7 +38,7 @@ public abstract class ThrownEntityMixin
 	}
 	
 	@ModifyArg(method = "tick()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/thrown/ThrownEntity;setVelocity(DDD)V"))
-	private double setVelocityModifyMultiply(double value)
+	private double pehkui$tick$setVelocity(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		

@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ArmorStandEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
+	private void pehkui$getDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this), ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this)));
 	}

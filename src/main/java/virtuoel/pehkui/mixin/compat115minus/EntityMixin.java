@@ -31,7 +31,7 @@ public abstract class EntityMixin
 	}
 	
 	@ModifyConstant(method = "isInsideWall()Z", constant = @Constant(floatValue = 0.1F))
-	private float isInsideWallModifyOffset(float value)
+	private float pehkui$isInsideWall$offset(float value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
 		

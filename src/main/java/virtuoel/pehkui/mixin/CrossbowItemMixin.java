@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class CrossbowItemMixin
 {
 	@ModifyConstant(method = "shoot", constant = @Constant(doubleValue = 0.15000000596046448D))
-	private static double shootModifyYOffset(double value, World world, LivingEntity shooter, Hand hand, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated)
+	private static double pehkui$shoot$yOffset(double value, World world, LivingEntity shooter, Hand hand, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(shooter);
 		

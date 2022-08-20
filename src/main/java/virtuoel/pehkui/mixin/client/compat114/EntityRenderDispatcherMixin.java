@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EntityRenderDispatcherMixin
 {
 	@Inject(method = MixinConstants.RENDER, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_IN_WORLD, remap = false), remap = false)
-	private <E extends Entity> void onRenderPreRender(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
+	private <E extends Entity> void pehkui$render$before(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
 	{
 		final float widthScale = ScaleUtils.getModelWidthScale(entity, tickDelta);
 		final float heightScale = ScaleUtils.getModelHeightScale(entity, tickDelta);
@@ -28,7 +28,7 @@ public class EntityRenderDispatcherMixin
 	}
 	
 	@Inject(method = MixinConstants.RENDER, at = @At(value = "INVOKE", shift = Shift.AFTER, target = MixinConstants.RENDER_IN_WORLD, remap = false), remap = false)
-	private <E extends Entity> void onRenderPostRender(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
+	private <E extends Entity> void pehkui$render$after(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
 	{
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();

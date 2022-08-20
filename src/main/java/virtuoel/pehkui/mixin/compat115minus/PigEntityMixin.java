@@ -20,13 +20,13 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class PigEntityMixin
 {
 	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
-	private void onOnStruckByLightning(LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
+	private void pehkui$onStruckByLightning(LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
 		ScaleUtils.loadScale(zombifiedPiglinEntity, (Entity) (Object) this);
 	}
 	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))
-	private float modifyLimbDistance(float value)
+	private float pehkui$travel$limbDistance(float value)
 	{
 		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);
 	}

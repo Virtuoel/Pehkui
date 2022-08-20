@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LivingEntityMixin
 {
 	@ModifyArg(method = MixinConstants.DROP_XP, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private Entity dropXpModifyEntity(Entity entity)
+	private Entity pehkui$dropXp$entity(Entity entity)
 	{
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		

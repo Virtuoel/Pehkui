@@ -19,7 +19,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ItemRendererMixin
 {
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"), remap = false)
-	private void onRenderHeldItemPreRender(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
+	private void pehkui$renderHeldItem$head(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		ScaleRenderUtils.logIfCancelledRender();
 		
@@ -42,7 +42,7 @@ public class ItemRendererMixin
 	}
 	
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "RETURN"), remap = false)
-	private void onRenderHeldItemPostRender(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
+	private void pehkui$renderHeldItem$return(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		ScaleRenderUtils.clearLastRenderedItem();
 		

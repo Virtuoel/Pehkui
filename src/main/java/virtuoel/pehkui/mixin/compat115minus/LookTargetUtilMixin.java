@@ -21,7 +21,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class LookTargetUtilMixin
 {
 	@ModifyConstant(method = MixinConstants.GIVE_TO_TARGET, constant = @Constant(doubleValue = 0.3F, ordinal = 0), remap = false)
-	private static double giveModifyOffset(double value, LivingEntity entity, ItemStack stack, LivingEntity target)
+	private static double pehkui$give$offset(double value, LivingEntity entity, ItemStack stack, LivingEntity target)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(entity);
 		
@@ -29,7 +29,7 @@ public class LookTargetUtilMixin
 	}
 	
 	@Inject(method = MixinConstants.GIVE_TO_TARGET, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V", remap = true), remap = false)
-	private static void onGive(LivingEntity entity, ItemStack stack, LivingEntity target, CallbackInfo info, double d, ItemEntity itemEntity, BlockPos blockPos, BlockPos blockPos2, float f, Vec3d vec3d)
+	private static void pehkui$give(LivingEntity entity, ItemStack stack, LivingEntity target, CallbackInfo info, double d, ItemEntity itemEntity, BlockPos blockPos, BlockPos blockPos2, float f, Vec3d vec3d)
 	{
 		ScaleUtils.setScaleOfDrop(itemEntity, entity);
 	}

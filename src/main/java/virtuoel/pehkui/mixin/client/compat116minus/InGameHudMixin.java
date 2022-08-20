@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class InGameHudMixin
 {
 	@ModifyVariable(method = MixinConstants.RENDER_STATUS_BARS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/class_1657;method_6067()F", remap = false), remap = false)
-	private float onRenderStatusBars(float value)
+	private float pehkui$renderStatusBars(float value)
 	{
 		final MinecraftClient client = MinecraftClient.getInstance();
 		

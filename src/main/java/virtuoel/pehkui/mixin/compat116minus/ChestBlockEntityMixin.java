@@ -33,7 +33,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 	}
 	
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN, remap = false)
-	private void onOnOpen(PlayerEntity player, CallbackInfo info)
+	private void pehkui$onOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_11928 < 0)
 		{
@@ -56,7 +56,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 	}
 	
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE, remap = false)
-	private void onOnClose(PlayerEntity player, CallbackInfo info)
+	private void pehkui$onClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (field_11928 <= 1)
 		{
@@ -67,7 +67,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 	}
 	
 	@ModifyConstant(method = MixinConstants.COUNT_VIEWERS, constant = @Constant(floatValue = 5.0F), remap = false)
-	private static float countViewersModifyDistance(float value, World world, LockableContainerBlockEntity container, int x, int y, int z)
+	private static float pehkui$countViewers$distance(float value, World world, LockableContainerBlockEntity container, int x, int y, int z)
 	{
 		if (container instanceof ViewerCountingBlockEntityExtensions)
 		{

@@ -111,7 +111,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Inject(at = @At("HEAD"), method = "readNbt")
-	private void onReadNbt(NbtCompound tag, CallbackInfo info)
+	private void pehkui$readNbt(NbtCompound tag, CallbackInfo info)
 	{
 		pehkui_readScaleNbt(tag);
 	}
@@ -144,7 +144,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Inject(at = @At("HEAD"), method = "writeNbt")
-	private void onWriteNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
+	private void pehkui$writeNbt(NbtCompound tag, CallbackInfoReturnable<NbtCompound> info)
 	{
 		pehkui_writeScaleNbt(tag);
 	}
@@ -179,7 +179,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Inject(at = @At("HEAD"), method = "tick")
-	private void onTickPre(CallbackInfo info)
+	private void pehkui$tick(CallbackInfo info)
 	{
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
@@ -188,7 +188,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
+	private void pehkui$getDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -200,14 +200,14 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@ModifyVariable(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "STORE"))
-	private ItemEntity onDropStack(ItemEntity entity)
+	private ItemEntity pehkui$dropStack(ItemEntity entity)
 	{
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		return entity;
 	}
 	
 	@ModifyConstant(method = "move", constant = @Constant(doubleValue = 1.0E-7D))
-	private double moveModifyMinVelocity(double value)
+	private double pehkui$move$minVelocity(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
@@ -215,7 +215,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@ModifyArg(method = "move", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;adjustMovementForSneaking(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/MovementType;)Lnet/minecraft/util/math/Vec3d;"))
-	private Vec3d onMoveAdjustMovementForSneakingProxy(Vec3d movement, MovementType type)
+	private Vec3d pehkui$move$adjustMovementForSneaking(Vec3d movement, MovementType type)
 	{
 		if (type == MovementType.SELF || type == MovementType.PLAYER)
 		{
@@ -226,7 +226,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void modifyPushSelfAwayFromOther(Args args, Entity other)
+	private void pehkui$pushSelfAwayFrom$other(Args args, Entity other)
 	{
 		final float otherScale = ScaleUtils.getMotionScale(other);
 		
@@ -238,7 +238,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void modifyPushOtherAwayFromSelf(Args args, Entity other)
+	private void pehkui$pushOtherAwayFrom$self(Args args, Entity other)
 	{
 		final float ownScale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
@@ -250,7 +250,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
-	private void onSpawnSprintingParticles(CallbackInfo info)
+	private void pehkui$spawnSprintingParticles(CallbackInfo info)
 	{
 		if (ScaleUtils.getMotionScale((Entity) (Object) this) < 1.0F)
 		{

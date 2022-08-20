@@ -18,7 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LivingEntityMixin extends EntityMixin
 {
 	@ModifyConstant(method = "updateLimbs", constant = @Constant(floatValue = 4.0F))
-	private float modifyLimbDistance(float value, LivingEntity livingEntity, boolean bl)
+	private float pehkui$updateLimbs$limbDistance(float value, LivingEntity livingEntity, boolean bl)
 	{
 		return ScaleUtils.modifyLimbDistance(value, livingEntity);
 	}
@@ -26,7 +26,7 @@ public abstract class LivingEntityMixin extends EntityMixin
 	@Unique BlockPos pehkui$initialClimbingPos = null;
 	
 	@Inject(method = "isClimbing()Z", at = @At(value = "RETURN"), cancellable = true)
-	private void onIsClimbing(CallbackInfoReturnable<Boolean> info)
+	private void pehkui$isClimbing(CallbackInfoReturnable<Boolean> info)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		

@@ -16,7 +16,7 @@ public class ServerPlayerInteractionManagerMixin
 	@Shadow ServerPlayerEntity player;
 	
 	@ModifyConstant(method = MixinConstants.PROCESS_BLOCK_BREAKING_ACTION, constant = @Constant(doubleValue = 36.0D), remap = false)
-	private double processBlockBreakingActionModifyDistance(double value)
+	private double pehkui$processBlockBreakingAction$distance(double value)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		

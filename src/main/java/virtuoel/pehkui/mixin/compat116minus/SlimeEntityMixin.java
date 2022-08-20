@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class SlimeEntityMixin
 {
 	@ModifyArg(method = MixinConstants.REMOVE, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private Entity removeSpawnEntityProxy(Entity entity)
+	private Entity pehkui$remove$spawnEntity(Entity entity)
 	{
 		ScaleUtils.loadScale(entity, (Entity) (Object) this);
 		
@@ -23,7 +23,7 @@ public class SlimeEntityMixin
 	}
 	
 	@ModifyConstant(method = MixinConstants.REMOVE, constant = @Constant(floatValue = 4.0F), remap = false)
-	private float removeModifyHorizontalOffset(float value)
+	private float pehkui$remove$horizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
@@ -36,7 +36,7 @@ public class SlimeEntityMixin
 	}
 	
 	@ModifyConstant(method = MixinConstants.REMOVE, constant = @Constant(doubleValue = 0.5D), remap = false)
-	private double removeModifyVerticalOffset(double value)
+	private double pehkui$remove$verticalOffset(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		

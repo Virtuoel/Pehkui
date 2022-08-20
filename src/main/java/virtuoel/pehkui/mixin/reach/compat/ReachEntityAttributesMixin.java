@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ReachEntityAttributesMixin
 {
 	@Inject(method = "getReachDistance", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getBlockDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	private static void pehkui$getBlockDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(entity);
 		
@@ -25,7 +25,7 @@ public class ReachEntityAttributesMixin
 	}
 	
 	@Inject(method = "getAttackRange", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getEntityDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	private static void pehkui$getEntityDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
 	{
 		final float scale = ScaleUtils.getEntityReachScale(entity);
 		

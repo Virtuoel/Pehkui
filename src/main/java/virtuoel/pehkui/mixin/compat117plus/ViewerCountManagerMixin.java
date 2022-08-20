@@ -26,7 +26,7 @@ public class ViewerCountManagerMixin
 	float viewerSearchRange = 5.0F;
 	
 	@Inject(at = @At("HEAD"), method = "openContainer(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V")
-	private void onOpenContainer(PlayerEntity player, World world, BlockPos pos, BlockState state, CallbackInfo info)
+	private void pehkui$openContainer(PlayerEntity player, World world, BlockPos pos, BlockState state, CallbackInfo info)
 	{
 		if (viewerCount < 0)
 		{
@@ -49,7 +49,7 @@ public class ViewerCountManagerMixin
 	}
 	
 	@Inject(at = @At("HEAD"), method = "closeContainer(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;)V")
-	private void onCloseContainer(PlayerEntity player, World world, BlockPos pos, BlockState state, CallbackInfo info)
+	private void pehkui$closeContainer(PlayerEntity player, World world, BlockPos pos, BlockState state, CallbackInfo info)
 	{
 		if (viewerCount <= 1)
 		{
@@ -60,7 +60,7 @@ public class ViewerCountManagerMixin
 	}
 	
 	@ModifyConstant(method = "getInRangeViewerCount", constant = @Constant(floatValue = 5.0F))
-	private float getInRangeViewerCountModifyRange(float value)
+	private float pehkui$getInRangeViewerCount$range(float value)
 	{
 		return viewerSearchRange;
 	}

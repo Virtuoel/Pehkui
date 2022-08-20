@@ -14,7 +14,7 @@ import virtuoel.pehkui.api.ScaleType;
 public class PlayerManagerMixin
 {
 	@Inject(method = "sendPlayerStatus", at = @At(value = "RETURN"))
-	private void onSendPlayerStatus(ServerPlayerEntity player, CallbackInfo info)
+	private void pehkui$sendPlayerStatus(ServerPlayerEntity player, CallbackInfo info)
 	{
 		for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{

@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LivingEntityMixin
 {
 	@ModifyArg(method = MixinConstants.DEATH, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private Entity onDeathModifyEntity(Entity entity)
+	private Entity pehkui$onDeath$entity(Entity entity)
 	{
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		
@@ -21,7 +21,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@ModifyArg(method = MixinConstants.POST_DEATH, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private Entity updatePostDeathModifyEntity(Entity entity)
+	private Entity pehkui$updatePostDeath$entity(Entity entity)
 	{
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		

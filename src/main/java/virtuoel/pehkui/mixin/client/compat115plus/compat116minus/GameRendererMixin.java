@@ -19,7 +19,7 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@ModifyConstant(method = MixinConstants.GET_BASIC_PROJECTION_MATRIX, constant = @Constant(floatValue = 0.05F), remap = false)
-	private float getBasicProjectionMatrixModifyDepth(float value)
+	private float pehkui$getBasicProjectionMatrix$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());
 	}

@@ -18,7 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EnderPearlEntityMixin
 {
 	@Inject(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private void onOnCollision(HitResult hitResult, CallbackInfo info, Entity owner, ServerPlayerEntity player, EndermiteEntity endermiteEntity)
+	private void pehkui$onCollision(HitResult hitResult, CallbackInfo info, Entity owner, ServerPlayerEntity player, EndermiteEntity endermiteEntity)
 	{
 		ScaleUtils.loadScale(endermiteEntity, (Entity) (Object) this);
 	}

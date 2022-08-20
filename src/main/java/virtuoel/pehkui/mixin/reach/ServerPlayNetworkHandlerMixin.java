@@ -15,7 +15,7 @@ public class ServerPlayNetworkHandlerMixin
 	@Shadow ServerPlayerEntity player;
 	
 	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
-	private double onPlayerInteractBlockModifyDistance(double value)
+	private double pehkui$onPlayerInteractBlock$distance(double value)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		

@@ -15,13 +15,13 @@ import virtuoel.pehkui.util.PehkuiEntityExtensions;
 public class EntitySelectorOptionsMixin
 {
 	@Inject(method = "method_9957", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/Entity;writeNbt(Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/nbt/NbtCompound;"))
-	private static void onNbtSelectorPre(NbtCompound nbt, boolean negated, Entity entity, CallbackInfoReturnable<Boolean> info)
+	private static void pehkui$nbtSelector$before(NbtCompound nbt, boolean negated, Entity entity, CallbackInfoReturnable<Boolean> info)
 	{
 		((PehkuiEntityExtensions) entity).pehkui_setShouldIgnoreScaleNbt(true);
 	}
 	
 	@Inject(method = "method_9957", at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/entity/Entity;writeNbt(Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/nbt/NbtCompound;"))
-	private static void onNbtSelectorPost(NbtCompound nbt, boolean negated, Entity entity, CallbackInfoReturnable<Boolean> info)
+	private static void pehkui$nbtSelector$after(NbtCompound nbt, boolean negated, Entity entity, CallbackInfoReturnable<Boolean> info)
 	{
 		((PehkuiEntityExtensions) entity).pehkui_setShouldIgnoreScaleNbt(false);
 	}

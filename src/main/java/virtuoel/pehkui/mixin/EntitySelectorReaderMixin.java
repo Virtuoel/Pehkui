@@ -33,7 +33,7 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 	ScaleType pehkui$computedScaleType = ScaleTypes.INVALID;
 	
 	@Inject(method = "buildPredicate", at = @At("HEAD"))
-	private void onBuildPredicate(CallbackInfo info)
+	private void pehkui$buildPredicate(CallbackInfo info)
 	{
 		if (!this.pehkui$scaleRange.isDummy())
 		{
