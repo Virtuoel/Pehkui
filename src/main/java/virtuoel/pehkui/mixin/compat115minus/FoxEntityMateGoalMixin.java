@@ -21,7 +21,7 @@ public abstract class FoxEntityMateGoalMixin extends AnimalMateGoal
 	}
 	
 	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private void onBreed(CallbackInfo info, FoxEntity foxEntity)
+	private void pehkui$breed(CallbackInfo info, FoxEntity foxEntity)
 	{
 		ScaleUtils.loadAverageScales(foxEntity, this.animal, this.mate);
 	}

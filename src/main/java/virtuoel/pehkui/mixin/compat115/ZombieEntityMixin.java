@@ -20,7 +20,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ZombieEntityMixin
 {
 	@Inject(method = MixinConstants.INTERACT_MOB, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIE_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
-	private void onInteractMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<Boolean> info, ItemStack itemStack, Item item, ZombieEntity zombieEntity)
+	private void pehkui$interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<Boolean> info, ItemStack itemStack, Item item, ZombieEntity zombieEntity)
 	{
 		ScaleUtils.loadScale(zombieEntity, (Entity) (Object) this);
 	}

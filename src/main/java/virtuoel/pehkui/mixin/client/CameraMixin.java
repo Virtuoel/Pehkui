@@ -18,13 +18,13 @@ public abstract class CameraMixin
 	@Shadow Entity focusedEntity;
 	
 	@ModifyVariable(method = "clipToSpace", at = @At(value = "HEAD"), argsOnly = true)
-	private double onUpdateClipToSpaceProxy(double desiredCameraDistance)
+	private double pehkui$clipToSpace(double desiredCameraDistance)
 	{
 		return desiredCameraDistance * ScaleUtils.getThirdPersonScale(focusedEntity, MinecraftClient.getInstance().getTickDelta());
 	}
 	
 	@ModifyConstant(method = "clipToSpace", constant = @Constant(floatValue = 0.1F))
-	private float clipToSpaceModifyOffset(float value)
+	private float pehkui$clipToSpace$offset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(focusedEntity);
 		

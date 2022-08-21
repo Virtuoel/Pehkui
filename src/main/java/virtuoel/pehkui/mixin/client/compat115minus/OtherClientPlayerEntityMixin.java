@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class OtherClientPlayerEntityMixin
 {
 	@ModifyConstant(method = "tick", constant = @Constant(floatValue = 4.0F))
-	private float modifyLimbDistance(float value)
+	private float pehkui$tick$limbDistance(float value)
 	{
 		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);
 	}

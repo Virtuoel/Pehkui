@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class AnimalEntityMixin
 {
 	@Inject(method = "breed(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/passive/AnimalEntity;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
-	private void onBreed(ServerWorld serverWorld, AnimalEntity other, CallbackInfo info, PassiveEntity passiveEntity)
+	private void pehkui$breed(ServerWorld serverWorld, AnimalEntity other, CallbackInfo info, PassiveEntity passiveEntity)
 	{
 		ScaleUtils.loadAverageScales(passiveEntity, (AnimalEntity) (Object) this, other);
 	}

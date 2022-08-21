@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ShulkerEntityMixin
 {
 	@ModifyArg(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/ShulkerEntity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
-	private Box onTickModifyBox(Box box)
+	private Box pehkui$tick$box(Box box)
 	{
 		final ShulkerEntity entity = (ShulkerEntity) (Object) this;
 		

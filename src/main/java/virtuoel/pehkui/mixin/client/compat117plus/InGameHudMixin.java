@@ -22,7 +22,7 @@ public abstract class InGameHudMixin
 	MinecraftClient client;
 	
 	@ModifyArg(method = "renderStatusBars", index = 0, at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
-	private float onRenderStatusBars(float value)
+	private float pehkui$renderStatusBars(float value)
 	{
 		final float healthScale = ScaleUtils.getHealthScale(getCameraPlayer(), client.getTickDelta());
 		

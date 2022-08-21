@@ -23,39 +23,39 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@Redirect(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.HORIZONTAL_SPEED, remap = false), remap = false)
-	private float bobViewHorizontalSpeedProxy(PlayerEntity obj)
+	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, client.getTickDelta());
 		return obj.horizontalSpeed / scale;
 	}
 	
 	@Redirect(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.PREV_HORIZONTAL_SPEED, remap = false), remap = false)
-	private float bobViewPrevHorizontalSpeedProxy(PlayerEntity obj)
+	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, client.getTickDelta());
 		return obj.prevHorizontalSpeed / scale;
 	}
 	
 	@ModifyConstant(method = MixinConstants.APPLY_CAMERA_TRANSFORMATIONS, constant = @Constant(floatValue = 0.05F), remap = false)
-	private float applyCameraTransformationsModifyDepth(float value)
+	private float pehkui$applyCameraTransformations$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
 	@ModifyConstant(method = MixinConstants.RENDER_HAND, constant = @Constant(floatValue = 0.05F), remap = false)
-	private float renderHandModifyDepth(float value)
+	private float pehkui$renderHand$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
 	@ModifyConstant(method = MixinConstants.RENDER_CENTER, constant = @Constant(floatValue = 0.05F), remap = false)
-	private float renderCenterModifyDepth(float value)
+	private float pehkui$renderCenter$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
 	@ModifyConstant(method = MixinConstants.RENDER_ABOVE_CLOUDS, constant = @Constant(floatValue = 0.05F), remap = false)
-	private float renderAboveCloudsModifyDepth(float value)
+	private float pehkui$renderAboveClouds$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByHeight(value, client.getCameraEntity(), client.getTickDelta());
 	}

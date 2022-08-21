@@ -13,19 +13,19 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EnderChestBlockEntityMixin
 {
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 0.5D, ordinal = 0))
-	private double canPlayerUseModifyXOffset(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$xOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockXOffset(((BlockEntity) (Object) this).getPos(), player);
 	}
 	
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 0.5D, ordinal = 1))
-	private double canPlayerUseModifyYOffset(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$yOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockYOffset(((BlockEntity) (Object) this).getPos(), player);
 	}
 	
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 0.5D, ordinal = 2))
-	private double canPlayerUseModifyZOffset(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$zOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockZOffset(((BlockEntity) (Object) this).getPos(), player);
 	}

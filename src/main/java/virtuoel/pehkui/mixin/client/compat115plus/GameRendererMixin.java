@@ -19,14 +19,14 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;horizontalSpeed:F"))
-	private float bobViewHorizontalSpeedProxy(PlayerEntity obj)
+	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, client.getTickDelta());
 		return obj.horizontalSpeed / scale;
 	}
 	
 	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;prevHorizontalSpeed:F"))
-	private float bobViewPrevHorizontalSpeedProxy(PlayerEntity obj)
+	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, client.getTickDelta());
 		return obj.prevHorizontalSpeed / scale;

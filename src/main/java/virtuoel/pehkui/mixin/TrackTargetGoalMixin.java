@@ -20,7 +20,7 @@ public class TrackTargetGoalMixin
 	@Shadow @Final @Mutable MobEntity mob;
 	
 	@Inject(method = "getFollowRange", at = @At("RETURN"), cancellable = true)
-	private void onGetFollowRange(CallbackInfoReturnable<Double> info)
+	private void pehkui$getFollowRange(CallbackInfoReturnable<Double> info)
 	{
 		LivingEntity target = this.mob.getTarget();
 		if (target == null && (target = this.target) == null)

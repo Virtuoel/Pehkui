@@ -12,7 +12,7 @@ import net.minecraft.client.network.ClientPlayerInteractionManager;
 public class ClientPlayerInteractionManagerMixin
 {
 	@Inject(at = @At("RETURN"), method = "getReachDistance", locals = LocalCapture.CAPTURE_FAILHARD, cancellable = true)
-	private void onGetReachDistance(CallbackInfoReturnable<Float> info, float attrib)
+	private void pehkui$getReachDistance(CallbackInfoReturnable<Float> info, float attrib)
 	{
 		if (info.getReturnValueF() == attrib - 0.5F)
 		{
