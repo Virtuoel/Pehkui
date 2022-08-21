@@ -17,7 +17,7 @@ public abstract class GhastEntityShootFireballGoalMixin
 	@Shadow @Final GhastEntity ghast;
 	
 	@ModifyArg(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private Entity tickSpawnEntityProxy(Entity entity)
+	private Entity pehkui$tick$spawnEntity(Entity entity)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale(ghast);
 		

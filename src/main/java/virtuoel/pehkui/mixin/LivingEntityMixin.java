@@ -30,13 +30,13 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LivingEntityMixin
 {
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
-	private EntityDimensions onGetEyeHeightDimensionsProxy(EntityDimensions dimensions)
+	private EntityDimensions pehkui$getEyeHeight$dimensions(EntityDimensions dimensions)
 	{
 		return dimensions.scaled(1.0F / ScaleUtils.getEyeHeightScale((Entity) (Object) this));
 	}
 	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
-	private float travelModifyFallDistance(float value)
+	private float pehkui$travel$fallDistance(float value)
 	{
 		final float scale = ScaleUtils.getFallingScale((Entity) (Object) this);
 		
@@ -52,7 +52,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "getEyeHeight", at = @At("RETURN"), cancellable = true)
-	private void onGetEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
+	private void pehkui$getEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
 	{
 		if (pose != EntityPose.SLEEPING)
 		{
@@ -66,7 +66,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void tickMovementModifyMinVelocity(CallbackInfo info, Vec3d velocity)
+	private void pehkui$tickMovement$minVelocity(CallbackInfo info, Vec3d velocity)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		
@@ -100,7 +100,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@ModifyVariable(method = "applyArmorToDamage(Lnet/minecraft/entity/damage/DamageSource;F)F", at = @At("HEAD"), argsOnly = true)
-	private float onApplyArmorToDamage(float value, DamageSource source, float amount)
+	private float pehkui$applyArmorToDamage(float value, DamageSource source, float amount)
 	{
 		final Entity attacker = source.getAttacker();
 		final float attackScale = attacker == null ? 1.0F : ScaleUtils.getAttackScale(attacker);
@@ -115,7 +115,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
-	private void onGetMaxHealth(CallbackInfoReturnable<Float> info)
+	private void pehkui$getMaxHealth(CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getHealthScale((Entity) (Object) this);
 		
@@ -126,7 +126,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "getAttackDistanceScalingFactor", at = @At("RETURN"), cancellable = true)
-	private void onGetAttackDistanceScalingFactor(@Nullable Entity entity, CallbackInfoReturnable<Double> info)
+	private void pehkui$getAttackDistanceScalingFactor(@Nullable Entity entity, CallbackInfoReturnable<Double> info)
 	{
 		final float scale = ScaleUtils.getVisibilityScale((Entity) (Object) this);
 		
@@ -137,7 +137,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "getJumpVelocity", at = @At("RETURN"), cancellable = true)
-	private void onGetJumpVelocity(CallbackInfoReturnable<Float> info)
+	private void pehkui$getJumpVelocity(CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getJumpHeightScale((Entity) (Object) this);
 		
@@ -148,7 +148,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "applyClimbingSpeed(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "RETURN"), cancellable = true)
-	private void onApplyClimbingSpeed(Vec3d motion, CallbackInfoReturnable<Vec3d> info)
+	private void pehkui$applyClimbingSpeed(Vec3d motion, CallbackInfoReturnable<Vec3d> info)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		
@@ -186,7 +186,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(method = "isClimbing()Z", at = @At(value = "RETURN"), cancellable = true)
-	private void onIsClimbing(CallbackInfoReturnable<Boolean> info)
+	private void pehkui$isClimbing(CallbackInfoReturnable<Boolean> info)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		

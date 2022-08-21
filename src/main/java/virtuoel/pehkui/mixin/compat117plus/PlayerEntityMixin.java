@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class PlayerEntityMixin
 {
 	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = @Constant(doubleValue = 0.4000000059604645D))
-	private double onAttackModifyKnockback(double value)
+	private double pehkui$attack$knockback(double value)
 	{
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
 		

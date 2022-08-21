@@ -17,7 +17,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EggEntityMixin
 {
 	@Inject(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private void onOnCollision(HitResult hitResult, CallbackInfo info, int i, int j, ChickenEntity chickenEntity)
+	private void pehkui$onCollision(HitResult hitResult, CallbackInfo info, int i, int j, ChickenEntity chickenEntity)
 	{
 		ScaleUtils.loadScale(chickenEntity, (Entity) (Object) this);
 	}

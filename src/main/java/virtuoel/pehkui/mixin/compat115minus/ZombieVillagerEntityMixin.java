@@ -18,7 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ZombieVillagerEntityMixin
 {
 	@Inject(method = MixinConstants.FINISH_CONVERSION, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.VILLAGER_COPY_POS_AND_ROT, remap = false), remap = false)
-	private void onFinishConversion(ServerWorld world, CallbackInfo info, VillagerEntity villagerEntity)
+	private void pehkui$finishConversion(ServerWorld world, CallbackInfo info, VillagerEntity villagerEntity)
 	{
 		ScaleUtils.loadScale(villagerEntity, (Entity) (Object) this);
 	}

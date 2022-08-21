@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ItemFrameEntityRendererMixin
 {
 	@ModifyVariable(method = "render", at = @At(value = "STORE"))
-	private Vec3d onRender(Vec3d value, ItemFrameEntity itemFrameEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
+	private Vec3d pehkui$render(Vec3d value, ItemFrameEntity itemFrameEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i)
 	{
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(itemFrameEntity);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(itemFrameEntity);

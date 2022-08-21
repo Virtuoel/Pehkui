@@ -16,7 +16,7 @@ public abstract class FishingBobberEntityMixin
 	abstract PlayerEntity getPlayerOwner();
 	
 	@ModifyConstant(method = "removeIfInvalid", constant = @Constant(doubleValue = 1024.0D))
-	private double removeIfInvalidModifyDistance(double value)
+	private double pehkui$removeIfInvalid$distance(double value)
 	{
 		final float scale = ScaleUtils.getProjectileScale(getPlayerOwner());
 		

@@ -22,7 +22,7 @@ public abstract class FoxEntityMateGoalMixin extends AnimalMateGoal
 	}
 	
 	@Inject(method = "breed()V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
-	private void onBreed(CallbackInfo info, ServerWorld serverWorld, FoxEntity foxEntity, @Coerce Object event, boolean cancelled)
+	private void pehkui$breed(CallbackInfo info, ServerWorld serverWorld, FoxEntity foxEntity, @Coerce Object event, boolean cancelled)
 	{
 		ScaleUtils.loadAverageScales(foxEntity, this.animal, this.mate);
 	}

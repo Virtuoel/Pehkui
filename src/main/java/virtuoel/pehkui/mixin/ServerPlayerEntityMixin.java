@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ServerPlayerEntityMixin
 {
 	@Inject(at = @At("HEAD"), method = "copyFrom")
-	private void onCopyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info)
+	private void pehkui$copyFrom(ServerPlayerEntity oldPlayer, boolean alive, CallbackInfo info)
 	{
 		ScaleUtils.loadScaleOnRespawn((ServerPlayerEntity) (Object) this, oldPlayer, alive);
 	}

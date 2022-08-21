@@ -18,7 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class LookTargetUtilMixin
 {
 	@ModifyVariable(method = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;F)V", at = @At("HEAD"))
-	private static float giveModifyOffset(float value, LivingEntity entity, ItemStack stack, Vec3d targetLocation, Vec3d velocityFactor, float yOffset)
+	private static float pehkui$give$offset(float value, LivingEntity entity, ItemStack stack, Vec3d targetLocation, Vec3d velocityFactor, float yOffset)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(entity);
 		
@@ -26,7 +26,7 @@ public class LookTargetUtilMixin
 	}
 	
 	@Inject(method = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;F)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
-	private static void onGive(LivingEntity entity, ItemStack stack, Vec3d targetLocation, Vec3d velocityFactor, float yOffset, CallbackInfo info, double d, ItemEntity itemEntity, Vec3d vec3d)
+	private static void pehkui$give(LivingEntity entity, ItemStack stack, Vec3d targetLocation, Vec3d velocityFactor, float yOffset, CallbackInfo info, double d, ItemEntity itemEntity, Vec3d vec3d)
 	{
 		ScaleUtils.setScaleOfDrop(itemEntity, entity);
 	}

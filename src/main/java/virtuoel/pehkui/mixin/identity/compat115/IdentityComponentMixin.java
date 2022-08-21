@@ -20,7 +20,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) LivingEntity identity;
 	
 	@Inject(at = @At("RETURN"), method = "fromTag", remap = false)
-	private void onFromTag(NbtCompound nbt, CallbackInfo info)
+	private void pehkui$fromTag(NbtCompound nbt, CallbackInfo info)
 	{
 		if (this.identity != null)
 		{

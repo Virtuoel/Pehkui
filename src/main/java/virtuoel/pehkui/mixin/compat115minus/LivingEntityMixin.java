@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LivingEntityMixin
 {
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))
-	private float modifyLimbDistance(float value)
+	private float pehkui$travel$limbDistance(float value)
 	{
 		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);
 	}

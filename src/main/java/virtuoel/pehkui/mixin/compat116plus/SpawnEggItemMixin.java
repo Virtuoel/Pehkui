@@ -20,7 +20,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class SpawnEggItemMixin
 {
 	@Inject(at = @At("RETURN"), method = "spawnBaby(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/entity/mob/MobEntity;Lnet/minecraft/entity/EntityType;Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/item/ItemStack;)Ljava/util/Optional;")
-	private void onSpawnBaby(PlayerEntity user, MobEntity mobEntity, EntityType<? extends MobEntity> entityType, ServerWorld serverWorld, Vec3d vec3d, ItemStack itemStack, CallbackInfoReturnable<Optional<MobEntity>> info)
+	private void pehkui$spawnBaby(PlayerEntity user, MobEntity mobEntity, EntityType<? extends MobEntity> entityType, ServerWorld serverWorld, Vec3d vec3d, ItemStack itemStack, CallbackInfoReturnable<Optional<MobEntity>> info)
 	{
 		info.getReturnValue().ifPresent(e ->
 		{

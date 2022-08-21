@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EvokerFangsEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;DDDFILnet/minecraft/entity/LivingEntity;)V")
-	private void onConstruct(World world, double x, double y, double z, float yaw, int warmup, LivingEntity owner, CallbackInfo info)
+	private void pehkui$construct(World world, double x, double y, double z, float yaw, int warmup, LivingEntity owner, CallbackInfo info)
 	{
 		ScaleUtils.setScaleOfProjectile((Entity) (Object) this, owner);
 	}

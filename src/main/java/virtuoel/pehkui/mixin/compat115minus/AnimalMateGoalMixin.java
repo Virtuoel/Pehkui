@@ -23,7 +23,7 @@ public class AnimalMateGoalMixin
 	protected @Final @Mutable AnimalEntity field_6404; // UNMAPPED_FIELD
 	
 	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private void onBreed(CallbackInfo info, PassiveEntity passiveEntity)
+	private void pehkui$breed(CallbackInfo info, PassiveEntity passiveEntity)
 	{
 		ScaleUtils.loadScale(passiveEntity, field_6404);
 	}
