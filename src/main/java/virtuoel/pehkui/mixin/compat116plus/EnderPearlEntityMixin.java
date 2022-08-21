@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EnderPearlEntityMixin
 {
 	@ModifyArg(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private Entity onCollisionSpawnEntityProxy(Entity entity)
+	private Entity pehkui$onCollision$entity(Entity entity)
 	{
 		ScaleUtils.loadScale(entity, (Entity) (Object) this);
 		

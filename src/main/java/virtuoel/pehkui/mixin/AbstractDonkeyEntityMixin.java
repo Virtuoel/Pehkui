@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class AbstractDonkeyEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getMountedHeightOffset", cancellable = true)
-	private void onGetMountedHeightOffset(CallbackInfoReturnable<Double> info)
+	private void pehkui$getMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		

@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class PlayerEntityMixin
 {
 	@ModifyArg(method = "adjustMovementForSneaking", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;offset(DDD)Lnet/minecraft/util/math/Box;"))
-	private double adjustMovementForSneakingStepHeightProxy(double stepHeight)
+	private double pehkui$adjustMovementForSneaking$stepHeight(double stepHeight)
 	{
 		final float scale = ScaleUtils.getStepHeightScale((Entity) (Object) this);
 		

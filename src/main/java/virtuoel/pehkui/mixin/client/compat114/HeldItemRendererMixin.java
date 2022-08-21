@@ -17,7 +17,7 @@ public abstract class HeldItemRendererMixin
 	MinecraftClient field_4050; // UNMAPPED_FIELD
 	
 	@ModifyConstant(method = MixinConstants.RENDER_OVERLAYS, constant = @Constant(floatValue = 0.1F), remap = false)
-	private float renderOverlaysModifyOffset(float value)
+	private float pehkui$renderOverlays$offset(float value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(field_4050.player);
 		

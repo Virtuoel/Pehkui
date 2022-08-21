@@ -20,7 +20,7 @@ import net.minecraft.util.shape.VoxelShapes;
 public abstract class EntityCalculateDimensionsMixin
 {
 	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/entity/Entity;refreshPosition()V"))
-	private void onCalculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current)
+	private void pehkui$calculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current)
 	{
 		final Entity self = (Entity) (Object) this;
 		

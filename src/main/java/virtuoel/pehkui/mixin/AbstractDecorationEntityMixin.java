@@ -22,20 +22,20 @@ public abstract class AbstractDecorationEntityMixin
 	protected abstract void updateAttachmentPosition();
 	
 	@Inject(at = @At("RETURN"), method = "calculateDimensions")
-	private void onCalculateDimensions(CallbackInfo info)
+	private void pehkui$calculateDimensions(CallbackInfo info)
 	{
 		updateAttachmentPosition();
 	}
 	
 	@ModifyVariable(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "STORE"))
-	private ItemEntity onDropStack(ItemEntity entity)
+	private ItemEntity pehkui$dropStack(ItemEntity entity)
 	{
 		ScaleUtils.setScaleOfDrop(entity, (Entity) (Object) this);
 		return entity;
 	}
 	
 	@ModifyArg(method = "updateAttachmentPosition()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/AbstractDecorationEntity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
-	private Box onUpdateAttachmentPositionModifyBox(Box box)
+	private Box pehkui$updateAttachmentPosition$setBoundingBox(Box box)
 	{
 		final AbstractDecorationEntity entity = (AbstractDecorationEntity) (Object) this;
 		

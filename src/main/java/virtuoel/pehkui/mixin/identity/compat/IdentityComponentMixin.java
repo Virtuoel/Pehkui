@@ -19,7 +19,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) LivingEntity identity;
 	
 	@Inject(at = @At("TAIL"), method = "setIdentity", remap = false)
-	private void onSetIdentity(LivingEntity identity, CallbackInfoReturnable<Boolean> info)
+	private void pehkui$setIdentity(LivingEntity identity, CallbackInfoReturnable<Boolean> info)
 	{
 		if (identity != null)
 		{

@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ThrownEntityMixin
 {
 	@ModifyArg(method = MixinConstants.SET_VELOCITY, at = @At(value = "INVOKE", target = MixinConstants.MULTIPLY, remap = false), remap = false)
-	private double setVelocityModifyMultiply(double value)
+	private double pehkui$setVelocity$multiply(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		

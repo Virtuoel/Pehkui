@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EntityRendererMixin
 {
 	@Redirect(method = "renderLabelIfPresent(Lnet/minecraft/entity/Entity;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getHeight()F"))
-	private float renderLabelIfPresentGetHeightProxy(Entity entity)
+	private float pehkui$renderLabelIfPresent$getHeight(Entity entity)
 	{
 		return entity.getHeight() / ScaleUtils.getModelHeightScale(entity);
 	}

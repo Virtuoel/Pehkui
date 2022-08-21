@@ -17,7 +17,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ShulkerEntityRendererMixin
 {
 	@Inject(at = @At("RETURN"), method = MixinConstants.SETUP_TRANSFORMS, remap = false)
-	private void onSetupTransforms(LivingEntity entity, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
+	private void pehkui$setupTransforms(LivingEntity entity, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
 	{
 		final Direction face = entity instanceof ShulkerEntity ? ((ShulkerEntity) entity).getAttachedFace() : Direction.DOWN;
 		

@@ -23,19 +23,19 @@ public abstract class EntityTrackerEntryMixin
 	@Shadow abstract void sendSyncPacket(Packet<?> packet);
 	
 	@Inject(at = @At("TAIL"), method = "tick")
-	private void onTick(CallbackInfo info)
+	private void pehkui$tick(CallbackInfo info)
 	{
 		ScaleUtils.syncScalesIfNeeded(entity, this::sendSyncPacket);
 	}
 	
 	@Inject(at = @At("TAIL"), method = "sendPackets")
-	private void onSendPackets(Consumer<Packet<?>> sender, CallbackInfo info)
+	private void pehkui$sendPackets(Consumer<Packet<?>> sender, CallbackInfo info)
 	{
 		ScaleUtils.syncScalesOnTrackingStart(entity, sender);
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 7.62939453125E-6D))
-	private double tickModifyMinimumSquaredDistance(double value)
+	private double pehkui$tick$minimumSquaredDistance(double value)
 	{
 		final double scale = ScaleUtils.getMotionScale(entity);
 		
@@ -43,7 +43,7 @@ public abstract class EntityTrackerEntryMixin
 	}
 	
 	@Inject(at = @At("HEAD"), method = "syncEntityData")
-	private void onSyncEntityData(CallbackInfo info)
+	private void pehkui$syncEntityData(CallbackInfo info)
 	{
 		ScaleUtils.syncScalesIfNeeded(entity, this::sendSyncPacket);
 	}

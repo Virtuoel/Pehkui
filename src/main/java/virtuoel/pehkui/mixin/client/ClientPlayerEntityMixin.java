@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ClientPlayerEntityMixin
 {
 	@ModifyConstant(method = "tickMovement", constant = @Constant(floatValue = 3.0F))
-	private float tickMovementModifyFlightSpeed(float value)
+	private float pehkui$tickMovement$flightSpeed(float value)
 	{
 		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
 		
@@ -20,7 +20,7 @@ public class ClientPlayerEntityMixin
 	}
 	
 	@ModifyConstant(method = "autoJump", constant = { @Constant(floatValue = 1.2F), @Constant(floatValue = 0.75F) })
-	private float autoJumpModifyHeightAndBoost(float value)
+	private float pehkui$autoJump$heightAndBoost(float value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		final float jumpScale = ScaleUtils.getJumpHeightScale((Entity) (Object) this);

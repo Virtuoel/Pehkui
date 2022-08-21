@@ -18,25 +18,25 @@ public abstract class LecternBlockEntityMixin
 	LecternBlockEntity field_17391;
 	
 	@ModifyConstant(method = "canPlayerUse(Lnet/minecraft/entity/player/PlayerEntity;)Z", constant = @Constant(doubleValue = 0.5D, ordinal = 0))
-	private double canPlayerUseModifyXOffset(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$xOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockXOffset(field_17391.getPos(), player);
 	}
 	
 	@ModifyConstant(method = "canPlayerUse(Lnet/minecraft/entity/player/PlayerEntity;)Z", constant = @Constant(doubleValue = 0.5D, ordinal = 1))
-	private double canPlayerUseModifyYOffset(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$yOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockYOffset(field_17391.getPos(), player);
 	}
 	
 	@ModifyConstant(method = "canPlayerUse(Lnet/minecraft/entity/player/PlayerEntity;)Z", constant = @Constant(doubleValue = 0.5D, ordinal = 2))
-	private double canPlayerUseModifyZOffset(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$zOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockZOffset(field_17391.getPos(), player);
 	}
 	
 	@ModifyConstant(method = "canPlayerUse(Lnet/minecraft/entity/player/PlayerEntity;)Z", constant = @Constant(doubleValue = 64.0D))
-	private double canPlayerUseModifyDistance(double value, PlayerEntity player)
+	private double pehkui$canPlayerUse$distance(double value, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		return scale != 1.0F ? scale * scale * value : value;

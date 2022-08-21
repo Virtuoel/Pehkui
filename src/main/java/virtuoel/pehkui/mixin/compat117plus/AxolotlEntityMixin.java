@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class AxolotlEntityMixin
 {
 	@ModifyConstant(method = "squaredAttackRange", constant = @Constant(doubleValue = 1.5D))
-	private double squaredAttackRangeModifyRange(double value)
+	private double pehkui$squaredAttackRange$range(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		

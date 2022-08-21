@@ -29,7 +29,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 	}
 	
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN)
-	private void onOnOpen(PlayerEntity player, CallbackInfo info)
+	private void pehkui$onOpen(PlayerEntity player, CallbackInfo info)
 	{
 		if (viewerCount < 0)
 		{
@@ -52,7 +52,7 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 	}
 	
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE)
-	private void onOnClose(PlayerEntity player, CallbackInfo info)
+	private void pehkui$onClose(PlayerEntity player, CallbackInfo info)
 	{
 		if (viewerCount <= 1)
 		{

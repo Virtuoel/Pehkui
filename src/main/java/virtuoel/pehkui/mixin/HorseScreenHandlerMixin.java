@@ -18,13 +18,13 @@ public class HorseScreenHandlerMixin
 	@Unique private static final ThreadLocal<Float> pehkui$REACH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
 	
 	@Inject(method = "canUse", at = @At("HEAD"))
-	private void onCanUse(PlayerEntity player, CallbackInfoReturnable<Boolean> info)
+	private void pehkui$canUse(PlayerEntity player, CallbackInfoReturnable<Boolean> info)
 	{
 		pehkui$REACH_SCALE.set(ScaleUtils.getEntityReachScale(player));
 	}
 	
 	@ModifyConstant(method = "canUse", constant = @Constant(floatValue = 8.0F))
-	private float canUseModifyDistance(float value)
+	private float pehkui$canUse$distance(float value)
 	{
 		final float scale = pehkui$REACH_SCALE.get();
 		

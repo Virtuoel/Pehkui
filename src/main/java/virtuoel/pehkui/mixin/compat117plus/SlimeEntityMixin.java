@@ -15,7 +15,7 @@ public class SlimeEntityMixin
 {
 	/* // TODO 1.17
 	@ModifyArg(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
-	private Entity removeSpawnEntityProxy(Entity entity)
+	private Entity pehkui$remove$spawnEntity(Entity entity)
 	{
 		ScaleUtils.loadScale(entity, (Entity) (Object) this);
 		
@@ -23,7 +23,7 @@ public class SlimeEntityMixin
 	}
 	
 	@ModifyConstant(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", constant = @Constant(floatValue = 4.0F))
-	private float removeModifyHorizontalOffset(float value)
+	private float pehkui$remove$horizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
@@ -36,7 +36,7 @@ public class SlimeEntityMixin
 	}
 	
 	@ModifyConstant(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", constant = @Constant(doubleValue = 0.5D))
-	private double removeModifyVerticalOffset(double value)
+	private double pehkui$remove$verticalOffset(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
