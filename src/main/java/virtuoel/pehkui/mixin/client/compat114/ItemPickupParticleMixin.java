@@ -20,7 +20,7 @@ public class ItemPickupParticleMixin
 	@Shadow(remap = false) @Final @Mutable float field_3822; // UNMAPPED_FIELD
 	
 	@ModifyArg(method = MixinConstants.BUILD_GEOMETRY, index = 2, at = @At(value = "INVOKE", target = MixinConstants.LERP, ordinal = 4, remap = false), remap = false)
-	private double pehkui$buildGeometryM$offset(double value)
+	private double pehkui$buildGeometry$offset(double value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());
 		
