@@ -19,7 +19,7 @@ public class ItemPickupParticleMixin
 	@Shadow @Final @Mutable Entity interactingEntity;
 	
 	@ModifyConstant(method = "buildGeometry", constant = @Constant(doubleValue = 0.5D))
-	private double buildGeometryModifyOffset(double value, VertexConsumer vertexConsumer, Camera camera, float tickDelta)
+	private double pehkui$buildGeometry$offset(double value, VertexConsumer vertexConsumer, Camera camera, float tickDelta)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(interactingEntity, tickDelta);
 		

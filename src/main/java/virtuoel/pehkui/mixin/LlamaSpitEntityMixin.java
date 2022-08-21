@@ -17,13 +17,13 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class LlamaSpitEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/passive/LlamaEntity;)V")
-	private void onConstruct(World world, LlamaEntity owner, CallbackInfo info)
+	private void pehkui$construct(World world, LlamaEntity owner, CallbackInfo info)
 	{
 		ScaleUtils.setScaleOfProjectile((Entity) (Object) this, owner);
 	}
 	
 	@ModifyConstant(method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/passive/LlamaEntity;)V", constant = @Constant(doubleValue = 0.10000000149011612D))
-	private double onConstructModifyEyeOffset(double value, World world, LlamaEntity owner)
+	private double pehkui$construct$eyeOffset(double value, World world, LlamaEntity owner)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(owner);
 		
@@ -31,7 +31,7 @@ public class LlamaSpitEntityMixin
 	}
 	
 	@ModifyConstant(method = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/passive/LlamaEntity;)V", constant = @Constant(floatValue = 1.0F))
-	private float onConstructModifyWidthOffset(float value, World world, LlamaEntity owner)
+	private float pehkui$construct$widthOffset(float value, World world, LlamaEntity owner)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(owner);
 		

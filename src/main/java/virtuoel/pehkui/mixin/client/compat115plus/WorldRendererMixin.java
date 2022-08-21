@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleRenderUtils;
 public class WorldRendererMixin
 {
 	@Inject(method = "checkEmpty", at = @At(value = "HEAD"))
-	private void onCheckEmpty(MatrixStack matrices, CallbackInfo info)
+	private void pehkui$checkEmpty(MatrixStack matrices, CallbackInfo info)
 	{
 		if (!matrices.isEmpty())
 		{

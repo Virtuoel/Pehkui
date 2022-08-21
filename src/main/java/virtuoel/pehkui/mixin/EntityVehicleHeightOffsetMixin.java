@@ -29,7 +29,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EntityVehicleHeightOffsetMixin
 {
 	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
-	private void onGetHeightOffset(CallbackInfoReturnable<Double> info)
+	private void pehkui$getHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		

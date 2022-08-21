@@ -21,13 +21,13 @@ public abstract class EntityRendererMixin
 	abstract void method_3934(Entity entity, double x, double y, double z, float opacity, float tickDelta); // UNMAPPED_METHOD
 	
 	@Redirect(method = MixinConstants.RENDER_LABEL, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT, remap = false), remap = false)
-	private float renderLabelGetHeightProxy(Entity entity)
+	private float pehkui$renderLabel$getHeight(Entity entity)
 	{
 		return entity.getHeight() / ScaleUtils.getModelHeightScale(entity);
 	}
 	
 	@Redirect(method = MixinConstants.POST_RENDER, at = @At(value = "INVOKE", target = MixinConstants.RENDER_SHADOW, remap = false), remap = false)
-	private void onPostRenderRenderShadowProxy(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
+	private void pehkui$postRender$renderShadow(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
 	{
 		final float scale = ScaleUtils.getModelWidthScale(entity, tickDelta);
 		

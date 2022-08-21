@@ -20,7 +20,7 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double updateTargetedEntitySetDistance(double value, float tickDelta)
+	private double pehkui$updateTargetedEntity$setDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -38,7 +38,7 @@ public class GameRendererMixin
 	}
 	
 	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double updateTargetedEntityFixDistance(double value, float tickDelta)
+	private double pehkui$updateTargetedEntity$fixDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -54,7 +54,7 @@ public class GameRendererMixin
 	}
 	
 	@ModifyVariable(method = "updateTargetedEntity", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double updateTargetedEntityFixSquaredDistance(double value, float tickDelta)
+	private double pehkui$updateTargetedEntity$fixSquaredDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		

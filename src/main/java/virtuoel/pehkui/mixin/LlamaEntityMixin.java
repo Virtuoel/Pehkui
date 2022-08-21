@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LlamaEntityMixin
 {
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.3F))
-	private float updatePassengerPositionModifyOffset(float value)
+	private float pehkui$updatePassengerPosition$offset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		

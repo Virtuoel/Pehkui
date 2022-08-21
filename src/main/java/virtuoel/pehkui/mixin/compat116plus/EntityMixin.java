@@ -11,7 +11,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class EntityMixin
 {
 	@ModifyConstant(method = "updateSubmergedInWaterState()V", constant = @Constant(doubleValue = 0.1111111119389534D))
-	private double updateSubmergedInWaterStateModifyOffset(double value)
+	private double pehkui$updateSubmergedInWaterState$offset(double value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
 		

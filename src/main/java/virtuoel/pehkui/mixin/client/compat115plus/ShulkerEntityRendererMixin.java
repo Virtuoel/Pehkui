@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ShulkerEntityRendererMixin
 {
 	@Inject(at = @At("RETURN"), method = "setupTransforms")
-	private void onSetupTransforms(ShulkerEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
+	private void pehkui$setupTransforms(ShulkerEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
 	{
 		final Direction face = entity.getAttachedFace();
 		if (face != Direction.DOWN)

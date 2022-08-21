@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class SummonVexGoalMixin
 {
 	@ModifyArg(method = MixinConstants.CAST_SPELL, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private Entity castSpellSpawnEntityProxy(Entity entity)
+	private Entity pehkui$castSpell$spawnEntity(Entity entity)
 	{
 		if (entity instanceof VexEntity)
 		{

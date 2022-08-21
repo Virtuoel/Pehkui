@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class StepHeightEntityAttributeMainMixin
 {
 	@Inject(method = "getStepHeight", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void getStepHeight(LivingEntity entity, CallbackInfoReturnable<Float> info)
+	private static void pehkui$getStepHeight(LivingEntity entity, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getStepHeightScale(entity);
 		

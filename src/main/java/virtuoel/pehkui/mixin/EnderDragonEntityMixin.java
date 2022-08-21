@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EnderDragonEntityMixin
 {
 	@ModifyArg(method = "crystalDestroyed", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/boss/dragon/EnderDragonEntity;damagePart(Lnet/minecraft/entity/boss/dragon/EnderDragonPart;Lnet/minecraft/entity/damage/DamageSource;F)Z"))
-	private float crystalDestroyedModifyDamage(EnderDragonPart part, DamageSource source, float amount)
+	private float pehkui$crystalDestroyed$damagePart(EnderDragonPart part, DamageSource source, float amount)
 	{
 		if (source instanceof EntityDamageSource)
 		{

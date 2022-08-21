@@ -18,7 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class VillagerEntityMixin
 {
 	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.WITCH_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
-	private void onOnStruckByLightning(LightningEntity lightning, CallbackInfo info, WitchEntity witchEntity)
+	private void pehkui$onStruckByLightning(LightningEntity lightning, CallbackInfo info, WitchEntity witchEntity)
 	{
 		ScaleUtils.loadScale(witchEntity, (Entity) (Object) this);
 	}

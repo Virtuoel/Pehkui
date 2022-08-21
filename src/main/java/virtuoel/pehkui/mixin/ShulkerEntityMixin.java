@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ShulkerEntityMixin
 {
 	@Inject(method = "getActiveEyeHeight", at = @At("RETURN"), cancellable = true)
-	private void onGetActiveEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
+	private void pehkui$getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
 	{
 		final ShulkerEntity entity = (ShulkerEntity) (Object) this;
 		

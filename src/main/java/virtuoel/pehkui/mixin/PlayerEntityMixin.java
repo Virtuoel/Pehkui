@@ -26,19 +26,19 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class PlayerEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void onGetDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
+	private void pehkui$getDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
 	{
 		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this), ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this)));
 	}
 	
 	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
-	private float onTickMovementMinVelocityProxy(float velocity)
+	private float pehkui$tickMovement$mMinVelocity(float velocity)
 	{
 		return velocity * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@Inject(method = "travel(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", ordinal = 0, shift = Shift.BEFORE, target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
-	private void onTravelModifyFlightSpeed(Vec3d movementInput, CallbackInfo info)
+	private void pehkui$travel$flightSpeed(Vec3d movementInput, CallbackInfo info)
 	{
 		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
 		
@@ -49,7 +49,7 @@ public abstract class PlayerEntityMixin
 	}
 	
 	@Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")
-	private void onDropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info)
+	private void pehkui$dropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info)
 	{
 		final ItemEntity entity = info.getReturnValue();
 		
@@ -69,25 +69,25 @@ public abstract class PlayerEntityMixin
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onTickMovementExpandXProxy(double value)
+	private double pehkui$tickMovement$expand$x(double value)
 	{
 		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onTickMovementExpandYProxy(double value)
+	private double pehkui$tickMovement$expand$y(double value)
 	{
 		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double onTickMovementExpandZProxy(double value)
+	private double pehkui$tickMovement$expand$z(double value)
 	{
 		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
 	}
 	
 	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = { @Constant(floatValue = 0.5F, ordinal = 1), @Constant(floatValue = 0.5F, ordinal = 2), @Constant(floatValue = 0.5F, ordinal = 3) })
-	private float onAttackModifyKnockback(float value)
+	private float pehkui$attack$knockback(float value)
 	{
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
 		
@@ -95,7 +95,7 @@ public abstract class PlayerEntityMixin
 	}
 	
 	@ModifyConstant(method = "getAttackCooldownProgressPerTick", constant = @Constant(doubleValue = 20.0D))
-	private double getAttackCooldownProgressPerTickModifyMultiplier(double value)
+	private double pehkui$getAttackCooldownProgressPerTick$multiplier(double value)
 	{
 		final float scale = ScaleUtils.getAttackSpeedScale((Entity) (Object) this);
 		
@@ -103,7 +103,7 @@ public abstract class PlayerEntityMixin
 	}
 	
 	@Inject(at = @At("RETURN"), target = @Desc(value = "getDigSpeed", args = { BlockState.class, BlockPos.class }, ret = float.class), cancellable = true)
-	private void onGetBlockBreakingSpeed(BlockState block, BlockPos pos, CallbackInfoReturnable<Float> info)
+	private void pehkui$getBlockBreakingSpeed(BlockState block, BlockPos pos, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
 		
@@ -114,7 +114,7 @@ public abstract class PlayerEntityMixin
 	}
 	
 	@ModifyConstant(method = "updateCapeAngles", constant = { @Constant(doubleValue = 10.0D), @Constant(doubleValue = -10.0D) })
-	private double onUpdateCapeAnglesModifyLimits(double value)
+	private double pehkui$updateCapeAngles$limits(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		

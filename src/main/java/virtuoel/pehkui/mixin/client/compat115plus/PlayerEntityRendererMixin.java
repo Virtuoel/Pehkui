@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class PlayerEntityRendererMixin
 {
 	@Inject(at = @At("RETURN"), method = "getPositionOffset", cancellable = true)
-	private void onGetPositionOffset(AbstractClientPlayerEntity entity, float tickDelta, CallbackInfoReturnable<Vec3d> info)
+	private void pehkui$getPositionOffset(AbstractClientPlayerEntity entity, float tickDelta, CallbackInfoReturnable<Vec3d> info)
 	{
 		final Vec3d ret = info.getReturnValue();
 		if (ret != Vec3d.ZERO)

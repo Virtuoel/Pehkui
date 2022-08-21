@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ItemEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/ItemEntity;)V")
-	private void onConstruct(ItemEntity entity, CallbackInfo info)
+	private void pehkui$construct(ItemEntity entity, CallbackInfo info)
 	{
 		ScaleUtils.loadScale((Entity) (Object) this, entity);
 	}

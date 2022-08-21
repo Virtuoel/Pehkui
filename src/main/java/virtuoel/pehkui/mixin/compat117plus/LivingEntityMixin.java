@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class LivingEntityMixin
 {
 	@ModifyConstant(method = "damage(Lnet/minecraft/entity/damage/DamageSource;F)Z", constant = @Constant(doubleValue = 0.4000000059604645D))
-	private double onDamageModifyKnockback(double value, DamageSource source, float amount)
+	private double pehkui$damage$knockback(double value, DamageSource source, float amount)
 	{
 		final float scale = ScaleUtils.getKnockbackScale(source.getAttacker());
 		
@@ -21,7 +21,7 @@ public abstract class LivingEntityMixin
 	}
 	
 	@ModifyConstant(method = "knockback(Lnet/minecraft/entity/LivingEntity;)V", constant = @Constant(doubleValue = 0.5D))
-	private double onKnockbackModifyKnockback(double value, LivingEntity target)
+	private double pehkui$knockback$knockback(double value, LivingEntity target)
 	{
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
 		
