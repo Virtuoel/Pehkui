@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class BoatEntityRendererMixin
 {
 	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
-	private void onRenderPreRender(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
+	private void pehkui$renderSecondPass$before(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		final float widthScale = ScaleUtils.getModelWidthScale(boatEntity, tickDelta);
 		final float heightScale = ScaleUtils.getModelHeightScale(boatEntity, tickDelta);
@@ -29,7 +29,7 @@ public abstract class BoatEntityRendererMixin
 	}
 	
 	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.AFTER, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
-	private void onRenderPostRender(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
+	private void pehkui$renderSecondPass$after(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();

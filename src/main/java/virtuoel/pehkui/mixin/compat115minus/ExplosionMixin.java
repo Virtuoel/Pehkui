@@ -24,7 +24,7 @@ public abstract class ExplosionMixin
 	float field_9190; // UNMAPPED_FIELD
 	
 	@Inject(at = @At("RETURN"), method = MixinConstants.EXPLOSION_INIT, remap = false)
-	private void onConstruct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
+	private void pehkui$construct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
 	{
 		if (entity != null)
 		{

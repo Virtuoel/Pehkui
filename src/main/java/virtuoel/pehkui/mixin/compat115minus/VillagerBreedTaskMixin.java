@@ -18,7 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class VillagerBreedTaskMixin
 {
 	@Inject(method = MixinConstants.CREATE_CHILD, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private void onCreateChild(VillagerEntity villagerEntity, VillagerEntity villagerEntity2, CallbackInfoReturnable<Optional<VillagerEntity>> info, VillagerEntity child)
+	private void pehkui$createChild(VillagerEntity villagerEntity, VillagerEntity villagerEntity2, CallbackInfoReturnable<Optional<VillagerEntity>> info, VillagerEntity child)
 	{
 		ScaleUtils.loadAverageScales(child, villagerEntity, villagerEntity2);
 	}

@@ -16,7 +16,7 @@ public class TargetPredicateMixin
 	@Shadow boolean useDistanceScalingFactor;
 	
 	@ModifyConstant(method = "test", constant = @Constant(doubleValue = 2.0D))
-	private double testModifyMinDistance(double value, @Nullable LivingEntity baseEntity, LivingEntity targetEntity)
+	private double pehkui$test$minDistance(double value, @Nullable LivingEntity baseEntity, LivingEntity targetEntity)
 	{
 		if (useDistanceScalingFactor)
 		{

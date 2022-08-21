@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ClientPlayerEntityMixin
 {
 	@ModifyConstant(method = "sendMovementPackets", constant = @Constant(doubleValue = 9.0E-4D))
-	private double sendMovementPacketsModifyMinVelocity(double value)
+	private double pehkui$sendMovementPackets$minVelocity(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		

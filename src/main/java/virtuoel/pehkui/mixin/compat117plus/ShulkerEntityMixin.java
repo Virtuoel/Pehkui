@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ShulkerEntityMixin
 {
 	@Inject(method = "calculateBoundingBox", at = @At("RETURN"), cancellable = true)
-	private void onCalculateBoundingBox(CallbackInfoReturnable<Box> info)
+	private void pehkui$calculateBoundingBox(CallbackInfoReturnable<Box> info)
 	{
 		final ShulkerEntity entity = (ShulkerEntity) (Object) this;
 		

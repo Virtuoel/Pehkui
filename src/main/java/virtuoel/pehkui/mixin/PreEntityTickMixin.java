@@ -24,7 +24,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class PreEntityTickMixin extends EntityMixin
 {
 	@Inject(at = @At("HEAD"), method = "tick")
-	private void onTickPre(CallbackInfo info)
+	private void pehkui$tick(CallbackInfo info)
 	{
 		for (final ScaleType scaleType : ScaleRegistries.SCALE_TYPES.values())
 		{

@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class HorseBaseEntityMixin
 {
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.7F))
-	private float updatePassengerPositionModifyHorizontalOffset(float value)
+	private float pehkui$updatePassengerPosition$horizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
@@ -25,7 +25,7 @@ public abstract class HorseBaseEntityMixin
 	}
 	
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.15F))
-	private float updatePassengerPositionModifyVerticalOffset(float value)
+	private float pehkui$updatePassengerPosition$verticalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		

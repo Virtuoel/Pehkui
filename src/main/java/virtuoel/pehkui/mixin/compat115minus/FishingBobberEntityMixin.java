@@ -17,7 +17,7 @@ public abstract class FishingBobberEntityMixin
 	PlayerEntity field_7177; // UNMAPPED_FIELD
 	
 	@ModifyConstant(method = MixinConstants.REMOVE_IF_INVALID, constant = @Constant(doubleValue = 1024.0D), remap = false)
-	private double removeIfInvalidModifyDistance(double value)
+	private double pehkui$removeIfInvalid$distance(double value)
 	{
 		final float scale = ScaleUtils.getProjectileScale(field_7177);
 		

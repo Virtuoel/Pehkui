@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class DragonFireballEntityMixin
 {
 	@ModifyConstant(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", constant = @Constant(doubleValue = 4.0D))
-	private double onCollisionModifyWidth(double value)
+	private double pehkui$onCollision$width(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
@@ -20,7 +20,7 @@ public abstract class DragonFireballEntityMixin
 	}
 	
 	@ModifyConstant(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", constant = @Constant(doubleValue = 2.0D))
-	private double onCollisionModifyHeight(double value)
+	private double pehkui$onCollision$height(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		

@@ -15,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ExplosiveProjectileEntityMixin
 {
 	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;DDDLnet/minecraft/world/World;)V")
-	private void onConstruct(EntityType<? extends ExplosiveProjectileEntity> type, LivingEntity owner, double directionX, double directionY, double directionZ, World world, CallbackInfo info)
+	private void pehkui$construct(EntityType<? extends ExplosiveProjectileEntity> type, LivingEntity owner, double directionX, double directionY, double directionZ, World world, CallbackInfo info)
 	{
 		final ExplosiveProjectileEntity self = (ExplosiveProjectileEntity) (Object) this;
 		final float scale = ScaleUtils.setScaleOfProjectile(self, owner);

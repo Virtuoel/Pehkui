@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ItemFrameEntityMixin
 {
 	@ModifyArg(method = "updateAttachmentPosition()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
-	private Box onUpdateAttachmentPositionModifyBox(Box box)
+	private Box pehkui$updateAttachment$box(Box box)
 	{
 		final AbstractDecorationEntity entity = (AbstractDecorationEntity) (Object) this;
 		

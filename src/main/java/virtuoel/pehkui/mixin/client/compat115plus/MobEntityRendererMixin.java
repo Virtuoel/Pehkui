@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class MobEntityRendererMixin<T extends MobEntity>
 {
 	@Inject(method = "renderLeash", at = @At(value = "HEAD"))
-	private <E extends Entity> void onRenderLeashPreRender(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity, CallbackInfo info)
+	private <E extends Entity> void pehkui$renderLeash$head(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity, CallbackInfo info)
 	{
 		final Entity attached = entity.getHoldingEntity();
 		
@@ -32,7 +32,7 @@ public class MobEntityRendererMixin<T extends MobEntity>
 	}
 	
 	@Inject(method = "renderLeash", at = @At(value = "RETURN"))
-	private <E extends Entity> void onRenderLeashPostRender(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity, CallbackInfo info)
+	private <E extends Entity> void pehkui$renderLeash$return(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity, CallbackInfo info)
 	{
 		if (entity.getHoldingEntity() != null)
 		{

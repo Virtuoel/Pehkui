@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class WitherEntityMixin
 {
 	@ModifyConstant(method = "getHeadX", constant = @Constant(doubleValue = 1.3))
-	private double getHeadXModifyOffset(double value)
+	private double pehkui$getHeadX$offset(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
@@ -20,7 +20,7 @@ public class WitherEntityMixin
 	}
 	
 	@ModifyConstant(method = "getHeadZ", constant = @Constant(doubleValue = 1.3))
-	private double getHeadZModifyOffset(double value)
+	private double pehkui$getHeadZ$offset(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		
@@ -28,7 +28,7 @@ public class WitherEntityMixin
 	}
 	
 	@ModifyConstant(method = "getHeadY", constant = { @Constant(doubleValue = 3.0), @Constant(doubleValue = 2.2) })
-	private double getHeadYModifyOffset(double value)
+	private double pehkui$getHeadY$offset(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		

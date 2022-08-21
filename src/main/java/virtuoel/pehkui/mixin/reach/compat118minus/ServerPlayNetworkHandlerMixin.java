@@ -18,7 +18,7 @@ public class ServerPlayNetworkHandlerMixin
 	@Shadow ServerPlayerEntity player;
 	/*
 	@Redirect(method = "onPlayerInteractBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/EntityAttributeInstance;getValue()D"))
-	private double onPlayerInteractBlockModifyMultiplier(EntityAttributeInstance reach)
+	private double pehkui$onPlayerInteractEntity$multiplier(EntityAttributeInstance reach)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		
@@ -31,7 +31,7 @@ public class ServerPlayNetworkHandlerMixin
 	}
 	*/
 	@ModifyConstant(method = "onPlayerInteractEntity", require = 0, constant = @Constant(doubleValue = 36.0D))
-	private double onPlayerInteractEntityModifyDistance(double value)
+	private double pehkui$onPlayerInteractEntity$distance(double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale(player);
 		

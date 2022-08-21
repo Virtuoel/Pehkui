@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public abstract class ProjectileEntityMixin
 {
 	@ModifyArg(method = "shouldLeaveOwner", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getOtherEntities(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Ljava/util/List;"))
-	private Box shouldLeaveOwnerModifyExpand(Box value)
+	private Box pehkui$shouldLeaveOwner$expand(Box value)
 	{
 		final float width = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		final float height = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -30,7 +30,7 @@ public abstract class ProjectileEntityMixin
 	}
 	
 	@ModifyArg(method = "setVelocity(DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;multiply(D)Lnet/minecraft/util/math/Vec3d;"))
-	private double setVelocityModifyMultiply(double value)
+	private double pehkui$setVelocity$multiply(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
@@ -43,7 +43,7 @@ public abstract class ProjectileEntityMixin
 	}
 	
 	@Inject(at = @At("HEAD"), method = "setOwner")
-	private void onSetOwner(@Nullable Entity entity, CallbackInfo info)
+	private void pehkui$setOwner(@Nullable Entity entity, CallbackInfo info)
 	{
 		if (entity != null)
 		{
