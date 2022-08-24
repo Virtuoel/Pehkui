@@ -158,9 +158,9 @@ public class DebugCommand
 	
 	private static int runTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
-		ServerPlayerEntity player = context.getSource().getPlayerOrThrow();
+		Entity entity = context.getSource().getEntityOrThrow();
 		
-		Direction dir = player.getHorizontalFacing();
+		Direction dir = entity.getHorizontalFacing();
 		Direction opposite = dir.getOpposite();
 		
 		Direction left = dir.rotateYCounterclockwise();
@@ -171,11 +171,11 @@ public class DebugCommand
 		
 		int width = ((TYPES.size() - 1) * (spacing + 1)) + 1;
 		
-		BlockPos start = player.getBlockPos().offset(dir, distance).offset(left, width / 2);
+		BlockPos start = entity.getBlockPos().offset(dir, distance).offset(left, width / 2);
 		
 		BlockPos.Mutable mut = start.mutableCopy();
 		
-		World w = player.getEntityWorld();
+		World w = entity.getEntityWorld();
 		
 		for (EntityType<?> t : TYPES)
 		{
