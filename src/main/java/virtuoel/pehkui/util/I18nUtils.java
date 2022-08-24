@@ -38,6 +38,16 @@ public class I18nUtils
 			return (Text) LITERAL.apply(String.format(defaultLocalized, args));
 		}
 		
-		return Text.literal(String.format(defaultLocalized, args));
+		return literal(defaultLocalized, args);
+	}
+	
+	public static Text literal(final String text, final Object... args)
+	{
+		if (VersionUtils.MINOR < 19)
+		{
+			return (Text) LITERAL.apply(String.format(text, args));
+		}
+		
+		return Text.literal(String.format(text, args));
 	}
 }
