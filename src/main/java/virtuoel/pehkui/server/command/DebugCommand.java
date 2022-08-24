@@ -228,12 +228,16 @@ public class DebugCommand
 			MixinTargetClasses.Server.INTERMEDIARY_CLASSES
 		);
 		
-		context.getSource().getPlayerOrThrow().networkHandler.sendPacket(
-			new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
-				new PacketByteBuf(Unpooled.buffer())
-				.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
-			)
-		);
+		final Entity executor = context.getSource().getEntity();
+		if (executor instanceof ServerPlayerEntity)
+		{
+			((ServerPlayerEntity) executor).networkHandler.sendPacket(
+				new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
+					new PacketByteBuf(Unpooled.buffer())
+					.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
+				)
+			);
+		}
 		
 		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);
 		MixinEnvironment.getCurrentEnvironment().audit();
