@@ -136,9 +136,9 @@ public class DebugCommand
 	
 	private static int runTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
-		ServerPlayerEntity player = context.getSource().getPlayer();
+		Entity entity = context.getSource().getEntityOrThrow();
 		
-		Direction dir = player.getHorizontalFacing();
+		Direction dir = entity.getHorizontalFacing();
 		Direction opposite = dir.getOpposite();
 		
 		Direction left = dir.rotateYCounterclockwise();
@@ -149,11 +149,11 @@ public class DebugCommand
 		
 		int width = ((TYPES.size() - 1) * (spacing + 1)) + 1;
 		
-		BlockPos start = player.getBlockPos().offset(dir, distance).offset(left, width / 2);
+		BlockPos start = entity.getBlockPos().offset(dir, distance).offset(left, width / 2);
 		
 		BlockPos.Mutable mut = start.mutableCopy();
 		
-		World w = player.getEntityWorld();
+		World w = entity.getEntityWorld();
 		
 		for (EntityType<?> t : TYPES)
 		{
@@ -183,9 +183,13 @@ public class DebugCommand
 	
 	private static int runMixinTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
-		context.getSource().getPlayer().networkHandler.sendPacket(
-			PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), NetworkDirection.PLAY_TO_CLIENT)
-		);
+		final Entity executor = context.getSource().getEntity();
+		if (executor instanceof ServerPlayerEntity)
+		{
+			((ServerPlayerEntity) executor).networkHandler.sendPacket(
+				PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), NetworkDirection.PLAY_TO_CLIENT)
+			);
+		}
 		
 		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);
 		MixinEnvironment.getCurrentEnvironment().audit();
