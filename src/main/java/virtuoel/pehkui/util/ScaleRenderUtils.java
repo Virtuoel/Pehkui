@@ -42,10 +42,12 @@ public class ScaleRenderUtils
 	
 	private static final Set<Item> loggedItems = ConcurrentHashMap.newKeySet();
 	private static ItemStack lastRenderedStack = null;
+	private static int itemRecursionDepth = 0;
+	private static int maxItemRecursionDepth = 2;
 	
 	public static void logIfItemRenderCancelled()
 	{
-		if (lastRenderedStack != null)
+		if (lastRenderedStack != null && itemRecursionDepth >= maxItemRecursionDepth)
 		{
 			final Item i = lastRenderedStack.getItem();
 			if (!loggedItems.contains(i))
@@ -54,11 +56,11 @@ public class ScaleRenderUtils
 				final String itemKey = lastRenderedStack.getItem().getTranslationKey();
 				if (stackKey.equals(itemKey))
 				{
-					Pehkui.LOGGER.fatal("[{}]: Was item rendering cancelled? Matrix stack not popped after rendering item {} ({}).", Pehkui.MOD_ID, stackKey, lastRenderedStack.getItem());
+					Pehkui.LOGGER.fatal("[{}]: Did something cancel item rendering early? Matrix stack was not popped after rendering item {} ({}).", Pehkui.MOD_ID, stackKey, lastRenderedStack.getItem());
 				}
 				else
 				{
-					Pehkui.LOGGER.fatal("[{}]: Was item rendering cancelled? Matrix stack not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, lastRenderedStack.getItem());
+					Pehkui.LOGGER.fatal("[{}]: Did something cancel item rendering early? Matrix stack was not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, lastRenderedStack.getItem());
 				}
 				
 				loggedItems.add(i);
@@ -68,26 +70,34 @@ public class ScaleRenderUtils
 	
 	public static void saveLastRenderedItem(final ItemStack currentStack)
 	{
-		lastRenderedStack = currentStack;
+		if (itemRecursionDepth == 0)
+		{
+			lastRenderedStack = currentStack;
+		}
+		
+		itemRecursionDepth++;
 	}
 	
 	public static void clearLastRenderedItem()
 	{
 		lastRenderedStack = null;
+		itemRecursionDepth = 0;
 	}
 	
 	private static final Set<EntityType<?>> loggedEntityTypes = ConcurrentHashMap.newKeySet();
 	private static EntityType<?> lastRenderedEntity = null;
+	private static int entityRecursionDepth = 0;
+	private static int maxEntityRecursionDepth = 2;
 	
 	public static void logIfEntityRenderCancelled()
 	{
-		if (lastRenderedEntity != null)
+		if (lastRenderedEntity != null && entityRecursionDepth >= maxEntityRecursionDepth)
 		{
 			if (!loggedEntityTypes.contains(lastRenderedEntity))
 			{
 				final Identifier id = EntityType.getId(lastRenderedEntity);
 				
-				Pehkui.LOGGER.fatal("[{}]: Was entity rendering cancelled? Matrix stack not popped after rendering entity {}.", Pehkui.MOD_ID, id);
+				Pehkui.LOGGER.fatal("[{}]: Did something cancel entity rendering early? Matrix stack was not popped after rendering entity {}.", Pehkui.MOD_ID, id);
 				
 				loggedEntityTypes.add(lastRenderedEntity);
 			}
@@ -96,11 +106,17 @@ public class ScaleRenderUtils
 	
 	public static void saveLastRenderedEntity(final EntityType<?> type)
 	{
-		lastRenderedEntity = type;
+		if (entityRecursionDepth == 0)
+		{
+			lastRenderedEntity = type;
+		}
+		
+		entityRecursionDepth++;
 	}
 	
 	public static void clearLastRenderedEntity()
 	{
 		lastRenderedEntity = null;
+		entityRecursionDepth = 0;
 	}
 }
