@@ -21,7 +21,7 @@ public class ItemRendererMixin
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"), remap = false)
 	private void pehkui$renderHeldItem$head(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
-		ScaleRenderUtils.logIfCancelledRender();
+		ScaleRenderUtils.logIfItemRenderCancelled();
 		
 		GL11.glPushMatrix();
 		
