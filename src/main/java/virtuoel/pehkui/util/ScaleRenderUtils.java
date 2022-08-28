@@ -44,7 +44,7 @@ public class ScaleRenderUtils
 	private static final Set<Item> loggedItems = ConcurrentHashMap.newKeySet();
 	private static ItemStack lastRenderedStack = null;
 	
-	public static void logIfCancelledRender()
+	public static void logIfItemRenderCancelled()
 	{
 		if (lastRenderedStack != null)
 		{
