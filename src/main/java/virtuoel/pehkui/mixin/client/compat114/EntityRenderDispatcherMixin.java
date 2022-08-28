@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.MixinConstants;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityRenderDispatcher.class)
@@ -18,6 +19,8 @@ public class EntityRenderDispatcherMixin
 	@Inject(method = MixinConstants.RENDER, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_IN_WORLD, remap = false), remap = false)
 	private <E extends Entity> void pehkui$render$before(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
 	{
+		ScaleRenderUtils.logIfEntityRenderCancelled();
+		
 		final float widthScale = ScaleUtils.getModelWidthScale(entity, tickDelta);
 		final float heightScale = ScaleUtils.getModelHeightScale(entity, tickDelta);
 		
@@ -25,11 +28,15 @@ public class EntityRenderDispatcherMixin
 		GL11.glScalef(widthScale, heightScale, widthScale);
 		GL11.glTranslated((x / widthScale) - x, (y / heightScale) - y, (z / widthScale) - z);
 		GL11.glPushMatrix();
+		
+		ScaleRenderUtils.saveLastRenderedEntity(entity.getType());
 	}
 	
 	@Inject(method = MixinConstants.RENDER, at = @At(value = "INVOKE", shift = Shift.AFTER, target = MixinConstants.RENDER_IN_WORLD, remap = false), remap = false)
 	private <E extends Entity> void pehkui$render$after(E entity, double x, double y, double z, float yaw, float tickDelta, boolean forceHideHitbox, CallbackInfo info)
 	{
+		ScaleRenderUtils.clearLastRenderedEntity();
+		
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 	}
