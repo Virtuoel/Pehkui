@@ -32,6 +32,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
@@ -171,9 +172,8 @@ public class DebugCommand
 		
 		int width = ((TYPES.size() - 1) * (spacing + 1)) + 1;
 		
-		BlockPos start = entity.getBlockPos().offset(dir, distance).offset(left, width / 2);
-		
-		BlockPos.Mutable mut = start.mutableCopy();
+		Vec3d pos = entity.getPos();
+		BlockPos.Mutable mut = new BlockPos.Mutable(pos.x, pos.y, pos.z).move(dir, distance).move(left, width / 2);
 		
 		World w = entity.getEntityWorld();
 		
