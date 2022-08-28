@@ -6,8 +6,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 
@@ -32,10 +34,7 @@ public class ScaleRenderUtils
 	{
 		if (scale < 1.0F)
 		{
-			return Math.max(
-				(float) PehkuiConfig.CLIENT.minimumCameraDepth.get().doubleValue(),
-				depth * scale
-			);
+			return Math.max(depth * scale, (float) PehkuiConfig.CLIENT.minimumCameraDepth.get().doubleValue());
 		}
 		
 		return depth;
@@ -75,5 +74,33 @@ public class ScaleRenderUtils
 	public static void clearLastRenderedItem()
 	{
 		lastRenderedStack = null;
+	}
+	
+	private static final Set<EntityType<?>> loggedEntityTypes = ConcurrentHashMap.newKeySet();
+	private static EntityType<?> lastRenderedEntity = null;
+	
+	public static void logIfEntityRenderCancelled()
+	{
+		if (lastRenderedEntity != null)
+		{
+			if (!loggedEntityTypes.contains(lastRenderedEntity))
+			{
+				final Identifier id = EntityType.getId(lastRenderedEntity);
+				
+				Pehkui.LOGGER.fatal("[{}]: Was entity rendering cancelled? Matrix stack not popped after rendering entity {}.", Pehkui.MOD_ID, id);
+				
+				loggedEntityTypes.add(lastRenderedEntity);
+			}
+		}
+	}
+	
+	public static void saveLastRenderedEntity(final EntityType<?> type)
+	{
+		lastRenderedEntity = type;
+	}
+	
+	public static void clearLastRenderedEntity()
+	{
+		lastRenderedEntity = null;
 	}
 }
