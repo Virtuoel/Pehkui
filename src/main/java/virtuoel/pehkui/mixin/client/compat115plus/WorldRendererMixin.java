@@ -17,7 +17,7 @@ public class WorldRendererMixin
 	{
 		if (!matrices.isEmpty())
 		{
-			ScaleRenderUtils.logIfCancelledRender();
+			ScaleRenderUtils.logIfItemRenderCancelled();
 		}
 	}
 }

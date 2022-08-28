@@ -24,7 +24,7 @@ public class ItemRendererMixin
 	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "HEAD"))
 	private void pehkui$renderItem$head(@Nullable LivingEntity entity, ItemStack item, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
 	{
-		ScaleRenderUtils.logIfCancelledRender();
+		ScaleRenderUtils.logIfItemRenderCancelled();
 		
 		matrices.push();
 		
