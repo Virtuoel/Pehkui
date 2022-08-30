@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.crash.CrashReportSection;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 
@@ -118,5 +119,20 @@ public class ScaleRenderUtils
 	{
 		lastRenderedEntity = null;
 		entityRecursionDepth = 0;
+	}
+	
+	public static void addDetailsToCrashReport(CrashReportSection section)
+	{
+		if (lastRenderedStack != null)
+		{
+			section.add("pehkui:debug/render/item", lastRenderedStack.getItem().getTranslationKey());
+		}
+		
+		if (lastRenderedEntity != null)
+		{
+			final Identifier id = EntityType.getId(lastRenderedEntity);
+			
+			section.add("pehkui:debug/render/entity", id);
+		}
 	}
 }
