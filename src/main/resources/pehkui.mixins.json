@@ -151,6 +151,7 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerEntityMixin",
+		"client.ClientWorldMixin",
 		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
