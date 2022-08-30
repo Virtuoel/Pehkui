@@ -124,7 +124,6 @@
 		"compat117plus.patchwork.compat.EntityCalculateDimensionsMixin",
 		"compat117plus.patchwork.compat.IForgeItemMixin",
 		"compat118minus.ServerPlayerInteractionManagerMixin",
-		"compat118minus.ServerPlayNetworkHandlerMixin",
 		"compat119plus.LookTargetUtilMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
@@ -152,6 +151,7 @@
 	[
 		"client.CameraMixin",
 		"client.ClientPlayerEntityMixin",
+		"client.ClientWorldMixin",
 		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
