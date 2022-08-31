@@ -11,7 +11,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin
 {
-	@ModifyConstant(method = "attack", constant = @Constant(doubleValue = 9.0D))
+	@ModifyConstant(method = "attack", require = 0, constant = @Constant(doubleValue = 9.0D))
 	private double pehkui$attack$distance(double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale((Entity) (Object) this);
