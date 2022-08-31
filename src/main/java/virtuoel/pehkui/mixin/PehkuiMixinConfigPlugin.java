@@ -3,13 +3,10 @@ package virtuoel.pehkui.mixin;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.maven.artifact.versioning.ArtifactVersion;
-import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import net.minecraftforge.fml.loading.FMLLoader;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
@@ -38,9 +35,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("step-height-entity-attribute");
 	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
-	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true;
-	
-	private static final ArtifactVersion FORGE_VERSION = new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString());
+	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = ModLoaderUtils.isModLoaded("patchwork-events-entity");
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -64,18 +59,6 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		else if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
 		{
 			return PATCHWORK_ENTITY_EVENTS_LOADED == mixinClassName.contains(".patchwork.compat.");
-		}
-		else if (mixinClassName.endsWith("IForgeEntityMixin"))
-		{
-			return new DefaultArtifactVersion("40.1.16").compareTo(FORGE_VERSION) <= 0;
-		}
-		else if (mixinClassName.endsWith("IForgePlayerMixin"))
-		{
-			return new DefaultArtifactVersion("40.1.21").compareTo(FORGE_VERSION) <= 0;
-		}
-		else if (mixinClassName.equals(MIXIN_PACKAGE + ".reach.client.ClientPlayerInteractionManagerMixin") || mixinClassName.equals(MIXIN_PACKAGE + ".reach.client.GameRendererMixin"))
-		{
-			return new DefaultArtifactVersion("40.1.21").compareTo(FORGE_VERSION) > 0;
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))

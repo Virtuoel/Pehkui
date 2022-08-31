@@ -15,6 +15,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.command.EntityDataObject;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
@@ -22,7 +23,6 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import net.minecraftforge.fml.loading.FMLLoader;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
@@ -40,7 +40,7 @@ public class ScaleCommand
 {
 	public static void register(final CommandDispatcher<ServerCommandSource> commandDispatcher)
 	{
-		if (FMLLoader.isProduction() && !PehkuiConfig.COMMON.enableCommands.get())
+		if (!FabricLoader.getInstance().isDevelopmentEnvironment() && !PehkuiConfig.COMMON.enableCommands.get())
 		{
 			return;
 		}
