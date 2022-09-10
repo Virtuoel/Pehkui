@@ -44,5 +44,15 @@
 	"mixins":
 	[
 		"pehkui.mixins.json"
-	]
+	],
+	"custom":
+	{
+		"multiconnect":
+		{
+			"custom_payloads":
+			{
+				"allowed_clientbound": "pehkui:*"
+			}
+		}
+	}
 }
