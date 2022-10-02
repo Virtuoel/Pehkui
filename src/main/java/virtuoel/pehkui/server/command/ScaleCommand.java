@@ -83,7 +83,7 @@ public class ScaleCommand
 									final ScaleData data = type.getScaleData(e);
 									final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 									
-									data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+									data.setTargetScale((float) type.clampTargetScale(data, operation.apply(data.getTargetScale(), scale)));
 								}
 								
 								return 1;
@@ -97,7 +97,7 @@ public class ScaleCommand
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 							final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 							
-							data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+							data.setTargetScale((float) type.clampTargetScale(data, operation.apply(data.getTargetScale(), scale)));
 							
 							return 1;
 						})
@@ -113,8 +113,8 @@ public class ScaleCommand
 							{
 								final ScaleData data = ScaleTypes.BASE.getScaleData(e);
 								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
-								
-								data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+
+								data.setTargetScale((float) ScaleTypes.BASE.clampTargetScale(data, operation.apply(data.getTargetScale(), scale)));
 							}
 							
 							return 1;
@@ -126,8 +126,8 @@ public class ScaleCommand
 						
 						final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
 						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
-						
-						data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+
+						data.setTargetScale((float) ScaleTypes.BASE.clampTargetScale(data, operation.apply(data.getTargetScale(), scale)));
 						
 						return 1;
 					})
@@ -173,7 +173,7 @@ public class ScaleCommand
 													max = temp;
 												}
 												
-												data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+												data.setTargetScale((float) type.clampTargetScale(data, min + (RANDOM.nextFloat() * (max - min))));
 											}
 											
 											return 1;
@@ -202,7 +202,7 @@ public class ScaleCommand
 											max = temp;
 										}
 										
-										data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+										data.setTargetScale((float) type.clampTargetScale(data, min + (RANDOM.nextFloat() * (max - min))));
 										
 										return 1;
 									})

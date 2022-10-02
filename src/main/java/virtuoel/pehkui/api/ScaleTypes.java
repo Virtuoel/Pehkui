@@ -77,7 +77,8 @@ public class ScaleTypes
 	private static ScaleType registerDimensionScale(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
 	{
 		final ScaleType.Builder builder = ScaleType.Builder.create()
-			.affectsDimensions();
+			.affectsDimensions()
+			.forbidsNegativeScale();
 		
 		if (valueModifier != null)
 		{

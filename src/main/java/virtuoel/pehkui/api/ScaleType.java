@@ -115,8 +115,12 @@ public class ScaleType
 		private int defaultTickDelay = 20;
 		private float defaultMinPositiveScale = ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE;
 		private float defaultMaxPositiveScale = ScaleUtils.DEFAULT_MAXIMUM_POSITIVE_SCALE;
+		private boolean forbidsNegativeScale = false;
 		private ToDoubleBiFunction<ScaleData, Double> baseScaleClampFunction = (scaleData, newScale) ->
 		{
+			if (forbidsNegativeScale && newScale < 0) {
+				newScale = -newScale;
+			}
 			if (newScale > defaultMaxPositiveScale)
 			{
 				return defaultMaxPositiveScale;
@@ -134,6 +138,9 @@ public class ScaleType
 		};
 		private ToDoubleBiFunction<ScaleData, Double> targetScaleClampFunction = (scaleData, newScale) ->
 		{
+			if (forbidsNegativeScale && newScale < 0) {
+				newScale = -newScale;
+			}
 			if (newScale > defaultMaxPositiveScale)
 			{
 				return defaultMaxPositiveScale;
@@ -227,6 +234,11 @@ public class ScaleType
 		public Builder addDependentModifier(ScaleModifier scaleModifier)
 		{
 			this.dependentModifiers.add(scaleModifier);
+			return this;
+		}
+
+		public Builder forbidsNegativeScale() {
+			this.forbidsNegativeScale = true;
 			return this;
 		}
 		
