@@ -344,8 +344,8 @@ public class ConfigSyncUtils
 				{
 					context.getSource().sendFeedback(
 						I18nUtils.translate(
-							"commands.pehkui.debug.config.value",
-							"Config \"%s\" is now set to \"%s\"",
+							"commands.pehkui.debug.config.get.value",
+							"Config \"%s\" is currently set to \"%s\"",
 							key, String.valueOf(cfg.getValue())
 						),
 						false
@@ -374,7 +374,29 @@ public class ConfigSyncUtils
 	
 	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigResetCommands(final boolean splitKeys)
 	{
-		return registerConfigModificationCommands(false, splitKeys);
+		return registerConfigModificationCommands(false, splitKeys).executes(context ->
+		{
+			for (final Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
+			{
+				entry.getValue().reset();
+			}
+			
+			context.getSource().sendFeedback(
+				I18nUtils.translate(
+					"commands.pehkui.debug.config.reset",
+					"%s config entries have been reset to their default values",
+					String.valueOf(SYNCED_CONFIGS.size())
+				),
+				false
+			);
+			
+			for (final ServerPlayerEntity p : context.getSource().getWorld().getServer().getPlayerManager().getPlayerList())
+			{
+				syncConfigs(p.networkHandler);
+			}
+			
+			return 1;
+		});
 	}
 	
 	private static ArgumentBuilder<ServerCommandSource, ?> registerConfigModificationCommands(final boolean asSetterCommands, final boolean splitKeys)
@@ -417,7 +439,7 @@ public class ConfigSyncUtils
 					
 					context.getSource().sendFeedback(
 						I18nUtils.translate(
-							"commands.pehkui.debug.config." + (asSetterCommands ? "changed" : "reset"),
+							String.format("commands.pehkui.debug.config.%s.value", asSetterCommands ? "changed" : "reset"),
 							asSetterCommands ? "Config \"%s\" was changed from \"%s\" to \"%s\"" : "Config \"%s\" was reset from \"%s\" to default \"%s\"",
 							key, oldValue, newValue
 						),
