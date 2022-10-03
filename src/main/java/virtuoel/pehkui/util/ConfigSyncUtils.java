@@ -22,7 +22,6 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
 import io.netty.buffer.Unpooled;
@@ -263,24 +262,39 @@ public class ConfigSyncUtils
 		SYNCED_CONFIG_CODECS.put(name, Objects.requireNonNull(CODECS.get(codecKey), String.format("Codec \"%s\" not found for config \"%s\"", codecKey, name)));
 	}
 	
-	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigSyncCommands()
+	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigCommands()
 	{
-		return CommandManager.literal("sync")
+		final boolean splitConfigs = true;
+		
+		final ArgumentBuilder<ServerCommandSource, ?> builder = CommandManager.literal("config");
+		
+		ConfigSyncUtils.registerConfigSyncCommands(builder);
+		ConfigSyncUtils.registerConfigFileCommands(builder);
+		ConfigSyncUtils.registerConfigGetterCommands(builder, splitConfigs);
+		ConfigSyncUtils.registerConfigSetterCommands(builder, splitConfigs);
+		ConfigSyncUtils.registerConfigResetCommands(builder, splitConfigs);
+		
+		return builder;
+	}
+	
+	public static void registerConfigSyncCommands(final ArgumentBuilder<ServerCommandSource, ?> configBuilder)
+	{
+		final ArgumentBuilder<ServerCommandSource, ?> builder = CommandManager.literal("sync")
 			.executes(context ->
 			{
 				syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
 				
 				return 1;
 			});
+		
+		configBuilder.then(builder);
 	}
 	
-	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigFileCommands()
+	public static void registerConfigFileCommands(final ArgumentBuilder<ServerCommandSource, ?> configBuilder)
 	{
-		final LiteralArgumentBuilder<ServerCommandSource> builder = CommandManager.literal("file");
-		
 		final JsonConfigHandler config = PehkuiConfig.BUILDER.config;
 		
-		builder
+		configBuilder
 			.then(CommandManager.literal("save")
 				.executes(context ->
 				{
@@ -322,13 +336,11 @@ public class ConfigSyncUtils
 					}
 				})
 			);
-		
-		return builder;
 	}
 	
-	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigGetterCommands(final boolean splitKeys)
+	public static void registerConfigGetterCommands(final ArgumentBuilder<ServerCommandSource, ?> configBuilder, final boolean splitKeys)
 	{
-		final LiteralArgumentBuilder<ServerCommandSource> builder = CommandManager.literal("get");
+		final ArgumentBuilder<ServerCommandSource, ?> builder = CommandManager.literal("get");
 		
 		String[] keys;
 		ArgumentBuilder<ServerCommandSource, ?> root, temp;
@@ -364,17 +376,25 @@ public class ConfigSyncUtils
 			builder.then(root);
 		}
 		
-		return builder;
+		configBuilder.then(builder);
 	}
 	
-	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigSetterCommands(final boolean splitKeys)
+	public static void registerConfigSetterCommands(final ArgumentBuilder<ServerCommandSource, ?> configBuilder, final boolean splitKeys)
 	{
-		return registerConfigModificationCommands(true, splitKeys);
+		final ArgumentBuilder<ServerCommandSource, ?> builder = CommandManager.literal("set");
+		
+		registerConfigModificationCommands(builder, true, splitKeys);
+		
+		configBuilder.then(builder);
 	}
 	
-	public static ArgumentBuilder<ServerCommandSource, ?> registerConfigResetCommands(final boolean splitKeys)
+	public static void registerConfigResetCommands(final ArgumentBuilder<ServerCommandSource, ?> configBuilder, final boolean splitKeys)
 	{
-		return registerConfigModificationCommands(false, splitKeys).executes(context ->
+		final ArgumentBuilder<ServerCommandSource, ?> builder = CommandManager.literal("reset");
+		
+		registerConfigModificationCommands(builder, false, splitKeys);
+		
+		builder.executes(context ->
 		{
 			for (final Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
 			{
@@ -397,12 +417,12 @@ public class ConfigSyncUtils
 			
 			return 1;
 		});
+		
+		configBuilder.then(builder);
 	}
 	
-	private static ArgumentBuilder<ServerCommandSource, ?> registerConfigModificationCommands(final boolean asSetterCommands, final boolean splitKeys)
+	private static void registerConfigModificationCommands(final ArgumentBuilder<ServerCommandSource, ?> builder, final boolean asSetterCommands, final boolean splitKeys)
 	{
-		final LiteralArgumentBuilder<ServerCommandSource> builder = CommandManager.literal(asSetterCommands ? "set" : "reset");
-		
 		ArgumentType<?> argType;
 		String[] keys;
 		ArgumentBuilder<ServerCommandSource, ?> root, temp;
@@ -465,8 +485,6 @@ public class ConfigSyncUtils
 			
 			builder.then(root);
 		}
-		
-		return builder;
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })

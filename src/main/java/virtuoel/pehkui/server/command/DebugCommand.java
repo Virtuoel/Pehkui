@@ -52,18 +52,9 @@ public class DebugCommand
 				return commandSource.hasPermissionLevel(2);
 			});
 		
-		final boolean splitConfigs = true;
-		
-		builder
-			.then(CommandManager.literal("debug")
-				.then(CommandManager.literal("config")
-					.then(ConfigSyncUtils.registerConfigFileCommands())
-					.then(ConfigSyncUtils.registerConfigSyncCommands())
-					.then(ConfigSyncUtils.registerConfigGetterCommands(splitConfigs))
-					.then(ConfigSyncUtils.registerConfigSetterCommands(splitConfigs))
-					.then(ConfigSyncUtils.registerConfigResetCommands(splitConfigs))
-				)
-			);
+		builder.then(CommandManager.literal("debug")
+			.then(ConfigSyncUtils.registerConfigCommands())
+		);
 		
 		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableCommands.get())
 		{
