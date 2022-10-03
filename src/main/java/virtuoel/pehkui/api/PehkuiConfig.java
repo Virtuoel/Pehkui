@@ -95,7 +95,7 @@ public class PehkuiConfig
 					
 					path = id.getPath();
 					
-					min = builder.doubleConfig(synced(path + ".minimum", "double"), Float.MIN_VALUE);
+					min = builder.doubleConfig(synced(path + ".minimum", "double"), type.getAffectsDimensions() ? 0.0F : Float.MIN_VALUE);
 					max = builder.doubleConfig(synced(path + ".maximum", "double"), ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE);
 					
 					type.getDefaultBaseValueModifiers().add(
