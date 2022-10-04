@@ -17,9 +17,10 @@
 	"commands.pehkui.debug.test.mixin.results.named.client": "%d successes and %d fails out of %d mixined client classes",
 	"commands.pehkui.debug.test.mixin.results.named.server": "%d successes and %d fails out of %d mixined server classes",
 	"commands.pehkui.debug.test.success": "Tests succeeded: %d/%d",
-	"commands.pehkui.debug.config.value": "Config \"%s\" is now set to \"%s\"",
-	"commands.pehkui.debug.config.changed": "Config \"%s\" was changed from \"%s\" to \"%s\"",
-	"commands.pehkui.debug.config.reset": "Config \"%s\" was reset from \"%s\" to default \"%s\"",
+	"commands.pehkui.debug.config.get.value": "Config \"%s\" is currently set to \"%s\"",
+	"commands.pehkui.debug.config.changed.value": "Config \"%s\" was changed from \"%s\" to \"%s\"",
+	"commands.pehkui.debug.config.reset.value": "Config \"%s\" was reset from \"%s\" to default \"%s\"",
+	"commands.pehkui.debug.config.reset": "%s config entries have been reset to their default values",
 	
 	"commands.pehkui.scale.delay.get.message": "Delay: %s ticks",
 	"commands.pehkui.scale.get.message": "Scale: %s",

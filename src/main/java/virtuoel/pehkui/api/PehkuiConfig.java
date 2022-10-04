@@ -182,7 +182,7 @@ public class PehkuiConfig
 			Identifier id;
 			String namespace, path;
 			ScaleType type;
-			double defaultMax;
+			double defaultMin, defaultMax;
 			ForgeConfigSpec.DoubleValue min, max;
 			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 			{
@@ -200,15 +200,16 @@ public class PehkuiConfig
 					
 					path = id.getPath();
 					
+					defaultMin = type.getAffectsDimensions() ? ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE : Float.MIN_VALUE;
 					defaultMax = ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE;
 					
 					builder.push(path);
 					min = builder
 						.translation("pehkui.configgui.scale_limits." + path + ".minimum")
-						.defineInRange("minimum", Float.MIN_VALUE, Float.MIN_VALUE, defaultMax);
+						.defineInRange("minimum", defaultMin, Float.MIN_VALUE, Float.MAX_VALUE);
 					max = builder
 						.translation("pehkui.configgui.scale_limits." + path + ".maximum")
-						.defineInRange("maximum", defaultMax, Float.MIN_VALUE, defaultMax);
+						.defineInRange("maximum", defaultMax, Float.MIN_VALUE, Float.MAX_VALUE);
 					
 					type.getDefaultBaseValueModifiers().add(
 						ScaleRegistries.register(
