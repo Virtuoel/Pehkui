@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
+import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
@@ -17,6 +18,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import net.minecraft.command.EntityDataObject;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.command.argument.NbtPathArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
@@ -33,6 +35,7 @@ import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
 import virtuoel.pehkui.command.argument.ScaleTypeArgumentType;
+import virtuoel.pehkui.mixin.DataCommandInvoker;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 
@@ -1000,15 +1003,31 @@ public class ScaleCommand
 			.then(CommandManager.literal("nbt")
 				.then(CommandManager.literal("get")
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.then(CommandManager.argument("path", NbtPathArgumentType.nbtPath())
+							.executes(context ->
+								DataCommandInvoker.Path.callExecuteGet(
+									context.getSource(),
+									new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity")),
+									NbtPathArgumentType.getNbtPath(context, "path")
+								)
+							)
+							.then(CommandManager.argument("scale", DoubleArgumentType.doubleArg())
+								.executes(context ->
+									DataCommandInvoker.Scaled.callExecuteGet(
+										context.getSource(),
+										new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity")),
+										NbtPathArgumentType.getNbtPath(context, "path"),
+										DoubleArgumentType.getDouble(context, "scale")
+									)
+								)
+							)
+						)
 						.executes(context ->
-						{
-							final EntityDataObject obj = new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity"));
-							
-							final NbtCompound nbt = obj.getNbt();
-							context.getSource().sendFeedback(obj.feedbackQuery(nbt), false);
-							
-							return nbt.getSize();
-						})
+							DataCommandInvoker.Get.callExecuteGet(
+								context.getSource(),
+								new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity"))
+							)
+						)
 					)
 					.executes(context ->
 					{
