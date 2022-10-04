@@ -8,24 +8,35 @@ import net.minecraft.command.argument.NbtPathArgumentType;
 import net.minecraft.server.command.DataCommand;
 import net.minecraft.server.command.ServerCommandSource;
 
-@Mixin(DataCommand.class)
 public interface DataCommandInvoker
 {
-	@Invoker
-	public static int callExecuteGet(ServerCommandSource source, DataCommandObject object)
+	@Mixin(DataCommand.class)
+	public interface Get
 	{
-		throw new NoSuchMethodError();
+		@Invoker
+		public static int callExecuteGet(ServerCommandSource source, DataCommandObject object)
+		{
+			throw new NoSuchMethodError();
+		}
 	}
 	
-	@Invoker
-	public static int callExecuteGet(ServerCommandSource source, DataCommandObject object, NbtPathArgumentType.NbtPath path)
+	@Mixin(DataCommand.class)
+	public interface Path
 	{
-		throw new NoSuchMethodError();
+		@Invoker
+		public static int callExecuteGet(ServerCommandSource source, DataCommandObject object, NbtPathArgumentType.NbtPath path)
+		{
+			throw new NoSuchMethodError();
+		}
 	}
 	
-	@Invoker
-	public static int callExecuteGet(ServerCommandSource source, DataCommandObject object, NbtPathArgumentType.NbtPath path, double scale)
+	@Mixin(DataCommand.class)
+	public interface Scaled
 	{
-		throw new NoSuchMethodError();
+		@Invoker
+		public static int callExecuteGet(ServerCommandSource source, DataCommandObject object, NbtPathArgumentType.NbtPath path, double scale)
+		{
+			throw new NoSuchMethodError();
+		}
 	}
 }

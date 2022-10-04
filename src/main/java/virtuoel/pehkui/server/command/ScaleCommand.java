@@ -23,7 +23,6 @@ import net.minecraft.command.argument.NbtPathArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.DataCommand;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import virtuoel.pehkui.api.PehkuiConfig;
@@ -1006,7 +1005,7 @@ public class ScaleCommand
 					.then(CommandManager.argument("entity", EntityArgumentType.entity())
 						.then(CommandManager.argument("path", NbtPathArgumentType.nbtPath())
 							.executes(context ->
-								DataCommandInvoker.callExecuteGet(
+								DataCommandInvoker.Path.callExecuteGet(
 									context.getSource(),
 									new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity")),
 									NbtPathArgumentType.getNbtPath(context, "path")
@@ -1014,7 +1013,7 @@ public class ScaleCommand
 							)
 							.then(CommandManager.argument("scale", DoubleArgumentType.doubleArg())
 								.executes(context ->
-									DataCommandInvoker.callExecuteGet(
+									DataCommandInvoker.Scaled.callExecuteGet(
 										context.getSource(),
 										new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity")),
 										NbtPathArgumentType.getNbtPath(context, "path"),
@@ -1024,7 +1023,7 @@ public class ScaleCommand
 							)
 						)
 						.executes(context ->
-							DataCommandInvoker.callExecuteGet(
+							DataCommandInvoker.Get.callExecuteGet(
 								context.getSource(),
 								new EntityScaleDataObject(EntityArgumentType.getEntity(context, "entity"))
 							)
