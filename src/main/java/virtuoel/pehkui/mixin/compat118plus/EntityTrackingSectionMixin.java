@@ -15,40 +15,46 @@ public class EntityTrackingSectionMixin
 	@Redirect(method = "forEach(Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private Box pehkui$forEach$applyInteractionHitbox(EntityLike obj)
 	{
+		final Box bounds = obj.getBoundingBox();
+		
 		if (obj instanceof Entity)
 		{
-			Entity entity = (Entity) obj;
+			final Entity entity = (Entity) obj;
 			final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
 			final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
-
+			
 			if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 			{
-				final double scaledWidth = (entity.getWidth() * interactionWidth * 0.30000001192092896D) - (entity.getWidth() * 0.30000001192092896D);
-				final double scaledHeight = (entity.getHeight() * interactionHeight * 0.30000001192092896D) - (entity.getHeight() * 0.30000001192092896D);
-
-				return entity.getBoundingBox().expand(scaledWidth, scaledHeight, scaledWidth);
+				final double scaledWidth = (entity.getWidth() * interactionWidth * 0.3D) - (entity.getWidth() * 0.3D);
+				final double scaledHeight = (entity.getHeight() * interactionHeight * 0.3D) - (entity.getHeight() * 0.3D);
+				
+				return bounds.expand(scaledWidth, scaledHeight, scaledWidth);
 			}
 		}
-		return obj.getBoundingBox();
+		
+		return bounds;
 	}
-
+	
 	@Redirect(method = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private Box pehkui$forEach$applyInteractionHitboxFiltered(EntityLike obj)
 	{
+		final Box bounds = obj.getBoundingBox();
+		
 		if (obj instanceof Entity)
 		{
-			Entity entity = (Entity) obj;
+			final Entity entity = (Entity) obj;
 			final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
 			final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
-
+			
 			if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 			{
-				final double scaledWidth = (entity.getWidth() * interactionWidth * 0.30000001192092896D) - (entity.getWidth() * 0.30000001192092896D);
-				final double scaledHeight = (entity.getHeight() * interactionHeight * 0.30000001192092896D) - (entity.getHeight() * 0.30000001192092896D);
-
-				return entity.getBoundingBox().expand(scaledWidth, scaledHeight, scaledWidth);
+				final double scaledWidth = (entity.getWidth() * interactionWidth * 0.3D) - (entity.getWidth() * 0.3D);
+				final double scaledHeight = (entity.getHeight() * interactionHeight * 0.3D) - (entity.getHeight() * 0.3D);
+				
+				return bounds.expand(scaledWidth, scaledHeight, scaledWidth);
 			}
 		}
-		return obj.getBoundingBox();
+		
+		return bounds;
 	}
 }
