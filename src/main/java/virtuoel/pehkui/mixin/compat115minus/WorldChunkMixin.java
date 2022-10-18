@@ -1,11 +1,12 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Box;
-import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Box;
+import net.minecraft.world.chunk.WorldChunk;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 

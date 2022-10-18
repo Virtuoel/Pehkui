@@ -1,12 +1,13 @@
 package virtuoel.pehkui.mixin.compat117;
 
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.entity.EntityLike;
 import net.minecraft.world.entity.SectionedEntityCache;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(SectionedEntityCache.class)

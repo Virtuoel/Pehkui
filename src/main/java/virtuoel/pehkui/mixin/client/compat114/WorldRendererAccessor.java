@@ -1,11 +1,12 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
-import net.minecraft.util.math.Box;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
-import virtuoel.pehkui.util.MixinConstants;
 
-@Mixin(targets = MixinConstants.WORLD_RENDERER)
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.util.math.Box;
+
+@Mixin(WorldRenderer.class)
 public interface WorldRendererAccessor
 {
 	@Invoker(value = "method_3260", remap = false)

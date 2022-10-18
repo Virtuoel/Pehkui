@@ -5,17 +5,32 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashReportSection;
+import net.minecraft.util.math.Box;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.mixin.client.compat114.WorldRendererAccessor;
 
 public class ScaleRenderUtils
 {
+	public static void renderInteractionBox(final Box box)
+	{
+		WorldRendererAccessor.pehkui$drawBoxOutline(box, 0.25F, 1.0F, 0.0F, 1.0F);
+	}
+	
+	public static void renderInteractionBox(final Object matrices, final Object vertices, final Box box)
+	{
+		WorldRenderer.drawBox((MatrixStack) matrices, (VertexConsumer) vertices, box, 0.25F, 1.0F, 0.0F, 1.0F);
+	}
+	
 	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
 	{
 		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getBoundingBoxWidthScale(entity, tickDelta), depth, entity, tickDelta);

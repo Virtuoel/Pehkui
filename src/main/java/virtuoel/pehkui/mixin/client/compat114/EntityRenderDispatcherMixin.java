@@ -57,7 +57,7 @@ public class EntityRenderDispatcherMixin
 			final Vec3d pos = entity.getPos();
 			final Box box = entity.getBoundingBox().expand(scaledWidth, scaledHeight, scaledWidth).offset(-pos.x + d, -pos.y + e, -pos.z + f);
 			
-			WorldRendererAccessor.pehkui$drawBoxOutline(box, 1.0F, 0.0F, 1.0F, 1.0F);
+			ScaleRenderUtils.renderInteractionBox(box);
 		}
 	}
 }
