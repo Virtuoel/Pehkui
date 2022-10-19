@@ -21,14 +21,32 @@ import virtuoel.pehkui.mixin.client.compat114.WorldRendererAccessor;
 
 public class ScaleRenderUtils
 {
+	private static boolean loggedWrongVersionCall = false;
+	
 	public static void renderInteractionBox(final Box box)
 	{
-		WorldRendererAccessor.pehkui$drawBoxOutline(box, 0.25F, 1.0F, 0.0F, 1.0F);
+		if (VersionUtils.MINOR < 15)
+		{
+			WorldRendererAccessor.pehkui$drawBoxOutline(box, 0.25F, 1.0F, 0.0F, 1.0F);
+		}
+		else if (!loggedWrongVersionCall)
+		{
+			Pehkui.LOGGER.warn("Called outline render method for wrong version (1.{}), but currently on 1.{}.x", "14.x", VersionUtils.MINOR);
+			loggedWrongVersionCall = true;
+		}
 	}
 	
 	public static void renderInteractionBox(final Object matrices, final Object vertices, final Box box)
 	{
-		WorldRenderer.drawBox((MatrixStack) matrices, (VertexConsumer) vertices, box, 0.25F, 1.0F, 0.0F, 1.0F);
+		if (VersionUtils.MINOR > 14)
+		{
+			WorldRenderer.drawBox((MatrixStack) matrices, (VertexConsumer) vertices, box, 0.25F, 1.0F, 0.0F, 1.0F);
+		}
+		else if (!loggedWrongVersionCall)
+		{
+			Pehkui.LOGGER.warn("Called outline render method for wrong version (1.{}), but currently on 1.{}.x", "15+", VersionUtils.MINOR);
+			loggedWrongVersionCall = true;
+		}
 	}
 	
 	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
