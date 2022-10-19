@@ -29,9 +29,11 @@ public class ProjectileUtilMixin
 		
 		if (width != 1.0F || height != 1.0F || interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final double scaledWidth = (width * interactionWidth * value) - value;
-			final double scaledHeight = (height * interactionHeight * value) - value;
-			return bounds.expand(scaledWidth, scaledHeight, scaledWidth);
+			final double scaledXLength = value * ((width * interactionWidth) - 1.0F);
+			final double scaledYLength = value * ((height * interactionHeight) - 1.0F);
+			final double scaledZLength = value * ((width * interactionWidth) - 1.0F);
+			
+			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
 		}
 		
 		return bounds;
@@ -41,16 +43,18 @@ public class ProjectileUtilMixin
 	private static Box pehkui$raycast$getInteractionBox(Entity obj)
 	{
 		final Box bounds = obj.getBoundingBox();
+		final double margin = obj.getTargetingMargin();
 		
 		final float interactionWidth = ScaleUtils.getInteractionWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionHeightScale(obj);
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final double scaledWidth = ((obj.getWidth() * interactionWidth * 0.3D) + (interactionWidth * obj.getTargetingMargin())) - (obj.getWidth() * 0.3D - obj.getTargetingMargin());
-			final double scaledHeight = ((obj.getHeight() * interactionHeight * 0.3D) + (interactionHeight * obj.getTargetingMargin())) - (obj.getHeight() * 0.3D - obj.getTargetingMargin());
+			final double scaledXLength = margin * (interactionWidth - 1.0F);
+			final double scaledYLength = margin * (interactionHeight - 1.0F);
+			final double scaledZLength = margin * (interactionWidth - 1.0F);
 			
-			return bounds.expand(scaledWidth, scaledHeight, scaledWidth);
+			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
 		}
 		
 		return bounds;

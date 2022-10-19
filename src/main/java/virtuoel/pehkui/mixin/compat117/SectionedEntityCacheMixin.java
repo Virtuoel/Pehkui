@@ -21,15 +21,17 @@ public class SectionedEntityCacheMixin
 		if (obj instanceof Entity)
 		{
 			final Entity entity = (Entity) obj;
+			
 			final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
 			final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
 			
 			if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 			{
-				final double scaledWidth = (entity.getWidth() * interactionWidth * 0.3D) - (entity.getWidth() * 0.3D);
-				final double scaledHeight = (entity.getHeight() * interactionHeight * 0.3D) - (entity.getHeight() * 0.3D);
+				final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
+				final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
+				final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
 				
-				return bounds.expand(scaledWidth, scaledHeight, scaledWidth);
+				return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
 			}
 		}
 		

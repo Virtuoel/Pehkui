@@ -25,10 +25,11 @@ public class ProjectileUtilMixin
 		
 		if (width != 1.0F || height != 1.0F || interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final double scaledWidth = (width * interactionWidth * 0.3D) - 0.3D;
-			final double scaledHeight = (height * interactionHeight * 0.3D) - 0.3D;
+			final double scaledXLength = 0.3D * ((width * interactionWidth) - 1.0F);
+			final double scaledYLength = 0.3D * ((height * interactionHeight) - 1.0F);
+			final double scaledZLength = 0.3D * ((width * interactionWidth) - 1.0F);
 			
-			return bounds.expand(scaledWidth, scaledHeight, scaledWidth);
+			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
 		}
 		
 		return bounds;
