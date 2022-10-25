@@ -2,13 +2,8 @@ package virtuoel.pehkui.mixin;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -185,5 +180,19 @@ public abstract class LivingEntityMixin
 				}
 			}
 		}
+	}
+
+	@Redirect(method = "tickCramming", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$tickCramming$applyInteractionHitbox(LivingEntity obj) {
+		final float interactionWidth = ScaleUtils.getInteractionWidthScale(obj);
+		final float interactionHeight = ScaleUtils.getInteractionHeightScale(obj);
+
+		if (interactionWidth != 1.0F || interactionHeight != 1.0F) {
+			final double scaledWidth = (interactionWidth * 0.30000001192092896D) - 0.30000001192092896D;
+			final double scaledHeight = (interactionHeight * 0.30000001192092896D) - 0.30000001192092896D;
+
+			return obj.getBoundingBox().expand(scaledWidth, scaledHeight, scaledWidth);
+		}
+		return obj.getBoundingBox();
 	}
 }

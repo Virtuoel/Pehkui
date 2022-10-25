@@ -380,7 +380,27 @@ public class ScaleUtils
 	{
 		return getTypedScale(entity, ScaleTypes.HITBOX_HEIGHT, tickDelta);
 	}
-	
+
+	public static float getInteractionWidthScale(Entity entity)
+	{
+		return getInteractionWidthScale(entity, 1.0F);
+	}
+
+	public static float getInteractionWidthScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.INTERACTION_WIDTH, tickDelta);
+	}
+
+	public static float getInteractionHeightScale(Entity entity)
+	{
+		return getInteractionHeightScale(entity, 1.0F);
+	}
+
+	public static float getInteractionHeightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.INTERACTION_HEIGHT, tickDelta);
+	}
+
 	public static float getFallingScale(Entity entity)
 	{
 		return getFallingScale(entity, 1.0F);

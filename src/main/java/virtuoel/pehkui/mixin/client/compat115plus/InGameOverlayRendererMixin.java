@@ -8,6 +8,7 @@ import net.minecraft.client.gui.hud.InGameOverlayRenderer;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
+
 @Mixin(InGameOverlayRenderer.class)
 public abstract class InGameOverlayRendererMixin
 {
