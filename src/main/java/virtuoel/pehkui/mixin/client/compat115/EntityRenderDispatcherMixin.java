@@ -30,16 +30,20 @@ public class EntityRenderDispatcherMixin
 	{
 		final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
 		final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
+		final float margin = entity.getTargetingMargin();
 		
-		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
+		if (interactionWidth != 1.0F || interactionHeight != 1.0F || margin != 0.0F)
 		{
 			Box bounds = entity.getBoundingBox();
 			
 			final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
 			final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
 			final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledMarginWidth = margin * interactionWidth;
+			final double scaledMarginHeight = margin * interactionHeight;
 			
-			bounds = bounds.expand(scaledXLength, scaledYLength, scaledZLength).offset(-entity.getX(), -entity.getY(), -entity.getZ());
+			bounds = bounds.expand(scaledXLength + scaledMarginWidth, scaledYLength + scaledMarginHeight, scaledZLength + scaledMarginWidth)
+				.offset(-entity.getX(), -entity.getY(), -entity.getZ());
 			
 			ScaleRenderUtils.renderInteractionBox(matrices, vertices, bounds);
 		}
