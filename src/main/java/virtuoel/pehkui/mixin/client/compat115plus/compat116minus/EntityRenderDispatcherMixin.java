@@ -17,7 +17,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EntityRenderDispatcherMixin
 {
 	@Inject(method = "renderHitbox", at = @At(value = "TAIL"))
-	private static void pehkui$renderHitbox(MatrixStack matrices, VertexConsumer vertices, Entity entity, float tickDelta, CallbackInfo ci)
+	private void pehkui$renderHitbox(MatrixStack matrices, VertexConsumer vertices, Entity entity, float tickDelta, CallbackInfo ci)
 	{
 		final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
 		final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
