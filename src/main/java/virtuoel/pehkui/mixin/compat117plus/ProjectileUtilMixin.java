@@ -40,7 +40,7 @@ public class ProjectileUtilMixin
 	}
 	
 	@Redirect(method = "raycast", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$raycast$getInteractionBox(Entity obj)
+	private static Box pehkui$raycast$getBoundingBox(Entity obj)
 	{
 		final Box bounds = obj.getBoundingBox();
 		final float margin = obj.getTargetingMargin();

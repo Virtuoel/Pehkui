@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class SectionedEntityCacheMixin
 {
 	@Redirect(method = "method_31776", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$intersecting$applyInteractionHitbox(EntityLike obj)
+	private static Box pehkui$intersecting$getBoundingBox(EntityLike obj)
 	{
 		final Box bounds = obj.getBoundingBox();
 		
