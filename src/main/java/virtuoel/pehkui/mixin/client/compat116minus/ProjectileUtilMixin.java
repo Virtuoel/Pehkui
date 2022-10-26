@@ -17,19 +17,20 @@ public class ProjectileUtilMixin
 	private static Box pehkui$raycast$getBoundingBox(Entity obj)
 	{
 		final Box bounds = obj.getBoundingBox();
+		final float margin = obj.getTargetingMargin();
 		
 		final float interactionWidth = ScaleUtils.getInteractionWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionHeightScale(obj);
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final float margin = obj.getTargetingMargin();
+			final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
+			final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledMarginWidth = margin * (interactionWidth - 1.0F);
+			final double scaledMarginHeight = margin * (interactionHeight - 1.0F);
 			
-			final double scaledXLength = margin * (interactionWidth - 1.0F);
-			final double scaledYLength = margin * (interactionHeight - 1.0F);
-			final double scaledZLength = margin * (interactionWidth - 1.0F);
-			
-			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
+			return bounds.expand(scaledXLength + scaledMarginWidth, scaledYLength + scaledMarginHeight, scaledZLength + scaledMarginWidth);
 		}
 		
 		return bounds;
