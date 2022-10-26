@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Item.class)
 public class ItemMixin
 {
-	@ModifyConstant(method = MixinConstants.RAYCAST, constant = @Constant(doubleValue = 5.0D), remap = false)
+	@ModifyConstant(method = MixinConstants.ITEM_RAYCAST, constant = @Constant(doubleValue = 5.0D), remap = false)
 	private static double pehkui$raycast$multiplier(double value, World world, PlayerEntity player, RaycastContext.FluidHandling fluidHandling)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);

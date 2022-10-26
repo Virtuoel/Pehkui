@@ -47,6 +47,7 @@ public class MixinConstants
 	private static final String METHOD_7872 = "method_7872";
 	private static final String METHOD_6194 = "method_6194";
 	private static final String METHOD_1760 = "method_1760";
+	private static final String METHOD_18075 = "method_1760";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
 	private static final String METHOD_23177 = "method_23177";
@@ -186,7 +187,7 @@ public class MixinConstants
 	public static final String GET_BOUNDING_BOX = METHOD_5829 + "()L" + CLASS_238 + ";";
 	
 	// 1.15 Minus Reach
-	public static final String RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
+	public static final String ITEM_RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
 	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
 	
 	// 1.15 Client
@@ -212,6 +213,7 @@ public class MixinConstants
 	
 	// 1.16 Minus Client
 	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT READY
+	public static final String PROJECTILE_RAYCAST = METHOD_18075; // COMMIT READY
 	
 	// 1.16.2 Plus Client
 	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT READY
