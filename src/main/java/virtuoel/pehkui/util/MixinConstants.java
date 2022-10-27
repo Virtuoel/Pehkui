@@ -160,7 +160,7 @@ public class MixinConstants
 	// 1.15 Plus 1.16 Minus
 	public static final String DROP_XP = METHOD_23883; // COMMIT READY
 	
-	// 1.15 Plus 1.16 Minus Client
+	// 1.15 Plus 1.19.2 Minus Client
 	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973; // COMMIT READY
 	
 	// 1.15 Minus
