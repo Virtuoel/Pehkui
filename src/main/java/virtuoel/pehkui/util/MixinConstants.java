@@ -47,7 +47,7 @@ public class MixinConstants
 	private static final String METHOD_7872 = "method_7872";
 	private static final String METHOD_6194 = "method_6194";
 	private static final String METHOD_1760 = "method_1760";
-	private static final String METHOD_18075 = "method_1760";
+	private static final String METHOD_18075 = "method_18075";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
 	private static final String METHOD_23177 = "method_23177";
