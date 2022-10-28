@@ -12,8 +12,8 @@ public class ScaleTypes
 	public static final ScaleType EYE_HEIGHT = registerDimensionScale("eye_height", ScaleModifiers.HEIGHT_MULTIPLIER);
 	public static final ScaleType HITBOX_WIDTH = registerDimensionScale("hitbox_width", ScaleModifiers.WIDTH_MULTIPLIER);
 	public static final ScaleType HITBOX_HEIGHT = registerDimensionScale("hitbox_height", ScaleModifiers.HEIGHT_MULTIPLIER);
-	public static final ScaleType INTERACTION_WIDTH = register("interaction_width");
-	public static final ScaleType INTERACTION_HEIGHT = register("interaction_height");
+	public static final ScaleType INTERACTION_BOX_WIDTH = register("interaction_box_width");
+	public static final ScaleType INTERACTION_BOX_HEIGHT = register("interaction_box_height");
 	public static final ScaleType MODEL_WIDTH = register("model_width", ScaleModifiers.WIDTH_MULTIPLIER);
 	public static final ScaleType MODEL_HEIGHT = register("model_height", ScaleModifiers.HEIGHT_MULTIPLIER);
 	public static final ScaleType THIRD_PERSON = register("third_person", ScaleModifiers.HEIGHT_MULTIPLIER);

@@ -18,8 +18,8 @@ public class WorldChunkMixin
 	{
 		final Box bounds = obj.getBoundingBox();
 		
-		final float interactionWidth = ScaleUtils.getInteractionWidthScale(obj);
-		final float interactionHeight = ScaleUtils.getInteractionHeightScale(obj);
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
@@ -38,8 +38,8 @@ public class WorldChunkMixin
 	{
 		final Box bounds = obj.getBoundingBox();
 		
-		final float interactionWidth = ScaleUtils.getInteractionWidthScale(obj);
-		final float interactionHeight = ScaleUtils.getInteractionHeightScale(obj);
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
@@ -58,8 +58,8 @@ public class WorldChunkMixin
 	{
 		final Box bounds = obj.getBoundingBox();
 		
-		final float interactionWidth = ScaleUtils.getInteractionWidthScale(obj);
-		final float interactionHeight = ScaleUtils.getInteractionHeightScale(obj);
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{

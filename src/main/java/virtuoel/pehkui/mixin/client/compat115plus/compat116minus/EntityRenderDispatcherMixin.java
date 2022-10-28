@@ -19,8 +19,8 @@ public class EntityRenderDispatcherMixin
 	@Inject(method = "renderHitbox", at = @At(value = "TAIL"))
 	private void pehkui$renderHitbox(MatrixStack matrices, VertexConsumer vertices, Entity entity, float tickDelta, CallbackInfo ci)
 	{
-		final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
-		final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
 		final float margin = entity.getTargetingMargin();
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F || margin != 0.0F)

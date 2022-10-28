@@ -22,8 +22,8 @@ public class EntityTrackingSectionMixin
 		{
 			final Entity entity = (Entity) obj;
 			
-			final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
-			final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
+			final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+			final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
 			
 			if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 			{
@@ -47,8 +47,8 @@ public class EntityTrackingSectionMixin
 		{
 			final Entity entity = (Entity) obj;
 			
-			final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
-			final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
+			final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+			final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
 			
 			if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 			{

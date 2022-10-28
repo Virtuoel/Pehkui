@@ -22,8 +22,8 @@ public class ProjectileUtilMixin
 		final float width = ScaleUtils.getBoundingBoxWidthScale(entity);
 		final float height = ScaleUtils.getBoundingBoxHeightScale(entity);
 		
-		final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
-		final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
 		
 		if (width != 1.0F || height != 1.0F || interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{

@@ -381,24 +381,24 @@ public class ScaleUtils
 		return getTypedScale(entity, ScaleTypes.HITBOX_HEIGHT, tickDelta);
 	}
 	
-	public static float getInteractionWidthScale(Entity entity)
+	public static float getInteractionBoxWidthScale(Entity entity)
 	{
-		return getInteractionWidthScale(entity, 1.0F);
+		return getInteractionBoxWidthScale(entity, 1.0F);
 	}
 	
-	public static float getInteractionWidthScale(Entity entity, float tickDelta)
+	public static float getInteractionBoxWidthScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleTypes.INTERACTION_WIDTH, tickDelta);
+		return getTypedScale(entity, ScaleTypes.INTERACTION_BOX_WIDTH, tickDelta);
 	}
 	
-	public static float getInteractionHeightScale(Entity entity)
+	public static float getInteractionBoxHeightScale(Entity entity)
 	{
-		return getInteractionHeightScale(entity, 1.0F);
+		return getInteractionBoxHeightScale(entity, 1.0F);
 	}
 	
-	public static float getInteractionHeightScale(Entity entity, float tickDelta)
+	public static float getInteractionBoxHeightScale(Entity entity, float tickDelta)
 	{
-		return getTypedScale(entity, ScaleTypes.INTERACTION_HEIGHT, tickDelta);
+		return getTypedScale(entity, ScaleTypes.INTERACTION_BOX_HEIGHT, tickDelta);
 	}
 	
 	public static float getFallingScale(Entity entity)

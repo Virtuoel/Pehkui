@@ -46,8 +46,8 @@ public class EntityRenderDispatcherMixin
 	@Inject(method = MixinConstants.RENDER_HITBOX, at = @At(value = "INVOKE", target = MixinConstants.TESSELATOR_GET_INSTANCE, remap = false), remap = false)
 	private void pehkui$renderHitbox(Entity entity, double d, double e, double f, float g, float h, CallbackInfo ci)
 	{
-		final float interactionWidth = ScaleUtils.getInteractionWidthScale(entity);
-		final float interactionHeight = ScaleUtils.getInteractionHeightScale(entity);
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
 		final float margin = entity.getTargetingMargin();
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F || margin != 0.0F)
