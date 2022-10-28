@@ -25,9 +25,14 @@ public class ScaleRenderUtils
 	
 	public static void renderInteractionBox(final Box box)
 	{
+		renderInteractionBox(box, 0.25F, 1.0F, 0.0F, 1.0F);
+	}
+	
+	public static void renderInteractionBox(final Box box, final float red, final float green, final float blue, final float alpha)
+	{
 		if (VersionUtils.MINOR < 15)
 		{
-			WorldRendererAccessor.pehkui$drawBoxOutline(box, 0.25F, 1.0F, 0.0F, 1.0F);
+			WorldRendererAccessor.pehkui$drawBoxOutline(box, red, green, blue, alpha);
 		}
 		else if (!loggedWrongVersionCall)
 		{
@@ -38,9 +43,14 @@ public class ScaleRenderUtils
 	
 	public static void renderInteractionBox(final Object matrices, final Object vertices, final Box box)
 	{
+		renderInteractionBox(matrices, vertices, box, 0.25F, 1.0F, 0.0F, 1.0F);
+	}
+	
+	public static void renderInteractionBox(final Object matrices, final Object vertices, final Box box, final float red, final float green, final float blue, final float alpha)
+	{
 		if (VersionUtils.MINOR > 14)
 		{
-			WorldRenderer.drawBox((MatrixStack) matrices, (VertexConsumer) vertices, box, 0.25F, 1.0F, 0.0F, 1.0F);
+			WorldRenderer.drawBox((MatrixStack) matrices, (VertexConsumer) vertices, box, red, green, blue, alpha);
 		}
 		else if (!loggedWrongVersionCall)
 		{
