@@ -5,17 +5,60 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.WorldRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashReportSection;
+import net.minecraft.util.math.Box;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.mixin.client.compat114.WorldRendererAccessor;
 
 public class ScaleRenderUtils
 {
+	private static boolean loggedWrongVersionCall = false;
+	
+	public static void renderInteractionBox(final Box box)
+	{
+		renderInteractionBox(box, 0.25F, 1.0F, 0.0F, 1.0F);
+	}
+	
+	public static void renderInteractionBox(final Box box, final float red, final float green, final float blue, final float alpha)
+	{
+		if (VersionUtils.MINOR < 15)
+		{
+			WorldRendererAccessor.pehkui$drawBoxOutline(box, red, green, blue, alpha);
+		}
+		else if (!loggedWrongVersionCall)
+		{
+			Pehkui.LOGGER.warn("Called outline render method for wrong version (1.{}), but currently on 1.{}.x", "14.x", VersionUtils.MINOR);
+			loggedWrongVersionCall = true;
+		}
+	}
+	
+	public static void renderInteractionBox(final Object matrices, final Object vertices, final Box box)
+	{
+		renderInteractionBox(matrices, vertices, box, 0.25F, 1.0F, 0.0F, 1.0F);
+	}
+	
+	public static void renderInteractionBox(final Object matrices, final Object vertices, final Box box, final float red, final float green, final float blue, final float alpha)
+	{
+		if (VersionUtils.MINOR > 14)
+		{
+			WorldRenderer.drawBox((MatrixStack) matrices, (VertexConsumer) vertices, box, red, green, blue, alpha);
+		}
+		else if (!loggedWrongVersionCall)
+		{
+			Pehkui.LOGGER.warn("Called outline render method for wrong version (1.{}), but currently on 1.{}.x", "15+", VersionUtils.MINOR);
+			loggedWrongVersionCall = true;
+		}
+	}
+	
 	public static final float modifyProjectionMatrixDepthByWidth(float depth, @Nullable Entity entity, float tickDelta)
 	{
 		return entity == null ? depth : modifyProjectionMatrixDepth(ScaleUtils.getBoundingBoxWidthScale(entity, tickDelta), depth, entity, tickDelta);

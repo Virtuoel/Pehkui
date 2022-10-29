@@ -9,6 +9,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -39,5 +41,30 @@ public class EntityRenderDispatcherMixin
 		
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
+	}
+	
+	@Inject(method = MixinConstants.RENDER_HITBOX, at = @At(value = "INVOKE", target = MixinConstants.TESSELATOR_GET_INSTANCE, remap = false), remap = false)
+	private void pehkui$renderHitbox(Entity entity, double d, double e, double f, float g, float h, CallbackInfo ci)
+	{
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
+		final float margin = entity.getTargetingMargin();
+		
+		if (interactionWidth != 1.0F || interactionHeight != 1.0F || margin != 0.0F)
+		{
+			Box bounds = entity.getBoundingBox();
+			
+			final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
+			final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledMarginWidth = margin * interactionWidth;
+			final double scaledMarginHeight = margin * interactionHeight;
+			
+			final Vec3d pos = entity.getPos();
+			bounds = bounds.expand(scaledXLength + scaledMarginWidth, scaledYLength + scaledMarginHeight, scaledZLength + scaledMarginWidth)
+				.offset(-pos.x + d, -pos.y + e, -pos.z + f);
+			
+			ScaleRenderUtils.renderInteractionBox(bounds);
+		}
 	}
 }

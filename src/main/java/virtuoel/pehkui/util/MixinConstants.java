@@ -46,6 +46,12 @@ public class MixinConstants
 	private static final String METHOD_6194 = "method_6194";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
+	private static final String METHOD_12205 = "method_12205";
+	private static final String METHOD_12210 = "method_12210";
+	private static final String METHOD_18029 = "method_18029";
+	private static final String METHOD_5829 = "method_5829";
+	private static final String METHOD_1348 = "method_1348";
+	private static final String METHOD_3956 = "method_3956";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -79,6 +85,9 @@ public class MixinConstants
 	private static final String CLASS_4597 = "net/minecraft/class_4597";
 	private static final String CLASS_1799 = "net/minecraft/class_1799";
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
+	private static final String CLASS_238 = "net/minecraft/class_238";
+	private static final String CLASS_289 = "net/minecraft/class_289";
+	private static final String CLASS_898 = "net/minecraft/class_898";
 	
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
 	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
@@ -87,6 +96,9 @@ public class MixinConstants
 	public static final String DEATH = METHOD_6078;
 	public static final String POST_DEATH = METHOD_6108;
 	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z";
+	public static final String TESSELATOR_GET_INSTANCE = "L" + CLASS_289 + ";" + METHOD_1348 + "()L" + CLASS_289 + ";";
+	public static final String RENDER_HITBOX = "L" + CLASS_898 + ";" + METHOD_3956 + "(L" + CLASS_1297 + ";DDDFF)V";
+	public static final String ENTITY = CLASS_1297;
 	
 	// Client
 	public static final String BUILD_GEOMETRY = METHOD_3074 + "(L" + CLASS_287 + ";L" + CLASS_4184 + ";FFFFFF)V";
@@ -112,6 +124,7 @@ public class MixinConstants
 	public static final String RENDER_HELD_ITEM = METHOD_4016 + "(L" + CLASS_1799 + ";L" + CLASS_1309 + ";L" + CLASS_809$CLASS_811 + ";Z)V";
 	public static final String RENDER_LEASH = METHOD_4073;
 	public static final String SETUP_TRANSFORMS = METHOD_4058;
+	public static final String WORLD_RENDERER = CLASS_761;
 	
 	// 1.15
 	public static final String EXPLOSIVE_PROJECTILE_ON_COLLISION = METHOD_7469;
@@ -122,6 +135,12 @@ public class MixinConstants
 	public static final String WITCH_REFRESH_POS_AND_ANGLES = "L" + CLASS_1640 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String BREED = METHOD_6249 + "()V";
+	
+	// 1.15 Plus 1.16 Minus
+	public static final String DROP_XP = "dropXp"; // COMMIT READY
+	
+	// 1.15 Plus 1.19.2 Minus Client
+	public static final String GET_BASIC_PROJECTION_MATRIX = "getBasicProjectionMatrix"; // COMMIT READY
 	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
@@ -141,9 +160,12 @@ public class MixinConstants
 	public static final String VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1646 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
 	public static final String CONVERT_TO = METHOD_7200 + "(L" + CLASS_1299 + ";)V";
 	public static final String ON_KILLED_OTHER = METHOD_5874 + "(L" + CLASS_1309 + ";)V";
+	public static final String GET_ENTITIES = METHOD_12205 + "(L" + CLASS_1297 + ";" + "L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)V";
+	public static final String GET_ENTITIES_CLASS = METHOD_12210 + "(Ljava/lang/Class;" + "L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)V";
+	public static final String GET_ENTITIES_ENTITY_TYPE = METHOD_18029 + "(L" + CLASS_1299 + ";" + "L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)V";
 	
 	// 1.15 Minus Reach
-	public static final String RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
+	public static final String ITEM_RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
 	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
 	
 	// 1.15 Client
@@ -163,9 +185,14 @@ public class MixinConstants
 	public static final String COUNT_VIEWERS = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I"; // COMMIT READY
 	public static final String FALL = "fall"; // COMMIT READY
 	public static final String ON_LANDED_UPON = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"; // COMMIT READY
+	public static final String GET_BOUNDING_BOX = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;";
 	
 	// 1.16 Plus 1.18 Minus
 	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT READY
+	
+	// 1.16 Minus Client
+	public static final String RENDER_STATUS_BARS = "renderStatusBars"; // COMMIT READY
+	public static final String PROJECTILE_RAYCAST = "raycast"; // COMMIT READY
 	
 	// 1.16.2 Plus
 	public static final String ON_PLAYER_RESPAWN = "onPlayerRespawn"; // COMMIT READY
