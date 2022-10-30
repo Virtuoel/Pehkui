@@ -162,39 +162,39 @@ public class MixinConstants
 	public static final String GET_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_17682 + "()F";
 	
 	// 1.15 Plus 1.16 Minus
-	public static final String DROP_XP = "dropXp"; // COMMIT READY
+	public static final String DROP_XP = "dropXp"; // COMMIT_READY
 	
 	// 1.15 Plus 1.16 Minus Client
-	public static final String RENDER_ITEM = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V"; // COMMIT READY
+	public static final String RENDER_ITEM = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V"; // COMMIT_READY
 	
 	// 1.15 Plus 1.19.2 Minus Client
-	public static final String GET_BASIC_PROJECTION_MATRIX = "getBasicProjectionMatrix"; // COMMIT READY
+	public static final String GET_BASIC_PROJECTION_MATRIX = "getBasicProjectionMatrix"; // COMMIT_READY
 	
 	// 1.16
-	public static final String IS_INSIDE_WALL = "isInsideWall()Z"; // COMMIT READY
+	public static final String IS_INSIDE_WALL = "isInsideWall()Z"; // COMMIT_READY
 	
 	// 1.16 Minus
-	public static final String ON_OPEN = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT READY
-	public static final String ON_CLOSE = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT READY
-	public static final String COUNT_VIEWERS = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I"; // COMMIT READY
+	public static final String ON_OPEN = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT_READY
+	public static final String ON_CLOSE = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT_READY
+	public static final String COUNT_VIEWERS = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I"; // COMMIT_READY
 	public static final String GET_BOUNDING_BOX = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;";
-	public static final String FALL = "fall"; // COMMIT READY
-	public static final String ON_LANDED_UPON = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"; // COMMIT READY
-	public static final String SPAWN_ENTITY = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"; // COMMIT READY
-	public static final String REMOVE = "remove"; // COMMIT READY
+	public static final String FALL = "fall"; // COMMIT_READY
+	public static final String ON_LANDED_UPON = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"; // COMMIT_READY
+	public static final String SPAWN_ENTITY = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"; // COMMIT_READY
+	public static final String REMOVE = "remove"; // COMMIT_READY
 	
 	// 1.16 Minus Client
-	public static final String RENDER_STATUS_BARS = "renderStatusBars"; // COMMIT READY
-	public static final String GET_ABSORPTION_AMOUNT = "Lnet/minecraft/entity/player/PlayerEntity;getAbsorptionAmount()F"; // COMMIT READY
-	public static final String PROJECTILE_RAYCAST = "raycast"; // COMMIT READY
+	public static final String RENDER_STATUS_BARS = "renderStatusBars"; // COMMIT_READY
+	public static final String GET_ABSORPTION_AMOUNT = "Lnet/minecraft/entity/player/PlayerEntity;getAbsorptionAmount()F"; // COMMIT_READY
+	public static final String PROJECTILE_RAYCAST = "raycast"; // COMMIT_READY
 	
 	// 1.16.2 - 1.16.5 Client
-	public static final String ON_PLAYER_RESPAWN = "onPlayerRespawn"; // COMMIT READY
-	public static final String AFTER_SPAWN = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"; // COMMIT READY
+	public static final String ON_PLAYER_RESPAWN = "onPlayerRespawn"; // COMMIT_READY
+	public static final String AFTER_SPAWN = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.18 Minus
-	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT READY
+	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT_READY
 	
 	// 1.18 Minus
-	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT READY
+	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT_READY
 }
