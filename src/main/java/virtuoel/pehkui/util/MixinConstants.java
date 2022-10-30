@@ -4,7 +4,6 @@ public class MixinConstants
 {
 	private static final String METHOD_6078 = "method_6078";
 	private static final String METHOD_6108 = "method_6108";
-	private static final String METHOD_8649 = "method_8649";
 	private static final String METHOD_3074 = "method_3074";
 	private static final String METHOD_16436 = "method_16436";
 	private static final String METHOD_3887 = "method_3887";
@@ -30,7 +29,6 @@ public class MixinConstants
 	private static final String METHOD_5808 = "method_5808";
 	private static final String METHOD_6249 = "method_6249";
 	private static final String METHOD_7492 = "method_7492";
-	private static final String METHOD_5692 = "method_5692";
 	private static final String METHOD_6959 = "method_6959";
 	private static final String METHOD_19949 = "method_19949";
 	private static final String METHOD_5800 = "method_5800";
@@ -46,6 +44,11 @@ public class MixinConstants
 	private static final String METHOD_6194 = "method_6194";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
+	private static final String METHOD_12205 = "method_12205";
+	private static final String METHOD_12210 = "method_12210";
+	private static final String METHOD_18029 = "method_18029";
+	private static final String METHOD_1348 = "method_1348";
+	private static final String METHOD_3956 = "method_3956";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -66,7 +69,6 @@ public class MixinConstants
 	private static final String CLASS_1640 = "net/minecraft/class_1640";
 	private static final String CLASS_1590 = "net/minecraft/class_1590";
 	private static final String CLASS_239 = "net/minecraft/class_239";
-	private static final String CLASS_3494 = "net/minecraft/class_3494";
 	private static final String CLASS_1538 = "net/minecraft/class_1538";
 	private static final String CLASS_243 = "net/minecraft/class_243";
 	private static final String CLASS_1646 = "net/minecraft/class_1646";
@@ -78,99 +80,121 @@ public class MixinConstants
 	private static final String CLASS_4587 = "net/minecraft/class_4587";
 	private static final String CLASS_4597 = "net/minecraft/class_4597";
 	private static final String CLASS_1799 = "net/minecraft/class_1799";
-	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
+	private static final String CLASS_238 = "net/minecraft/class_238";
+	private static final String CLASS_289 = "net/minecraft/class_289";
+	private static final String CLASS_898 = "net/minecraft/class_898";
 	
+	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
 	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
 	
 	// 1.14
 	public static final String DEATH = METHOD_6078;
 	public static final String POST_DEATH = METHOD_6108;
-	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z";
 	
-	// Client
-	public static final String BUILD_GEOMETRY = METHOD_3074 + "(L" + CLASS_287 + ";L" + CLASS_4184 + ";FFFFFF)V";
-	public static final String LERP = "L" + CLASS_3532 + ";" + METHOD_16436 + "(DDD)D";
+	// 1.14 Client
 	public static final String RENDER_SECOND_PASS = METHOD_3887 + "(L" + CLASS_1690 + ";DDDFF)V";
 	public static final String RENDER_PASS = "L" + CLASS_554 + ";" + METHOD_2836 + "(L" + CLASS_1297 + ";FFFFFF)V";
-	public static final String RENDER_OVERLAYS = METHOD_3232 + "(F)V";
 	public static final String RENDER = METHOD_3954 + "(L" + CLASS_1297 + ";DDDFFZ)V";
 	public static final String RENDER_IN_WORLD = "L" + CLASS_897 + ";" + METHOD_3936 + "(L" + CLASS_1297 + ";DDDFF)V";
+	public static final String TESSELATOR_GET_INSTANCE = "L" + CLASS_289 + ";" + METHOD_1348 + "()L" + CLASS_289 + ";";
+	public static final String RENDER_HITBOX = "L" + CLASS_898 + ";" + METHOD_3956 + "(L" + CLASS_1297 + ";DDDFF)V";
 	public static final String RENDER_LABEL = METHOD_3923 + "(L" + CLASS_1297 + ";Ljava/lang/String;DDDI)V";
-	public static final String GET_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_17682 + "()F";
 	public static final String POST_RENDER = METHOD_3939 + "(L" + CLASS_1297 + ";DDDFF)V";
 	public static final String RENDER_SHADOW = "L" + CLASS_897 + ";" + METHOD_3934 + "(L" + CLASS_1297 + ";DDDFF)V";
-	public static final String BOB_VIEW = METHOD_3186 + "(F)V";
 	public static final String FIELD_5973 = "field_5973";
 	public static final String HORIZONTAL_SPEED = "L" + CLASS_1657 + ";" + FIELD_5973 + ":F";
+	public static final String BOB_VIEW = METHOD_3186 + "(F)V";
 	public static final String FIELD_6039 = "field_6039";
 	public static final String PREV_HORIZONTAL_SPEED = "L" + CLASS_1657 + ";" + FIELD_6039 + ":F";
 	public static final String APPLY_CAMERA_TRANSFORMATIONS = METHOD_3185 + "(F)V";
 	public static final String RENDER_HAND = METHOD_3172 + "(L" + CLASS_4184 + ";F)V";
 	public static final String RENDER_CENTER = METHOD_3178 + "(FJ)V";
 	public static final String RENDER_ABOVE_CLOUDS = METHOD_3206 + "(L" + CLASS_4184 + ";L" + CLASS_761 + ";FDDD)V";
+	public static final String RENDER_OVERLAYS = METHOD_3232 + "(F)V";
+	public static final String BUILD_GEOMETRY = METHOD_3074 + "(L" + CLASS_287 + ";L" + CLASS_4184 + ";FFFFFF)V";
+	public static final String LERP = "L" + CLASS_3532 + ";" + METHOD_16436 + "(DDD)D";
 	public static final String RENDER_HELD_ITEM = METHOD_4016 + "(L" + CLASS_1799 + ";L" + CLASS_1309 + ";L" + CLASS_809$CLASS_811 + ";Z)V";
 	public static final String RENDER_LEASH = METHOD_4073;
 	public static final String SETUP_TRANSFORMS = METHOD_4058;
+	public static final String WORLD_RENDERER = CLASS_761;
 	
 	// 1.15
 	public static final String EXPLOSIVE_PROJECTILE_ON_COLLISION = METHOD_7469;
 	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
-	public static final String INTERACT_MOB = METHOD_5992 + "(L" + CLASS_1657 + ";L" + CLASS_1268 + ";)Z";
-	public static final String PASSIVE_ENTITY_REFRESH_POS_AND_ANGLES = "L" + CLASS_1296 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String ZOMBIE_REFRESH_POS_AND_ANGLES = "L" + CLASS_1642 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String WITCH_REFRESH_POS_AND_ANGLES = "L" + CLASS_1640 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
-	public static final String BREED = METHOD_6249 + "()V";
+	
+	// 1.15 Client
+	public static final String RENDER_SHADOW_PART = METHOD_23163;
+	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
 	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
-	public static final String UPDATE_MOVEMENT_IN_FLUID = METHOD_5692 + "(L" + CLASS_3494 + ";)Z";
 	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
+	public static final String BREED = METHOD_6249 + "()V";
 	public static final String GIVE_TO_TARGET = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_1309 + ";)V";
-	public static final String ON_STRUCK_BY_LIGHTNING = METHOD_5800 + "(L" + CLASS_1538 + ";)V";
+	public static final String INTERACT_MOB = METHOD_5992 + "(L" + CLASS_1657 + ";L" + CLASS_1268 + ";)Z";
+	public static final String PASSIVE_ENTITY_REFRESH_POS_AND_ANGLES = "L" + CLASS_1296 + ";" + METHOD_5808 + "(DDDFF)V";
+	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String CAST_SPELL = METHOD_7148;
 	public static final String SET_VELOCITY = METHOD_7485 + "(DDDFF)V";
 	public static final String MULTIPLY = "L" + CLASS_243 + ";" + METHOD_1021 + "(D)L" + CLASS_243 + ";";
 	public static final String CREATE_CHILD = METHOD_18970 + "(L" + CLASS_1646 + ";L" + CLASS_1646 + ";)Ljava/util/Optional;";
-	public static final String FINISH_CONVERSION = METHOD_7197 + "(L" + CLASS_3218 + ";)V";
-	public static final String ZOMBIE_COPY_POS_AND_ROT = "L" + CLASS_1642 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
-	public static final String ZOMBIE_VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1641 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
-	public static final String VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1646 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
+	public static final String ON_STRUCK_BY_LIGHTNING = METHOD_5800 + "(L" + CLASS_1538 + ";)V";
+	public static final String WITCH_REFRESH_POS_AND_ANGLES = "L" + CLASS_1640 + ";" + METHOD_5808 + "(DDDFF)V";
+	public static final String GET_ENTITIES = METHOD_12205 + "(L" + CLASS_1297 + ";" + "L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)V";
+	public static final String GET_ENTITIES_CLASS = METHOD_12210 + "(Ljava/lang/Class;" + "L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)V";
+	public static final String GET_ENTITIES_ENTITY_TYPE = METHOD_18029 + "(L" + CLASS_1299 + ";" + "L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)V";
 	public static final String CONVERT_TO = METHOD_7200 + "(L" + CLASS_1299 + ";)V";
+	public static final String ZOMBIE_COPY_POS_AND_ROT = "L" + CLASS_1642 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
 	public static final String ON_KILLED_OTHER = METHOD_5874 + "(L" + CLASS_1309 + ";)V";
+	public static final String ZOMBIE_VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1641 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
+	public static final String FINISH_CONVERSION = METHOD_7197 + "(L" + CLASS_3218 + ";)V";
+	public static final String VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1646 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
 	
 	// 1.15 Minus Reach
-	public static final String RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
+	public static final String ITEM_RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
 	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
 	
-	// 1.15 Client
-	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
-	public static final String RENDER_SHADOW_PART = METHOD_23163;
+	// 1.15 Minus Client
+	public static final String GET_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_17682 + "()F";
+	
+	// 1.15 Plus 1.16 Minus
+	public static final String DROP_XP = "dropXp"; // COMMIT_READY
 	
 	// 1.15 Plus 1.16 Minus Client
-	public static final String RENDER_ITEM = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V"; // COMMIT READY
+	public static final String RENDER_ITEM = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V"; // COMMIT_READY
+	
+	// 1.15 Plus 1.19.2 Minus Client
+	public static final String GET_BASIC_PROJECTION_MATRIX = "getBasicProjectionMatrix"; // COMMIT_READY
 	
 	// 1.16
-	public static final String IS_INSIDE_WALL = "isInsideWall()Z"; // COMMIT READY
+	public static final String IS_INSIDE_WALL = "isInsideWall()Z"; // COMMIT_READY
 	
 	// 1.16 Minus
-	public static final String REMOVE = "remove"; // COMMIT READY
-	public static final String ON_OPEN = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT READY
-	public static final String ON_CLOSE = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT READY
-	public static final String COUNT_VIEWERS = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I"; // COMMIT READY
-	public static final String FALL = "fall"; // COMMIT READY
-	public static final String ON_LANDED_UPON = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"; // COMMIT READY
+	public static final String ON_OPEN = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT_READY
+	public static final String ON_CLOSE = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT_READY
+	public static final String COUNT_VIEWERS = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I"; // COMMIT_READY
+	public static final String GET_BOUNDING_BOX = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;";
+	public static final String FALL = "fall"; // COMMIT_READY
+	public static final String ON_LANDED_UPON = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"; // COMMIT_READY
+	public static final String SPAWN_ENTITY = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"; // COMMIT_READY
+	public static final String REMOVE = "remove"; // COMMIT_READY
+	
+	// 1.16 Minus Client
+	public static final String RENDER_STATUS_BARS = "renderStatusBars"; // COMMIT_READY
+	public static final String GET_ABSORPTION_AMOUNT = "Lnet/minecraft/entity/player/PlayerEntity;getAbsorptionAmount()F"; // COMMIT_READY
+	public static final String PROJECTILE_RAYCAST = "raycast"; // COMMIT_READY
+	
+	// 1.16.2 - 1.16.5 Client
+	public static final String ON_PLAYER_RESPAWN = "onPlayerRespawn"; // COMMIT_READY
+	public static final String AFTER_SPAWN = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.18 Minus
-	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT READY
-	
-	// 1.16.2 Plus
-	public static final String ON_PLAYER_RESPAWN = "onPlayerRespawn"; // COMMIT READY
-	public static final String AFTER_SPAWN = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"; // COMMIT READY
+	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT_READY
 	
 	// 1.18 Minus
-	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT READY
+	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT_READY
 }
