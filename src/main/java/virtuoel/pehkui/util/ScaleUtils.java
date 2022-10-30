@@ -370,6 +370,26 @@ public class ScaleUtils
 		return getTypedScale(entity, ScaleTypes.HITBOX_HEIGHT, tickDelta);
 	}
 	
+	public static float getInteractionBoxWidthScale(Entity entity)
+	{
+		return getInteractionBoxWidthScale(entity, 1.0F);
+	}
+	
+	public static float getInteractionBoxWidthScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.INTERACTION_BOX_WIDTH, tickDelta);
+	}
+	
+	public static float getInteractionBoxHeightScale(Entity entity)
+	{
+		return getInteractionBoxHeightScale(entity, 1.0F);
+	}
+	
+	public static float getInteractionBoxHeightScale(Entity entity, float tickDelta)
+	{
+		return getTypedScale(entity, ScaleTypes.INTERACTION_BOX_HEIGHT, tickDelta);
+	}
+	
 	public static float getFallingScale(Entity entity)
 	{
 		return getFallingScale(entity, 1.0F);

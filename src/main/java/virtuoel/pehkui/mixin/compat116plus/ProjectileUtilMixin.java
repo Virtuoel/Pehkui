@@ -22,9 +22,12 @@ public class ProjectileUtilMixin
 		final float width = ScaleUtils.getBoundingBoxWidthScale(entity);
 		final float height = ScaleUtils.getBoundingBoxHeightScale(entity);
 		
-		if (width != 1.0F || height != 1.0F)
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(entity);
+		
+		if (width != 1.0F || height != 1.0F || interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			return box.expand(width - 1.0D, height - 1.0D, width - 1.0D);
+			return box.expand((width * interactionWidth) - 1.0D, (height * interactionHeight) - 1.0D, (width * interactionWidth) - 1.0D);
 		}
 		
 		return box;

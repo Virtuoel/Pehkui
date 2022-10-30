@@ -155,6 +155,11 @@ public class ScaleData
 			{
 				this.initialScale = targetScale;
 			}
+			
+			if (this.scaleTicks != 0)
+			{
+				this.scaleTicks = 0;
+			}
 		}
 	}
 	

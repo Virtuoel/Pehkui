@@ -12,38 +12,43 @@ Library mod for the Fabric, Forge, and Quilt mod loaders that allows mod develop
 
 ### Playing on Fabric
 
-- Newest version of the [Fabric mod loader](https://fabricmc.net/use/)  
+- Newest version of the [Fabric mod loader](https://fabricmc.net/use/installer/)  
 - Newest version of the [Fabric A](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)[PI mod](https://modrinth.com/mod/fabric-api/versions) for whichever Minecraft version you're playing on
 
 ### Playing on Forge
 
 - Newest version of the [Forge mod loader](https://files.minecraftforge.net/net/minecraftforge/forge/) for whichever Minecraft version you're playing on
+
+### Playing on Quilt
+
+- Newest version of the [Quilt mod loader](https://quiltmc.org/en/install/)  
+- Newest version of the [Quilt Stan](https://www.curseforge.com/minecraft/mc-mods/qsl/files/all)[dard Libraries](https://modrinth.com/mod/qsl/versions) for whichever Minecraft version you're playing on
 </td></table></details>
 
 ## Supported Minecraft Versions
 <details>
 <summary>Show/Hide Supported Minecraft Versions</summary><table width=100%><td>
 
-### Fabric Versions
-Supported Versions of `Pehkui-x.y.z+1.14.4-1.19.2`:  
-`1.14.4`, `1.15.2`, `1.16.5`, `1.17.1`, `1.18.2`, `1.19`, `1.19.2`
+### Fabric/Quilt Versions
+Supported Versions of `Pehkui-x.y.z+1.14.4-1.19.3`:  
+`1.19.3`, `1.19.2`, `1.19`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
 
 ### Forge Versions
 
-Supported Versions of `Pehkui-x.y.z+1.16.5-forge`:  
-`1.16.5`
-
-Supported Versions of `Pehkui-x.y.z+1.17.1-forge`:  
-`1.17.1`
-
-Supported Versions of `Pehkui-x.y.z+1.18.2-forge`:  
-`1.18.2`
+Supported Versions of `Pehkui-x.y.z+1.19.2-forge`:  
+`1.19.2`
 
 Supported Versions of `Pehkui-x.y.z+1.19-forge`:  
 `1.19`
 
-Supported Versions of `Pehkui-x.y.z+1.19.2-forge`:  
-`1.19.2`
+Supported Versions of `Pehkui-x.y.z+1.18.2-forge`:  
+`1.18.2`
+
+Supported Versions of `Pehkui-x.y.z+1.17.1-forge`:  
+`1.17.1`
+
+Supported Versions of `Pehkui-x.y.z+1.16.5-forge`:  
+`1.16.5`
 
 </td></table></details>
 
