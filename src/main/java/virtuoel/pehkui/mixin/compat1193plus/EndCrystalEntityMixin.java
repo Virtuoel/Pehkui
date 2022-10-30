@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.compat1193plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -9,9 +9,9 @@ import net.minecraft.entity.decoration.EndCrystalEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EndCrystalEntity.class)
-public abstract class EnderCrystalEntityMixin
+public abstract class EndCrystalEntityMixin
 {
-	@ModifyArg(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"))
+	@ModifyArg(method = "damage", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;Lnet/minecraft/world/explosion/ExplosionBehavior;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"))
 	private float pehkui$damage$createExplosion(float power)
 	{
 		final float scale = ScaleUtils.getExplosionScale((Entity) (Object) this);

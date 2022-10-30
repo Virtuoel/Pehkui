@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -220,5 +221,25 @@ public abstract class LivingEntityMixin
 				}
 			}
 		}
+	}
+	
+	@Redirect(method = "tickCramming", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$tickCramming$getBoundingBox(LivingEntity obj)
+	{
+		final Box bounds = obj.getBoundingBox();
+		
+		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
+		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
+		
+		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
+		{
+			final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
+			final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			
+			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
+		}
+		
+		return bounds;
 	}
 }
