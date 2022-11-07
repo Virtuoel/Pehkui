@@ -133,6 +133,7 @@
 		"compat119plus.ServerPlayerInteractionManagerMixin",
 		"compat119plus.ServerPlayNetworkHandlerMixin",
 		"compat1192minus.EndCrystalEntityMixin",
+		"compat1193plus.CamelEntityMixin",
 		"compat1193plus.EndCrystalEntityMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
