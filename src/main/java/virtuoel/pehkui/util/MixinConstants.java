@@ -67,6 +67,8 @@ public class MixinConstants
 	private static final String METHOD_5829 = "method_5829";
 	private static final String METHOD_1348 = "method_1348";
 	private static final String METHOD_3956 = "method_3956";
+	private static final String METHOD_31765 = "method_31765";
+	private static final String METHOD_31762 = "method_31762";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -107,6 +109,7 @@ public class MixinConstants
 	private static final String CLASS_238 = "net/minecraft/class_238";
 	private static final String CLASS_289 = "net/minecraft/class_289";
 	private static final String CLASS_898 = "net/minecraft/class_898";
+	private static final String CLASS_5575 = "net/minecraft/class_5575";
 	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
@@ -221,4 +224,8 @@ public class MixinConstants
 	
 	// 1.18 Minus
 	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263; // COMMIT_READY
+	
+	// 1.18 Plus 1.19.2 Minus
+	public static final String FOR_EACH = METHOD_31765 + "(L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	public static final String FOR_EACH_FILTERED = METHOD_31762 + "(L" + CLASS_5575 + ";L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
 }
