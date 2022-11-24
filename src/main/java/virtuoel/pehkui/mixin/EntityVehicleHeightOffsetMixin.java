@@ -37,12 +37,12 @@ public abstract class EntityVehicleHeightOffsetMixin
 		final Entity vehicle = self.getVehicle();
 		final float vehicleScale = ScaleUtils.getBoundingBoxHeightScale(vehicle);
 		
-		if (scale != 1.0F && vehicleScale != 1.0F)
+		if (scale != 1.0F || vehicleScale != 1.0F)
 		{
-			final double vehicleHeight = vehicle.getHeight();
+			final double vehicleAdjustedHeight = vehicle.getHeight() * 0.75D;
 			final double offset = info.getReturnValueD();
 			
-			final double adjusted = vehicleHeight - (((vehicleHeight / vehicleScale) - offset) * scale);
+			final double adjusted = vehicleAdjustedHeight - (((vehicleAdjustedHeight / vehicleScale) - offset) * scale);
 			info.setReturnValue(adjusted);
 		}
 	}
