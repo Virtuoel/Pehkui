@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.objects.ObjectRBTreeSet;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
+import virtuoel.pehkui.util.BackwardsCompatibility;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -319,5 +320,10 @@ public class ScaleType
 				}
 			}
 		);
+	}
+	
+	static
+	{
+		BackwardsCompatibility.populateFieldsIfNeeded();
 	}
 }

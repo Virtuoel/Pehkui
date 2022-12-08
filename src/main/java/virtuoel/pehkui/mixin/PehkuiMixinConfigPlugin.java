@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import virtuoel.pehkui.util.BackwardsCompatibility;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
@@ -92,7 +93,10 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	@Override
 	public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo)
 	{
-		
+		if (mixinClassName.equals(MIXIN_PACKAGE + ".pehkui.compat.ScaleTypeMixin"))
+		{
+			BackwardsCompatibility.addFieldsIfNeeded(targetClass);
+		}
 	}
 	
 	@Override
