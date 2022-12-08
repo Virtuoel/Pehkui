@@ -44,6 +44,7 @@ public class ScaleRenderUtils
 		try
 		{
 			final boolean is114Minus = VersionUtils.MINOR <= 14;
+			final boolean is116Plus = VersionUtils.MINOR >= 16;
 			final boolean is1192Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 2);
 			
 			if (is114Minus && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
@@ -53,7 +54,7 @@ public class ScaleRenderUtils
 				h.put(0, lookup.unreflect(m));
 			}
 			
-			if (is1192Minus)
+			if (is116Plus && is1192Minus)
 			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2724", "method_27904", "()Z");
 				m = PlayerRespawnS2CPacket.class.getMethod(mapped);

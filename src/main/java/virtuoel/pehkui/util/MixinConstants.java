@@ -69,6 +69,7 @@ public class MixinConstants
 	private static final String METHOD_3956 = "method_3956";
 	private static final String METHOD_31765 = "method_31765";
 	private static final String METHOD_31762 = "method_31762";
+	private static final String METHOD_8437 = "method_8437";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -148,7 +149,7 @@ public class MixinConstants
 	
 	// 1.15
 	public static final String EXPLOSIVE_PROJECTILE_ON_COLLISION = METHOD_7469;
-	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
+	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
 	public static final String ZOMBIE_REFRESH_POS_AND_ANGLES = "L" + CLASS_1642 + ";" + METHOD_5808 + "(DDDFF)V";
 	
 	// 1.15 Client
@@ -212,7 +213,7 @@ public class MixinConstants
 	
 	// 1.16 Minus Client
 	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT_READY
-	public static final String GET_ABSORPTION_AMOUNT = "L" + CLASS_1309 + ";" + METHOD_6067 + "()F"; // COMMIT_READY
+	public static final String GET_ABSORPTION_AMOUNT = "L" + CLASS_1657 + ";" + METHOD_6067 + "()F"; // COMMIT_READY
 	public static final String PROJECTILE_RAYCAST = METHOD_18075; // COMMIT_READY
 	
 	// 1.16.2 - 1.16.5 Client
@@ -228,4 +229,7 @@ public class MixinConstants
 	// 1.18 Plus 1.19.2 Minus
 	public static final String FOR_EACH = METHOD_31765 + "(L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
 	public static final String FOR_EACH_FILTERED = METHOD_31762 + "(L" + CLASS_5575 + ";L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	
+	// 1.19.2 Minus
+	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
 }
