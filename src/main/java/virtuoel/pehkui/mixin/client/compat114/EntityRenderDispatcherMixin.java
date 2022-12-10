@@ -64,7 +64,7 @@ public class EntityRenderDispatcherMixin
 			bounds = bounds.expand(scaledXLength + scaledMarginWidth, scaledYLength + scaledMarginHeight, scaledZLength + scaledMarginWidth)
 				.offset(-pos.x + d, -pos.y + e, -pos.z + f);
 			
-			ScaleRenderUtils.renderInteractionBox(bounds);
+			ScaleRenderUtils.renderInteractionBox(null, null, bounds);
 		}
 	}
 }

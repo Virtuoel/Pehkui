@@ -24,7 +24,6 @@ public class MixinConstants
 	private static final String METHOD_4073 = "method_4073";
 	private static final String METHOD_4058 = "method_4058";
 	private static final String METHOD_7469 = "method_7469";
-	private static final String METHOD_8537 = "method_8537";
 	private static final String METHOD_5992 = "method_5992";
 	private static final String METHOD_5808 = "method_5808";
 	private static final String METHOD_6249 = "method_6249";
@@ -62,7 +61,6 @@ public class MixinConstants
 	private static final String CLASS_897 = "net/minecraft/class_897";
 	private static final String CLASS_1657 = "net/minecraft/class_1657";
 	private static final String CLASS_761 = "net/minecraft/class_761";
-	private static final String CLASS_1927 = "net/minecraft/class_1927";
 	private static final String CLASS_1268 = "net/minecraft/class_1268";
 	private static final String CLASS_1296 = "net/minecraft/class_1296";
 	private static final String CLASS_1642 = "net/minecraft/class_1642";
@@ -121,7 +119,6 @@ public class MixinConstants
 	
 	// 1.15
 	public static final String EXPLOSIVE_PROJECTILE_ON_COLLISION = METHOD_7469;
-	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
 	public static final String ZOMBIE_REFRESH_POS_AND_ANGLES = "L" + CLASS_1642 + ";" + METHOD_5808 + "(DDDFF)V";
 	
 	// 1.15 Client
@@ -197,4 +194,12 @@ public class MixinConstants
 	
 	// 1.18 Minus
 	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT_READY
+	
+	// 1.18 Plus 1.19.2 Minus
+	public static final String FOR_EACH = "forEach(Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	public static final String FOR_EACH_FILTERED = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	
+	// 1.19.2 Minus
+	public static final String CREATE_EXPLOSION = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
+	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
 }
