@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat118plus;
+package virtuoel.pehkui.mixin.compat1193plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,8 +13,9 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity/*TrackingSection*/.class)
 public class EntityTrackingSectionMixin
 {
-	/* // TODO 1.18
-	@Redirect(method = "forEach(Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	// TODO 1.19.3
+	/*
+	@Redirect(method = "forEach(Lnet/minecraft/util/math/Box;Lnet/minecraft/util/function/LazyIterationConsumer;)Lnet/minecraft/util/function/LazyIterationConsumer$NextIteration;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private Box pehkui$forEach$getBoundingBox(EntityLike obj)
 	{
 		final Box bounds = obj.getBoundingBox();
@@ -39,7 +40,7 @@ public class EntityTrackingSectionMixin
 		return bounds;
 	}
 	
-	@Redirect(method = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	@Redirect(method = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Lnet/minecraft/util/function/LazyIterationConsumer;)Lnet/minecraft/util/function/LazyIterationConsumer$NextIteration;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private Box pehkui$forEach$getBoundingBox$filtered(EntityLike obj)
 	{
 		final Box bounds = obj.getBoundingBox();
