@@ -31,11 +31,19 @@ public abstract class EntityVehicleHeightOffsetMixin
 	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
 	private void pehkui$getHeightOffset(CallbackInfoReturnable<Double> info)
 	{
-		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		final Entity self = (Entity) (Object) this;
+		final float scale = ScaleUtils.getBoundingBoxHeightScale(self);
 		
-		if (scale != 1.0F)
+		final Entity vehicle = self.getVehicle();
+		final float vehicleScale = ScaleUtils.getBoundingBoxHeightScale(vehicle);
+		
+		if (scale != 1.0F || vehicleScale != 1.0F)
 		{
-			info.setReturnValue(info.getReturnValue() * scale);
+			final double vehicleAdjustedHeight = vehicle.getHeight() * 0.75D;
+			final double offset = info.getReturnValueD();
+			
+			final double adjusted = vehicleAdjustedHeight - (((vehicleAdjustedHeight / vehicleScale) - offset) * scale);
+			info.setReturnValue(adjusted);
 		}
 	}
 }
