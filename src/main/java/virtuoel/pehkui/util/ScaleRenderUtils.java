@@ -23,7 +23,7 @@ public class ScaleRenderUtils
 {
 	public static boolean wasPlayerAlive(final PlayerRespawnS2CPacket packet)
 	{
-		return packet.shouldKeepPlayerAttributes();
+		return packet.hasFlag((byte) 1);
 	}
 	
 	public static void renderInteractionBox(@Nullable final Object matrices, @Nullable final Object vertices, final Box box)
