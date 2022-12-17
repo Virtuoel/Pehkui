@@ -17,7 +17,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PigEntity.class)
 public class PigEntityMixin
 {
-	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", require = 0, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/ZombifiedPiglinEntity;refreshPositionAndAngles(DDDFF)V"))
+	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", require = 0, expect = 0, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/ZombifiedPiglinEntity;refreshPositionAndAngles(DDDFF)V"))
 	private void pehkui$onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
 		ScaleUtils.loadScale(zombifiedPiglinEntity, (Entity) (Object) this);

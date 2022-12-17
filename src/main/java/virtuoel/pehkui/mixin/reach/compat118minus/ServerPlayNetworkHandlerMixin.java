@@ -30,7 +30,7 @@ public class ServerPlayNetworkHandlerMixin
 		return reach.getValue();
 	}
 	*/
-	@ModifyConstant(method = "onPlayerInteractEntity", require = 0, constant = @Constant(doubleValue = 36.0D))
+	@ModifyConstant(method = "onPlayerInteractEntity", require = 0, expect = 0, constant = @Constant(doubleValue = 36.0D))
 	private double pehkui$onPlayerInteractEntity$distance(double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale(player);
