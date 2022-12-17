@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(FireballEntity.class)
 public abstract class FireballEntityMixin
 {
-	@ModifyArg(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", at = @At(value = "INVOKE", target = MixinConstants.CREATE_EXPLOSION_OPTIONAL_FIRE, remap = false))
+	@ModifyArg(method = "onCollision(Lnet/minecraft/util/hit/HitResult;)V", at = @At(value = "INVOKE", target = MixinConstants.CREATE_EXPLOSION_OPTIONAL_FIRE))
 	private float pehkui$onCollision$createExplosion(float power)
 	{
 		final float scale = ScaleUtils.getExplosionScale((Entity) (Object) this);
