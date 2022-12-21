@@ -40,46 +40,27 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Shadow boolean onGround;
 	@Shadow boolean firstUpdate;
 	
-	private Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+	private final Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+	private boolean pehkui_typesInitialized = false;
 	private boolean pehkui_shouldSyncScales = false;
 	private boolean pehkui_shouldIgnoreScaleNbt = false;
 	
 	@Override
-	public ScaleData pehkui_constructScaleData(ScaleType type)
-	{
-		return ScaleData.Builder.create().type(type).entity((Entity) (Object) this).build();
-	}
-	
-	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
-		final Map<ScaleType, ScaleData> scaleTypes = pehkui_getScales();
-		
-		synchronized (scaleTypes)
-		{
-			ScaleData scaleData = scaleTypes.get(type);
-			
-			if (scaleData == null && !scaleTypes.containsKey(type))
-			{
-				scaleTypes.put(type, null);
-				scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
-			}
-			
-			return scaleData;
-		}
+		return pehkui_getScales().get(type);
 	}
 	
 	@Override
 	public Map<ScaleType, ScaleData> pehkui_getScales()
 	{
-		if (pehkui_scaleTypes == null)
+		if (!pehkui_typesInitialized)
 		{
-			synchronized (this)
+			pehkui_typesInitialized = true;
+			
+			for (ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 			{
-				if (pehkui_scaleTypes == null)
-				{
-					pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
-				}
+				pehkui_scaleTypes.put(type, ScaleData.Builder.create().type(type).entity((Entity) (Object) this).build());
 			}
 		}
 		
