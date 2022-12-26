@@ -47,7 +47,7 @@ public class VersionUtils
 			VERSION_PREDICATES.add(n -> n.contains(predicateMinorZero) && (VersionUtils.MINOR != minor || VersionUtils.PATCH != 0));
 			VERSION_PREDICATES.add(n -> n.contains(predicateMinorZeroMinus) && (VersionUtils.MINOR > minor || (VersionUtils.MINOR == minor && VersionUtils.PATCH > 0)));
 			
-			final int maxPatch = range[1];
+			final int maxPatch = range[2];
 			
 			for (int i = 1; i <= maxPatch; i++)
 			{
