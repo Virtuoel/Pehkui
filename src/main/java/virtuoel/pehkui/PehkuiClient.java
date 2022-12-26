@@ -1,5 +1,6 @@
 package virtuoel.pehkui;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -16,6 +17,7 @@ import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
+@ApiStatus.Internal
 public class PehkuiClient implements ClientModInitializer
 {
 	@Override

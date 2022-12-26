@@ -1,5 +1,6 @@
 package virtuoel.pehkui;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
@@ -18,6 +19,7 @@ import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 
+@ApiStatus.Internal
 public class Pehkui implements ModInitializer
 {
 	public static final String MOD_ID = "pehkui";
