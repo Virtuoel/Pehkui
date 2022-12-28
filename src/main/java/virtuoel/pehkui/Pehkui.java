@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.apache.maven.artifact.versioning.ArtifactVersion;
 import org.apache.maven.artifact.versioning.DefaultArtifactVersion;
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
@@ -32,6 +33,7 @@ import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 import virtuoel.pehkui.util.ScaleUtils;
 
+@ApiStatus.Internal
 @Mod(Pehkui.MOD_ID)
 public class Pehkui
 {
