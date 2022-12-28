@@ -1,5 +1,6 @@
 package virtuoel.pehkui;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
@@ -21,6 +22,7 @@ import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 
+@ApiStatus.Internal
 @Mod(Pehkui.MOD_ID)
 public class Pehkui
 {

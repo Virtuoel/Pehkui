@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -39,7 +40,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Shadow boolean onGround;
 	@Shadow boolean firstUpdate;
 	
-	private Map<ScaleType, ScaleData> pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+	private volatile Map<ScaleType, ScaleData> pehkui_scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 	private boolean pehkui_shouldSyncScales = false;
 	private boolean pehkui_shouldIgnoreScaleNbt = false;
 	
@@ -54,35 +55,44 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	{
 		final Map<ScaleType, ScaleData> scaleTypes = pehkui_getScales();
 		
-		synchronized (scaleTypes)
+		ScaleData scaleData = scaleTypes.get(type);
+		
+		if (scaleData == null)
 		{
-			ScaleData scaleData = scaleTypes.get(type);
-			
-			if (scaleData == null && !scaleTypes.containsKey(type))
+			synchronized (scaleTypes)
 			{
-				scaleTypes.put(type, null);
-				scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+				if (!scaleTypes.containsKey(type))
+				{
+					scaleTypes.put(type, null);
+					scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+				}
+				else
+				{
+					scaleData = scaleTypes.get(type);
+				}
 			}
-			
-			return scaleData;
 		}
+		
+		return scaleData;
 	}
 	
 	@Override
 	public Map<ScaleType, ScaleData> pehkui_getScales()
 	{
-		if (pehkui_scaleTypes == null)
+		Map<ScaleType, ScaleData> scaleTypes = pehkui_scaleTypes;
+		
+		if (scaleTypes == null)
 		{
 			synchronized (this)
 			{
-				if (pehkui_scaleTypes == null)
+				if (scaleTypes == null)
 				{
-					pehkui_scaleTypes = new Object2ObjectOpenHashMap<>();
+					pehkui_scaleTypes = scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 				}
 			}
 		}
 		
-		return pehkui_scaleTypes;
+		return scaleTypes;
 	}
 	
 	@Override
