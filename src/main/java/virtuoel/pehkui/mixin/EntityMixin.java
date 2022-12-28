@@ -85,6 +85,8 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		{
 			synchronized (this)
 			{
+				scaleTypes = pehkui_scaleTypes;
+				
 				if (scaleTypes == null)
 				{
 					pehkui_scaleTypes = scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
