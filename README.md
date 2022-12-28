@@ -31,15 +31,15 @@ Library mod for the Fabric, Forge, and Quilt mod loaders that allows mod develop
 
 ### Fabric/Quilt Versions
 Supported Versions of `Pehkui-x.y.z+1.14.4-1.19.3`:  
-`1.19.3`, `1.19.2`, `1.19`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
+`1.19.3`, `1.19.2`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
 
 ### Forge Versions
 
+Supported Versions of `Pehkui-x.y.z+1.19.3-forge`:  
+`1.19.3`
+
 Supported Versions of `Pehkui-x.y.z+1.19.2-forge`:  
 `1.19.2`
-
-Supported Versions of `Pehkui-x.y.z+1.19-forge`:  
-`1.19`
 
 Supported Versions of `Pehkui-x.y.z+1.18.2-forge`:  
 `1.18.2`
@@ -77,7 +77,7 @@ Pehkui allows mod developers to:
 <details open>
 <summary>Show/Hide Maven Information</summary><table width=100%><td>
 
-To make use of Pehkui in your own mod, you'll first need to go to the `repositories` block</br>of your `build.gradle`, typically found right before the `dependencies` block, and add</br>the JitPack Maven to the bottom of the block like below:
+To make use of Pehkui in your own mod, you'll first need to go to the `repositories`</br>block of your `build.gradle`, typically found right before the `dependencies` block,</br>and add the JitPack Maven to the bottom of the block like below:
 
 ```groovy
 // ...
@@ -134,7 +134,7 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
 
 If you're using Forge with ForgeGradle, make sure the `mixingradle` plugin is present and</br>applied:
 
-Make sure the following line is present in your `build.gradle`'s `buildscript { repositories {} }` block.
+Make sure the following line is present in your `build.gradle`'s</br>`buildscript { repositories {} }` block.
 
 ```groovy
 maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
