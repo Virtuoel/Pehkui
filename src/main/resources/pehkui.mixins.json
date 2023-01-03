@@ -141,6 +141,7 @@
 		"identity.compat.PlayerEntityMixin",
 		"identity.compat115.IdentityComponentMixin",
 		"identity.compat116.IdentityComponentMixin",
+		"magna.compat.ReachDistanceHelperMixin",
 		"pehkui.compat.ScaleTypeMixin",
 		"reach.BlockEntityUseDistanceMixin",
 		"reach.EnderChestBlockEntityMixin",
