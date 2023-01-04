@@ -147,6 +147,7 @@
 		"reach.EnderChestBlockEntityMixin",
 		"reach.LecternBlockEntityMixin",
 		"reach.PlayerEntityMixin",
+		"reach.ScreenHandlerMixin",
 		"reach.ServerPlayNetworkHandlerMixin",
 		"reach.compat.ReachEntityAttributesMixin",
 		"reach.compat115minus.ItemMixin",
