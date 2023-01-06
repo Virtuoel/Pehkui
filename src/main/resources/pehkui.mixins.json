@@ -155,6 +155,7 @@
 		"reach.compat118minus.ServerPlayerInteractionManagerMixin",
 		"reach.compat118minus.ServerPlayNetworkHandlerMixin",
 		"reach.compat118minus.StorageMinecartEntityMixin",
+		"reach.compat119plus.ChestBoatEntityMixin",
 		"reach.compat119plus.ServerPlayerInteractionManagerMixin",
 		"reach.compat119plus.ServerPlayNetworkHandlerMixin",
 		"reach.compat119plus.StorageMinecartEntityMixin",
