@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(PlayerEntity.class)
+@Mixin(value = PlayerEntity.class, priority = 990)
 public abstract class PlayerEntityMixin
 {
 	@ModifyConstant(method = "attack", require = 0, expect = 0, constant = @Constant(doubleValue = 9.0D))
