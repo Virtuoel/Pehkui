@@ -131,7 +131,6 @@
 		"compat118minus.ServerPlayerInteractionManagerMixin",
 		"compat118plus.compat1192minus.EntityTrackingSectionMixin",
 		"compat119plus.LookTargetUtilMixin",
-		"compat119plus.ServerPlayNetworkHandlerMixin",
 		"compat1192minus.EndCrystalEntityMixin",
 		"compat1193plus.CamelEntityMixin",
 		"compat1193plus.EndCrystalEntityMixin",
