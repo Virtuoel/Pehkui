@@ -11,6 +11,6 @@ public class FabricEntrypoint
 	
 	public static void onInitialize()
 	{
-		LOGGER.fatal("The Forge version of \"{}\" is currently installed, but you are playing on a Fabric or Quilt instance! Did you download the wrong mod .jar?", MOD_ID);
+		LOGGER.error("The Forge version of \"{}\" is currently installed, but you are playing on a Fabric or Quilt instance! Did you download the wrong mod .jar?", MOD_ID);
 	}
 }
