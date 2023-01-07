@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntityTrackingSection.class)
 public class EntityTrackingSectionMixin
 {
-	@Redirect(method = MixinConstants.FOR_EACH, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;", remap = true), remap = false)
+	@Redirect(method = MixinConstants.FOR_EACH, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private Box pehkui$forEach$getBoundingBox(EntityLike obj)
 	{
 		final Box bounds = obj.getBoundingBox();
@@ -39,7 +39,7 @@ public class EntityTrackingSectionMixin
 		return bounds;
 	}
 	
-	@Redirect(method = MixinConstants.FOR_EACH_FILTERED, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;", remap = true), remap = false)
+	@Redirect(method = MixinConstants.FOR_EACH_FILTERED, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private Box pehkui$forEach$getBoundingBox$filtered(EntityLike obj)
 	{
 		final Box bounds = obj.getBoundingBox();
