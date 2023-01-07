@@ -61,6 +61,12 @@ public class ScaleRenderUtils
 		return depth;
 	}
 	
+	public static void logIfRenderCancelled()
+	{
+		logIfItemRenderCancelled(true);
+		logIfEntityRenderCancelled(true);
+	}
+	
 	private static final Set<Item> loggedItems = ConcurrentHashMap.newKeySet();
 	private static ItemStack lastRenderedStack = null;
 	private static int itemRecursionDepth = 0;
@@ -68,20 +74,25 @@ public class ScaleRenderUtils
 	
 	public static void logIfItemRenderCancelled()
 	{
-		if (lastRenderedStack != null && itemRecursionDepth >= maxItemRecursionDepth)
+		logIfItemRenderCancelled(false);
+	}
+	
+	private static void logIfItemRenderCancelled(final boolean force)
+	{
+		if (lastRenderedStack != null && (force || itemRecursionDepth >= maxItemRecursionDepth))
 		{
 			final Item i = lastRenderedStack.getItem();
-			if (!loggedItems.contains(i))
+			if (force || !loggedItems.contains(i))
 			{
 				final String stackKey = lastRenderedStack.getTranslationKey();
 				final String itemKey = lastRenderedStack.getItem().getTranslationKey();
 				if (stackKey.equals(itemKey))
 				{
-					Pehkui.LOGGER.fatal("[{}]: Did something cancel item rendering early? Matrix stack was not popped after rendering item {} ({}).", Pehkui.MOD_ID, stackKey, lastRenderedStack.getItem());
+					Pehkui.LOGGER.error("[{}]: Did something cancel item rendering early? Matrix stack was not popped after rendering item {} ({}).", Pehkui.MOD_ID, stackKey, lastRenderedStack.getItem());
 				}
 				else
 				{
-					Pehkui.LOGGER.fatal("[{}]: Did something cancel item rendering early? Matrix stack was not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, lastRenderedStack.getItem());
+					Pehkui.LOGGER.error("[{}]: Did something cancel item rendering early? Matrix stack was not popped after rendering item {} ({}) ({})", Pehkui.MOD_ID, stackKey, itemKey, lastRenderedStack.getItem());
 				}
 				
 				loggedItems.add(i);
@@ -112,13 +123,18 @@ public class ScaleRenderUtils
 	
 	public static void logIfEntityRenderCancelled()
 	{
-		if (lastRenderedEntity != null && entityRecursionDepth >= maxEntityRecursionDepth)
+		logIfEntityRenderCancelled(false);
+	}
+	
+	private static void logIfEntityRenderCancelled(final boolean force)
+	{
+		if (lastRenderedEntity != null && (force || entityRecursionDepth >= maxEntityRecursionDepth))
 		{
-			if (!loggedEntityTypes.contains(lastRenderedEntity))
+			if (force || !loggedEntityTypes.contains(lastRenderedEntity))
 			{
 				final Identifier id = EntityType.getId(lastRenderedEntity);
 				
-				Pehkui.LOGGER.fatal("[{}]: Did something cancel entity rendering early? Matrix stack was not popped after rendering entity {}.", Pehkui.MOD_ID, id);
+				Pehkui.LOGGER.error("[{}]: Did something cancel entity rendering early? Matrix stack was not popped after rendering entity {}.", Pehkui.MOD_ID, id);
 				
 				loggedEntityTypes.add(lastRenderedEntity);
 			}
