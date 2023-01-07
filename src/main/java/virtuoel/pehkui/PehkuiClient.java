@@ -109,7 +109,7 @@ public class PehkuiClient implements ClientModInitializer
 		}
 		else
 		{
-			Pehkui.LOGGER.fatal("Failed to register Pehkui's packet handlers! Is Fabric API's networking module missing?");
+			Pehkui.LOGGER.error("Failed to register Pehkui's packet handlers! Is Fabric API's networking module missing?");
 		}
 	}
 }
