@@ -39,6 +39,7 @@ public class MixinConstants
 	private static final String METHOD_5719 = "method_5719";
 	private static final String METHOD_7200 = "method_7200";
 	private static final String METHOD_5874 = "method_5874";
+	private static final String METHOD_17366 = "method_17366";
 	private static final String METHOD_7872 = "method_7872";
 	private static final String METHOD_6194 = "method_6194";
 	private static final String METHOD_3926 = "method_3926";
@@ -152,6 +153,7 @@ public class MixinConstants
 	public static final String VILLAGER_COPY_POS_AND_ROT = "L" + CLASS_1646 + ";" + METHOD_5719 + "(L" + CLASS_1297 + ";)V";
 	
 	// 1.15 Minus Reach
+	public static final String ANVIL_CAN_USE_LAMBDA = METHOD_17366;
 	public static final String ITEM_RAYCAST = METHOD_7872 + "(L" + CLASS_1937 + ";L" + CLASS_1657 + ";L" + CLASS_3959$CLASS_242 + ";)L" + CLASS_239 + ";";
 	public static final String GET_VALUE = "L" + CLASS_1324 + ";" + METHOD_6194 + "()D";
 	
