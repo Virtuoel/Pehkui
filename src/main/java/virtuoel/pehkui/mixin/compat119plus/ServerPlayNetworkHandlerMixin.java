@@ -15,7 +15,7 @@ public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyArg(method = "onPlayerInteractBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D"))
+	@ModifyArg(method = "onPlayerInteractBlock", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D"))
 	private Vec3d pehkui$onPlayerInteractBlock$center(Vec3d center)
 	{
 		final BlockPos pos = new BlockPos(center);
