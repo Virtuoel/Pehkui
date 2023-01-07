@@ -34,6 +34,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean REACH_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("reach-entity-attributes");
 	private static final boolean STEP_HEIGHT_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("step-height-entity-attribute");
 	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
+	private static final boolean MAGNA_LOADED = ModLoaderUtils.isModLoaded("magna");
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
 	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true;
 	
@@ -72,6 +73,10 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".identity.compat"))
 		{
 			return IDENTITY_LOADED;
+		}
+		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".magna.compat"))
+		{
+			return MAGNA_LOADED;
 		}
 		
 		return true;
