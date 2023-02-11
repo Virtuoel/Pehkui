@@ -11,14 +11,7 @@ import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.origins.PehkuiPowers;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
-import virtuoel.pehkui.util.CommandUtils;
-import virtuoel.pehkui.util.ConfigSyncUtils;
-import virtuoel.pehkui.util.GravityChangerCompatibility;
-import virtuoel.pehkui.util.IdentityCompatibility;
-import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
-import virtuoel.pehkui.util.ModLoaderUtils;
-import virtuoel.pehkui.util.MulticonnectCompatibility;
-import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
+import virtuoel.pehkui.util.*;
 
 @ApiStatus.Internal
 public class Pehkui implements ModInitializer
@@ -56,7 +49,7 @@ public class Pehkui implements ModInitializer
 				}
 			});
 		}
-		if (ModLoaderUtils.isModLoaded("origins"))
+		if (ModLoaderUtils.isModLoaded("origins", ">=1.8.0"))
 		{
 			PehkuiPowers.register();
 		}

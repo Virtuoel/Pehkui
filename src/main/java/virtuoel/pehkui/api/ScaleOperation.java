@@ -1,10 +1,9 @@
 package virtuoel.pehkui.api;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import net.minecraft.util.StringIdentifiable;
 import virtuoel.pehkui.mixin.OperationArgumentTypeAccessor;
 
-public enum ScaleOperation implements StringIdentifiable
+public enum ScaleOperation
 {
 	SET((prev, now) ->
 	{
@@ -36,7 +35,6 @@ public enum ScaleOperation implements StringIdentifiable
 		return (float) Math.pow(prev, now);
 	});
 
-	public static final StringIdentifiable.Codec<ScaleOperation> CODEC = StringIdentifiable.createCodec(ScaleOperation::values);
 	private final Operation operation;
 
 	ScaleOperation(Operation operation)
@@ -61,7 +59,6 @@ public enum ScaleOperation implements StringIdentifiable
 		}
 	}
 
-	@Override
 	public String asString()
 	{
 		return name().toLowerCase();
