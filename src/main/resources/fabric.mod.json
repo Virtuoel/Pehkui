@@ -31,6 +31,9 @@
 		"fabric-api-base": "*",
 		"kanos_config": ">=0.3.1"
 	},
+	"suggests": {
+		"origins": "*"
+	},
 	"entrypoints":
 	{
 		"main":

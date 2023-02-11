@@ -27,11 +27,28 @@ repositories {
 		url = "https://jitpack.io"
 		content {
 			includeGroup "com.github.Virtuoel"
+			includeGroup "com.github.apace100"
+			includeGroup "com.github.DaFuqs"
 		}
 	}
 	maven {
 		name = "GitHub"
 		url = "https://maven.pkg.github.com"
+	}
+	maven {
+		name = "Ladysnake"
+		url = 'https://ladysnake.jfrog.io/artifactory/mods'
+	}
+	maven {
+		name = "Shadaniel"
+		url "https://maven.shedaniel.me/"
+	}
+	maven {
+		name = "JamiesWhiteShirt"
+		url "https://maven.jamieswhiteshirt.com/libs-release"
+		content {
+			includeGroup "com.jamieswhiteshirt"
+		}
 	}
 }
 
@@ -150,6 +167,10 @@ dependencies {
 		
 		if(project.hasProperty("kanos_config_tag")) {
 			include modApi("com.github.Virtuoel:KanosConfig:${kanos_config_tag}", excludeFabric)
+		}
+
+		if(project.hasProperty("origins_version")) {
+			modImplementation "com.github.apace100:origins-fabric:${project.origins_version}", excludeFabric
 		}
 	}
 }
