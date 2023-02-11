@@ -25,12 +25,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import virtuoel.pehkui.api.PehkuiConfig;
-import virtuoel.pehkui.api.ScaleData;
-import virtuoel.pehkui.api.ScaleModifier;
-import virtuoel.pehkui.api.ScaleRegistries;
-import virtuoel.pehkui.api.ScaleType;
-import virtuoel.pehkui.api.ScaleTypes;
+import virtuoel.pehkui.api.*;
 import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
 import virtuoel.pehkui.command.argument.ScaleOperationArgumentType;
@@ -84,9 +79,9 @@ public class ScaleCommand
 								for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 								{
 									final ScaleData data = type.getScaleData(e);
-									final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+									final ScaleOperation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 									
-									data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+									data.setTargetScale(operation.calculateByCommand(data.getTargetScale(), scale));
 								}
 								
 								return 1;
@@ -98,9 +93,9 @@ public class ScaleCommand
 							final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 							
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
-							final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+							final ScaleOperation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 							
-							data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+							data.setTargetScale(operation.calculateByCommand(data.getTargetScale(), scale));
 							
 							return 1;
 						})
@@ -115,9 +110,9 @@ public class ScaleCommand
 							for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 							{
 								final ScaleData data = ScaleTypes.BASE.getScaleData(e);
-								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+								final ScaleOperation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 								
-								data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+								data.setTargetScale(operation.calculateByCommand(data.getTargetScale(), scale));
 							}
 							
 							return 1;
@@ -128,9 +123,9 @@ public class ScaleCommand
 						final float scale = FloatArgumentType.getFloat(context, "value");
 						
 						final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
-						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
+						final ScaleOperation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 						
-						data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+						data.setTargetScale(operation.calculateByCommand(data.getTargetScale(), scale));
 						
 						return 1;
 					})
@@ -155,8 +150,8 @@ public class ScaleCommand
 											final float minValue = FloatArgumentType.getFloat(context, "minValue");
 											final float maxValue = FloatArgumentType.getFloat(context, "maxValue");
 											
-											final ScaleOperationArgumentType.Operation minOperation = ScaleOperationArgumentType.getOperation(context, "minOperation");
-											final ScaleOperationArgumentType.Operation maxOperation = ScaleOperationArgumentType.getOperation(context, "maxOperation");
+											final ScaleOperation minOperation = ScaleOperationArgumentType.getOperation(context, "minOperation");
+											final ScaleOperation maxOperation = ScaleOperationArgumentType.getOperation(context, "maxOperation");
 											
 											final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 											
@@ -166,8 +161,8 @@ public class ScaleCommand
 												final ScaleData data = type.getScaleData(e);
 												
 												target = data.getTargetScale();
-												min = minOperation.apply(target, minValue);
-												max = maxOperation.apply(target, maxValue);
+												min = minOperation.calculateByCommand(target, minValue);
+												max = maxOperation.calculateByCommand(target, maxValue);
 												
 												if (max < min)
 												{
@@ -187,16 +182,16 @@ public class ScaleCommand
 										final float minValue = FloatArgumentType.getFloat(context, "minValue");
 										final float maxValue = FloatArgumentType.getFloat(context, "maxValue");
 										
-										final ScaleOperationArgumentType.Operation minOperation = ScaleOperationArgumentType.getOperation(context, "minOperation");
-										final ScaleOperationArgumentType.Operation maxOperation = ScaleOperationArgumentType.getOperation(context, "maxOperation");
+										final ScaleOperation minOperation = ScaleOperationArgumentType.getOperation(context, "minOperation");
+										final ScaleOperation maxOperation = ScaleOperationArgumentType.getOperation(context, "maxOperation");
 										
 										final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 										
 										final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 										
 										final float target = data.getTargetScale();
-										float min = minOperation.apply(target, minValue);
-										float max = maxOperation.apply(target, maxValue);
+										float min = minOperation.calculateByCommand(target, minValue);
+										float max = maxOperation.calculateByCommand(target, maxValue);
 										
 										if (max < min)
 										{
