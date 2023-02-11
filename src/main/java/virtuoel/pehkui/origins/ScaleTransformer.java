@@ -28,6 +28,8 @@ public class ScaleTransformer
 
 	public void applyTo(Entity entity)
 	{
+		if (entity.world.isClient)
+			return;
 		ScaleData data = scaleType.getScaleData(entity);
 		data.setScaleTickDelay(delay);
 		data.setEasing(easing);
@@ -36,6 +38,8 @@ public class ScaleTransformer
 
 	public void reset(Entity entity)
 	{
+		if (entity.world.isClient)
+			return;
 		ScaleData data = scaleType.getScaleData(entity);
 		data.setScaleTickDelay(delay);
 		data.setEasing(easing);
