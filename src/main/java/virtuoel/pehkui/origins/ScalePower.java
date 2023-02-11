@@ -30,6 +30,12 @@ public class ScalePower extends Power
 	}
 
 	@Override
+	public void onRespawn()
+	{
+		onGained();
+	}
+
+	@Override
 	public void onLost()
 	{
 		List<ScalePower> scalePowers = PowerHolderComponent.getPowers(entity, ScalePower.class);
