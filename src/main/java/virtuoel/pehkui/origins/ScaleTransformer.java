@@ -12,16 +12,16 @@ public class ScaleTransformer
 	private final ScaleType scaleType;
 	private final float value;
 	private final ScaleOperation operation;
-	private final boolean persist;
+	private final boolean persistent;
 	private final int delay;
 	private final Float2FloatFunction easing;
 
-	public ScaleTransformer(ScaleType scaleType, float value, ScaleOperation operation, boolean persist, int delay, Float2FloatFunction easing)
+	public ScaleTransformer(ScaleType scaleType, float value, ScaleOperation operation, boolean persistent, int delay, Float2FloatFunction easing)
 	{
 		this.scaleType = scaleType;
 		this.value = value;
 		this.operation = operation;
-		this.persist = persist;
+		this.persistent = persistent;
 		this.delay = delay;
 		this.easing = easing;
 	}
@@ -33,6 +33,7 @@ public class ScaleTransformer
 		ScaleData data = scaleType.getScaleData(entity);
 		data.setScaleTickDelay(delay);
 		data.setEasing(easing);
+		data.setPersistence(persistent);
 		data.setTargetScale(operation.calculate(data.getTargetScale(), value));
 	}
 
@@ -43,6 +44,7 @@ public class ScaleTransformer
 		ScaleData data = scaleType.getScaleData(entity);
 		data.setScaleTickDelay(delay);
 		data.setEasing(easing);
+		data.setPersistence(persistent);
 		data.setTargetScale(1.0F);
 	}
 
@@ -63,7 +65,7 @@ public class ScaleTransformer
 
 	public boolean shouldPersist()
 	{
-		return persist;
+		return persistent;
 	}
 
 	public int getDelay()

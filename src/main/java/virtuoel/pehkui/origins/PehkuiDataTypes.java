@@ -22,7 +22,7 @@ public class PehkuiDataTypes
 			new SerializableData()
 					.add("scale", SCALE_TYPE, ScaleTypes.BASE)
 					.add("value", SerializableDataTypes.FLOAT)
-					.add("persist", SerializableDataTypes.BOOLEAN, true)
+					.add("persistent", SerializableDataTypes.BOOLEAN, true)
 					.add("delay", SerializableDataTypes.INT, 20)
 					.add("easing", SCALE_EASING, ScaleEasings.LINEAR),
 			(dataInst) -> new ScaleTransformer(
@@ -37,7 +37,7 @@ public class PehkuiDataTypes
 				SerializableData.Instance dataInst = data.new Instance();
 				dataInst.set("scale", inst.getScaleType());
 				dataInst.set("value", inst.getValue());
-				dataInst.set("persist", inst.shouldPersist());
+				dataInst.set("persistent", inst.shouldPersist());
 				dataInst.set("delay", inst.getDelay());
 				dataInst.set("easing", inst.getEasing());
 				return dataInst;
@@ -48,7 +48,7 @@ public class PehkuiDataTypes
 			new SerializableData()
 					.add("scale", SCALE_TYPE, ScaleTypes.BASE)
 					.add("value", SerializableDataTypes.FLOAT)
-					.add("persist", SerializableDataTypes.BOOLEAN, true)
+					.add("persistent", SerializableDataTypes.BOOLEAN, true)
 					.add("operation", SCALE_OPERATION, ScaleOperation.SET)
 					.add("delay", SerializableDataTypes.INT, 20)
 					.add("easing", SCALE_EASING, ScaleEasings.LINEAR),
@@ -66,7 +66,7 @@ public class PehkuiDataTypes
 				dataInst.set("scale", inst.getScaleType());
 				dataInst.set("value", inst.getValue());
 				dataInst.set("operation", inst.getOperation());
-				dataInst.set("persist", inst.shouldPersist());
+				dataInst.set("persistent", inst.shouldPersist());
 				dataInst.set("delay", inst.getDelay());
 				dataInst.set("easing", inst.getEasing());
 				return dataInst;

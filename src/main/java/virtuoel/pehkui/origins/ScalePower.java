@@ -13,7 +13,6 @@ import java.util.List;
 
 public class ScalePower extends Power
 {
-
 	private final List<ScaleTransformer> transformers;
 
 	public ScalePower(PowerType<?> type, LivingEntity entity, List<ScaleTransformer> transformers)
@@ -39,9 +38,9 @@ public class ScalePower extends Power
 	public void onLost()
 	{
 		List<ScalePower> scalePowers = PowerHolderComponent.getPowers(entity, ScalePower.class);
-		for (ScaleTransformer transformer : transformers) {
-			boolean shouldReset = scalePowers.stream().noneMatch(power -> power != this && power.transformers.stream().anyMatch(t -> t.getScaleType() == transformer.getScaleType())
-			);
+		for (ScaleTransformer transformer : transformers)
+		{
+			boolean shouldReset = scalePowers.stream().noneMatch(power -> power != this && power.transformers.stream().anyMatch(t -> t.getScaleType() == transformer.getScaleType()));
 			if (shouldReset) // only reset if no other (new) powers are applying a transformer of the same scale type because onGained is called before onLost
 				transformer.reset(entity);
 		}

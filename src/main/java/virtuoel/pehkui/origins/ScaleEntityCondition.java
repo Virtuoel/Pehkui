@@ -5,7 +5,6 @@ import io.github.apace100.apoli.util.Comparison;
 import io.github.apace100.calio.data.SerializableData;
 import io.github.apace100.calio.data.SerializableDataTypes;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.mob.CreeperEntity;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleType;
 
