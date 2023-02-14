@@ -8,6 +8,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.util.CommandUtils;
@@ -29,6 +30,7 @@ public class Pehkui implements ModInitializer
 	public Pehkui()
 	{
 		ScaleTypes.INVALID.getClass();
+		ScaleOperations.NOOP.getClass();
 		PehkuiConfig.BUILDER.config.get();
 	}
 	
