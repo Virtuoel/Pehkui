@@ -2,6 +2,7 @@ package virtuoel.pehkui.command.argument;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoubleBinaryOperator;
 import java.util.stream.Collectors;
 
 import com.mojang.brigadier.StringReader;
@@ -12,7 +13,6 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
-import it.unimi.dsi.fastutil.floats.FloatBinaryOperator;
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.util.Identifier;
@@ -80,7 +80,7 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	
 	private static Operation getOperator(String string) throws CommandSyntaxException
 	{
-		final FloatBinaryOperator entry = ScaleRegistries.getEntry(
+		final DoubleBinaryOperator entry = ScaleRegistries.getEntry(
 			ScaleRegistries.SCALE_OPERATIONS,
 			string.contains(":") ? new Identifier(string) : Pehkui.id(string)
 		);
@@ -99,17 +99,17 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 				}
 				else
 				{
-					return entry.apply(curr, arg);
+					return entry.applyAsDouble(curr, arg);
 				}
 			};
 		}
 		
-		return entry::apply;
+		return entry::applyAsDouble;
 	}
 	
 	@FunctionalInterface
 	public interface Operation
 	{
-		float apply(float curr, float arg) throws CommandSyntaxException;
+		double apply(double curr, double arg) throws CommandSyntaxException;
 	}
 }
