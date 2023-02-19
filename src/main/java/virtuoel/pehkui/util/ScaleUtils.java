@@ -22,6 +22,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
@@ -261,6 +262,31 @@ public class ScaleUtils
 			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
 			syncedScales.clear();
 		}
+	}
+	
+	public static Vec3d getEyePos(final Entity entity)
+	{
+		return getEyePos(entity, Direction.DOWN);
+	}
+	
+	public static Vec3d getEyePos(final PlayerEntity entity)
+	{
+		return getEyePos(entity, GravityChangerCompatibility.INSTANCE.getGravityDirection(entity));
+	}
+	
+	public static Vec3d getEyePos(final Entity entity, final Direction gravity)
+	{
+		final double offsetX = entity.getStandingEyeHeight() * -gravity.getOffsetX();
+		final double offsetY = entity.getStandingEyeHeight() * -gravity.getOffsetY();
+		final double offsetZ = entity.getStandingEyeHeight() * -gravity.getOffsetZ();
+		final double footXCoord = entity.getPos().getX();
+		final double footYCoord = entity.getPos().getY();
+		final double footZCoord = entity.getPos().getZ();
+		final double headXCoord = footXCoord + offsetX;
+		final double headYCoord = footYCoord + offsetY;
+		final double headZCoord = footZCoord + offsetZ;
+		
+		return new Vec3d(headXCoord, headYCoord, headZCoord);
 	}
 	
 	public static double getBlockXOffset(BlockPos pos, PlayerEntity player)
