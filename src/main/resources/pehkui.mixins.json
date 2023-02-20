@@ -132,6 +132,7 @@
 		"compat117plus.patchwork.compat.EntityCalculateDimensionsMixin",
 		"compat117plus.patchwork.compat.IForgeItemMixin",
 		"compat118minus.ServerPlayerInteractionManagerMixin",
+		"compat118minus.ServerPlayNetworkHandlerMixin",
 		"compat118plus.compat1192minus.EntityTrackingSectionMixin",
 		"compat119plus.LookTargetUtilMixin",
 		"compat1192minus.EndCrystalEntityMixin",
