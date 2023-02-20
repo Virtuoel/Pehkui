@@ -3,6 +3,7 @@ package virtuoel.pehkui.api;
 import java.util.IdentityHashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.DoubleBinaryOperator;
 import java.util.function.Supplier;
 
 import com.google.common.collect.BiMap;
@@ -22,6 +23,7 @@ public class ScaleRegistries
 	public static final BiMap<Identifier, ScaleType> SCALE_TYPES = create("scale_types", "invalid", () -> ScaleTypes.INVALID);
 	public static final BiMap<Identifier, ScaleModifier> SCALE_MODIFIERS = create("scale_modifiers", "identity", () -> ScaleModifiers.IDENTITY);
 	public static final BiMap<Identifier, Float2FloatFunction> SCALE_EASINGS = create("scale_easings", "linear", () -> ScaleEasings.LINEAR);
+	public static final BiMap<Identifier, DoubleBinaryOperator> SCALE_OPERATIONS = create("scale_operations", "noop", () -> ScaleOperations.NOOP);
 	
 	public static <E> E register(Map<Identifier, E> registry, Identifier id, E entry)
 	{
