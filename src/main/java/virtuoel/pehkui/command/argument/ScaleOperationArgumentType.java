@@ -1,8 +1,9 @@
 package virtuoel.pehkui.command.argument;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.DoubleBinaryOperator;
+import java.util.stream.Collectors;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -14,13 +15,15 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 
 import net.minecraft.command.CommandSource;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.util.Identifier;
+import virtuoel.pehkui.Pehkui;
+import virtuoel.pehkui.api.ScaleOperations;
+import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.mixin.OperationArgumentTypeAccessor;
 
 public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationArgumentType.Operation>
 {
-	private static final String[] SUGGESTIONS = new String[] { "set", "add", "subtract", "multiply", "divide", "power" };
-	
-	private static final Collection<String> EXAMPLES = Arrays.asList(SUGGESTIONS);
+	private static final Collection<String> EXAMPLES = ScaleRegistries.SCALE_OPERATIONS.keySet().stream().map(Identifier::toString).collect(Collectors.toList());
 	private static final SimpleCommandExceptionType INVALID_OPERATION = OperationArgumentTypeAccessor.getInvalidOperationException();
 	private static final SimpleCommandExceptionType DIVISION_ZERO_EXCEPTION = OperationArgumentTypeAccessor.getDivisionZeroException();
 	
@@ -57,7 +60,16 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	@Override
 	public <S> CompletableFuture<Suggestions> listSuggestions(CommandContext<S> context, SuggestionsBuilder builder)
 	{
-		return CommandSource.suggestMatching(SUGGESTIONS, builder);
+		return CommandSource.suggestMatching(
+			ScaleRegistries.SCALE_OPERATIONS.keySet().stream().filter(id ->
+			{
+				return !id.equals(ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_OPERATIONS));
+			})
+			.map(id ->
+			{
+				return id.getNamespace().equals(Pehkui.MOD_ID) ? id.getPath() : id.toString();
+			}),
+			builder);
 	}
 	
 	@Override
@@ -68,53 +80,36 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	
 	private static Operation getOperator(String string) throws CommandSyntaxException
 	{
-		switch (string)
+		final DoubleBinaryOperator entry = ScaleRegistries.getEntry(
+			ScaleRegistries.SCALE_OPERATIONS,
+			string.contains(":") ? new Identifier(string) : Pehkui.id(string)
+		);
+		
+		if (entry == null || entry == ScaleOperations.NOOP)
 		{
-			case "set":
-				return (i, j) ->
-				{
-					return j;
-				};
-			case "add":
-				return (i, j) ->
-				{
-					return i + j;
-				};
-			case "subtract":
-				return (i, j) ->
-				{
-					return i - j;
-				};
-			case "multiply":
-				return (i, j) ->
-				{
-					return i * j;
-				};
-			case "divide":
-				return (i, j) ->
-				{
-					if (j == 0)
-					{
-						throw DIVISION_ZERO_EXCEPTION.create();
-					}
-					else
-					{
-						return i / j;
-					}
-				};
-			case "power":
-				return (i, j) ->
-				{
-					return (float) Math.pow(i, j);
-				};
-			default:
-				throw INVALID_OPERATION.create();
+			throw INVALID_OPERATION.create();
 		}
+		else if (entry == ScaleOperations.DIVIDE)
+		{
+			return (curr, arg) ->
+			{
+				if (arg == 0)
+				{
+					throw DIVISION_ZERO_EXCEPTION.create();
+				}
+				else
+				{
+					return entry.applyAsDouble(curr, arg);
+				}
+			};
+		}
+		
+		return entry::applyAsDouble;
 	}
 	
 	@FunctionalInterface
 	public interface Operation
 	{
-		float apply(float scaleData, float value) throws CommandSyntaxException;
+		double apply(double curr, double arg) throws CommandSyntaxException;
 	}
 }

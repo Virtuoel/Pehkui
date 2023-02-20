@@ -12,6 +12,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
@@ -33,6 +34,7 @@ public class Pehkui
 	public Pehkui()
 	{
 		ScaleTypes.INVALID.getClass();
+		ScaleOperations.NOOP.getClass();
 		
 		MinecraftForge.EVENT_BUS.register(this);
 		MinecraftForge.EVENT_BUS.register(PehkuiConfig.class);
