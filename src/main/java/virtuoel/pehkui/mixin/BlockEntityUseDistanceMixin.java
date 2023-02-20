@@ -11,11 +11,11 @@ import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin({
+@Mixin(value = {
 	AbstractFurnaceBlockEntity.class,
 	BrewingStandBlockEntity.class,
 	LootableContainerBlockEntity.class,
-})
+}, priority = 1010)
 public abstract class BlockEntityUseDistanceMixin
 {
 	@ModifyConstant(method = "canPlayerUse", require = 0, expect = 0, constant = @Constant(doubleValue = 0.5D, ordinal = 0))
