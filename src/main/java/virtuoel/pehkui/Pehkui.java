@@ -22,6 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.loading.FMLLoader;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
@@ -48,6 +49,7 @@ public class Pehkui
 	public Pehkui()
 	{
 		ScaleTypes.INVALID.getClass();
+		ScaleOperations.NOOP.getClass();
 		
 		final boolean usingAttribute = new DefaultArtifactVersion("40.1.21").compareTo(FORGE_VERSION) > 0;
 		

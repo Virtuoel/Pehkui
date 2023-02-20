@@ -86,7 +86,7 @@ public class ScaleCommand
 									final ScaleData data = type.getScaleData(e);
 									final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 									
-									data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+									data.setTargetScale((float) operation.apply(data.getTargetScale(), scale));
 								}
 								
 								return 1;
@@ -100,7 +100,7 @@ public class ScaleCommand
 							final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 							final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 							
-							data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+							data.setTargetScale((float) operation.apply(data.getTargetScale(), scale));
 							
 							return 1;
 						})
@@ -117,7 +117,7 @@ public class ScaleCommand
 								final ScaleData data = ScaleTypes.BASE.getScaleData(e);
 								final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 								
-								data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+								data.setTargetScale((float) operation.apply(data.getTargetScale(), scale));
 							}
 							
 							return 1;
@@ -130,7 +130,7 @@ public class ScaleCommand
 						final ScaleData data = ScaleTypes.BASE.getScaleData(context.getSource().getEntityOrThrow());
 						final ScaleOperationArgumentType.Operation operation = ScaleOperationArgumentType.getOperation(context, "operation");
 						
-						data.setTargetScale(operation.apply(data.getTargetScale(), scale));
+						data.setTargetScale((float) operation.apply(data.getTargetScale(), scale));
 						
 						return 1;
 					})
@@ -160,7 +160,7 @@ public class ScaleCommand
 											
 											final ScaleType type = ScaleTypeArgumentType.getScaleTypeArgument(context, "scale_type");
 											
-											float min, max, target;
+											double min, max, target;
 											for (final Entity e : EntityArgumentType.getEntities(context, "targets"))
 											{
 												final ScaleData data = type.getScaleData(e);
@@ -171,12 +171,12 @@ public class ScaleCommand
 												
 												if (max < min)
 												{
-													final float temp = min;
+													final double temp = min;
 													min = max;
 													max = temp;
 												}
 												
-												data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+												data.setTargetScale((float) (min + (RANDOM.nextFloat() * (max - min))));
 											}
 											
 											return 1;
@@ -194,18 +194,18 @@ public class ScaleCommand
 										
 										final ScaleData data = type.getScaleData(context.getSource().getEntityOrThrow());
 										
-										final float target = data.getTargetScale();
-										float min = minOperation.apply(target, minValue);
-										float max = maxOperation.apply(target, maxValue);
+										final double target = data.getTargetScale();
+										double min = minOperation.apply(target, minValue);
+										double max = maxOperation.apply(target, maxValue);
 										
 										if (max < min)
 										{
-											final float temp = min;
+											final double temp = min;
 											min = max;
 											max = temp;
 										}
 										
-										data.setTargetScale(min + (RANDOM.nextFloat() * (max - min)));
+										data.setTargetScale((float) (min + (RANDOM.nextFloat() * (max - min))));
 										
 										return 1;
 									})
