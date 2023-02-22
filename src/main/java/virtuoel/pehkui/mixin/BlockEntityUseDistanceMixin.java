@@ -18,6 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 })
 public abstract class BlockEntityUseDistanceMixin
 {
+	/*
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 0.5D, ordinal = 0))
 	private double pehkui$canPlayerUse$xOffset(double value, PlayerEntity player)
 	{
@@ -35,4 +36,5 @@ public abstract class BlockEntityUseDistanceMixin
 	{
 		return ScaleUtils.getBlockZOffset(((BlockEntity) (Object) this).getPos(), player);
 	}
+	*/
 }

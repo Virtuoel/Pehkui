@@ -14,6 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "net.minecraft.block.entity.LecternBlockEntity$1")
 public abstract class LecternBlockEntityMixin
 {
+	/*
 	@Shadow @Final @Mutable
 	LecternBlockEntity field_17391;
 	
@@ -41,4 +42,5 @@ public abstract class LecternBlockEntityMixin
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		return scale != 1.0F ? scale * scale * value : value;
 	}
+	*/
 }

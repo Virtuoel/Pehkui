@@ -11,10 +11,12 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EnderChestBlockEntity.class)
 public abstract class EnderChestBlockEntityMixin
 {
+	/*
 	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 64.0D))
 	private double pehkui$canPlayerUse$distance(double value, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		return scale != 1.0F ? scale * scale * value : value;
 	}
+	*/
 }
