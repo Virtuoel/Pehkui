@@ -3,7 +3,6 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -37,17 +36,6 @@ public abstract class PlayerEntityMixin
 	private float pehkui$tickMovement$mMinVelocity(float velocity)
 	{
 		return velocity * ScaleUtils.getMotionScale((Entity) (Object) this);
-	}
-	
-	@Inject(method = "travel(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", ordinal = 0, shift = Shift.BEFORE, target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
-	private void pehkui$travel$flightSpeed(Vec3d movementInput, CallbackInfo info)
-	{
-		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
-		
-		if (scale != 1.0F)
-		{
-			((PlayerEntity) (Object) this).airStrafingSpeed *= scale;
-		}
 	}
 	
 	@Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")

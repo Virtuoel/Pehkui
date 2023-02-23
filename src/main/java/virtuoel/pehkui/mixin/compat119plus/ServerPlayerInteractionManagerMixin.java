@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 @Mixin(ServerPlayerInteractionManager.class)
@@ -18,9 +19,9 @@ public class ServerPlayerInteractionManagerMixin
 	@ModifyArg(method = "processBlockBreakingAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D"))
 	private Vec3d pehkui$processBlockBreakingAction$center(Vec3d center)
 	{
-		final BlockPos pos = new BlockPos(center);
+		final BlockPos pos = new BlockPos(MathHelper.floor(center.x), MathHelper.floor(center.y), MathHelper.floor(center.z));
 		final Vec3d eye = player.getEyePos();
-		final BlockPos eyePos = new BlockPos(eye);
+		final BlockPos eyePos = new BlockPos(MathHelper.floor(eye.x), MathHelper.floor(eye.y), MathHelper.floor(eye.z));
 		
 		final double xOffset = eye.getX() - center.getX();
 		final double yOffset = eye.getY() - center.getY();

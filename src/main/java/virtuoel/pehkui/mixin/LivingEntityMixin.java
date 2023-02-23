@@ -27,15 +27,30 @@ import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
+import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin
+public abstract class LivingEntityMixin implements PehkuiEntityExtensions
 {
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
 	private EntityDimensions pehkui$getEyeHeight$dimensions(EntityDimensions dimensions)
 	{
 		return dimensions.scaled(1.0F / ScaleUtils.getEyeHeightScale((Entity) (Object) this));
+	}
+	
+	@Inject(method = "getMovementSpeed(F)F", at = @At("RETURN"), cancellable = true)
+	private void pehkui$getMovementSpeed(float slipperiness, CallbackInfoReturnable<Float> info)
+	{
+		if (!pehkui_getOnGround())
+		{
+			final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
+			
+			if (scale != 1.0F)
+			{
+				info.setReturnValue(info.getReturnValueF() * scale);
+			}
+		}
 	}
 	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))

@@ -165,7 +165,8 @@
 		"reach.compat119plus.ServerPlayerInteractionManagerMixin",
 		"reach.compat119plus.ServerPlayNetworkHandlerMixin",
 		"reach.compat119plus.StorageMinecartEntityMixin",
-		"step_height.EntityMixin",
+		"step_height.compat1193minus.EntityMixin",
+		"step_height.compat1194plus.EntityMixin",
 		"step_height.compat.StepHeightEntityAttributeMainMixin"
 	],
 	"client":
@@ -173,7 +174,6 @@
 		"client.CameraMixin",
 		"client.ClientPlayerEntityMixin",
 		"client.ClientWorldMixin",
-		"client.InventoryScreenMixin",
 		"client.compat114.BoatEntityRendererMixin",
 		"client.compat114.EntityRenderDispatcherMixin",
 		"client.compat114.EntityRendererMixin",
@@ -212,6 +212,8 @@
 		"client.compat1182plus.ClientPlayerEntityMixin",
 		"client.compat1182plus.compat1192minus.ClientPlayNetworkHandlerMixin",
 		"client.compat1193plus.GameRendererMixin",
+		"client.compat1193minus.InventoryScreenMixin",
+		"client.compat1194plus.InventoryScreenMixin",
 		"reach.client.ClientPlayerInteractionManagerMixin",
 		"reach.client.GameRendererMixin",
 		"reach.compat.client.GameRendererMixin"
