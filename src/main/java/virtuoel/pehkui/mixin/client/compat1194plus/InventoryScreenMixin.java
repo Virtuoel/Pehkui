@@ -37,7 +37,7 @@ public abstract class InventoryScreenMixin
 		ScaleData cachedData;
 		for (final ScaleType type : ScaleRegistries.SCALE_TYPES.values())
 		{
-			cachedData = scales.computeIfAbsent(type, t -> ScaleData.Builder.create().build());
+			cachedData = scales.computeIfAbsent(type, t -> ScaleData.Builder.create().type(t).build());
 			data = type.getScaleData(entity);
 			cachedData.fromScale(data, false);
 			data.fromScale(pehkui$IDENTITY, false);
