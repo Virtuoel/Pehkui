@@ -145,6 +145,7 @@
 		"compat1193plus.EntityTrackingSectionMixin",
 		"compat1193plus.FireballEntityMixin",
 		"compat1194plus.InventoryMixin",
+		"compat1194plus.LivingEntityMixin",
 		"compat1194plus.PlayerEntityMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
