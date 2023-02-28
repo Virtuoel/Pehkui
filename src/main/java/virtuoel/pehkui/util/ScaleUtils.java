@@ -104,22 +104,25 @@ public class ScaleUtils
 	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
 	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P32F;
 	
-	private static final float MINIMUM_LIMB_MOTION_SCALE = DEFAULT_MINIMUM_POSITIVE_SCALE;
-	
 	public static float modifyLimbDistance(float value, Entity entity)
 	{
-		final float scale = ScaleUtils.getMotionScale(entity);
+		final float scale = getMotionScale(entity);
 		
-		if (scale == 1.0F)
-		{
-			return value;
-		}
-		
-		return divideClamped(value, scale, MINIMUM_LIMB_MOTION_SCALE);
+		return divideClamped(value, scale);
+	}
+	
+	public static float divideClamped(float dividend, float divisor)
+	{
+		return divideClamped(dividend, divisor, DEFAULT_MINIMUM_POSITIVE_SCALE);
 	}
 	
 	public static float divideClamped(float dividend, float divisor, float limit)
 	{
+		if (divisor == 1.0F)
+		{
+			return dividend;
+		}
+		
 		final float ret = dividend / divisor;
 		
 		if (ret == Float.POSITIVE_INFINITY)
