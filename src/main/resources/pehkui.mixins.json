@@ -143,6 +143,7 @@
 		"compat1193plus.EndCrystalEntityMixin",
 		"compat1193plus.EntityTrackingSectionMixin",
 		"compat1193plus.FireballEntityMixin",
+		"compat1194plus.InventoryMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
 		"identity.compat115.IdentityComponentMixin",
