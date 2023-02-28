@@ -15,13 +15,14 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import virtuoel.pehkui.Pehkui;
 
 public final class ReflectionUtils
 {
 	public static final Class<?> ENTITY_DAMAGE_SOURCE;
-	public static final MethodHandle GET_ATTACKER;
+	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED;
 	
 	static
 	{
@@ -32,6 +33,7 @@ public final class ReflectionUtils
 		String mapped = "unset";
 		Class<?> clazz = null;
 		Method m;
+		Field f;
 		
 		try
 		{
@@ -45,9 +47,15 @@ public final class ReflectionUtils
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_1285", "method_5529", "()Lnet/minecraft/class_1297;");
 				m = clazz.getMethod(mapped);
 				h.put(0, lookup.unreflect(m));
+				
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_1309", "field_6281", "F");
+				f = LivingEntity.class.getField(mapped);
+				f.setAccessible(true);
+				h.put(1, lookup.unreflectGetter(f));
+				h.put(2, lookup.unreflectSetter(f));
 			}
 		}
-		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException e)
+		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
 		{
 			Pehkui.LOGGER.error("Current name lookup: {}", mapped);
 			Pehkui.LOGGER.catching(e);
@@ -55,6 +63,8 @@ public final class ReflectionUtils
 		
 		ENTITY_DAMAGE_SOURCE = clazz;
 		GET_ATTACKER = h.get(0);
+		GET_FLYING_SPEED = h.get(1);
+		SET_FLYING_SPEED = h.get(2);
 	}
 	
 	public static @Nullable Entity getAttacker(final DamageSource source)
@@ -77,6 +87,30 @@ public final class ReflectionUtils
 		}
 		
 		return source.getAttacker();
+	}
+	
+	public static float getFlyingSpeed(final LivingEntity entity)
+	{
+		try
+		{
+			return (float) GET_FLYING_SPEED.invoke(entity);
+		}
+		catch (final Throwable e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static void setFlyingSpeed(final LivingEntity entity, final float speed)
+	{
+		try
+		{
+			 SET_FLYING_SPEED.invoke(entity, speed);
+		}
+		catch (final Throwable e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)

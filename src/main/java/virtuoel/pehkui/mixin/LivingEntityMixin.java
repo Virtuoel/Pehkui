@@ -39,20 +39,6 @@ public abstract class LivingEntityMixin implements PehkuiEntityExtensions
 		return dimensions.scaled(1.0F / ScaleUtils.getEyeHeightScale((Entity) (Object) this));
 	}
 	
-	@Inject(method = "getMovementSpeed(F)F", at = @At("RETURN"), cancellable = true)
-	private void pehkui$getMovementSpeed(float slipperiness, CallbackInfoReturnable<Float> info)
-	{
-		if (!pehkui_getOnGround())
-		{
-			final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
-			
-			if (scale != 1.0F)
-			{
-				info.setReturnValue(info.getReturnValueF() * scale);
-			}
-		}
-	}
-	
 	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 1.0F, ordinal = 0))
 	private float pehkui$travel$fallDistance(float value)
 	{
