@@ -33,6 +33,7 @@ public class MixinConstants
 	private static final String METHOD_22973 = "method_22973";
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_6959 = "method_6959";
+	private static final String METHOD_6091 = "method_6091";
 	private static final String METHOD_19949 = "method_19949";
 	private static final String METHOD_5800 = "method_5800";
 	private static final String METHOD_7148 = "method_7148";
@@ -162,6 +163,7 @@ public class MixinConstants
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
 	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
+	public static final String TRAVEL = METHOD_6091;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
 	public static final String BREED = METHOD_6249 + "()V";
 	public static final String GIVE_TO_TARGET = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_1309 + ";)V";

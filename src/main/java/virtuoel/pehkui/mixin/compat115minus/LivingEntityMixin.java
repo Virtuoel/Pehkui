@@ -14,12 +14,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends EntityMixin
 {
-	@ModifyConstant(method = "travel", constant = @Constant(floatValue = 4.0F))
+	@ModifyConstant(method = MixinConstants.TRAVEL, constant = @Constant(floatValue = 4.0F))
 	private float pehkui$travel$limbDistance(float value)
 	{
 		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);
