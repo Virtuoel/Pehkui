@@ -27,11 +27,11 @@ public class ShulkerEntityMixin
 			{
 				if (face == Direction.UP)
 				{
-					info.setReturnValue(ScaleUtils.divideClamped(1.0F, scale, ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE) - info.getReturnValueF());
+					info.setReturnValue(ScaleUtils.divideClamped(1.0F, scale) - info.getReturnValueF());
 				}
 				else
 				{
-					info.setReturnValue(ScaleUtils.divideClamped(1.0F - info.getReturnValueF(), scale, ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE));
+					info.setReturnValue(ScaleUtils.divideClamped(1.0F - info.getReturnValueF(), scale));
 				}
 			}
 		}
