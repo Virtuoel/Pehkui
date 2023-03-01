@@ -116,7 +116,7 @@ public class PehkuiConfig
 		
 		private Client(final JsonConfigBuilder builder)
 		{
-			this.minimumCameraDepth = builder.doubleConfig("minimumCameraDepth", 0.0D);
+			this.minimumCameraDepth = builder.doubleConfig("minimumCameraDepth", 1.0D / 32767.0D);
 		}
 	}
 	
