@@ -113,10 +113,10 @@ public class ScaleUtils
 	
 	public static float divideClamped(float dividend, float divisor)
 	{
-		return divideClamped(dividend, divisor, DEFAULT_MINIMUM_POSITIVE_SCALE);
+		return divideClamped(dividend, divisor, DEFAULT_MINIMUM_POSITIVE_SCALE, DEFAULT_MAXIMUM_POSITIVE_SCALE);
 	}
 	
-	public static float divideClamped(float dividend, float divisor, float limit)
+	public static float divideClamped(float dividend, float divisor, float minLimit, float maxLimit)
 	{
 		if (divisor == 1.0F)
 		{
@@ -127,18 +127,18 @@ public class ScaleUtils
 		
 		if (ret == Float.POSITIVE_INFINITY)
 		{
-			return limit;
+			return maxLimit;
 		}
 		else if (ret == Float.NEGATIVE_INFINITY)
 		{
-			return -limit;
+			return -maxLimit;
 		}
-		else if (ret > limit || ret < -limit)
+		else if (ret > minLimit || ret < -minLimit)
 		{
 			return ret;
 		}
 		
-		return ret < 0 ? -limit : limit;
+		return ret < 0 ? -minLimit : minLimit;
 	}
 	
 	public static float setScaleOfDrop(Entity entity, Entity source)
