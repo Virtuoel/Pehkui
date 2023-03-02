@@ -217,6 +217,7 @@
 		"client.compat1181minus.ClientPlayerEntityMixin",
 		"client.compat1182plus.ClientPlayerEntityMixin",
 		"client.compat1182plus.compat1192minus.ClientPlayNetworkHandlerMixin",
+		"client.compat1193plus.ClientPlayNetworkHandlerMixin",
 		"client.compat1193plus.GameRendererMixin",
 		"client.compat1193minus.InventoryScreenMixin",
 		"client.compat1194plus.InventoryScreenMixin",
