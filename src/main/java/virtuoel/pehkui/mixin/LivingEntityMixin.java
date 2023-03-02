@@ -27,11 +27,10 @@ import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
-import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin implements PehkuiEntityExtensions
+public abstract class LivingEntityMixin
 {
 	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
 	private EntityDimensions pehkui$getEyeHeight$dimensions(EntityDimensions dimensions)
