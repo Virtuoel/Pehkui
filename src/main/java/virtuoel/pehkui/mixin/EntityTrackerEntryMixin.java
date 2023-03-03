@@ -1,7 +1,5 @@
 package virtuoel.pehkui.mixin;
 
-import java.util.function.Consumer;
-
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,12 +24,6 @@ public abstract class EntityTrackerEntryMixin
 	private void pehkui$tick(CallbackInfo info)
 	{
 		ScaleUtils.syncScalesIfNeeded(entity, this::sendSyncPacket);
-	}
-	
-	@Inject(at = @At("TAIL"), method = "sendPackets")
-	private void pehkui$sendPackets(Consumer<Packet<?>> sender, CallbackInfo info)
-	{
-		ScaleUtils.syncScalesOnTrackingStart(entity, sender);
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 7.62939453125E-6D))
