@@ -4,13 +4,18 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleRenderUtils;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(GameRenderer.class)
 public class GameRendererMixin
@@ -22,5 +27,18 @@ public class GameRendererMixin
 	private float pehkui$getBasicProjectionMatrix$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());
+	}
+	
+	@ModifyArgs(method = "bobView", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"))
+	private void pehkui$bobView$translate(Args args)
+	{
+		final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
+		
+		if (scale != 1.0F)
+		{
+			final int index = args.get(0) instanceof MatrixStack ? 1 : 0;
+			args.set(index, args.<Double>get(index) * scale);
+			args.set(index + 1, args.<Double>get(index + 1) * scale);
+		}
 	}
 }
