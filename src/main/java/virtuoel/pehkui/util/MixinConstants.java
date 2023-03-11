@@ -231,6 +231,9 @@ public class MixinConstants
 	// 1.16 Plus 1.19.3 Minus
 	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V"; // COMMIT_READY
 	
+	// 1.17 Plus 1.19.3 Minus Client
+	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V"; // COMMIT_READY
+	
 	// 1.18 Minus
 	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263; // COMMIT_READY
 	

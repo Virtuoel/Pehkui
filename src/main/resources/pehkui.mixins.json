@@ -212,8 +212,8 @@
 		"client.compat116plus.ItemEntityMixin",
 		"client.compat117plus.EntityRenderDispatcherMixin",
 		"client.compat117plus.InGameHudMixin",
-		"client.compat117plus.ItemRendererMixin",
 		"client.compat117plus.compat1181minus.ClientPlayNetworkHandlerMixin",
+		"client.compat117plus.compat1193minus.ItemRendererMixin",
 		"client.compat1181minus.ClientPlayerEntityMixin",
 		"client.compat1182plus.ClientPlayerEntityMixin",
 		"client.compat1182plus.compat1192minus.ClientPlayNetworkHandlerMixin",
@@ -221,6 +221,7 @@
 		"client.compat1193plus.GameRendererMixin",
 		"client.compat1193minus.InventoryScreenMixin",
 		"client.compat1194plus.InventoryScreenMixin",
+		"client.compat1194plus.ItemRendererMixin",
 		"reach.client.ClientPlayerInteractionManagerMixin",
 		"reach.client.GameRendererMixin",
 		"reach.compat.client.GameRendererMixin"
