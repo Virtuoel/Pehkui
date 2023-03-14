@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat1194plus;
+package virtuoel.pehkui.mixin.reach.compat1194plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
