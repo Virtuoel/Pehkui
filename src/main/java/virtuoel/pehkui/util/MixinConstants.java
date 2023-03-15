@@ -29,6 +29,7 @@ public class MixinConstants
 	private static final String METHOD_6249 = "method_6249";
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_6959 = "method_6959";
+	private static final String METHOD_6091 = "method_6091";
 	private static final String METHOD_19949 = "method_19949";
 	private static final String METHOD_5800 = "method_5800";
 	private static final String METHOD_7148 = "method_7148";
@@ -130,6 +131,7 @@ public class MixinConstants
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
 	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
+	public static final String TRAVEL = METHOD_6091;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
 	public static final String BREED = METHOD_6249 + "()V";
 	public static final String GIVE_TO_TARGET = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_1309 + ";)V";
@@ -194,6 +196,12 @@ public class MixinConstants
 	// 1.16 Plus 1.18 Minus
 	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT_READY
 	
+	// 1.16 Plus 1.19.3 Minus
+	public static final String UPDATE_LIMBS = "method_29242(Lnet/minecraft/entity/LivingEntity;Z)V"; // COMMIT_READY
+	
+	// 1.17 Plus 1.19.3 Minus Client
+	public static final String RENDER_ITEM_WITH_SEED = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V"; // COMMIT_READY
+	
 	// 1.18 Minus
 	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT_READY
 	
@@ -204,4 +212,7 @@ public class MixinConstants
 	// 1.19.2 Minus
 	public static final String CREATE_EXPLOSION = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
 	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
+	
+	// 1.19.3 Minus
+	public static final String DRAW_ENTITY = "drawEntity"; // COMMIT_READY
 }

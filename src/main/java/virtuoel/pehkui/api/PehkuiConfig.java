@@ -75,7 +75,7 @@ public class PehkuiConfig
 				.push("client");
 			this.minimumCameraDepth = builder
 				.translation("pehkui.configgui.minimumCameraDepth")
-				.defineInRange("minimumCameraDepth", 0.0D, 0.0D, 0.05D);
+				.defineInRange("minimumCameraDepth", 1.0D / 32767.0D, 0.0D, 0.05D);
 			builder.pop();
 		}
 	}

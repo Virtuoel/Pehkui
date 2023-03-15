@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.reach;
+package virtuoel.pehkui.mixin.reach.compat1193minus;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
