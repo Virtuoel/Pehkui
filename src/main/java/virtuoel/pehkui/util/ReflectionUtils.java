@@ -1,11 +1,39 @@
 package virtuoel.pehkui.util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.EntityDamageSource;
+
 public final class ReflectionUtils
 {
+	public static @Nullable Entity getAttacker(final DamageSource source)
+	{
+		if (source instanceof EntityDamageSource)
+		{
+			((EntityDamageSource) source).getAttacker();
+		}
+		
+		return null;
+	}
+	
+	public static float getFlyingSpeed(final LivingEntity entity)
+	{
+		return entity.flyingSpeed;
+	}
+	
+	public static void setFlyingSpeed(final LivingEntity entity, final float speed)
+	{
+		entity.flyingSpeed = speed;
+	}
+	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)
 	{
 		return classObj.map(c ->
@@ -54,6 +82,21 @@ public final class ReflectionUtils
 				
 			}
 			return null;
+		});
+	}
+	
+	public static <T> Optional<Constructor<T>> getConstructor(final Optional<Class<T>> clazz, final Class<?>... params)
+	{
+		return clazz.map(c ->
+		{
+			try
+			{
+				return c.getConstructor(params);
+			}
+			catch (NoSuchMethodException | SecurityException e)
+			{
+				return null;
+			}
 		});
 	}
 	
