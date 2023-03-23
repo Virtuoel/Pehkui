@@ -164,7 +164,7 @@ public class DebugCommand
 			e.refreshPositionAndAngles(mut.getX() + 0.5, mut.getY() + 1, mut.getZ() + 0.5, opposite.asRotation(), 0);
 			e.setHeadYaw(opposite.asRotation());
 			
-			e.addScoreboardTag("pehkui");
+			e.addCommandTag("pehkui");
 			
 			w.spawnEntity(e);
 			

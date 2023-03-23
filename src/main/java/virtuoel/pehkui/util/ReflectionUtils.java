@@ -10,28 +10,22 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.damage.EntityDamageSource;
 
 public final class ReflectionUtils
 {
 	public static @Nullable Entity getAttacker(final DamageSource source)
 	{
-		if (source instanceof EntityDamageSource)
-		{
-			((EntityDamageSource) source).getAttacker();
-		}
-		
-		return null;
+		return source.getAttacker();
 	}
 	
 	public static float getFlyingSpeed(final LivingEntity entity)
 	{
-		return entity.airStrafingSpeed;
+		throw new NoSuchMethodError();
 	}
 	
 	public static void setFlyingSpeed(final LivingEntity entity, final float speed)
 	{
-		entity.airStrafingSpeed = speed;
+		
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)
