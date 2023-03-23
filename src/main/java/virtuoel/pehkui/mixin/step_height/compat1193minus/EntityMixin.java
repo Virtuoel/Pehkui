@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.step_height;
+package virtuoel.pehkui.mixin.step_height.compat1193minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

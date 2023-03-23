@@ -2,13 +2,11 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.block.BlockState;
@@ -32,20 +30,10 @@ public abstract class PlayerEntityMixin
 	}
 	
 	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
-	private float pehkui$tickMovement$mMinVelocity(float velocity)
+	private float pehkui$tickMovement$minVelocity(float value)
 	{
-		return velocity * ScaleUtils.getMotionScale((Entity) (Object) this);
-	}
-	
-	@Inject(method = "travel(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", ordinal = 0, shift = Shift.BEFORE, target = "Lnet/minecraft/entity/LivingEntity;travel(Lnet/minecraft/util/math/Vec3d;)V"))
-	private void pehkui$travel$flightSpeed(Vec3d movementInput, CallbackInfo info)
-	{
-		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
-		
-		if (scale != 1.0F)
-		{
-			((PlayerEntity) (Object) this).airStrafingSpeed *= scale;
-		}
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		return scale != 1.0F ? ScaleUtils.divideClamped(value, scale) : value;
 	}
 	
 	@Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")

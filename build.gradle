@@ -1,5 +1,5 @@
 plugins {
-	id "dev.architectury.loom" version "1.0.+"
+	id "dev.architectury.loom" version "1.1.+"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.4.1"
@@ -354,6 +354,7 @@ githubRelease {
 
 tasks.named("githubRelease") {
 	dependsOn remapJar
+	dependsOn sourcesJar
 	dependsOn remapSourcesJar
 }
 

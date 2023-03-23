@@ -13,14 +13,25 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain", remap = false)
 public class StepHeightEntityAttributeMainMixin
 {
-	@Inject(method = "getStepHeight", at = @At(value = "RETURN"), cancellable = true, remap = false)
+	@Inject(method = "getStepHeight", require = 0, expect = 0, at = @At(value = "RETURN"), cancellable = true, remap = false)
 	private static void pehkui$getStepHeight(LivingEntity entity, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getStepHeightScale(entity);
 		
 		if (scale != 1.0F)
 		{
-			info.setReturnValue(scale * scale * info.getReturnValueF());
+			info.setReturnValue(scale * info.getReturnValueF());
+		}
+	}
+	
+	@Inject(method = "getStepHeight", require = 0, expect = 0, at = @At(value = "RETURN"), cancellable = true, remap = false)
+	private static void pehkui$getStepHeight(float baseStepHeight, LivingEntity entity, CallbackInfoReturnable<Float> info)
+	{
+		final float scale = ScaleUtils.getStepHeightScale(entity);
+		
+		if (scale != 1.0F)
+		{
+			info.setReturnValue(scale * info.getReturnValueF());
 		}
 	}
 }
