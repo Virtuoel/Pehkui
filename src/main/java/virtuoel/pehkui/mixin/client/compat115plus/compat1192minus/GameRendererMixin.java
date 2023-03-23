@@ -6,17 +6,15 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(GameRenderer.class)
+@Mixin(value = GameRenderer.class, priority = 1001)
 public class GameRendererMixin
 {
 	@Shadow @Final @Mutable
@@ -28,16 +26,17 @@ public class GameRendererMixin
 		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
-	@ModifyArgs(method = "bobView", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"))
-	private void pehkui$bobView$translate(Args args)
+	@ModifyArg(method = "bobView", index = 0, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"))
+	private double pehkui$bobView$translate$x(double value)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
-		
-		if (scale != 1.0F)
-		{
-			final int index = args.get(0) instanceof MatrixStack ? 1 : 0;
-			args.set(index, args.<Double>get(index) * scale);
-			args.set(index + 1, args.<Double>get(index + 1) * scale);
-		}
+		return scale != 1.0F ? value * scale : value;
+	}
+	
+	@ModifyArg(method = "bobView", index = 1, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"))
+	private double pehkui$bobView$translate$y(double value)
+	{
+		final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
+		return scale != 1.0F ? value * scale : value;
 	}
 }
