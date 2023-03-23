@@ -3,7 +3,6 @@ package virtuoel.pehkui.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import net.minecraft.text.LiteralTextContent;
