@@ -24,6 +24,7 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.Pehkui;
@@ -208,6 +209,12 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		{
 			info.setReturnValue(info.getReturnValue().scaled(widthScale, heightScale));
 		}
+	}
+	
+	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
+	private void pehkui$onStartedTrackingBy(ServerPlayerEntity player, CallbackInfo info)
+	{
+		ScaleUtils.syncScalesOnTrackingStart((Entity) (Object) this, player.networkHandler::sendPacket);
 	}
 	
 	@ModifyVariable(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "STORE"))

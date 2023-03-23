@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client.compat115plus.compat116minus;
+package virtuoel.pehkui.mixin.client.compat117plus.compat1193minus;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,8 +21,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
-	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "HEAD"))
-	private void pehkui$renderItem$head(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
+	@Inject(method = MixinConstants.RENDER_ITEM_WITH_SEED, at = @At(value = "HEAD"), remap = false)
+	private void pehkui$renderItem$head(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
 		ScaleRenderUtils.logIfItemRenderCancelled();
 		
@@ -44,8 +44,8 @@ public class ItemRendererMixin
 		ScaleRenderUtils.saveLastRenderedItem(item);
 	}
 	
-	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "RETURN"))
-	private void pehkui$renderItem$return(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
+	@Inject(method = MixinConstants.RENDER_ITEM_WITH_SEED, at = @At(value = "RETURN"), remap = false)
+	private void pehkui$renderItem$return(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
 		ScaleRenderUtils.clearLastRenderedItem();
 		

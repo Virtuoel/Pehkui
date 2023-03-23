@@ -104,38 +104,41 @@ public class ScaleUtils
 	public static final float DEFAULT_MINIMUM_POSITIVE_SCALE = 0x1P-96F;
 	public static final float DEFAULT_MAXIMUM_POSITIVE_SCALE = 0x1P32F;
 	
-	private static final float MINIMUM_LIMB_MOTION_SCALE = DEFAULT_MINIMUM_POSITIVE_SCALE;
-	
 	public static float modifyLimbDistance(float value, Entity entity)
 	{
-		final float scale = ScaleUtils.getMotionScale(entity);
+		final float scale = getMotionScale(entity);
 		
-		if (scale == 1.0F)
-		{
-			return value;
-		}
-		
-		return divideClamped(value, scale, MINIMUM_LIMB_MOTION_SCALE);
+		return divideClamped(value, scale);
 	}
 	
-	public static float divideClamped(float dividend, float divisor, float limit)
+	public static float divideClamped(float dividend, float divisor)
 	{
+		return divideClamped(dividend, divisor, DEFAULT_MINIMUM_POSITIVE_SCALE, DEFAULT_MAXIMUM_POSITIVE_SCALE);
+	}
+	
+	public static float divideClamped(float dividend, float divisor, float minLimit, float maxLimit)
+	{
+		if (divisor == 1.0F)
+		{
+			return dividend;
+		}
+		
 		final float ret = dividend / divisor;
 		
 		if (ret == Float.POSITIVE_INFINITY)
 		{
-			return limit;
+			return maxLimit;
 		}
 		else if (ret == Float.NEGATIVE_INFINITY)
 		{
-			return -limit;
+			return -maxLimit;
 		}
-		else if (ret > limit || ret < -limit)
+		else if (ret > minLimit || ret < -minLimit)
 		{
 			return ret;
 		}
 		
-		return ret < 0 ? -limit : limit;
+		return ret < 0 ? -minLimit : minLimit;
 	}
 	
 	public static float setScaleOfDrop(Entity entity, Entity source)

@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client.compat115plus.compat116minus;
+package virtuoel.pehkui.mixin.client.compat1194plus;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,15 +14,14 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
-	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "HEAD"))
-	private void pehkui$renderItem$head(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
+	@Inject(method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V", at = @At(value = "HEAD"))
+	private void pehkui$renderItem$head(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
 		ScaleRenderUtils.logIfItemRenderCancelled();
 		
@@ -44,8 +43,8 @@ public class ItemRendererMixin
 		ScaleRenderUtils.saveLastRenderedItem(item);
 	}
 	
-	@Inject(method = MixinConstants.RENDER_ITEM, at = @At(value = "RETURN"))
-	private void pehkui$renderItem$return(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, CallbackInfo info)
+	@Inject(method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformationMode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V", at = @At(value = "RETURN"))
+	private void pehkui$renderItem$return(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
 		ScaleRenderUtils.clearLastRenderedItem();
 		
