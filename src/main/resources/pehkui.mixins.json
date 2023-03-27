@@ -162,7 +162,6 @@
 		"reach.compat118minus.StorageMinecartEntityMixin",
 		"reach.compat1193minus.BlockEntityUseDistanceMixin",
 		"reach.compat1193minus.EnderChestBlockEntityMixin",
-		"reach.compat1193minus.LecternBlockEntityMixin",
 		"reach.compat1194plus.InventoryMixin",
 		"reach.compat119plus.ChestBoatEntityMixin",
 		"reach.compat119plus.ServerPlayerInteractionManagerMixin",
