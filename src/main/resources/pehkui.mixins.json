@@ -170,7 +170,8 @@
 		"reach.compat119plus.StorageMinecartEntityMixin",
 		"step_height.compat1193minus.EntityMixin",
 		"step_height.compat1194plus.EntityMixin",
-		"step_height.compat.StepHeightEntityAttributeMainMixin"
+		"step_height.compat.compat1193minus.StepHeightEntityAttributeMainMixin",
+		"step_height.compat.compat1194plus.StepHeightEntityAttributeMainMixin"
 	],
 	"client":
 	[

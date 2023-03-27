@@ -68,7 +68,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		}
 		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".step_height"))
 		{
-			return STEP_HEIGHT_ATTRIBUTES_LOADED == mixinClassName.equals(MIXIN_PACKAGE + ".step_height.compat.StepHeightEntityAttributeMainMixin");
+			return STEP_HEIGHT_ATTRIBUTES_LOADED == mixinClassName.contains(MIXIN_PACKAGE + ".step_height.compat.");
 		}
 		else if (mixinClassName.startsWith(MIXIN_PACKAGE + ".identity.compat"))
 		{
