@@ -35,15 +35,12 @@ repositories {
 	}
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 def ENV = System.getenv()
 
 TimeZone.setDefault(TimeZone.getTimeZone("UTC"))
 
 group = project.maven_group
-archivesBaseName = project.archives_base_name
+base.archivesName = project.archives_base_name
 version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + (project.hasProperty("metadata_minecraft_versions") ? project.metadata_minecraft_versions : project.minecraft_version)
 
 if(project.hasProperty("forge_version")) {
@@ -197,15 +194,18 @@ tasks.withType(AbstractArchiveTask) {
 
 java {
 	withSourcesJar()
+	
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 jar {
 	from "LICENSE"
 	manifest
 	{
-		attributes "Implementation-Title": project.archivesBaseName
+		attributes "Implementation-Title": base.archivesName.get()
 		attributes "Implementation-Version": project.version
-		attributes "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}"
+		attributes "Maven-Artifact": "${project.group}:${base.archivesName.get()}:${project.version}"
 		attributes "Built-On-Minecraft": "${project.minecraft_version}"
 		attributes "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
 	}
@@ -216,9 +216,9 @@ tasks.named("sourcesJar") {
 	exclude "META-INF/mods.toml"
 	manifest
 	{
-		attributes "Implementation-Title": project.archivesBaseName + "-sources"
+		attributes "Implementation-Title": base.archivesName.get() + "-sources"
 		attributes "Implementation-Version": project.version
-		attributes "Maven-Artifact": "${project.group}:${project.archivesBaseName}:${project.version}:sources"
+		attributes "Maven-Artifact": "${project.group}:${base.archivesName.get()}:${project.version}:sources"
 		attributes "Built-On-Minecraft": "${project.minecraft_version}"
 		attributes "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
 	}
@@ -349,7 +349,7 @@ githubRelease {
 	
 	releaseName project.version
 	
-	releaseAssets = files("${project.buildDir}/libs/${archivesBaseName}-${version}.jar", "${project.buildDir}/libs/${archivesBaseName}-${version}-sources.jar").files
+	releaseAssets = files("${project.buildDir}/libs/${base.archivesName.get()}-${version}.jar", "${project.buildDir}/libs/${base.archivesName.get()}-${version}-sources.jar").files
 }
 
 tasks.named("githubRelease") {
