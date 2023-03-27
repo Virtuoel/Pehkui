@@ -10,14 +10,14 @@ import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = {
+@Mixin({
 	AbstractFurnaceBlockEntity.class,
 	BrewingStandBlockEntity.class,
 	LootableContainerBlockEntity.class,
-}, priority = 1010)
+})
 public abstract class BlockEntityUseDistanceMixin
 {
-	@ModifyConstant(method = "canPlayerUse", require = 0, expect = 0, constant = @Constant(doubleValue = 64.0D))
+	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 64.0D))
 	private double pehkui$canPlayerUse$distance(double value, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);

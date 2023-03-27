@@ -3,10 +3,10 @@ package virtuoel.pehkui.mixin.client.compat1194plus;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -29,7 +29,7 @@ public abstract class InventoryScreenMixin
 	@Unique private static final ThreadLocal<Box> pehkui$BOX = new ThreadLocal<>();
 	
 	@Inject(method = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "HEAD"))
-	private static void pehkui$drawEntity$head(MatrixStack matrixStack, int i, int j, int k, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info)
+	private static void pehkui$drawEntity$head(MatrixStack matrixStack, int i, int j, int k, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -58,7 +58,7 @@ public abstract class InventoryScreenMixin
 	}
 	
 	@Inject(method = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "RETURN"))
-	private static void pehkui$drawEntity$return(MatrixStack matrixStack, int i, int j, int k, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info)
+	private static void pehkui$drawEntity$return(MatrixStack matrixStack, int i, int j, int k, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		

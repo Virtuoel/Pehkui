@@ -20,7 +20,7 @@ public class IdentityComponentMixin
 	@Shadow(remap = false) LivingEntity identity;
 	
 	@Inject(at = @At("RETURN"), method = "readFromNbt", remap = false)
-	private void pehkui$readFromNbt(NbtCompound nbt, CallbackInfo info)
+	private void pehkui$readFromNbt(NbtCompound tag, CallbackInfo info)
 	{
 		if (this.identity != null)
 		{
