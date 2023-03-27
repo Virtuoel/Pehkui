@@ -33,7 +33,7 @@ public interface InventoryMixin
 			double x = ((double) pos.getX()) + 0.5D;
 			double y = ((double) pos.getY()) + 0.5D;
 			double z = ((double) pos.getZ()) + 0.5D;
-			final Vec3d eyePos = player.getEyePos();
+			final Vec3d eyePos = null;//player.getEyePos();// TODO 1.19.4
 			x = (x - 0.5D) + ScaleUtils.getBlockXOffset(pos, player) - (eyePos.getX() - player.getX());
 			y = (y - 0.5D) + ScaleUtils.getBlockYOffset(pos, player) - (eyePos.getY() - player.getY());
 			z = (z - 0.5D) + ScaleUtils.getBlockZOffset(pos, player) - (eyePos.getZ() - player.getZ());
