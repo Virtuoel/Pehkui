@@ -14,7 +14,7 @@ import net.minecraft.client.render.GameRenderer;
 import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = GameRenderer.class, priority = 1001)
+@Mixin(value = GameRenderer.class, priority = 990)
 public class GameRendererMixin
 {
 	@Shadow @Final @Mutable
