@@ -4,41 +4,42 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Direction;
 
 public class GravityChangerCompatibility
 {
+	private static final boolean GRAVITY_API_LOADED = ModLoaderUtils.isModLoaded("gravity_api");
 	private static final boolean GRAVITY_CHANGER_LOADED = ModLoaderUtils.isModLoaded("gravitychanger");
 	
 	public static final GravityChangerCompatibility INSTANCE = new GravityChangerCompatibility();
 	
-	private final Optional<Class<?>> apiClass;
 	private final Optional<Method> getterMethod;
-	
-	private final Optional<Class<?>> accessorClass;
+	private final Optional<Method> oldGetterMethod;
 	private final Optional<Method> accessorGetterMethod;
 	
 	private boolean enabled;
 	
 	private GravityChangerCompatibility()
 	{
-		this.enabled = GRAVITY_CHANGER_LOADED;
+		this.enabled = GRAVITY_API_LOADED || GRAVITY_CHANGER_LOADED;
 		
 		if (this.enabled)
 		{
-			this.apiClass = ReflectionUtils.getClass("me.andrew.gravitychanger.api.GravityChangerAPI");
-			this.getterMethod = ReflectionUtils.getMethod(apiClass, "getAppliedGravityDirection", PlayerEntity.class);
+			final Optional<Class<?>> apiClass = ReflectionUtils.getClass("com.fusionflux.gravity_api.api.GravityChangerAPI");
+			this.getterMethod = ReflectionUtils.getMethod(apiClass, "getGravityDirection", Entity.class);
 			
-			this.accessorClass = ReflectionUtils.getClass("me.andrew.gravitychanger.accessor.EntityAccessor");
+			final Optional<Class<?>> oldApiClass = ReflectionUtils.getClass("me.andrew.gravitychanger.api.GravityChangerAPI");
+			this.oldGetterMethod = ReflectionUtils.getMethod(oldApiClass, "getAppliedGravityDirection", PlayerEntity.class);
+			
+			final Optional<Class<?>> accessorClass = ReflectionUtils.getClass("me.andrew.gravitychanger.accessor.EntityAccessor");
 			this.accessorGetterMethod = ReflectionUtils.getMethod(accessorClass, "gravitychanger$getAppliedGravityDirection");
 		}
 		else
 		{
-			this.apiClass = Optional.empty();
 			this.getterMethod = Optional.empty();
-			
-			this.accessorClass = Optional.empty();
+			this.oldGetterMethod = Optional.empty();
 			this.accessorGetterMethod = Optional.empty();
 		}
 	}
@@ -60,18 +61,32 @@ public class GravityChangerCompatibility
 			})
 			.orElseGet(() ->
 			{
-				return accessorGetterMethod.map(m ->
+				return oldGetterMethod.map(m ->
 				{
 					try
 					{
-						return (Direction) m.invoke(entity);
+						return (Direction) m.invoke(null, entity);
 					}
 					catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
 					{
 						return Direction.DOWN;
 					}
 				})
-				.orElse(Direction.DOWN);
+				.orElseGet(() ->
+				{
+					return accessorGetterMethod.map(m ->
+					{
+						try
+						{
+							return (Direction) m.invoke(entity);
+						}
+						catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+						{
+							return Direction.DOWN;
+						}
+					})
+					.orElse(Direction.DOWN);
+				});
 			});
 		}
 		
