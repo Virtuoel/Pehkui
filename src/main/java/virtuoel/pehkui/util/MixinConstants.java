@@ -62,6 +62,7 @@ public class MixinConstants
 	private static final String METHOD_9554 = "method_9554";
 	private static final String METHOD_11117 = "method_11117";
 	private static final String METHOD_5823 = "method_5823";
+	private static final String METHOD_18074 = "method_18074";
 	private static final String METHOD_29242 = "method_29242";
 	private static final String METHOD_14263 = "method_14263";
 	private static final String METHOD_12205 = "method_12205";
@@ -227,6 +228,9 @@ public class MixinConstants
 	
 	// 1.16 Plus 1.18 Minus
 	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT_READY
+	
+	// 1.16 Plus 1.19 Minus
+	public static final String GET_COLLISION = METHOD_18074; // COMMIT_READY
 	
 	// 1.16 Plus 1.19.3 Minus
 	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V"; // COMMIT_READY
