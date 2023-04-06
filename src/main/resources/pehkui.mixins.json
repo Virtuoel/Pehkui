@@ -148,6 +148,7 @@
 		"identity.compat116.IdentityComponentMixin",
 		"magna.compat.ReachDistanceHelperMixin",
 		"pehkui.compat.ScaleTypeMixin",
+		"reach.IForgePlayerMixin",
 		"reach.PlayerEntityMixin",
 		"reach.ScreenHandlerMixin",
 		"reach.compat.ReachEntityAttributesMixin",
