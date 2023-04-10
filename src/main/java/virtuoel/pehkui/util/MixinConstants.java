@@ -196,6 +196,9 @@ public class MixinConstants
 	// 1.16 Plus 1.18 Minus
 	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT_READY
 	
+	// 1.16 Plus 1.19 Minus
+	public static final String GET_COLLISION = "getCollision"; // COMMIT_READY
+	
 	// 1.16 Plus 1.19.3 Minus
 	public static final String UPDATE_LIMBS = "method_29242(Lnet/minecraft/entity/LivingEntity;Z)V"; // COMMIT_READY
 	
