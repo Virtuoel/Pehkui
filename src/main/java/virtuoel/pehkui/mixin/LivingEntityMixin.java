@@ -178,7 +178,7 @@ public abstract class LivingEntityMixin
 			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (((PehkuiBlockStateExtensions) self.world.getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
+				if (((PehkuiBlockStateExtensions) self.getEntityWorld().getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
 				{
 					final Vec3d prev = info.getReturnValue();
 					info.setReturnValue(new Vec3d(prev.x, Math.max(self.getVelocity().y, -0.15D), prev.z));
