@@ -75,6 +75,7 @@ public class MixinConstants
 	private static final String METHOD_31762 = "method_31762";
 	private static final String METHOD_8437 = "method_8437";
 	private static final String METHOD_2486 = "method_2486";
+	private static final String METHOD_48472 = "method_48472";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -250,5 +251,8 @@ public class MixinConstants
 	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
 	
 	// 1.19.3 Minus
-	public static final String DRAW_ENTITY = METHOD_2486; // COMMIT_READY
+	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486; // COMMIT_READY
+	
+	// 1.19.4
+	public static final String DRAW_ENTITY_ROTATED = METHOD_48472; // COMMIT_READY
 }

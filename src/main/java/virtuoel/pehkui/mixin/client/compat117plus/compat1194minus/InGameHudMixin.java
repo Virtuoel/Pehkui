@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client.compat117plus;
+package virtuoel.pehkui.mixin.client.compat117plus.compat1194minus;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InGameHud.class)
@@ -21,7 +22,7 @@ public abstract class InGameHudMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@ModifyArg(method = "renderStatusBars", index = 0, at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
+	@ModifyArg(method = MixinConstants.RENDER_STATUS_BARS, index = 0, at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"), remap = false)
 	private float pehkui$renderStatusBars(float value)
 	{
 		final float healthScale = ScaleUtils.getHealthScale(getCameraPlayer(), client.getTickDelta());
