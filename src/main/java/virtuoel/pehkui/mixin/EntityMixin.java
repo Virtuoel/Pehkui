@@ -34,6 +34,7 @@ import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
+import virtuoel.pehkui.util.ScaleCachingUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
@@ -45,6 +46,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	private volatile Map<ScaleType, ScaleData> pehkui_scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 	private boolean pehkui_shouldSyncScales = false;
 	private boolean pehkui_shouldIgnoreScaleNbt = false;
+	private ScaleData[] pehkui_scaleCache = null;
 	
 	@Override
 	public ScaleData pehkui_constructScaleData(ScaleType type)
@@ -55,6 +57,21 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
+		if (ScaleCachingUtils.ENABLE_CACHING)
+		{
+			if (pehkui_scaleCache == null)
+			{
+				pehkui_scaleCache = new ScaleData[ScaleCachingUtils.CACHED.length];
+			}
+			
+			final ScaleData cached = ScaleCachingUtils.getCachedData(pehkui_scaleCache, type);
+			
+			if (cached != null)
+			{
+				return cached;
+			}
+		}
+		
 		final Map<ScaleType, ScaleData> scaleTypes = pehkui_getScales();
 		
 		ScaleData scaleData = scaleTypes.get(type);
@@ -67,6 +84,11 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 				{
 					scaleTypes.put(type, null);
 					scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
+					
+					if (ScaleCachingUtils.ENABLE_CACHING)
+					{
+						ScaleCachingUtils.setCachedData(pehkui_scaleCache, type, scaleData);
+					}
 				}
 				else
 				{
