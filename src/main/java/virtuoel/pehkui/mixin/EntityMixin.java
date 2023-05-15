@@ -59,12 +59,22 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	{
 		if (ScaleCachingUtils.ENABLE_CACHING)
 		{
-			if (pehkui_scaleCache == null)
+			ScaleData[] scaleCache = pehkui_scaleCache;
+			
+			if (scaleCache == null)
 			{
-				pehkui_scaleCache = new ScaleData[ScaleCachingUtils.CACHED.length];
+				synchronized (this)
+				{
+					scaleCache = pehkui_scaleCache;
+					
+					if (scaleCache == null)
+					{
+						pehkui_scaleCache = scaleCache = new ScaleData[ScaleCachingUtils.CACHED.length];
+					}
+				}
 			}
 			
-			final ScaleData cached = ScaleCachingUtils.getCachedData(pehkui_scaleCache, type);
+			final ScaleData cached = ScaleCachingUtils.getCachedData(scaleCache, type);
 			
 			if (cached != null)
 			{
