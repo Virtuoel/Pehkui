@@ -32,6 +32,7 @@ import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
@@ -148,7 +149,7 @@ public class CommandUtils
 		<T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier);
 	}
 	
-	public static final Method REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE;
+	public static final Method REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE, SEND_FEEDBACK;
 	
 	static
 	{
@@ -161,6 +162,7 @@ public class CommandUtils
 		{
 			final boolean is116Minus = VersionUtils.MINOR <= 16;
 			final boolean is118Minus = VersionUtils.MINOR <= 18;
+			final boolean is119Minus = VersionUtils.MINOR <= 19;
 			
 			if (is118Minus)
 			{
@@ -170,6 +172,12 @@ public class CommandUtils
 			
 			mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2096$class_2099", "method_9047", is116Minus ? "(F)Z" : "(D)Z");
 			h.put(1, NumberRange.FloatRange.class.getMethod(mapped, is116Minus ? float.class : double.class));
+			
+			if (is119Minus)
+			{
+				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2168", "method_9226", "(Lnet/minecraft/class_2561;Z)V");
+				h.put(2, ServerCommandSource.class.getMethod(mapped, Text.class, boolean.class));
+			}
 		}
 		catch (NoSuchMethodException | SecurityException e1)
 		{
@@ -179,20 +187,38 @@ public class CommandUtils
 		
 		REGISTER_ARGUMENT_TYPE = h.get(0);
 		TEST_FLOAT_RANGE = h.get(1);
+		SEND_FEEDBACK = h.get(2);
+	}
+	
+	public static void sendFeedback(ServerCommandSource source, Supplier<Text> text, boolean broadcastToOps)
+	{
+		if (SEND_FEEDBACK != null)
+		{
+			try
+			{
+				SEND_FEEDBACK.invoke(source, text.get(), broadcastToOps);
+			}
+			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			{
+				Pehkui.LOGGER.catching(e);
+			}
+		}
+		
+		source.sendFeedback(text, broadcastToOps);
 	}
 	
 	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
 	{
-		try
+		if (TEST_FLOAT_RANGE != null)
 		{
-			if (TEST_FLOAT_RANGE != null)
+			try
 			{
 				return (boolean) TEST_FLOAT_RANGE.invoke(range, value);
 			}
-		}
-		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-		{
-			Pehkui.LOGGER.catching(e);
+			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			{
+				Pehkui.LOGGER.catching(e);
+			}
 		}
 		
 		return false;

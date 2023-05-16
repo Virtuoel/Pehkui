@@ -36,6 +36,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.MixinTargetClasses;
@@ -189,7 +190,7 @@ public class DebugCommand
 		int successes = -1;
 		int total = -1;
 		
-		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.test.success", "Tests succeeded: %d/%d", successes, total), false);
+		CommandUtils.sendFeedback(context.getSource(), () -> I18nUtils.translate("commands.pehkui.debug.test.success", "Tests succeeded: %d/%d", successes, total), false);
 		
 		return 1;
 	}
@@ -204,7 +205,7 @@ public class DebugCommand
 	private static int runMixinTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
 		runMixinClassloadTests(
-			t -> context.getSource().sendFeedback(t, false),
+			t -> CommandUtils.sendFeedback(context.getSource(), () -> t, false),
 			false,
 			false,
 			MixinTargetClasses.Common.CLASSES,
@@ -212,7 +213,7 @@ public class DebugCommand
 		);
 		
 		runMixinClassloadTests(
-			t -> context.getSource().sendFeedback(t, false),
+			t -> CommandUtils.sendFeedback(context.getSource(), () -> t, false),
 			false,
 			true,
 			MixinTargetClasses.Common.INTERMEDIARY_CLASSES,
@@ -230,9 +231,9 @@ public class DebugCommand
 			);
 		}
 		
-		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);
+		CommandUtils.sendFeedback(context.getSource(), () -> I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);
 		MixinEnvironment.getCurrentEnvironment().audit();
-		context.getSource().sendFeedback(I18nUtils.translate("commands.pehkui.debug.audit.end", "Mixin environment audit complete!"), false);
+		CommandUtils.sendFeedback(context.getSource(), () -> I18nUtils.translate("commands.pehkui.debug.audit.end", "Mixin environment audit complete!"), false);
 		
 		return 1;
 	}

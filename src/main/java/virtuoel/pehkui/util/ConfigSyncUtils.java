@@ -354,8 +354,9 @@ public class ConfigSyncUtils
 			root = CommandManager.literal(keys[keys.length - 1])
 				.executes(context ->
 				{
-					context.getSource().sendFeedback(
-						I18nUtils.translate(
+					CommandUtils.sendFeedback(
+						context.getSource(),
+						() -> I18nUtils.translate(
 							"commands.pehkui.debug.config.get.value",
 							"Config \"%s\" is currently set to \"%s\"",
 							key, String.valueOf(cfg.getValue())
@@ -401,8 +402,9 @@ public class ConfigSyncUtils
 				entry.getValue().reset();
 			}
 			
-			context.getSource().sendFeedback(
-				I18nUtils.translate(
+			CommandUtils.sendFeedback(
+				context.getSource(),
+				() -> I18nUtils.translate(
 					"commands.pehkui.debug.config.reset",
 					"%s config entries have been reset to their default values",
 					String.valueOf(SYNCED_CONFIGS.size())
@@ -457,8 +459,9 @@ public class ConfigSyncUtils
 					
 					final String newValue = String.valueOf(cfg.getValue());
 					
-					context.getSource().sendFeedback(
-						I18nUtils.translate(
+					CommandUtils.sendFeedback(
+						context.getSource(),
+						() -> I18nUtils.translate(
 							String.format("commands.pehkui.debug.config.%s.value", asSetterCommands ? "changed" : "reset"),
 							asSetterCommands ? "Config \"%s\" was changed from \"%s\" to \"%s\"" : "Config \"%s\" was reset from \"%s\" to default \"%s\"",
 							key, oldValue, newValue
