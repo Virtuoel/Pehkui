@@ -197,6 +197,8 @@ public class CommandUtils
 			try
 			{
 				SEND_FEEDBACK.invoke(source, text.get(), broadcastToOps);
+				
+				return;
 			}
 			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
 			{
