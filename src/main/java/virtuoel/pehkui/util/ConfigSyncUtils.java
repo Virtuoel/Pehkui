@@ -298,7 +298,10 @@ public class ConfigSyncUtils
 			.then(CommandManager.literal("save")
 				.executes(context ->
 				{
-					config.save();
+					synchronized (config)
+					{
+						config.save();
+					}
 					
 					return 1;
 				})
@@ -306,12 +309,15 @@ public class ConfigSyncUtils
 			.then(CommandManager.literal("load")
 				.executes(context ->
 				{
-					final JsonObject disk = config.load();
-					config.onConfigChanged();
-					config.save(disk);
-					config.get();
-					
-					syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+					synchronized (config)
+					{
+						final JsonObject disk = config.load();
+						config.onConfigChanged();
+						config.save(disk);
+						config.get();
+						
+						syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+					}
 					
 					return 1;
 				})
@@ -319,20 +325,23 @@ public class ConfigSyncUtils
 			.then(CommandManager.literal("delete")
 				.executes(context ->
 				{
-					config.onConfigChanged();
-					try
+					synchronized (config)
 					{
-						Files.deleteIfExists(FabricLoader.getInstance().getConfigDir().resolve(Pehkui.MOD_ID).resolve("config.json").normalize());
-						config.get();
-						syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
-						
-						return 1;
-					}
-					catch (IOException e)
-					{
-						Pehkui.LOGGER.catching(e);
-						
-						return 0;
+						config.onConfigChanged();
+						try
+						{
+							Files.deleteIfExists(FabricLoader.getInstance().getConfigDir().resolve(Pehkui.MOD_ID).resolve("config.json").normalize());
+							config.get();
+							syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
+							
+							return 1;
+						}
+						catch (IOException e)
+						{
+							Pehkui.LOGGER.catching(e);
+							
+							return 0;
+						}
 					}
 				})
 			);
@@ -344,11 +353,8 @@ public class ConfigSyncUtils
 		
 		String[] keys;
 		ArgumentBuilder<ServerCommandSource, ?> root, temp;
-		for (final Entry<String, MutableConfigEntry<?>> entry : CONFIGS.entrySet())
+		for (final String key : CONFIGS.keySet())
 		{
-			final String key = entry.getKey();
-			final MutableConfigEntry<?> cfg = entry.getValue();
-			
 			keys = splitKeys ? key.split("\\.") : new String[] { key };
 			
 			root = CommandManager.literal(keys[keys.length - 1])
@@ -359,7 +365,7 @@ public class ConfigSyncUtils
 						() -> I18nUtils.translate(
 							"commands.pehkui.debug.config.get.value",
 							"Config \"%s\" is currently set to \"%s\"",
-							key, String.valueOf(cfg.getValue())
+							key, String.valueOf(CONFIGS.get(key).getValue())
 						),
 						false
 					);
