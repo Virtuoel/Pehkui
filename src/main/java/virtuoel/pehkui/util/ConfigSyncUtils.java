@@ -17,7 +17,6 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.Nullable;
 
-import com.google.gson.JsonObject;
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
@@ -311,9 +310,7 @@ public class ConfigSyncUtils
 				{
 					synchronized (config)
 					{
-						final JsonObject disk = config.load();
-						config.onConfigChanged();
-						config.save(disk);
+						config.invalidate();
 						config.get();
 						
 						syncConfigs(context.getSource().getWorld().getServer().getPlayerManager().getPlayerList());
