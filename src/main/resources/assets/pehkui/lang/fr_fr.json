@@ -1,6 +1,6 @@
 {
-	"argument.entity.options.pehkui.scalerange.description": "Entités avec une valeur d'échelle",
-	"argument.entity.options.pehkui.scaletype.description": "Entités avec un type d'échelle",
+	"argument.entity.options.pehkui.scale_range.description": "Entités avec une valeur d'échelle",
+	"argument.entity.options.pehkui.scale_type.description": "Entités avec un type d'échelle",
 	"argument.entity.options.pehkui.scale_nbt.description": "Entités avec une NBT d'échelle",
 	"argument.pehkui.modifier.invalid": "Modificateur d'échelle '%s' inconnu",
 	"argument.pehkui.type.invalid": "Type d'échelle '%s' inconnu",
