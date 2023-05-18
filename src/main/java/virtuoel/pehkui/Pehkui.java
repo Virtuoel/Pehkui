@@ -50,7 +50,7 @@ public class Pehkui
 		{
 			final Entity e = s.getEntity();
 			
-			if (e instanceof PlayerEntity && !e.world.isClient)
+			if (e instanceof PlayerEntity && !e.getEntityWorld().isClient)
 			{
 				final EntityAttributeInstance attribute = ((PlayerEntity) e).getAttributeInstance(ForgeMod.REACH_DISTANCE.get());
 				

@@ -238,7 +238,7 @@ public class ScaleData
 	public float getScale(float delta)
 	{
 		final Entity e = getEntity();
-		final boolean canCache = delta == 1.0F && e != null && e.world != null && !e.world.isClient && (e.getType() != EntityType.PLAYER || !getScaleType().getAffectsDimensions()) && !((PehkuiEntityExtensions) e).pehkui_isFirstUpdate();
+		final boolean canCache = delta == 1.0F && e != null && e.getEntityWorld() != null && !e.getEntityWorld().isClient && (e.getType() != EntityType.PLAYER || !getScaleType().getAffectsDimensions()) && !((PehkuiEntityExtensions) e).pehkui_isFirstUpdate();
 		
 		if (canCache && !Float.isNaN(cachedScale))
 		{
@@ -411,7 +411,7 @@ public class ScaleData
 	{
 		final Entity e = getEntity();
 		
-		if (e != null && e.world != null && !e.world.isClient)
+		if (e != null && e.getEntityWorld() != null && !e.getEntityWorld().isClient)
 		{
 			this.shouldSync = sync;
 			if (this.shouldSync)
