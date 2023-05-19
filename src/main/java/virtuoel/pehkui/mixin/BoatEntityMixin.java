@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
@@ -31,12 +32,36 @@ public abstract class BoatEntityMixin
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 	}
 	
-	@ModifyConstant(method = "getUnderWaterLocation", constant = @Constant(doubleValue = 0.001))
+	@ModifyArg(method = "checkBoatInWater", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/util/math/MathHelper;ceil(D)I"))
+	private double pehkui$checkBoatInWater$offset(double value)
+	{
+		final Entity self = (Entity) (Object) this;
+		final float scale = ScaleUtils.getBoundingBoxHeightScale(self);
+		
+		if (scale != 1.0F)
+		{
+			final double minY = self.getBoundingBox().minY;
+			
+			return minY + (scale * (value - minY));
+		}
+		
+		return value;
+	}
+	
+	@ModifyVariable(method = "getUnderWaterLocation", at = @At(value = "STORE"))
 	private double pehkui$getUnderWaterLocation$offset(double value)
 	{
-		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		final Entity self = (Entity) (Object) this;
+		final float scale = ScaleUtils.getBoundingBoxHeightScale(self);
 		
-		return scale > 1.0F ? scale * value : value;
+		if (scale > 1.0F)
+		{
+			final double maxY = self.getBoundingBox().maxY;
+			
+			return maxY + (scale * (value - maxY));
+		}
+		
+		return value;
 	}
 	
 	@ModifyConstant(method = "updateVelocity", constant = @Constant(doubleValue = 0.06153846016296973))
@@ -53,13 +78,5 @@ public abstract class BoatEntityMixin
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@ModifyConstant(method = "checkBoatInWater", constant = @Constant(doubleValue = 0.001))
-	private double pehkui$checkBoatInWater$offset(double value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
-		
-		return scale > 1.0F ? scale * value : value;
 	}
 }
