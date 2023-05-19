@@ -16,6 +16,7 @@ import net.minecraft.command.argument.serialize.ArgumentSerializer;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.command.ServerCommandSource;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -62,6 +63,11 @@ public class CommandUtils
 	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
 	{
 		return range.test(value);
+	}
+	
+	public static void sendFeedback(ServerCommandSource source, Supplier<Text> text, boolean broadcastToOps)
+	{
+		source.sendFeedback(text.get(), broadcastToOps);
 	}
 	
 	public static <T extends ArgumentType<?>> void registerConstantArgumentType(Identifier id, Class<T> argClass, Supplier<T> supplier)
