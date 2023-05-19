@@ -233,12 +233,9 @@ public class ScaleUtils
 	{
 		final Collection<ScaleData> syncedScales = SYNCED_SCALE_DATA.get();
 		
-		ScaleData scaleData;
-		for (final Entry<ScaleType, ScaleData> entry : ((PehkuiEntityExtensions) entity).pehkui_getScales().entrySet())
+		for (final ScaleData scaleData : ((PehkuiEntityExtensions) entity).pehkui_getScales().values())
 		{
-			scaleData = entry.getValue();
-			
-			if (condition.test(scaleData))
+			if (scaleData != null && condition.test(scaleData))
 			{
 				syncedScales.add(scaleData);
 				
