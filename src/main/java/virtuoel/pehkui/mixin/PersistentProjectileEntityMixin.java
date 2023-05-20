@@ -30,7 +30,7 @@ public abstract class PersistentProjectileEntityMixin
 			
 			final Vec3d pos = self.getPos();
 			
-			self.setPosition(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
+			self.setPos(pos.x, pos.y + ((1.0F - scale) * 0.1D), pos.z);
 		}
 	}
 	

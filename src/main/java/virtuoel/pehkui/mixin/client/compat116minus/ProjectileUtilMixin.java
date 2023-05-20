@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ProjectileUtil.class)
 public class ProjectileUtilMixin
 {
-	@Redirect(method = MixinConstants.PROJECTILE_RAYCAST, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX), remap = false)
+	@Redirect(method = MixinConstants.PROJECTILE_RAYCAST, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
 	private static Box pehkui$raycast$getBoundingBox(Entity obj)
 	{
 		final Box bounds = obj.getBoundingBox();
