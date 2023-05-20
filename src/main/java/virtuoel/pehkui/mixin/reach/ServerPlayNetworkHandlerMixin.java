@@ -1,22 +1,21 @@
-package virtuoel.pehkui.mixin.reach.compat118minus;
+package virtuoel.pehkui.mixin.reach;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.ServerPlayerInteractionManager;
-import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(ServerPlayerInteractionManager.class)
-public class ServerPlayerInteractionManagerMixin
+@Mixin(ServerPlayNetworkHandler.class)
+public class ServerPlayNetworkHandlerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyConstant(method = MixinConstants.PROCESS_BLOCK_BREAKING_ACTION, constant = @Constant(doubleValue = 36.0D), remap = false)
-	private double pehkui$processBlockBreakingAction$distance(double value)
+	@ModifyConstant(method = "onPlayerInteractBlock", constant = @Constant(doubleValue = 64.0D))
+	private double pehkui$onPlayerInteractBlock$distance(double value)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		

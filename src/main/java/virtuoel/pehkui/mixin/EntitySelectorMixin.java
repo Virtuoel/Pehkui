@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntitySelector.class)
 public class EntitySelectorMixin
 {
-	@Redirect(method = { "method_9810", "func_197344_a", "m_121141_" }, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	@Redirect(method = "method_9810", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private static Box pehkui$method_9810$getBoundingBox(Entity obj)
 	{
 		final Box bounds = obj.getBoundingBox();

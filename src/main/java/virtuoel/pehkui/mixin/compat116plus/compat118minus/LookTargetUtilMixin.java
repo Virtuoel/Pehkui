@@ -19,7 +19,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(LookTargetUtil.class)
 public class LookTargetUtilMixin
 {
-	@ModifyConstant(method = MixinConstants.GIVE_TO_VEC3D, constant = @Constant(doubleValue = 0.3F, ordinal = 0))
+	@ModifyConstant(method = MixinConstants.GIVE_TO_VEC3D, constant = @Constant(doubleValue = 0.3F, ordinal = 0), remap = false)
 	private static double pehkui$give$offset(double value, LivingEntity entity, ItemStack stack, Vec3d targetLocation)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(entity);
@@ -27,7 +27,7 @@ public class LookTargetUtilMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@Inject(method = MixinConstants.GIVE_TO_VEC3D, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
+	@Inject(method = MixinConstants.GIVE_TO_VEC3D, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V", remap = true), remap = false)
 	private static void pehkui$give(LivingEntity entity, ItemStack stack, Vec3d targetLocation, CallbackInfo info, double d, ItemEntity itemEntity, float f, Vec3d vec3d)
 	{
 		ScaleUtils.setScaleOfDrop(itemEntity, entity);

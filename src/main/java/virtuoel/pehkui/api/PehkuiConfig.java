@@ -1,189 +1,85 @@
 package virtuoel.pehkui.api;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.InvalidIdentifierException;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import virtuoel.kanos_config.api.JsonConfigBuilder;
+import virtuoel.kanos_config.api.MutableConfigEntry;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
+import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
 public class PehkuiConfig
 {
 	@ApiStatus.Internal
-	public static final ForgeConfigSpec clientSpec;
-	public static final Client CLIENT;
-	@ApiStatus.Internal
-	public static final ForgeConfigSpec commonSpec;
-	public static final Common COMMON;
-	@ApiStatus.Internal
-	public static final ForgeConfigSpec serverSpec;
-	public static final Server SERVER;
-	
-	@ApiStatus.Internal
-	@SubscribeEvent
-	public static void onLoad(ModConfigEvent.Loading configEvent)
+	public static final JsonConfigBuilder BUILDER = new JsonConfigBuilder(
+		Pehkui.MOD_ID,
+		FabricLoader.getInstance().getConfigDir().resolve(Pehkui.MOD_ID).resolve("config.json").normalize()
+	)
 	{
-		Pehkui.LOGGER.debug(
-			"Loaded Pehkui config file {}", configEvent.getConfig().getFileName()
-		);
-	}
-	
-	@ApiStatus.Internal
-	@SubscribeEvent
-	public static void onFileChange(ModConfigEvent.Reloading configEvent)
-	{
-		Pehkui.LOGGER.debug(
-			"Pehkui config just got changed on the file system!"
-		);
-	}
-	
-	static
-	{
-		final ForgeConfigSpec.Builder client, common, server;
-		client = new ForgeConfigSpec.Builder();
-		common = new ForgeConfigSpec.Builder();
-		server = new ForgeConfigSpec.Builder();
-		
-		CLIENT = new Client(client);
-		COMMON = new Common(common);
-		SERVER = new Server(server);
-		
-		clientSpec = client.build();
-		commonSpec = common.build();
-		serverSpec = server.build();
-	}
-	
-	public static class Client
-	{
-		public final ForgeConfigSpec.DoubleValue minimumCameraDepth;
-		
-		Client(ForgeConfigSpec.Builder builder)
+		@Override
+		public <T> MutableConfigEntry<T> createConfigEntry(final String name, final T defaultValue, final Supplier<T> supplier, final Consumer<T> consumer)
 		{
-			builder
-				.comment("Client only settings, mostly things related to rendering")
-				.push("client");
-			this.minimumCameraDepth = builder
-				.translation("pehkui.configgui.minimumCameraDepth")
-				.defineInRange("minimumCameraDepth", 1.0D / 32767.0D, 0.0D, 0.05D);
-			builder.pop();
+			return ConfigSyncUtils.createConfigEntry(name, defaultValue, supplier, consumer);
 		}
-	}
+	};
 	
-	public static class Common
+	public static final Client CLIENT = new Client(BUILDER);
+	public static final Common COMMON = new Common(BUILDER);
+	public static final Server SERVER = new Server(BUILDER);
+	
+	public static final class Common
 	{
-		public final ForgeConfigSpec.BooleanValue scaledFallDamage;
-		public final ForgeConfigSpec.BooleanValue scaledMotion;
-		public final ForgeConfigSpec.BooleanValue scaledReach;
-		public final ForgeConfigSpec.BooleanValue scaledAttack;
-		public final ForgeConfigSpec.BooleanValue scaledDefense;
-		public final ForgeConfigSpec.BooleanValue scaledHealth;
-		public final ForgeConfigSpec.BooleanValue scaledItemDrops;
-		public final ForgeConfigSpec.BooleanValue scaledProjectiles;
-		public final ForgeConfigSpec.BooleanValue scaledExplosions;
-		public final ForgeConfigSpec.BooleanValue keepAllScalesOnRespawn;
-		public final ConfigValue<List<? extends String>> scalesKeptOnRespawn;
-		public final ForgeConfigSpec.BooleanValue accurateNetherPortals;
-		public final ForgeConfigSpec.BooleanValue enableCommands;
-		public final ForgeConfigSpec.BooleanValue enableDebugCommands;
+		public final Supplier<Boolean> keepAllScalesOnRespawn;
+		public final Supplier<List<String>> scalesKeptOnRespawn;
 		
-		Common(ForgeConfigSpec.Builder builder)
+		public final Supplier<Boolean> accurateNetherPortals;
+		
+		public final Supplier<Boolean> enableCommands;
+		public final Supplier<Boolean> enableDebugCommands;
+		
+		public final Supplier<Boolean> scaledFallDamage;
+		public final Supplier<Boolean> scaledMotion;
+		public final Supplier<Boolean> scaledReach;
+		public final Supplier<Boolean> scaledAttack;
+		public final Supplier<Boolean> scaledDefense;
+		public final Supplier<Boolean> scaledHealth;
+		public final Supplier<Boolean> scaledItemDrops;
+		public final Supplier<Boolean> scaledProjectiles;
+		public final Supplier<Boolean> scaledExplosions;
+		
+		private Common(final JsonConfigBuilder builder)
 		{
-			builder
-				.comment("General configuration settings")
-				.push("general");
-			this.scaledFallDamage = builder
-				.translation("pehkui.configgui.scaledFallDamage")
-				.define("scaledFallDamage", true);
-			this.scaledMotion = builder
-				.translation("pehkui.configgui.scaledMotion")
-				.define("scaledMotion", true);
-			this.scaledReach = builder
-				.translation("pehkui.configgui.scaledReach")
-				.define("scaledReach", true);
-			this.scaledAttack = builder
-				.translation("pehkui.configgui.scaledAttack")
-				.define("scaledAttack", true);
-			this.scaledDefense = builder
-				.translation("pehkui.configgui.scaledDefense")
-				.define("scaledDefense", true);
-			this.scaledHealth = builder
-				.translation("pehkui.configgui.scaledHealth")
-				.define("scaledHealth", true);
-			this.scaledItemDrops = builder
-				.translation("pehkui.configgui.scaledItemDrops")
-				.define("scaledItemDrops", true);
-			this.scaledProjectiles = builder
-				.translation("pehkui.configgui.scaledProjectiles")
-				.define("scaledProjectiles", true);
-			this.scaledExplosions = builder
-				.translation("pehkui.configgui.scaledExplosions")
-				.define("scaledExplosions", true);
-			this.keepAllScalesOnRespawn = builder
-				.translation("pehkui.configgui.keepAllScalesOnRespawn")
-				.define("keepAllScalesOnRespawn", false);
-			this.accurateNetherPortals = builder
-				.translation("pehkui.configgui.accurateNetherPortals")
-				.define("accurateNetherPortals", true);
-			this.scalesKeptOnRespawn = builder
-				.translation("pehkui.configgui.scalesKeptOnRespawn")
-				.defineListAllowEmpty(
-					path("scalesKeptOnRespawn"),
-					ArrayList::new,
-					s ->
-					{
-						try
-						{
-							final Identifier id = new Identifier(String.valueOf(s));
-							final ScaleType scaleType = ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, id);
-							
-							final Identifier defaultId = ScaleRegistries.getDefaultId(ScaleRegistries.SCALE_TYPES);
-							final ScaleType defaultType = ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, defaultId);
-							
-							return scaleType != null && (scaleType != defaultType || id.equals(defaultId));
-						}
-						catch (InvalidIdentifierException e)
-						{
-							return false;
-						}
-					}
-				);
-			this.enableCommands = builder
-				.translation("pehkui.configgui.enableCommands")
-				.define("enableCommands", true);
-			this.enableDebugCommands = builder
-				.translation("pehkui.configgui.enableDebugCommands")
-				.define("enableDebugCommands", false);
+			this.keepAllScalesOnRespawn = builder.booleanConfig(synced("keepAllScalesOnRespawn", "boolean"), false);
+			this.scalesKeptOnRespawn = builder.stringListConfig(synced("scalesKeptOnRespawn", "string_list"));
 			
-			builder.pop();
-		}
-	}
-	
-	public static class Server
-	{
-		Server(ForgeConfigSpec.Builder builder)
-		{
-			builder
-				.comment("Server configuration settings")
-				.push("server");
+			this.accurateNetherPortals = builder.booleanConfig(synced("accurateNetherPortals", "boolean"), true);
 			
-			builder.push("scale_limits");
+			this.enableCommands = builder.booleanConfig("enableCommands", true);
+			this.enableDebugCommands = builder.booleanConfig("enableDebugCommands", false);
+			
+			this.scaledFallDamage = builder.booleanConfig(synced("scaledFallDamage", "boolean"), true);
+			this.scaledMotion = builder.booleanConfig(synced("scaledMotion", "boolean"), true);
+			this.scaledReach = builder.booleanConfig(synced("scaledReach", "boolean"), true);
+			this.scaledAttack = builder.booleanConfig(synced("scaledAttack", "boolean"), true);
+			this.scaledDefense = builder.booleanConfig(synced("scaledDefense", "boolean"), true);
+			this.scaledHealth = builder.booleanConfig(synced("scaledHealth", "boolean"), true);
+			this.scaledItemDrops = builder.booleanConfig(synced("scaledItemDrops", "boolean"), true);
+			this.scaledProjectiles = builder.booleanConfig(synced("scaledProjectiles", "boolean"), true);
+			this.scaledExplosions = builder.booleanConfig(synced("scaledExplosions", "boolean"), true);
 			
 			Identifier id;
 			String namespace, path;
 			ScaleType type;
-			double defaultMin, defaultMax;
-			ForgeConfigSpec.DoubleValue min, max;
+			Supplier<Double> min, max;
 			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 			{
 				id = entry.getKey();
@@ -200,16 +96,8 @@ public class PehkuiConfig
 					
 					path = id.getPath();
 					
-					defaultMin = type.getAffectsDimensions() ? ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE : Float.MIN_VALUE;
-					defaultMax = ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE;
-					
-					builder.push(path);
-					min = builder
-						.translation("pehkui.configgui.scale_limits." + path + ".minimum")
-						.defineInRange("minimum", defaultMin, Float.MIN_VALUE, Float.MAX_VALUE);
-					max = builder
-						.translation("pehkui.configgui.scale_limits." + path + ".maximum")
-						.defineInRange("maximum", defaultMax, Float.MIN_VALUE, Float.MAX_VALUE);
+					min = builder.doubleConfig(synced(path + ".minimum", "double"), type.getAffectsDimensions() ? ScaleUtils.DEFAULT_MINIMUM_POSITIVE_SCALE : Float.MIN_VALUE);
+					max = builder.doubleConfig(synced(path + ".maximum", "double"), ((type == ScaleTypes.BLOCK_REACH || type == ScaleTypes.ENTITY_REACH) && VersionUtils.MINOR < 17) ? ScaleUtils.DEFAULT_MAXIMUM_REACH_BELOW_1_17 : Float.MAX_VALUE);
 					
 					type.getDefaultBaseValueModifiers().add(
 						ScaleRegistries.register(
@@ -218,21 +106,37 @@ public class PehkuiConfig
 							new ClampingScaleModifier(min::get, max::get, 0.0F)
 						)
 					);
-					
-					builder.pop();
 				}
 			}
-			builder.pop();
-			
-			builder.pop();
 		}
 	}
 	
-	@SafeVarargs
-	private static <E> ArrayList<E> path(final E... elements)
+	public static final class Client
 	{
-		final ArrayList<E> list = new ArrayList<E>();
-		Collections.addAll(list, elements);
-		return list;
+		public final Supplier<Double> minimumCameraDepth;
+		
+		private Client(final JsonConfigBuilder builder)
+		{
+			this.minimumCameraDepth = builder.doubleConfig("minimumCameraDepth", 1.0D / 32767.0D);
+		}
+	}
+	
+	public static final class Server
+	{
+		private Server(final JsonConfigBuilder builder)
+		{
+			
+		}
+	}
+	
+	private PehkuiConfig()
+	{
+		
+	}
+	
+	private static String synced(final String name, final String codecKey)
+	{
+		ConfigSyncUtils.setupSyncableConfig(name, codecKey);
+		return name;
 	}
 }

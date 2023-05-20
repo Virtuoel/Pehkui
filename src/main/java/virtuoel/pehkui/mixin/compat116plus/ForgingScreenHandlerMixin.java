@@ -13,19 +13,19 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ForgingScreenHandler.class)
 public class ForgingScreenHandlerMixin
 {
-	@ModifyConstant(method = { "method_24924", "func_234646_a", "m_39783_" }, require = 0, expect = 0, constant = @Constant(doubleValue = 0.5D, ordinal = 0))
+	@ModifyConstant(method = "method_24924", constant = @Constant(doubleValue = 0.5D, ordinal = 0))
 	private double pehkui$canUse$xOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockXOffset(pos, player);
 	}
 	
-	@ModifyConstant(method = { "method_24924", "func_234646_a", "m_39783_" }, require = 0, expect = 0, constant = @Constant(doubleValue = 0.5D, ordinal = 1))
+	@ModifyConstant(method = "method_24924", constant = @Constant(doubleValue = 0.5D, ordinal = 1))
 	private double pehkui$canUse$yOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockYOffset(pos, player);
 	}
 	
-	@ModifyConstant(method = { "method_24924", "func_234646_a", "m_39783_" }, require = 0, expect = 0, constant = @Constant(doubleValue = 0.5D, ordinal = 2))
+	@ModifyConstant(method = "method_24924", constant = @Constant(doubleValue = 0.5D, ordinal = 2))
 	private double pehkui$canUse$zOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockZOffset(pos, player);

@@ -3,7 +3,6 @@ package virtuoel.pehkui.mixin.compat116plus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -22,7 +21,7 @@ public abstract class FoxEntityMateGoalMixin extends AnimalMateGoal
 	}
 	
 	@Inject(method = "breed()V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/server/world/ServerWorld;spawnEntityAndPassengers(Lnet/minecraft/entity/Entity;)V"))
-	private void pehkui$breed(CallbackInfo info, ServerWorld serverWorld, FoxEntity foxEntity, @Coerce Object event, boolean cancelled)
+	private void pehkui$breed(CallbackInfo info, ServerWorld serverWorld, FoxEntity foxEntity)
 	{
 		ScaleUtils.loadAverageScales(foxEntity, this.animal, this.mate);
 	}

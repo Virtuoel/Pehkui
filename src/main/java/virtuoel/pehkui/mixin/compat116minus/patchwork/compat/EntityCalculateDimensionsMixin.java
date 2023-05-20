@@ -30,7 +30,7 @@ public abstract class EntityCalculateDimensionsMixin
 	@Shadow abstract void move(MovementType type, Vec3d movement);
 	
 	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, ordinal = 1, target = "Lnet/minecraft/entity/Entity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
-	private void pehkui$calculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current, @Coerce Object sizeEvent, Box box)
+	private void pehkui$calculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, @Coerce Object sizeEvent, EntityDimensions current, Box box)
 	{
 		if (this.world.isClient && type == EntityType.PLAYER && current.width > previous.width)
 		{
