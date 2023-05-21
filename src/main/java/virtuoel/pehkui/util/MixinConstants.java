@@ -73,6 +73,7 @@ public class MixinConstants
 	private static final String METHOD_3956 = "method_3956";
 	private static final String METHOD_31765 = "method_31765";
 	private static final String METHOD_31762 = "method_31762";
+	private static final String METHOD_5865 = "method_5865";
 	private static final String METHOD_8437 = "method_8437";
 	private static final String METHOD_2486 = "method_2486";
 	private static final String METHOD_48472 = "method_48472";
@@ -245,6 +246,9 @@ public class MixinConstants
 	// 1.18 Plus 1.19.2 Minus
 	public static final String FOR_EACH = METHOD_31765 + "(L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
 	public static final String FOR_EACH_FILTERED = METHOD_31762 + "(L" + CLASS_5575 + ";L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	
+	// 1.19 Minus
+	public static final String UPDATE_PASSENGER_POSITION = METHOD_5865; // COMMIT_READY
 	
 	// 1.19.2 Minus
 	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
