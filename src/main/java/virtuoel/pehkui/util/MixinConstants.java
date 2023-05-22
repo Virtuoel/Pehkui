@@ -212,6 +212,9 @@ public class MixinConstants
 	public static final String FOR_EACH = "forEach(Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
 	public static final String FOR_EACH_FILTERED = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
 	
+	// 1.19 Minus
+	public static final String UPDATE_PASSENGER_POSITION = "updatePassengerPosition(Lnet/minecraft/entity/Entity;)V"; // COMMIT_READY
+	
 	// 1.19.2 Minus
 	public static final String CREATE_EXPLOSION = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
 	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
