@@ -185,6 +185,7 @@ eclipse {
 
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
+	options.compilerArgs += [ "-Xmaxwarns", "0" ]
 }
 
 tasks.withType(AbstractArchiveTask) {
