@@ -64,14 +64,15 @@ public abstract class PlayerEntityMixin
 	@ModifyArgs(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private void pehkui$tickMovement$expand(Args args)
 	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
+		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
 			final int index = args.get(0) instanceof Box ? 1 : 0;
-			args.set(index, args.<Double>get(index) * scale);
-			args.set(index + 1, args.<Double>get(index + 1) * scale);
-			args.set(index + 2, args.<Double>get(index + 2) * scale);
+			args.set(index, args.<Double>get(index) * widthScale);
+			args.set(index + 1, args.<Double>get(index + 1) * heightScale);
+			args.set(index + 2, args.<Double>get(index + 2) * widthScale);
 		}
 	}
 	
