@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.block.BlockState;
@@ -60,19 +59,25 @@ public abstract class PlayerEntityMixin
 	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double pehkui$tickMovement$expand$x(double value)
 	{
-		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double pehkui$tickMovement$expand$y(double value)
 	{
-		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
 	}
 	
 	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
 	private double pehkui$tickMovement$expand$z(double value)
 	{
-		return value * ScaleUtils.getMotionScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? scale * value : value;
 	}
 	
 	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = { @Constant(floatValue = 0.5F, ordinal = 1), @Constant(floatValue = 0.5F, ordinal = 2), @Constant(floatValue = 0.5F, ordinal = 3) })
