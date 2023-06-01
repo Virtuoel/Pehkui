@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.Entity;
@@ -34,12 +35,7 @@ public abstract class ProjectileEntityMixin
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			return value * scale;
-		}
-		
-		return value;
+		return scale != 1.0F ? value * scale : value;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "setOwner")

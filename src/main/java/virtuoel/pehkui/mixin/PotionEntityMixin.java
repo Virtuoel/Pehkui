@@ -48,13 +48,13 @@ public class PotionEntityMixin
 	}
 	
 	@ModifyArg(method = "applyLingeringPotion", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/AreaEffectCloudEntity;setRadius(F)V"))
-	private double pehkui$applyLingeringPotion$setRadius(float value)
+	private float pehkui$applyLingeringPotion$setRadius(float value)
 	{
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 	}
 	
 	@ModifyArg(method = "applyLingeringPotion", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/AreaEffectCloudEntity;setRadiusOnUse(F)V"))
-	private double pehkui$applyLingeringPotion$setRadiusOnUse(float value)
+	private float pehkui$applyLingeringPotion$setRadiusOnUse(float value)
 	{
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 	}
