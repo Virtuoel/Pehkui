@@ -9,6 +9,7 @@
 	[
 		"AbstractDecorationEntityMixin",
 		"AbstractDonkeyEntityMixin",
+		"AreaEffectCloudEntityMixin",
 		"ArmorStandEntityMixin",
 		"BlazeEntityShootFireballGoalMixin",
 		"BoatEntityMixin",

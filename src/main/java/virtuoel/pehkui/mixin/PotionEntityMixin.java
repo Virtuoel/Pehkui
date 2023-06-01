@@ -58,4 +58,12 @@ public class PotionEntityMixin
 	{
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 	}
+	
+	@ModifyArg(method = "applyLingeringPotion", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	private Entity pehkui$applyLingeringPotion$entity(Entity entity)
+	{
+		ScaleUtils.loadScale(entity, (Entity) (Object) this);
+		
+		return entity;
+	}
 }
