@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -28,5 +29,13 @@ public abstract class PersistentProjectileEntityMixin
 		}
 		
 		return box;
+	}
+	
+	@ModifyVariable(method = "onEntityHit", at = @At(value = "STORE"))
+	private float pehkui$onEntityHit(float value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		return scale != 1.0F ? ScaleUtils.divideClamped(value, scale) : value;
 	}
 }
