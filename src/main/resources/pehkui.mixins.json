@@ -9,6 +9,7 @@
 	[
 		"AbstractDecorationEntityMixin",
 		"AbstractDonkeyEntityMixin",
+		"AreaEffectCloudEntityMixin",
 		"ArmorStandEntityMixin",
 		"BlazeEntityShootFireballGoalMixin",
 		"BoatEntityMixin",
@@ -40,6 +41,7 @@
 		"PlayerEntityMixin",
 		"PlayerManagerMixin",
 		"PortalBlockMixin",
+		"PotionEntityMixin",
 		"PreEntityTickMixin",
 		"ScreenHandlerMixin",
 		"ServerPlayerEntityMixin",
