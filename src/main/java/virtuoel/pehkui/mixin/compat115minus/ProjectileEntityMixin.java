@@ -3,6 +3,7 @@ package virtuoel.pehkui.mixin.compat115minus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
@@ -17,11 +18,14 @@ public abstract class ProjectileEntityMixin
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			return value * scale;
-		}
+		return scale != 1.0F ? value * scale : value;
+	}
+	
+	@ModifyVariable(method = MixinConstants.ON_ENTITY_HIT, at = @At(value = "STORE"), remap = false)
+	private float pehkui$onEntityHit(float value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
-		return value;
+		return scale != 1.0F ? ScaleUtils.divideClamped(value, scale) : value;
 	}
 }
