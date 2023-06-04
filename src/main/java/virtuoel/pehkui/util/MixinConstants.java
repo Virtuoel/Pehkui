@@ -34,6 +34,7 @@ public class MixinConstants
 	private static final String METHOD_5800 = "method_5800";
 	private static final String METHOD_7148 = "method_7148";
 	private static final String METHOD_7485 = "method_7485";
+	private static final String METHOD_7454 = "method_7454";
 	private static final String METHOD_1021 = "method_1021";
 	private static final String METHOD_18970 = "method_18970";
 	private static final String METHOD_7197 = "method_7197";
@@ -140,6 +141,7 @@ public class MixinConstants
 	public static final String ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES = "L" + CLASS_1590 + ";" + METHOD_5808 + "(DDDFF)V";
 	public static final String CAST_SPELL = METHOD_7148;
 	public static final String SET_VELOCITY = METHOD_7485 + "(DDDFF)V";
+	public static final String ON_ENTITY_HIT = METHOD_7454;
 	public static final String MULTIPLY = "L" + CLASS_243 + ";" + METHOD_1021 + "(D)L" + CLASS_243 + ";";
 	public static final String CREATE_CHILD = METHOD_18970 + "(L" + CLASS_1646 + ";L" + CLASS_1646 + ";)Ljava/util/Optional;";
 	public static final String ON_STRUCK_BY_LIGHTNING = METHOD_5800 + "(L" + CLASS_1538 + ";)V";
