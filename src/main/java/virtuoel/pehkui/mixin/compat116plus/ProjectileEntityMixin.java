@@ -34,12 +34,7 @@ public abstract class ProjectileEntityMixin
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			return value * scale;
-		}
-		
-		return value;
+		return scale != 1.0F ? value * scale : value;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "setOwner")
