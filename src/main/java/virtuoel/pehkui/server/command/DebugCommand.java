@@ -48,10 +48,7 @@ public class DebugCommand
 	{
 		final LiteralArgumentBuilder<ServerCommandSource> builder =
 			CommandManager.literal("scale")
-			.requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			});
+			.requires(source -> source.hasPermissionLevel(2));
 		
 		builder.then(CommandManager.literal("debug")
 			.then(ConfigSyncUtils.registerConfigCommands())
