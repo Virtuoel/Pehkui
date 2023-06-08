@@ -42,10 +42,7 @@ public class DebugCommand
 	{
 		final LiteralArgumentBuilder<ServerCommandSource> builder =
 			CommandManager.literal("scale")
-			.requires(commandSource ->
-			{
-				return commandSource.hasPermissionLevel(2);
-			});
+			.requires(source -> source.hasPermissionLevel(2));
 		
 		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableCommands.get())
 		{
