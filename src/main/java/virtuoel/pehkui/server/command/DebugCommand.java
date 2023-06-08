@@ -261,8 +261,6 @@ public class DebugCommand
 	
 	public static void classloadMixinTargets(final String[] classes, final boolean resolveMappings, final Collection<String> succeeded, final Collection<String> failed)
 	{
-		final ClassLoader cl = DebugCommand.class.getClassLoader();
-		
 		for (String name : classes)
 		{
 			name = name.replace('/', '.');
@@ -274,7 +272,7 @@ public class DebugCommand
 			
 			try
 			{
-				Class.forName(name, true, cl);
+				Class.forName(name);
 				succeeded.add(name);
 			}
 			catch (Exception e)
