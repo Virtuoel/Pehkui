@@ -4,7 +4,7 @@ plugins {
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.4.1"
 	id "io.github.juuxel.loom-quiltflower" version "1.10.0"
-	id "com.matthewprenger.cursegradle" version "1.4.0"
+	id "io.github.CDAGaming.cursegradle" version "1.6.1"
 	id "com.modrinth.minotaur" version "2.+"
 }
 
@@ -393,37 +393,37 @@ curseforge {
 			}
 			
 			mainArtifact(remapJar) {
-				displayName = "${display_name_prefix}${archives_base_name} ${project.mod_version}"
+				it.displayName = "${display_name_prefix}${archives_base_name} ${project.mod_version}"
 				
 				if(project.hasProperty("curseforge_required_dep_slugs") || project.hasProperty("curseforge_embedded_lib_slugs") || project.hasProperty("curseforge_optional_dep_slugs") || project.hasProperty("curseforge_compatible_tool_slugs") || project.hasProperty("curseforge_incompatible_slugs")) {
 					relations {
 						if(project.hasProperty("curseforge_required_dep_slugs")) {
 							project.curseforge_required_dep_slugs.split(", ").each { String slug ->
-								requiredDependency slug
+								it.requiredDependency slug
 							}
 						}
 						
 						if(project.hasProperty("curseforge_embedded_lib_slugs")) {
 							project.curseforge_embedded_lib_slugs.split(", ").each { String slug ->
-								embeddedLibrary slug
+								it.embeddedLibrary slug
 							}
 						}
 						
 						if(project.hasProperty("curseforge_optional_dep_slugs")) {
 							project.curseforge_optional_dep_slugs.split(", ").each { String slug ->
-								optionalDependency slug
+								it.optionalDependency slug
 							}
 						}
 						
 						if(project.hasProperty("curseforge_compatible_tool_slugs")) {
 							project.curseforge_compatible_tool_slugs.split(", ").each { String slug ->
-								tool slug
+								it.tool slug
 							}
 						}
 						
 						if(project.hasProperty("curseforge_incompatible_slugs")) {
 							project.curseforge_incompatible_slugs.split(", ").each { String slug ->
-								incompatible slug
+								it.incompatible slug
 							}
 						}
 					}
@@ -434,7 +434,7 @@ curseforge {
 			}
 			
 			addArtifact(sourcesJar) {
-				displayName = "${archives_base_name} ${project.mod_version} Source Code"
+				it.displayName = "${archives_base_name} ${project.mod_version} Source Code"
 			}
 		}
 		options {
