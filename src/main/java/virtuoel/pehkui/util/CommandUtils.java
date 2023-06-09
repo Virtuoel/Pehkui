@@ -67,7 +67,7 @@ public class CommandUtils
 	
 	public static void sendFeedback(ServerCommandSource source, Supplier<Text> text, boolean broadcastToOps)
 	{
-		source.sendFeedback(text.get(), broadcastToOps);
+		source.sendFeedback(text, broadcastToOps);
 	}
 	
 	public static <T extends ArgumentType<?>> void registerConstantArgumentType(Identifier id, Class<T> argClass, Supplier<T> supplier)

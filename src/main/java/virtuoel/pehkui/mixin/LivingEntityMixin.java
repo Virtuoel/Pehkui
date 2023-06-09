@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -174,9 +175,11 @@ public abstract class LivingEntityMixin
 			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
 			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
 			
+			final World world = self.getEntityWorld();
+			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (self.world.getBlockState(pos).isScaffolding(self))
+				if (world.getBlockState(pos).isScaffolding(self))
 				{
 					final Vec3d prev = info.getReturnValue();
 					info.setReturnValue(new Vec3d(prev.x, Math.max(self.getVelocity().y, -0.15D), prev.z));
@@ -212,9 +215,11 @@ public abstract class LivingEntityMixin
 			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
 			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
 			
+			final World world = self.getEntityWorld();
+			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (self.world.getBlockState(pos).isLadder(self.world, pos, self))
+				if (world.getBlockState(pos).isLadder(world, pos, self))
 				{
 					info.setReturnValue(true);
 					break;

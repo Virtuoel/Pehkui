@@ -12,12 +12,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin
 {
-	/* // TODO 1.20
 	@Redirect(method = "renderLabelIfPresent(Lnet/minecraft/entity/Entity;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getNameLabelHeight()F"))
 	private float pehkui$renderLabelIfPresent$getNameLabelHeight(Entity entity)
 	{
 		final float delta = MinecraftClient.getInstance().getTickDelta();
 		return (entity.getNameLabelHeight() - entity.getHeight()) + (entity.getHeight() / ScaleUtils.getBoundingBoxHeightScale(entity, delta));
 	}
-	*/
 }
