@@ -27,9 +27,9 @@
 	"environment": "*",
 	"depends":
 	{
-		"fabricloader": ">=0.14.19",
+		"fabricloader": ">=0.14.21",
 		"fabric-api-base": "*",
-		"kanos_config": ">=0.4.0"
+		"kanos_config": ">=0.4.1"
 	},
 	"entrypoints":
 	{
