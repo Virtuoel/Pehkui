@@ -124,6 +124,8 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 				if (scaleTypes == null)
 				{
 					pehkui_scaleTypes = scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+					
+					ScaleRegistries.SCALE_TYPES.values().forEach(this::pehkui_getScaleData);
 				}
 			}
 		}
