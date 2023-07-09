@@ -17,7 +17,7 @@ public interface IForgeEntityMixin
 	default float getStepHeight()
 	{
 		final Entity self = (Entity) this;
-		float step = self.stepHeight;
+		float step = self.getStepHeight();
 		if (self instanceof LivingEntity)
 		{
 			final EntityAttributeInstance attribute = ((LivingEntity) self).getAttributeInstance(ForgeMod.STEP_HEIGHT_ADDITION.get());

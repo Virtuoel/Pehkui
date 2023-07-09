@@ -11,10 +11,6 @@ pluginManagement {
 		maven {
 			url "https://maven.minecraftforge.net/"
 		}
-		maven {
-			name = "ajoberstar-backup"
-			url = "https://ajoberstar.org/bintray-backup/"
-		}
 		gradlePluginPortal()
 	}
 }
