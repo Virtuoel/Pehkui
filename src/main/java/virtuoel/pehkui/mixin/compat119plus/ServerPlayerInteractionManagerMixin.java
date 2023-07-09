@@ -16,7 +16,7 @@ public class ServerPlayerInteractionManagerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	
-	@ModifyArg(method = "processBlockBreakingAction", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D"))
+	@ModifyArg(method = "processBlockBreakingAction", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D"))
 	private Vec3d pehkui$processBlockBreakingAction$center(Vec3d center)
 	{
 		final BlockPos pos = new BlockPos(MathHelper.floor(center.x), MathHelper.floor(center.y), MathHelper.floor(center.z));
