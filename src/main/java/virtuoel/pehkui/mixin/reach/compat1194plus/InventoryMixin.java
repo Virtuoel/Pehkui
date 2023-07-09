@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(Inventory.class)
+@Mixin(value = Inventory.class, priority = 990)
 public interface InventoryMixin
 {
 	@Overwrite
