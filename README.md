@@ -146,7 +146,7 @@ Make sure the following line is present in your `build.gradle`'s</br>`buildscrip
 maven { url = "https://repo.spongepowered.org/repository/maven-public/" }
 ```
 
-Then make sure the following line is present in your `build.gradle`'s `buildscript { dependencies {} }` block.
+Then make sure the following line is present in your `build.gradle`'s</br>`buildscript { dependencies {} }` block.
 
 ```groovy
 classpath "org.spongepowered:mixingradle:0.7-SNAPSHOT"

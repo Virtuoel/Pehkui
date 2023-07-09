@@ -3,6 +3,7 @@ plugins {
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.4.1"
+	id "org.ajoberstar.grgit.service" version "5.2.0"
 	id "io.github.juuxel.loom-quiltflower" version "1.10.0"
 	id "io.github.CDAGaming.cursegradle" version "1.6.1"
 	id "com.modrinth.minotaur" version "2.+"
@@ -340,9 +341,7 @@ githubRelease {
 		tagName project.mod_version
 	}
 	
-	if(project.hasProperty("github_branch")) {
-		targetCommitish project.github_branch
-	}
+	targetCommitish { grgitService.service.get().grgit.branch.current().name }
 	
 	body generateMarkdownChangelog()
 	
