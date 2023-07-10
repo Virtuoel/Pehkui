@@ -23,7 +23,7 @@ public abstract class EntityTrackerEntryMixin
 	@Inject(at = @At("TAIL"), method = "tick")
 	private void pehkui$tick(CallbackInfo info)
 	{
-		ScaleUtils.syncScalesIfNeeded(entity, this::sendSyncPacket);
+		ScaleUtils.syncScalesIfNeeded(entity, p -> this.sendSyncPacket(p));
 	}
 	
 	@ModifyConstant(method = "tick", constant = @Constant(doubleValue = 7.62939453125E-6D))
@@ -37,6 +37,6 @@ public abstract class EntityTrackerEntryMixin
 	@Inject(at = @At("HEAD"), method = "syncEntityData")
 	private void pehkui$syncEntityData(CallbackInfo info)
 	{
-		ScaleUtils.syncScalesIfNeeded(entity, this::sendSyncPacket);
+		ScaleUtils.syncScalesIfNeeded(entity, p -> this.sendSyncPacket(p));
 	}
 }
