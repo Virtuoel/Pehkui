@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public class EntityMixin
 {
-	@ModifyArg(method = MixinConstants.FALL, at = @At(value = "INVOKE", target = MixinConstants.ON_LANDED_UPON, remap = false), remap = false)
+	@ModifyArg(method = MixinConstants.FALL, at = @At(value = "INVOKE", target = MixinConstants.ON_LANDED_UPON))
 	private float pehkui$onFall$fallDistance(float distance)
 	{
 		final float scale = ScaleUtils.getFallingScale((Entity) (Object) this);

@@ -3,10 +3,10 @@ package virtuoel.pehkui.mixin.client.compat1194;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
-import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -29,8 +29,8 @@ public abstract class InventoryScreenMixin
 	@Unique private static final ScaleData pehkui$IDENTITY = ScaleData.Builder.create().build();
 	@Unique private static final ThreadLocal<Box> pehkui$BOX = new ThreadLocal<>();
 	
-	@Inject(method = MixinConstants.DRAW_ENTITY_ROTATED, at = @At(value = "HEAD"), remap = false)
-	private static void pehkui$drawEntity$head(MatrixStack matrixStack, int x, int y, int size, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
+	@Inject(method = MixinConstants.DRAW_ENTITY_ROTATED, at = @At(value = "HEAD"))
+	private static void pehkui$drawEntity$head(MatrixStack matrixStack, int x, int y, int size, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -58,8 +58,8 @@ public abstract class InventoryScreenMixin
 		entity.setBoundingBox(box);
 	}
 	
-	@Inject(method = MixinConstants.DRAW_ENTITY_ROTATED, at = @At(value = "RETURN"), remap = false)
-	private static void pehkui$drawEntity$return(MatrixStack matrixStack, int x, int y, int size, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
+	@Inject(method = MixinConstants.DRAW_ENTITY_ROTATED, at = @At(value = "RETURN"))
+	private static void pehkui$drawEntity$return(MatrixStack matrixStack, int x, int y, int size, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		

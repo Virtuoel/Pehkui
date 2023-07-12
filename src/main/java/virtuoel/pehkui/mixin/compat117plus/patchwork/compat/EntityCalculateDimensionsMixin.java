@@ -26,7 +26,7 @@ public abstract class EntityCalculateDimensionsMixin
 	protected boolean firstUpdate;
 	
 	@Inject(method = "calculateDimensions", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/entity/Entity;refreshPosition()V"))
-	private void pehkui$calculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, @Coerce Object sizeEvent, EntityDimensions current)
+	private void pehkui$calculateDimensions(CallbackInfo info, EntityDimensions previous, EntityPose pose, EntityDimensions current, @Coerce Object sizeEvent)
 	{
 		final Entity self = (Entity) (Object) this;
 		final World world = self.getEntityWorld();
