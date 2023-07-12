@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = ViewerCountManager.class, priority = 1010)
+@Mixin(ViewerCountManager.class)
 public class ViewerCountManagerMixin
 {
 	@Shadow
@@ -59,7 +59,7 @@ public class ViewerCountManagerMixin
 		}
 	}
 	
-	@ModifyConstant(method = "getInRangeViewerCount", require = 0, expect = 0, constant = @Constant(floatValue = 5.0F))
+	@ModifyConstant(method = "getInRangeViewerCount", constant = @Constant(floatValue = 5.0F))
 	private float pehkui$getInRangeViewerCount$range(float value)
 	{
 		return viewerSearchRange;

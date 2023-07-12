@@ -1,5 +1,5 @@
 plugins {
-	id "dev.architectury.loom" version "1.2.+"
+	id "fabric-loom" version "1.2.+"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.4.1"

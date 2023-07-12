@@ -14,10 +14,10 @@ public abstract class EntityMixin
 	@Shadow
 	float stepHeight;
 	
-	@Redirect(method = "adjustMovementForCollisions", require = 0, expect = 0, at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
+	@Redirect(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	private float pehkui$adjustMovementForCollisions$stepHeight(Entity obj)
 	{
-		final float scale = ScaleUtils.getStepHeightScale(obj);
+		final float scale = ScaleUtils.getStepHeightScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? stepHeight * scale : stepHeight;
 	}

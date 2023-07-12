@@ -1,13 +1,16 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -16,7 +19,7 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -51,33 +54,24 @@ public abstract class PlayerEntityMixin
 			{
 				final Vec3d pos = entity.getPos();
 				
-				entity.updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.3D), pos.z);
+				entity.setPosition(pos.x, pos.y + ((1.0F - scale) * 0.3D), pos.z);
 			}
 		}
 	}
 	
-	@ModifyArg(method = "tickMovement()V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tickMovement$expand$x(double value)
+	@ModifyArgs(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private void pehkui$tickMovement$expand(Args args)
 	{
-		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
-		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@ModifyArg(method = "tickMovement()V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tickMovement$expand$y(double value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
-		
-		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@ModifyArg(method = "tickMovement()V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tickMovement$expand$z(double value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
-		
-		return scale != 1.0F ? scale * value : value;
+		if (widthScale != 1.0F || heightScale != 1.0F)
+		{
+			final int index = args.get(0) instanceof Box ? 1 : 0;
+			args.set(index, args.<Double>get(index) * widthScale);
+			args.set(index + 1, args.<Double>get(index + 1) * heightScale);
+			args.set(index + 2, args.<Double>get(index + 2) * widthScale);
+		}
 	}
 	
 	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = { @Constant(floatValue = 0.5F, ordinal = 1), @Constant(floatValue = 0.5F, ordinal = 2), @Constant(floatValue = 0.5F, ordinal = 3) })
@@ -96,8 +90,8 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? value / scale : value;
 	}
 	
-	@Inject(at = @At("RETURN"), target = @Desc(value = "getDigSpeed", args = { BlockState.class, BlockPos.class }, ret = float.class), cancellable = true)
-	private void pehkui$getBlockBreakingSpeed(BlockState block, BlockPos pos, CallbackInfoReturnable<Float> info)
+	@Inject(at = @At("RETURN"), method = "getBlockBreakingSpeed", cancellable = true)
+	private void pehkui$getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
 		
@@ -113,5 +107,33 @@ public abstract class PlayerEntityMixin
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
+	}
+	
+	@Unique private static final ThreadLocal<Float> pehkui$WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
+	@Unique private static final ThreadLocal<Float> pehkui$HEIGHT_SCALE = ThreadLocal.withInitial(() -> 1.0F);
+	
+	@Inject(method = "attack", at = @At("HEAD"))
+	private void pehkui$attack(Entity target, CallbackInfo info)
+	{
+		pehkui$WIDTH_SCALE.set(ScaleUtils.getBoundingBoxWidthScale(target));
+		pehkui$HEIGHT_SCALE.set(ScaleUtils.getBoundingBoxHeightScale(target));
+	}
+	
+	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double pehkui$attack$expand$x(double value)
+	{
+		return value * pehkui$WIDTH_SCALE.get();
+	}
+	
+	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double pehkui$attack$expand$y(double value)
+	{
+		return value * pehkui$HEIGHT_SCALE.get();
+	}
+	
+	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private double pehkui$attack$expand$z(double value)
+	{
+		return value * pehkui$WIDTH_SCALE.get();
 	}
 }

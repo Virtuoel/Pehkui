@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
 	"id": "pehkui",
-	"name": "Pehkui (Forge Version)",
-	"version": "0.0.0+forge",
-	"description": "Forge version of Pehkui, but you are playing on a Fabric or Quilt instance! Did you download the wrong mod .jar?",
+	"name": "Pehkui",
+	"version": "${version}",
+	"description": "Allows resizing of most entities.",
 	"authors":
 	[
 		"Virtuoel"
@@ -23,13 +23,37 @@
 		"sources": "https://github.com/Virtuoel/Pehkui"
 	},
 	"license": "MIT",
-	"icon": "pehkui_icon.png",
+	"icon": "assets/pehkui/icon.png",
 	"environment": "*",
+	"depends":
+	{
+		"fabricloader": ">=0.14.21",
+		"fabric-api-base": "*",
+		"kanos_config": ">=0.4.1"
+	},
 	"entrypoints":
 	{
 		"main":
 		[
-			"virtuoel.pehkui.util.FabricEntrypoint::onInitialize"
+			"virtuoel.pehkui.Pehkui"
+		],
+		"client":
+		[
+			"virtuoel.pehkui.PehkuiClient"
 		]
+	},
+	"mixins":
+	[
+		"pehkui.mixins.json"
+	],
+	"custom":
+	{
+		"multiconnect":
+		{
+			"custom_payloads":
+			{
+				"allowed_clientbound": "pehkui:*"
+			}
+		}
 	}
 }

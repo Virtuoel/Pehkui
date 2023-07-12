@@ -9,10 +9,10 @@ import net.minecraft.entity.passive.AbstractHorseEntity;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = AbstractHorseEntity.class, priority = 1050)
+@Mixin(AbstractHorseEntity.class)
 public abstract class AbstractHorseEntityMixin
 {
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.7F))
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.7F), remap = false)
 	private float pehkui$updatePassengerPosition$horizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
@@ -25,7 +25,7 @@ public abstract class AbstractHorseEntityMixin
 		return value;
 	}
 	
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.15F))
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.15F), remap = false)
 	private float pehkui$updatePassengerPosition$verticalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);

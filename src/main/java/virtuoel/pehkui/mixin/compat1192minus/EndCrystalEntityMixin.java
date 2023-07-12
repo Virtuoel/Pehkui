@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EndCrystalEntity.class)
 public abstract class EndCrystalEntityMixin
 {
-	@ModifyArg(method = "damage", at = @At(value = "INVOKE", target = MixinConstants.CREATE_EXPLOSION))
+	@ModifyArg(method = "damage", at = @At(value = "INVOKE", target = MixinConstants.CREATE_EXPLOSION, remap = false))
 	private float pehkui$damage$createExplosion(float power)
 	{
 		final float scale = ScaleUtils.getExplosionScale((Entity) (Object) this);

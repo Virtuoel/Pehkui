@@ -4,28 +4,24 @@ import org.jetbrains.annotations.ApiStatus;
 import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
+import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
-import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.util.CommandUtils;
+import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.GravityChangerCompatibility;
 import virtuoel.pehkui.util.IdentityCompatibility;
 import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
+import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
 
 @ApiStatus.Internal
-@Mod(Pehkui.MOD_ID)
-public class Pehkui
+public class Pehkui implements ModInitializer
 {
 	public static final String MOD_ID = "pehkui";
 	
@@ -35,32 +31,38 @@ public class Pehkui
 	{
 		ScaleTypes.INVALID.getClass();
 		ScaleOperations.NOOP.getClass();
-		
-		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(PehkuiConfig.class);
-		
-		ModLoadingContext ctx = ModLoadingContext.get();
-		ctx.registerConfig(ModConfig.Type.CLIENT, PehkuiConfig.clientSpec);
-		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
-		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
-		
+		PehkuiConfig.BUILDER.config.get();
+	}
+	
+	@Override
+	public void onInitialize()
+	{
 		CommandUtils.registerArgumentTypes();
 		
 		PehkuiEntitySelectorOptions.register();
 		
-		PehkuiPacketHandler.init();
+		CommandUtils.registerCommands();
+		
+		if (ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
+		{
+			ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
+			{
+				if (!server.isHost(handler.player.getGameProfile()))
+				{
+					ConfigSyncUtils.syncConfigs(handler);
+				}
+				else
+				{
+					ConfigSyncUtils.resetSyncedConfigs();
+				}
+			});
+		}
 		
 		GravityChangerCompatibility.INSTANCE.getClass();
 		IdentityCompatibility.INSTANCE.getClass();
 		ImmersivePortalsCompatibility.INSTANCE.getClass();
 		MulticonnectCompatibility.INSTANCE.getClass();
 		ReachEntityAttributesCompatibility.INSTANCE.getClass();
-	}
-	
-	@SubscribeEvent
-	public void onRegisterCommands(RegisterCommandsEvent event)
-	{
-		CommandUtils.registerCommands(event.getDispatcher());
 	}
 	
 	public static Identifier id(String path)

@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ScreenHandler.class)
 public class ScreenHandlerMixin
 {
-	@ModifyConstant(method = { "method_17696", "func_216960_a", "m_38913_" }, require = 0, expect = 0, constant = @Constant(doubleValue = 64.0D))
+	@ModifyConstant(method = "method_17696", constant = @Constant(doubleValue = 64.0D))
 	private static double pehkui$canUse$distance(double value, Block block, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
