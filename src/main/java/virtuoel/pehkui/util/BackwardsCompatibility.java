@@ -2,9 +2,7 @@ package virtuoel.pehkui.util;
 
 import java.util.Arrays;
 import java.util.List;
-
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.tree.ClassNode;
+import java.util.function.Consumer;
 
 import com.google.common.reflect.Reflection;
 
@@ -24,13 +22,13 @@ public class BackwardsCompatibility
 		"HELD_ITEM", "PROJECTILES", "EXPLOSIONS"
 	);
 	
-	public static void addFieldsIfNeeded(final ClassNode targetClass)
+	public static void addFieldsIfNeeded(final Consumer<String> fieldVisitor)
 	{
 		if (VersionUtils.MINOR < 18 || (VersionUtils.MINOR == 18 && VersionUtils.PATCH == 0))
 		{
 			for (final String type : TYPES)
 			{
-				targetClass.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, type, "L" + targetClass.name + ";", null, null);
+				fieldVisitor.accept(type);
 			}
 			APPLIED = true;
 			Pehkui.LOGGER.debug("[Pehkui] Applied backwards compatibility patch.");

@@ -3,6 +3,7 @@ package virtuoel.pehkui.mixin;
 import java.util.List;
 import java.util.Set;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -100,7 +101,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	{
 		if (mixinClassName.equals(MIXIN_PACKAGE + ".pehkui.compat.ScaleTypeMixin"))
 		{
-			BackwardsCompatibility.addFieldsIfNeeded(targetClass);
+			BackwardsCompatibility.addFieldsIfNeeded(name -> targetClass.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, name, "L" + targetClass.name + ";", null, null));
 		}
 	}
 	
