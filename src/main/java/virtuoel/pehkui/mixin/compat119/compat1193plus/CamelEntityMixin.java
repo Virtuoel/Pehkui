@@ -9,7 +9,7 @@ import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(/*Camel*/Entity.class) // TODO 1.19
+@Mixin(/*Camel*/Entity.class) // TODO 1.19.3
 public abstract class CamelEntityMixin
 {
 	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.5F), remap = false)
