@@ -8,7 +8,7 @@ import net.minecraft.entity.Entity;
 // import net.minecraft.entity.passive.CamelEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(/*Camel*/Entity.class) // TODO 1.20
+@Mixin(/*Camel*/Entity.class) // TODO 1.19.3
 public abstract class CamelEntityMixin
 {
 	@ModifyConstant(method = "updatePassengerPosition", constant = @Constant(floatValue = 0.5F))
