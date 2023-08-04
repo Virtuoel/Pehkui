@@ -14,7 +14,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin({
 	BoatEntity.class,
 	RavagerEntity.class,
-	SpiderEntity.class
 })
 public abstract class EntityMountedHeightOffsetMixin
 {
