@@ -41,11 +41,17 @@ public abstract class EntityVehicleHeightOffsetMixin
 			
 			if (scale != 1.0F || vehicleScale != 1.0F)
 			{
-				final double vehicleAdjustedHeight = vehicle.getHeight() * 0.75D;
+				final double vehicleScaledHeight = vehicle.getHeight();
+				final double vehicleHeight = vehicleScaledHeight / vehicleScale;
+				final double scaledMountedOffset = vehicle.getMountedHeightOffset();
+				final double mountedOffset = scaledMountedOffset / vehicleScale;
 				final double offset = info.getReturnValueD();
+				final double scaledOffset = offset * scale;
 				
-				final double adjusted = vehicleAdjustedHeight - (((vehicleAdjustedHeight / vehicleScale) - offset) * scale);
-				info.setReturnValue(adjusted);
+				final double bottom = vehicleHeight - mountedOffset - offset;
+				final double down = vehicleScaledHeight - scaledMountedOffset - (bottom * scale);
+				
+				info.setReturnValue(down < scaledOffset ? scaledOffset : down);
 			}
 		}
 	}
