@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(CamelEntity.class)
 public abstract class CamelEntityMixin
 {
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.5F), remap = false)
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.5F))
 	private float pehkui$updatePassengerPosition$frontOffset(float value, Entity passenger)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(passenger);
@@ -20,7 +20,7 @@ public abstract class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = -0.7F), remap = false)
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = -0.7F))
 	private float pehkui$updatePassengerPosition$backOffset(float value, Entity passenger)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(passenger);
@@ -28,7 +28,7 @@ public abstract class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.2F), remap = false)
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.2F))
 	private float pehkui$updatePassengerPosition$animalOffset(float value, Entity passenger)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(passenger);
