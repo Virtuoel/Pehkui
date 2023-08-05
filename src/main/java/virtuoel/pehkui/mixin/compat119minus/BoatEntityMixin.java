@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(BoatEntity.class)
 public abstract class BoatEntityMixin
 {
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.2F), remap = false)
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.2F))
 	private float pehkui$updatePassengerPosition$frontOffset(float value, Entity passenger)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(passenger);
@@ -20,7 +20,7 @@ public abstract class BoatEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = -0.6F), remap = false)
+	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = -0.6F))
 	private float pehkui$updatePassengerPosition$backOffset(float value, Entity passenger)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(passenger);
