@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.RavagerEntity;
-import net.minecraft.entity.mob.SpiderEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
