@@ -6,7 +6,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Locale;
@@ -149,14 +148,16 @@ public class CommandUtils
 		<T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier);
 	}
 	
-	public static final Method REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE, SEND_FEEDBACK;
+	public static final MethodHandle REGISTER_ARGUMENT_TYPE, TEST_FLOAT_RANGE, SEND_FEEDBACK;
 	
 	static
 	{
 		final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
-		final Int2ObjectMap<Method> h = new Int2ObjectArrayMap<Method>();
+		final Int2ObjectMap<MethodHandle> h = new Int2ObjectArrayMap<MethodHandle>();
 		
+		final Lookup lookup = MethodHandles.lookup();
 		String mapped = "unset";
+		Method m;
 		
 		try
 		{
@@ -167,19 +168,22 @@ public class CommandUtils
 			if (is118Minus)
 			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2316", "method_10017", "(Ljava/lang/String;Ljava/lang/Class;Lnet/minecraft/class_2314;)V");
-				h.put(0, ArgumentTypes.class.getMethod(mapped, String.class, Class.class, ArgumentSerializer.class));
+				m = ArgumentTypes.class.getMethod(mapped, String.class, Class.class, ArgumentSerializer.class);
+				h.put(0, lookup.unreflect(m));
 			}
 			
 			mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2096$class_2099", "method_9047", is116Minus ? "(F)Z" : "(D)Z");
-			h.put(1, NumberRange.FloatRange.class.getMethod(mapped, is116Minus ? float.class : double.class));
+			m = NumberRange.FloatRange.class.getMethod(mapped, is116Minus ? float.class : double.class);
+			h.put(1, lookup.unreflect(m));
 			
 			if (is119Minus)
 			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2168", "method_9226", "(Lnet/minecraft/class_2561;Z)V");
-				h.put(2, ServerCommandSource.class.getMethod(mapped, Text.class, boolean.class));
+				m = ServerCommandSource.class.getMethod(mapped, Text.class, boolean.class);
+				h.put(2, lookup.unreflect(m));
 			}
 		}
-		catch (NoSuchMethodException | SecurityException e1)
+		catch (NoSuchMethodException | SecurityException | IllegalAccessException e1)
 		{
 			Pehkui.LOGGER.error("Last method lookup: {}", mapped);
 			Pehkui.LOGGER.catching(e1);
@@ -200,7 +204,7 @@ public class CommandUtils
 				
 				return;
 			}
-			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			catch (Throwable e)
 			{
 				Pehkui.LOGGER.catching(e);
 			}
@@ -215,9 +219,16 @@ public class CommandUtils
 		{
 			try
 			{
-				return (boolean) TEST_FLOAT_RANGE.invoke(range, value);
+				if (VersionUtils.MINOR <= 16)
+				{
+					return (boolean) TEST_FLOAT_RANGE.invoke(range, value);
+				}
+				else
+				{
+					return (boolean) TEST_FLOAT_RANGE.invoke(range, (double) value);
+				}
 			}
-			catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+			catch (Throwable e)
 			{
 				Pehkui.LOGGER.catching(e);
 			}
@@ -226,13 +237,14 @@ public class CommandUtils
 		return false;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T extends ArgumentType<?>> void registerConstantArgumentType(Identifier id, Class<? extends T> argClass, Supplier<T> supplier)
 	{
 		if (REGISTER_ARGUMENT_TYPE != null)
 		{
 			try
 			{
-				REGISTER_ARGUMENT_TYPE.invoke(null, id.toString(), argClass, ConstantArgumentSerializer.class.getConstructor(Supplier.class).newInstance(supplier));
+				REGISTER_ARGUMENT_TYPE.invoke(id.toString(), argClass, ConstantArgumentSerializer.class.getConstructor(Supplier.class).newInstance(supplier));
 			}
 			catch (Throwable e)
 			{
