@@ -20,9 +20,9 @@ public abstract class ItemFrameEntityMixin
 		
 		final Direction facing = entity.getHorizontalFacing();
 		
-		final double xLength = box.getXLength() / -2.0D;
-		final double yLength = box.getYLength() / -2.0D;
-		final double zLength = box.getZLength() / -2.0D;
+		final double xLength = box.getLengthX() / -2.0D;
+		final double yLength = box.getLengthY() / -2.0D;
+		final double zLength = box.getLengthZ() / -2.0D;
 		
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(entity);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(entity);

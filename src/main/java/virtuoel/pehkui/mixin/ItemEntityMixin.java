@@ -17,9 +17,9 @@ public class ItemEntityMixin
 		final ItemEntity self = (ItemEntity) (Object) this;
 		final Box bounds = self.getBoundingBox();
 		
-		final double xExpand = box.getXLength() - bounds.getXLength();
-		final double yExpand = box.getYLength() - bounds.getYLength();
-		final double zExpand = box.getZLength() - bounds.getZLength();
+		final double xExpand = box.getLengthX() - bounds.getLengthX();
+		final double yExpand = box.getLengthY() - bounds.getLengthY();
+		final double zExpand = box.getLengthZ() - bounds.getLengthZ();
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(self);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(self);
 		

@@ -173,7 +173,7 @@ public class CommandUtils
 			}
 			
 			mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2096$class_2099", "method_9047", is116Minus ? "(F)Z" : "(D)Z");
-			m = NumberRange.FloatRange.class.getMethod(mapped, is116Minus ? float.class : double.class);
+			m = NumberRange.DoubleRange.class.getMethod(mapped, is116Minus ? float.class : double.class);
 			h.put(1, lookup.unreflect(m));
 			
 			if (is119Minus)
@@ -213,7 +213,7 @@ public class CommandUtils
 		source.sendFeedback(text, broadcastToOps);
 	}
 	
-	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
+	public static boolean testFloatRange(NumberRange.DoubleRange range, float value)
 	{
 		if (TEST_FLOAT_RANGE != null)
 		{

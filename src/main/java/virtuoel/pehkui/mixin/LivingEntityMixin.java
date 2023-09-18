@@ -166,13 +166,13 @@ public abstract class LivingEntityMixin
 		{
 			final Box bounds = self.getBoundingBox();
 			
-			final double halfUnscaledXLength = (bounds.getXLength() / width) / 2.0D;
+			final double halfUnscaledXLength = (bounds.getLengthX() / width) / 2.0D;
 			final int minX = MathHelper.floor(bounds.minX + halfUnscaledXLength);
 			final int maxX = MathHelper.floor(bounds.maxX - halfUnscaledXLength);
 			
 			final int minY = MathHelper.floor(bounds.minY);
 			
-			final double halfUnscaledZLength = (bounds.getZLength() / width) / 2.0D;
+			final double halfUnscaledZLength = (bounds.getLengthZ() / width) / 2.0D;
 			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
 			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
 			
@@ -198,9 +198,9 @@ public abstract class LivingEntityMixin
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
-			final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
-			final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledXLength = bounds.getLengthX() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledYLength = bounds.getLengthY() * 0.5D * (interactionHeight - 1.0F);
+			final double scaledZLength = bounds.getLengthZ() * 0.5D * (interactionWidth - 1.0F);
 			
 			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
 		}

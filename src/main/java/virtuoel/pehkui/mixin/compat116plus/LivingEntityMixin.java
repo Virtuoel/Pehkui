@@ -33,13 +33,13 @@ public abstract class LivingEntityMixin extends EntityMixin
 		{
 			final Box bounds = self.getBoundingBox();
 			
-			final double halfUnscaledXLength = (bounds.getXLength() / width) / 2.0D;
+			final double halfUnscaledXLength = (bounds.getLengthX() / width) / 2.0D;
 			final int minX = MathHelper.floor(bounds.minX + halfUnscaledXLength);
 			final int maxX = MathHelper.floor(bounds.maxX - halfUnscaledXLength);
 			
 			final int minY = MathHelper.floor(bounds.minY);
 			
-			final double halfUnscaledZLength = (bounds.getZLength() / width) / 2.0D;
+			final double halfUnscaledZLength = (bounds.getLengthZ() / width) / 2.0D;
 			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
 			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
 			
