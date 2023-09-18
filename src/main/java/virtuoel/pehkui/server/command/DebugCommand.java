@@ -18,6 +18,7 @@ import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
@@ -25,7 +26,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -94,7 +95,7 @@ public class DebugCommand
 						.executes(context ->
 						{
 							context.getSource().getPlayerOrThrow().networkHandler.sendPacket(
-								new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
+								(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
 									new PacketByteBuf(Unpooled.buffer())
 									.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
 								)
@@ -221,7 +222,7 @@ public class DebugCommand
 		if (executor instanceof ServerPlayerEntity)
 		{
 			((ServerPlayerEntity) executor).networkHandler.sendPacket(
-				new CustomPayloadS2CPacket(Pehkui.DEBUG_PACKET,
+				(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
 					new PacketByteBuf(Unpooled.buffer())
 					.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
 				)

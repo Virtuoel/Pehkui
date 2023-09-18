@@ -43,7 +43,7 @@ public abstract class EntityVehicleHeightOffsetMixin
 			{
 				final double vehicleScaledHeight = vehicle.getHeight();
 				final double vehicleHeight = vehicleScaledHeight / vehicleScale;
-				final double scaledMountedOffset = vehicle.getMountedHeightOffset();
+				final double scaledMountedOffset = 0.0D; // vehicle.getMountedHeightOffset(); // TODO FIXME 1.20.2
 				final double mountedOffset = scaledMountedOffset / vehicleScale;
 				final double offset = info.getReturnValueD();
 				final double scaledOffset = offset * scale;

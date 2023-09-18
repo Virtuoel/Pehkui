@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -17,7 +18,6 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -227,6 +227,8 @@ public class ScaleUtils
 		return !scaleData.hasDefaultValues();
 	}
 	
+	private static final boolean NETWORKING_API_LOADED = ModLoaderUtils.isModLoaded("fabric-networking-api-v1");
+	
 	private static final ThreadLocal<Collection<ScaleData>> SYNCED_SCALE_DATA = ThreadLocal.withInitial(ArrayList::new);
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
@@ -248,18 +250,22 @@ public class ScaleUtils
 		
 		if (!syncedScales.isEmpty())
 		{
-			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
-			
-			buffer.writeVarInt(entity.getId());
-			buffer.writeInt(syncedScales.size());
-			
-			for (final ScaleData s : syncedScales)
+			if (NETWORKING_API_LOADED)
 			{
-				buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, s.getScaleType()));
-				s.toPacket(buffer);
+				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+				
+				buffer.writeVarInt(entity.getId());
+				buffer.writeInt(syncedScales.size());
+				
+				for (final ScaleData s : syncedScales)
+				{
+					buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, s.getScaleType()));
+					s.toPacket(buffer);
+				}
+				
+				packetSender.accept(ServerPlayNetworking.createS2CPacket(Pehkui.SCALE_PACKET, buffer));
 			}
 			
-			packetSender.accept(new CustomPayloadS2CPacket(Pehkui.SCALE_PACKET, buffer));
 			syncedScales.clear();
 		}
 	}
