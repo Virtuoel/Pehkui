@@ -122,6 +122,7 @@ public class MixinConstants
 	private static final String CLASS_289 = "net/minecraft/class_289";
 	private static final String CLASS_898 = "net/minecraft/class_898";
 	private static final String CLASS_5575 = "net/minecraft/class_5575";
+	private static final String CLASS_332 = "net/minecraft/class_332";
 	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
@@ -267,6 +268,9 @@ public class MixinConstants
 	
 	// 1.19.4
 	public static final String DRAW_ENTITY_ROTATED = METHOD_48472 + "(L" + CLASS_4587 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
+	
+	// 1.20 - 1.20.1
+	public static final String DRAW_ENTITY_NO_TRANSLATION = METHOD_48472 + "(L" + CLASS_332 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
 	
 	// 1.20.1 Minus
 	public static final String GET_MOUNTED_HEIGHT_OFFSET = METHOD_5621 + "()D"; // COMMIT_READY

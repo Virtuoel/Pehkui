@@ -1,9 +1,10 @@
-package virtuoel.pehkui.mixin.client.compat120plus;
+package virtuoel.pehkui.mixin.client.compat1202plus;
 
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,8 +29,8 @@ public abstract class InventoryScreenMixin
 	@Unique private static final ScaleData pehkui$IDENTITY = ScaleData.Builder.create().build();
 	@Unique private static final ThreadLocal<Box> pehkui$BOX = new ThreadLocal<>();
 	
-	@Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "HEAD"))
-	private static void pehkui$drawEntity$head(DrawContext drawContext, int x, int y, int k, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
+	@Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "HEAD"))
+	private static void pehkui$drawEntity$head(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -57,8 +58,8 @@ public abstract class InventoryScreenMixin
 		entity.setBoundingBox(box);
 	}
 	
-	@Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "RETURN"))
-	private static void pehkui$drawEntity$return(DrawContext drawContext, int i, int j, int k, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
+	@Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "RETURN"))
+	private static void pehkui$drawEntity$return(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		

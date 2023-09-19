@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat120plus;
+package virtuoel.pehkui.mixin.compat120plus.compat1201minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
