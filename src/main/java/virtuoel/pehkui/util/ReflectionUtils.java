@@ -22,7 +22,7 @@ import virtuoel.pehkui.Pehkui;
 public final class ReflectionUtils
 {
 	public static final Class<?> ENTITY_DAMAGE_SOURCE;
-	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED;
+	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET;
 	
 	static
 	{
@@ -53,6 +53,10 @@ public final class ReflectionUtils
 				f.setAccessible(true);
 				h.put(1, lookup.unreflectGetter(f));
 				h.put(2, lookup.unreflectSetter(f));
+				
+				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_1297", "method_5621", "()D");
+				m = Entity.class.getMethod(mapped);
+				h.put(3, lookup.unreflect(m));
 			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
@@ -65,6 +69,7 @@ public final class ReflectionUtils
 		GET_ATTACKER = h.get(0);
 		GET_FLYING_SPEED = h.get(1);
 		SET_FLYING_SPEED = h.get(2);
+		GET_MOUNTED_HEIGHT_OFFSET = h.get(3);
 	}
 	
 	public static @Nullable Entity getAttacker(final DamageSource source)
@@ -111,6 +116,23 @@ public final class ReflectionUtils
 		{
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static double getMountedHeightOffset(final Entity entity)
+	{
+		if (GET_MOUNTED_HEIGHT_OFFSET != null)
+		{
+			try
+			{
+				return (double) GET_MOUNTED_HEIGHT_OFFSET.invoke(entity);
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return entity.getDimensions(entity.getPose()).height * 0.75;
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)

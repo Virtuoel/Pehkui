@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.compat1201minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,6 +14,8 @@ import net.minecraft.entity.mob.SilverfishEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import virtuoel.pehkui.util.MixinConstants;
+import virtuoel.pehkui.util.ReflectionUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin({
@@ -28,7 +30,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 })
 public abstract class EntityVehicleHeightOffsetMixin
 {
-	@Inject(at = @At("RETURN"), method = "getHeightOffset", cancellable = true)
+	@Inject(at = @At("RETURN"), method = MixinConstants.GET_HEIGHT_OFFSET, cancellable = true, remap = false)
 	private void pehkui$getHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final Entity self = (Entity) (Object) this;
@@ -43,7 +45,7 @@ public abstract class EntityVehicleHeightOffsetMixin
 			{
 				final double vehicleScaledHeight = vehicle.getHeight();
 				final double vehicleHeight = vehicleScaledHeight / vehicleScale;
-				final double scaledMountedOffset = 0.0D; // vehicle.getMountedHeightOffset(); // TODO FIXME 1.20.2
+				final double scaledMountedOffset = ReflectionUtils.getMountedHeightOffset(vehicle);
 				final double mountedOffset = scaledMountedOffset / vehicleScale;
 				final double offset = info.getReturnValueD();
 				final double scaledOffset = offset * scale;
