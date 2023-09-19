@@ -65,6 +65,7 @@ public class MixinConstants
 	private static final String METHOD_5823 = "method_5823";
 	private static final String METHOD_18074 = "method_18074";
 	private static final String METHOD_29242 = "method_29242";
+	private static final String METHOD_33191 = "method_33191";
 	private static final String METHOD_14263 = "method_14263";
 	private static final String METHOD_12205 = "method_12205";
 	private static final String METHOD_12210 = "method_12210";
@@ -243,6 +244,9 @@ public class MixinConstants
 	
 	// 1.17 Plus 1.19.3 Minus Client
 	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V"; // COMMIT_READY
+	
+	// 1.17 Plus 1.20.1 Minus
+	public static final String SQUARED_ATTACK_RANGE = METHOD_33191; // COMMIT_READY
 	
 	// 1.18 Minus
 	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263; // COMMIT_READY
