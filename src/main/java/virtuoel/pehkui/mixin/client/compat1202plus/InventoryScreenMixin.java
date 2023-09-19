@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
@@ -21,6 +22,7 @@ import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InventoryScreen.class)
 public abstract class InventoryScreenMixin
@@ -69,5 +71,14 @@ public abstract class InventoryScreenMixin
 		}
 		
 		entity.setBoundingBox(pehkui$BOX.get());
+	}
+	
+	@Redirect(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIIIIFFFLnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHeight()F"))
+	private static float pehkui$drawEntity$getHeight(LivingEntity obj)
+	{
+		final float value = obj.getHeight();
+		final float scale = ScaleUtils.getBoundingBoxHeightScale(obj);
+		
+		return scale != 1.0F ? ScaleUtils.divideClamped(value, scale) : value;
 	}
 }
