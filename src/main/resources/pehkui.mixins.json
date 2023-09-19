@@ -165,6 +165,8 @@
 		"compat120plus.compat1201minus.SnifferEntityMixin",
 		"compat1202plus.EntityMixin",
 		"compat1202plus.LivingEntityMixin",
+		"compat1202plus.MobEntityMixin",
+		"compat1202plus.RavagerEntityMixin",
 		"identity.compat.IdentityComponentMixin",
 		"identity.compat.PlayerEntityMixin",
 		"identity.compat115.IdentityComponentMixin",
