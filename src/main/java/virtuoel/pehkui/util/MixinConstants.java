@@ -81,6 +81,7 @@ public class MixinConstants
 	private static final String METHOD_48472 = "method_48472";
 	private static final String METHOD_5621 = "method_5621";
 	private static final String METHOD_5678 = "method_5678";
+	private static final String METHOD_14570 = "method_14570";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -275,4 +276,5 @@ public class MixinConstants
 	// 1.20.1 Minus
 	public static final String GET_MOUNTED_HEIGHT_OFFSET = METHOD_5621 + "()D"; // COMMIT_READY
 	public static final String GET_HEIGHT_OFFSET = METHOD_5678 + "()D"; // COMMIT_READY
+	public static final String ON_PLAYER_CONNECT = METHOD_14570; // COMMIT_READY
 }
