@@ -24,9 +24,9 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 	abstract void setPredicate(Predicate<Entity> predicate);
 	
 	@Unique
-	NumberRange.DoubleRange pehkui$scaleRange = NumberRange.DoubleRange.ANY;
+	NumberRange.DoubleRange pehkui$scaleRange = (NumberRange.DoubleRange) (Object) NumberRange.DoubleRange.ANY;
 	@Unique
-	NumberRange.DoubleRange pehkui$computedScaleRange = NumberRange.DoubleRange.ANY;
+	NumberRange.DoubleRange pehkui$computedScaleRange = (NumberRange.DoubleRange) (Object) NumberRange.DoubleRange.ANY;
 	@Unique
 	ScaleType pehkui$scaleType = ScaleTypes.INVALID;
 	@Unique

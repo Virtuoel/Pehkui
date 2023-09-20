@@ -23,6 +23,7 @@ import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
@@ -47,7 +48,7 @@ public class ConfigSyncUtils
 	static
 	{
 		CODECS.put("double", new ConfigEntryCodec<Double>(
-			(b, e) -> b.writeDouble(e.getValue()),
+			(b, e) -> ((ByteBuf) b).writeDouble(e.getValue()),
 			(b, e) ->
 			{
 				final double v = b.readDouble();
@@ -58,7 +59,7 @@ public class ConfigSyncUtils
 			DoubleArgumentType::getDouble
 		));
 		CODECS.put("boolean", new ConfigEntryCodec<Boolean>(
-			(b, e) -> b.writeBoolean(e.getValue()),
+			(b, e) -> ((ByteBuf) b).writeBoolean(e.getValue()),
 			(b, e) ->
 			{
 				final boolean v = b.readBoolean();
@@ -139,7 +140,7 @@ public class ConfigSyncUtils
 		{
 			if (ServerPlayNetworking.canSend(networkHandler, Pehkui.CONFIG_SYNC_PACKET))
 			{
-				networkHandler.sendPacket(createConfigSyncPacket(configEntries));
+				ReflectionUtils.sendPacket(networkHandler, createConfigSyncPacket(configEntries));
 			}
 		}
 	}

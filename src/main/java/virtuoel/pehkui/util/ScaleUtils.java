@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
@@ -18,6 +19,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -217,9 +219,9 @@ public class ScaleUtils
 		}
 	}
 	
-	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
+	public static void syncScalesOnTrackingStart(Entity entity, ServerPlayNetworkHandler handler)
 	{
-		syncScales(entity, packetSender, ScaleUtils::hasScaleDataChanged, false);
+		syncScales(entity, p -> ReflectionUtils.sendPacket(handler, p), ScaleUtils::hasScaleDataChanged, false);
 	}
 	
 	private static boolean hasScaleDataChanged(final ScaleData scaleData)
@@ -255,7 +257,7 @@ public class ScaleUtils
 				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 				
 				buffer.writeVarInt(entity.getId());
-				buffer.writeInt(syncedScales.size());
+				((ByteBuf) buffer).writeInt(syncedScales.size());
 				
 				for (final ScaleData s : syncedScales)
 				{

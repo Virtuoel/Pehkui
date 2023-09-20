@@ -42,6 +42,7 @@ import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
+import virtuoel.pehkui.util.ReflectionUtils;
 
 public class DebugCommand
 {
@@ -94,7 +95,7 @@ public class DebugCommand
 					.then(CommandManager.literal("garbage_collect")
 						.executes(context ->
 						{
-							context.getSource().getPlayerOrThrow().networkHandler.sendPacket(
+							ReflectionUtils.sendPacket(context.getSource().getPlayerOrThrow().networkHandler,
 								(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
 									new PacketByteBuf(Unpooled.buffer())
 									.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
@@ -221,7 +222,7 @@ public class DebugCommand
 		final Entity executor = context.getSource().getEntity();
 		if (executor instanceof ServerPlayerEntity)
 		{
-			((ServerPlayerEntity) executor).networkHandler.sendPacket(
+			ReflectionUtils.sendPacket(((ServerPlayerEntity) executor).networkHandler,
 				(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
 					new PacketByteBuf(Unpooled.buffer())
 					.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)

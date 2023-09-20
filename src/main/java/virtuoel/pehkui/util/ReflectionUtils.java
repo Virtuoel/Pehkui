@@ -17,12 +17,15 @@ import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.network.packet.Packet;
+import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import virtuoel.pehkui.Pehkui;
 
 public final class ReflectionUtils
 {
 	public static final Class<?> ENTITY_DAMAGE_SOURCE;
-	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET;
+	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET;
 	
 	static
 	{
@@ -37,7 +40,9 @@ public final class ReflectionUtils
 		
 		try
 		{
+			final boolean is117Plus = VersionUtils.MINOR >= 17;
 			final boolean is1193Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 3);
+			final boolean is1201Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 1);
 			
 			if (is1193Minus)
 			{
@@ -53,10 +58,17 @@ public final class ReflectionUtils
 				f.setAccessible(true);
 				h.put(1, lookup.unreflectGetter(f));
 				h.put(2, lookup.unreflectSetter(f));
-				
+			}
+			
+			if (is1201Minus)
+			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_1297", "method_5621", "()D");
 				m = Entity.class.getMethod(mapped);
 				h.put(3, lookup.unreflect(m));
+				
+				mapped = mappingResolver.mapMethodName("intermediary", is117Plus ? "net.minecraft.class_5629" : "net.minecraft.class_3244", "method_14364", "(Lnet/minecraft/class_2596;)V");
+				m = (is117Plus ? PlayerAssociatedNetworkHandler.class : ServerPlayNetworkHandler.class).getMethod(mapped, Packet.class);
+				h.put(4, lookup.unreflect(m));
 			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
@@ -70,6 +82,7 @@ public final class ReflectionUtils
 		GET_FLYING_SPEED = h.get(1);
 		SET_FLYING_SPEED = h.get(2);
 		GET_MOUNTED_HEIGHT_OFFSET = h.get(3);
+		SEND_PACKET = h.get(4);
 	}
 	
 	public static @Nullable Entity getAttacker(final DamageSource source)
@@ -133,6 +146,32 @@ public final class ReflectionUtils
 		}
 		
 		return entity.getDimensions(entity.getPose()).height * 0.75;
+	}
+	
+	public static void sendPacket(final ServerPlayNetworkHandler handler, final Packet<?> packet)
+	{
+		if (SEND_PACKET != null)
+		{
+			try
+			{
+				if (VersionUtils.MINOR <= 16)
+				{
+					SEND_PACKET.invoke(handler, packet);
+				}
+				else
+				{
+					SEND_PACKET.invoke((PlayerAssociatedNetworkHandler) (Object) handler, packet);
+				}
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+			
+			return;
+		}
+		
+		handler.sendPacket(packet);
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)
