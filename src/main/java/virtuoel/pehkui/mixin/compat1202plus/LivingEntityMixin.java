@@ -21,13 +21,13 @@ public abstract class LivingEntityMixin
 	}
 	
 	@Inject(at = @At("RETURN"), method = "getRidingOffset", cancellable = true)
-	private void pehkui$getRidingOffset(CallbackInfoReturnable<Double> info)
+	private void pehkui$getRidingOffset(CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (scale != 1.0F)
 		{
-			info.setReturnValue(info.getReturnValue() * scale);
+			info.setReturnValue(info.getReturnValueF() * scale);
 		}
 	}
 }
