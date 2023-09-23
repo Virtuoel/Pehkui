@@ -11,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
+import net.minecraft.network.Packet;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 
 public final class ReflectionUtils
 {
@@ -32,6 +34,16 @@ public final class ReflectionUtils
 	public static void setFlyingSpeed(final LivingEntity entity, final float speed)
 	{
 		entity.flyingSpeed = speed;
+	}
+	
+	public static double getMountedHeightOffset(final Entity entity)
+	{
+		return entity.getMountedHeightOffset();
+	}
+	
+	public static void sendPacket(final ServerPlayNetworkHandler handler, final Packet<?> packet)
+	{
+		handler.sendPacket(packet);
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)
