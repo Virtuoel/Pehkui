@@ -6,7 +6,7 @@ import net.minecraft.command.EntitySelectorReader;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.predicate.NumberRange.FloatRange;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
@@ -30,7 +30,7 @@ public class PehkuiEntitySelectorOptions
 	{
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("scale").toString().replace(':', '.'),
-			r -> cast(r).pehkui_setScaleRange(FloatRange.parse(r.getReader())),
+			r -> cast(r).pehkui_setScaleRange(NumberRange.FloatRange.parse(r.getReader())),
 			r -> cast(r).pehkui_getScaleRange().isDummy(),
 			SCALE_RANGE_DESCRIPTION
 		);
@@ -44,7 +44,7 @@ public class PehkuiEntitySelectorOptions
 		
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("computed_scale").toString().replace(':', '.'),
-			r -> cast(r).pehkui_setComputedScaleRange(FloatRange.parse(r.getReader())),
+			r -> cast(r).pehkui_setComputedScaleRange(NumberRange.FloatRange.parse(r.getReader())),
 			r -> cast(r).pehkui_getComputedScaleRange().isDummy(),
 			SCALE_RANGE_DESCRIPTION
 		);
