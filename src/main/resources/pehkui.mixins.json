@@ -125,6 +125,8 @@
 		"compat117plus.SlimeEntityMixin",
 		"compat117plus.ViewerCountManagerMixin",
 		"compat117plus.compat1201minus.AxolotlEntityMixin",
+		"compat117plus.compat1201minus.ChunkHolderAccessor",
+		"compat117plus.compat1201minus.ServerChunkManagerMixin",
 		"compat117plus.patchwork.compat.EntityCalculateDimensionsMixin",
 		"compat117plus.patchwork.compat.IForgeItemMixin",
 		"compat118minus.ServerPlayerInteractionManagerMixin",
