@@ -61,7 +61,7 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 	}
 	
 	@Override
-	public NumberRange.DoubleRange pehkui_getScaleRange()
+	public NumberRange<? extends Number> pehkui_getScaleRange()
 	{
 		return this.pehkui$scaleRange;
 	}
@@ -85,7 +85,7 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 	}
 	
 	@Override
-	public NumberRange.DoubleRange pehkui_getComputedScaleRange()
+	public NumberRange<? extends Number> pehkui_getComputedScaleRange()
 	{
 		return this.pehkui$computedScaleRange;
 	}
