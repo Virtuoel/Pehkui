@@ -207,6 +207,9 @@ public class MixinConstants
 	// 1.17 Plus 1.19.3 Minus Client
 	public static final String RENDER_ITEM_WITH_SEED = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V"; // COMMIT_READY
 	
+	// 1.17 Plus 1.20.1 Minus
+	public static final String SQUARED_ATTACK_RANGE = "squaredAttackRange"; // COMMIT_READY
+	
 	// 1.18 Minus
 	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT_READY
 	
@@ -215,7 +218,7 @@ public class MixinConstants
 	public static final String FOR_EACH_FILTERED = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
 	
 	// 1.19 Minus
-	public static final String UPDATE_PASSENGER_POSITION = "updatePassengerPosition(Lnet/minecraft/entity/Entity;)V"; // COMMIT_READY
+	public static final String UPDATE_PASSENGER_POSITION = "updatePassengerPosition"; // COMMIT_READY
 	
 	// 1.19.2 Minus
 	public static final String CREATE_EXPLOSION = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
@@ -226,4 +229,12 @@ public class MixinConstants
 	
 	// 1.19.4
 	public static final String DRAW_ENTITY_ROTATED = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
+	
+	// 1.20 - 1.20.1
+	public static final String DRAW_ENTITY_NO_TRANSLATION = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
+	
+	// 1.20.1 Minus
+	public static final String GET_MOUNTED_HEIGHT_OFFSET = "getMountedHeightOffset()D"; // COMMIT_READY
+	public static final String GET_HEIGHT_OFFSET = "getHeightOffset()D"; // COMMIT_READY
+	public static final String ON_PLAYER_CONNECT = "onPlayerConnect"; // COMMIT_READY
 }

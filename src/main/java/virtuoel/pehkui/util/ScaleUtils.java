@@ -16,6 +16,7 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -217,9 +218,9 @@ public class ScaleUtils
 		}
 	}
 	
-	public static void syncScalesOnTrackingStart(Entity entity, Consumer<Packet<?>> packetSender)
+	public static void syncScalesOnTrackingStart(Entity entity, ServerPlayNetworkHandler handler)
 	{
-		syncScales(entity, packetSender, ScaleUtils::hasScaleDataChanged, false);
+		syncScales(entity, p -> ReflectionUtils.sendPacket(handler, p), ScaleUtils::hasScaleDataChanged, false);
 	}
 	
 	private static boolean hasScaleDataChanged(final ScaleData scaleData)

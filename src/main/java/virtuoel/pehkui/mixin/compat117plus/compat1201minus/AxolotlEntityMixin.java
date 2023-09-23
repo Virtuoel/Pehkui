@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat117plus;
+package virtuoel.pehkui.mixin.compat117plus.compat1201minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -6,12 +6,13 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 
 import net.minecraft.entity.Entity;
 // import net.minecraft.entity.passive.AxolotlEntity;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(/*Axolotl*/Entity.class) // TODO 1.17
 public class AxolotlEntityMixin
 {
-	@ModifyConstant(method = "squaredAttackRange", constant = @Constant(doubleValue = 1.5D))
+	@ModifyConstant(method = MixinConstants.SQUARED_ATTACK_RANGE, constant = @Constant(doubleValue = 1.5D))
 	private double pehkui$squaredAttackRange$range(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);

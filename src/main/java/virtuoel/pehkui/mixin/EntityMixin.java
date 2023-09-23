@@ -252,7 +252,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
 	private void pehkui$onStartedTrackingBy(ServerPlayerEntity player, CallbackInfo info)
 	{
-		ScaleUtils.syncScalesOnTrackingStart((Entity) (Object) this, player.networkHandler::sendPacket);
+		ScaleUtils.syncScalesOnTrackingStart((Entity) (Object) this, player.networkHandler);
 	}
 	
 	@ModifyVariable(method = "dropStack(Lnet/minecraft/item/ItemStack;F)Lnet/minecraft/entity/ItemEntity;", at = @At(value = "STORE"))
