@@ -1,6 +1,6 @@
 
 # Pehkui
-Library mod for the Fabric, Forge, and Quilt mod loaders that allows mod developers to modify the size of entities.  
+Library mod for the Quilt, NeoForge, Forge, and Fabric mod loaders that allows mod developers to modify the size of entities.  
 
 # Information for Players
 <details open>
@@ -10,19 +10,23 @@ Library mod for the Fabric, Forge, and Quilt mod loaders that allows mod develop
 <details open>
 <summary>Show/Hide Required Mods</summary><table width=100%><td>
 
-### Playing on Fabric
+### Playing on Quilt
 
-- Newest version of the [Fabric mod loader](https://fabricmc.net/use/installer/)  
-- Newest version of the [Fabric A](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)[PI mod](https://modrinth.com/mod/fabric-api/versions) for whichever Minecraft version you're playing on
+- Newest version of the [Quilt mod loader](https://quiltmc.org/en/install/)  
+- Newest version of the [Quilt Stan](https://www.curseforge.com/minecraft/mc-mods/qsl/files/all)[dard Libraries](https://modrinth.com/mod/qsl/versions) for whichever Minecraft version you're playing on
+
+### Playing on NeoForge
+
+- Newest version of the [NeoForge mod loader](https://neoforged.net/) for whichever Minecraft version you're playing on
 
 ### Playing on Forge
 
 - Newest version of the [Forge mod loader](https://files.minecraftforge.net/net/minecraftforge/forge/) for whichever Minecraft version you're playing on
 
-### Playing on Quilt
+### Playing on Fabric
 
-- Newest version of the [Quilt mod loader](https://quiltmc.org/en/install/)  
-- Newest version of the [Quilt Stan](https://www.curseforge.com/minecraft/mc-mods/qsl/files/all)[dard Libraries](https://modrinth.com/mod/qsl/versions) for whichever Minecraft version you're playing on
+- Newest version of the [Fabric mod loader](https://fabricmc.net/use/installer/)  
+- Newest version of the [Fabric A](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)[PI mod](https://modrinth.com/mod/fabric-api/versions) for whichever Minecraft version you're playing on
 </td></table></details>
 
 ## Supported Minecraft Versions
@@ -30,8 +34,8 @@ Library mod for the Fabric, Forge, and Quilt mod loaders that allows mod develop
 <summary>Show/Hide Supported Minecraft Versions</summary><table width=100%><td>
 
 ### Fabric/Quilt Versions
-Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.1`:  
-`1.20.1`, `1.19.4`, `1.19.3`, `1.19.2`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
+Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.2`:  
+`1.20.2`, `1.20.1`, `1.19.4`, `1.19.2`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
 
 ### Forge Versions
 
@@ -40,9 +44,6 @@ Supported Versions of `Pehkui-x.y.z+1.20.1-forge`:
 
 Supported Versions of `Pehkui-x.y.z+1.19.4-forge`:  
 `1.19.4`
-
-Supported Versions of `Pehkui-x.y.z+1.19.3-forge`:  
-`1.19.3`
 
 Supported Versions of `Pehkui-x.y.z+1.19.2-forge`:  
 `1.19.2`
@@ -112,7 +113,7 @@ Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your</
 
 Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from</br>below depending on your mod loader:
 
-#### Developing for Fabric with Loom
+#### Developing on Quilt/Fabric with Loom
 
 ```groovy
 modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
@@ -120,13 +121,13 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
 })
 ```
 
-#### Developing for Forge with ForgeGradle
+#### Developing on Forge with ForgeGradle
 
 ```groovy
 implementation fg.deobf("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
 
-#### Developing for Forge with Architectury Loom
+#### Developing on Forge with Architectury Loom
 
 ```groovy
 modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
