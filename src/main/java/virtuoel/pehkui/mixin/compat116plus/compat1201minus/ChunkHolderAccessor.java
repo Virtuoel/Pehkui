@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat117plus.compat1201minus;
+package virtuoel.pehkui.mixin.compat116plus.compat1201minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;

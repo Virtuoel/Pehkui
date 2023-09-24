@@ -13,6 +13,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.WorldChunk;
+import virtuoel.pehkui.mixin.compat116plus.compat1201minus.ChunkHolderAccessor;
 
 @Mixin(ServerChunkManager.class)
 public abstract class ServerChunkManagerMixin
