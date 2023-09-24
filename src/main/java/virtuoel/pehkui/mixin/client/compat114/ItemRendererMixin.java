@@ -21,6 +21,11 @@ public class ItemRendererMixin
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"), remap = false)
 	private void pehkui$renderHeldItem$head(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
+		if (ScaleRenderUtils.shouldSkipHeadItemScaling(entity, stack, type))
+		{
+			return;
+		}
+		
 		ScaleRenderUtils.logIfItemRenderCancelled();
 		
 		GL11.glPushMatrix();
@@ -44,6 +49,11 @@ public class ItemRendererMixin
 	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "RETURN"), remap = false)
 	private void pehkui$renderHeldItem$return(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
+		if (ScaleRenderUtils.shouldSkipHeadItemScaling(entity, stack, type))
+		{
+			return;
+		}
+		
 		ScaleRenderUtils.clearLastRenderedItem();
 		
 		GL11.glPopMatrix();

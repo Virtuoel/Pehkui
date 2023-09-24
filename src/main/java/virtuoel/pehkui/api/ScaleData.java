@@ -7,6 +7,7 @@ import java.util.SortedSet;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
 import net.minecraft.entity.Entity;
@@ -451,7 +452,9 @@ public class ScaleData
 	
 	public PacketByteBuf toPacket(PacketByteBuf buffer)
 	{
-		buffer.writeFloat(this.baseScale)
+		final ByteBuf buf = ((ByteBuf) buffer);
+		
+		buf.writeFloat(this.baseScale)
 		.writeFloat(this.prevBaseScale)
 		.writeFloat(this.initialScale)
 		.writeFloat(this.targetScale)
@@ -464,16 +467,16 @@ public class ScaleData
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_MODIFIERS, modifier));
 		}
 		
-		buffer.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
+		buf.writeByte(this.persistent == null ? -1 : this.persistent ? 1 : 0);
 		
 		if (this.easing != null)
 		{
-			buffer.writeBoolean(true);
+			buf.writeBoolean(true);
 			buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_EASINGS, this.easing));
 		}
 		else
 		{
-			buffer.writeBoolean(false);
+			buf.writeBoolean(false);
 		}
 		
 		return buffer;
