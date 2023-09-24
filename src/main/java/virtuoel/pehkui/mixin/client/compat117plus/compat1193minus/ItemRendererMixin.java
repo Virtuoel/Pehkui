@@ -24,6 +24,11 @@ public class ItemRendererMixin
 	@Inject(method = MixinConstants.RENDER_ITEM_WITH_SEED, at = @At(value = "HEAD"))
 	private void pehkui$renderItem$head(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
+		if (ScaleRenderUtils.shouldSkipHeadItemScaling(entity, item, renderMode))
+		{
+			return;
+		}
+		
 		ScaleRenderUtils.logIfItemRenderCancelled();
 		
 		matrices.push();
@@ -47,6 +52,11 @@ public class ItemRendererMixin
 	@Inject(method = MixinConstants.RENDER_ITEM_WITH_SEED, at = @At(value = "RETURN"))
 	private void pehkui$renderItem$return(@Nullable LivingEntity entity, ItemStack item, @Coerce Object renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, @Nullable World world, int light, int overlay, int seed, CallbackInfo info)
 	{
+		if (ScaleRenderUtils.shouldSkipHeadItemScaling(entity, item, renderMode))
+		{
+			return;
+		}
+		
 		ScaleRenderUtils.clearLastRenderedItem();
 		
 		matrices.pop();

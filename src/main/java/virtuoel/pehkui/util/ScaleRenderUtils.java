@@ -10,6 +10,8 @@ import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
@@ -59,6 +61,19 @@ public class ScaleRenderUtils
 		}
 		
 		return depth;
+	}
+	
+	public static boolean shouldSkipHeadItemScaling(@Nullable LivingEntity entity, ItemStack item, Object renderMode)
+	{
+		if ("HEAD".equals(((Enum<?>) renderMode).name()))
+		{
+			if (entity == null || (entity.getEquippedStack(EquipmentSlot.MAINHAND) != item && entity.getEquippedStack(EquipmentSlot.OFFHAND) != item))
+			{
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	public static void logIfRenderCancelled()
