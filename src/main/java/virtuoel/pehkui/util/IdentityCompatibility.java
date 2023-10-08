@@ -16,6 +16,7 @@ public class IdentityCompatibility
 	private final Optional<Class<?>> componentsClass;
 	private final Optional<Class<?>> componentTypeClass;
 	private final Optional<Class<?>> identityComponentClass;
+	private final Optional<Class<?>> playerIdentityClass;
 	
 	private final Optional<Object> currentIdentity;
 	
@@ -33,6 +34,7 @@ public class IdentityCompatibility
 			this.componentsClass = ReflectionUtils.getClass("draylar.identity.registry.Components");
 			this.componentTypeClass = ReflectionUtils.getClass("nerdhub.cardinal.components.api.ComponentType");
 			this.identityComponentClass = ReflectionUtils.getClass("draylar.identity.cca.IdentityComponent");
+			this.playerIdentityClass = ReflectionUtils.getClass("draylar.identity.api.PlayerIdentity");
 			
 			this.currentIdentity = ReflectionUtils.getField(componentsClass, "CURRENT_IDENTITY").map(f ->
 			{
@@ -47,13 +49,14 @@ public class IdentityCompatibility
 			});
 			
 			this.getComponent = ReflectionUtils.getMethod(componentTypeClass, "get", Object.class);
-			this.getIdentity = ReflectionUtils.getMethod(identityComponentClass, "getIdentity");
+			this.getIdentity = ReflectionUtils.getMethod(identityComponentClass.isPresent() ? identityComponentClass : playerIdentityClass, "getIdentity");
 		}
 		else
 		{
 			this.componentsClass = Optional.empty();
 			this.componentTypeClass = Optional.empty();
 			this.identityComponentClass = Optional.empty();
+			this.playerIdentityClass = Optional.empty();
 			
 			this.currentIdentity = Optional.empty();
 			
@@ -82,7 +85,19 @@ public class IdentityCompatibility
 						}
 					});
 				});
-			}).orElse(null);
+			}).orElseGet(() -> {
+				return getIdentity.map(m ->
+				{
+					try
+					{
+						return (LivingEntity) m.invoke(null, entity);
+					}
+					catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+					{
+						return null;
+					}
+				}).orElse(null);
+			});
 		}
 		
 		return null;
