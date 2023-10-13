@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -25,6 +26,15 @@ public class IdentityComponentMixin
 		if (this.identity != null)
 		{
 			ScaleUtils.loadScale(player, identity);
+		}
+	}
+	
+	@Inject(at = @At("TAIL"), method = "setIdentity", remap = false)
+	private void pehkui$setIdentity(LivingEntity identity, CallbackInfoReturnable<Boolean> info)
+	{
+		if (identity != null)
+		{
+			ScaleUtils.loadScale(identity, player);
 		}
 	}
 }

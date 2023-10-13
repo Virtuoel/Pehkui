@@ -65,7 +65,7 @@ public class IdentityCompatibility
 		}
 	}
 	
-	public LivingEntity getIdentity(PlayerEntity entity)
+	public LivingEntity getIdentity(final PlayerEntity entity)
 	{
 		if (this.enabled)
 		{
