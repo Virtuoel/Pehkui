@@ -69,24 +69,23 @@ public class IdentityCompatibility
 	{
 		if (this.enabled)
 		{
-			return currentIdentity.flatMap(t ->
-			{
-				return getComponent.flatMap(c ->
+			return (identityComponentClass.isPresent() ? currentIdentity.flatMap(t ->
 				{
-					return getIdentity.map(m ->
+					return getComponent.flatMap(c ->
 					{
-						try
+						return getIdentity.map(m ->
 						{
-							return (LivingEntity) m.invoke(c.invoke(t, entity));
-						}
-						catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
-						{
-							return null;
-						}
+							try
+							{
+								return (LivingEntity) m.invoke(c.invoke(t, entity));
+							}
+							catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+							{
+								return null;
+							}
+						});
 					});
-				});
-			}).orElseGet(() -> {
-				return getIdentity.map(m ->
+				}) : getIdentity.map(m ->
 				{
 					try
 					{
@@ -96,8 +95,7 @@ public class IdentityCompatibility
 					{
 						return null;
 					}
-				}).orElse(null);
-			});
+				})).orElse(null);
 		}
 		
 		return null;
