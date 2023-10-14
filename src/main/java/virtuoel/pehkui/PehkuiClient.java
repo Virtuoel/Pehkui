@@ -9,11 +9,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.ScaleRegistries;
-import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
 import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
-import virtuoel.pehkui.util.MixinTargetClasses;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -77,22 +75,6 @@ public class PehkuiClient implements ClientModInitializer
 					switch (type)
 					{
 						case MIXIN_AUDIT:
-							DebugCommand.runMixinClassloadTests(
-								t -> client.player.sendMessage(t, false),
-								true,
-								false,
-								MixinTargetClasses.Common.CLASSES,
-								MixinTargetClasses.Client.CLASSES
-							);
-							
-							DebugCommand.runMixinClassloadTests(
-								t -> client.player.sendMessage(t, false),
-								true,
-								true,
-								MixinTargetClasses.Common.INTERMEDIARY_CLASSES,
-								MixinTargetClasses.Client.INTERMEDIARY_CLASSES
-							);
-							
 							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start.client", "Starting Mixin environment audit (client)..."), false);
 							MixinEnvironment.getCurrentEnvironment().audit();
 							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.end.client", "Mixin environment audit (client) complete!"), false);
