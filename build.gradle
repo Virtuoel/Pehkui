@@ -19,6 +19,10 @@ repositories {
 		url = "https://maven.terraformersmc.com/"
 	}
 	maven {
+		name = "NeoForge"
+		url = "https://maven.neoforged.net/releases/"
+	}
+	maven {
 		name = "CurseForge"
 		url = "https://minecraft.curseforge.com/api/maven"
 	}
@@ -43,8 +47,8 @@ group = project.maven_group
 base.archivesName = project.archives_base_name
 version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + (project.hasProperty("metadata_minecraft_versions") ? project.metadata_minecraft_versions : project.minecraft_version)
 
-if(project.hasProperty("forge_version")) {
-	version += "-forge"
+if(project.hasProperty("neoforge_version") || project.hasProperty("forge_version")) {
+	version += project.hasProperty("forge_version") ? "-forge" : "-neoforge"
 	
 	loom {
 		forge {
@@ -88,7 +92,10 @@ dependencies {
 		}
 	}
 	
-	if(project.hasProperty("forge_version")) {
+	if(project.hasProperty("neoforge_version")) {
+		forge "net.neoforged:forge:${neoforge_version}"
+	}
+	else if(project.hasProperty("forge_version")) {
 		forge "net.minecraftforge:forge:${forge_version}"
 	}
 	else if(project.hasProperty("fabric_loader_version")) {
@@ -163,7 +170,7 @@ eclipse {
 		buildCommand "org.eclipse.buildship.core.gradleprojectbuilder"
 		natures "org.eclipse.buildship.core.gradleprojectnature"
 	}
-	if(!proj.hasProperty("forge_version")) {
+	if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
 		jdt {
 			javaRuntimeName = "JavaSE-17"
 		}
@@ -189,8 +196,25 @@ tasks.withType(AbstractArchiveTask) {
 java {
 	withSourcesJar()
 	
-	sourceCompatibility = JavaVersion.VERSION_1_8
-	targetCompatibility = JavaVersion.VERSION_1_8
+	if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
+		sourceCompatibility = JavaVersion.VERSION_1_8
+		targetCompatibility = JavaVersion.VERSION_1_8
+	}
+	else {
+		def minor = (minecraft_version.split(/\./, -1)[1] as Integer);
+		if(minor >= 18) {
+			sourceCompatibility = JavaVersion.VERSION_17
+			targetCompatibility = JavaVersion.VERSION_17
+		}
+		else if(minor >= 17) {
+			sourceCompatibility = JavaVersion.VERSION_16
+			targetCompatibility = JavaVersion.VERSION_16
+		}
+		else {
+			sourceCompatibility = JavaVersion.VERSION_1_8
+			targetCompatibility = JavaVersion.VERSION_1_8
+		}
+	}
 }
 
 jar {
@@ -262,6 +286,10 @@ String generateHTMLChangelog() {
 	changelog_text += "<p>Last successfully tested on:</p>\n"
 	changelog_text += "<p>Minecraft version <code>${minecraft_version}</code></p>\n"
 	
+	if(project.hasProperty("neoforge_version")) {
+		changelog_text += "<p>NeoForge <code>${neoforge_version}</code></p>\n"
+	}
+	
 	if(project.hasProperty("forge_version")) {
 		changelog_text += "<p>Forge <code>${forge_version}</code></p>\n"
 	}
@@ -297,6 +325,10 @@ String generateMarkdownChangelog() {
 	changelog_text += "Last successfully tested on:  \n"
 	changelog_text += "Minecraft version " + '`' + "${minecraft_version}" + '`' + "  \n"
 	
+	if(project.hasProperty("neoforge_version")) {
+		changelog_text += "NeoForge " + '`' + "${neoforge_version}" + '`' + "  \n"
+	}
+	
 	if(project.hasProperty("forge_version")) {
 		changelog_text += "Forge " + '`' + "${forge_version}" + '`' + "  \n"
 	}
@@ -327,6 +359,9 @@ githubRelease {
 	
 	if(project.hasProperty("forge_version")) {
 		tagName "${project.mod_version}-${project.minecraft_version}-forge"
+	}
+	else if(project.hasProperty("neoforge_version")) {
+		tagName "${project.mod_version}-${project.minecraft_version}-neoforge"
 	}
 	
 	if(project.hasProperty("fabric_loader_version")) {
@@ -381,6 +416,9 @@ curseforge {
 			
 			if(project.hasProperty("forge_version")) {
 				display_name_prefix += "[Forge] "
+			}
+			else if(project.hasProperty("neoforge_version")) {
+				display_name_prefix += "[NeoForge] "
 			}
 			
 			mainArtifact(remapJar) {
