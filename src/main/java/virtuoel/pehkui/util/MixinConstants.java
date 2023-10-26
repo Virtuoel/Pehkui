@@ -82,6 +82,7 @@ public class MixinConstants
 	private static final String METHOD_5621 = "method_5621";
 	private static final String METHOD_5678 = "method_5678";
 	private static final String METHOD_14570 = "method_14570";
+	private static final String METHOD_49999 = "method_49999";
 	private static final String METHOD_18077 = "method_18077";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
@@ -282,5 +283,6 @@ public class MixinConstants
 	public static final String ON_PLAYER_CONNECT = METHOD_14570; // COMMIT_READY
 	
 	// 1.20 Plus 1.20.2 Minus
+	public static final String GET_HIT_RESULT = METHOD_49999; // COMMIT_READY
 	public static final String GET_ENTITY_COLLISION = "L" + CLASS_1675 + ";" + METHOD_18077 + "(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_243 + ";L" + CLASS_243 + ";L" + CLASS_238 + ";Ljava/util/List;Ljava/util/function/Predicate;)L" + CLASS_3966 + ";"; // COMMIT_READY
 }
