@@ -25,6 +25,10 @@
 	"license": "MIT",
 	"icon": "pehkui_icon.png",
 	"environment": "*",
+	"depends":
+	{
+		"forge": "*"
+	},
 	"entrypoints":
 	{
 		"main":
