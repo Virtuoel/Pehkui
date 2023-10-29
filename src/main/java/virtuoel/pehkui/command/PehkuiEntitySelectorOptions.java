@@ -19,6 +19,7 @@ import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
 import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
+import virtuoel.pehkui.util.ReflectionUtils;
 
 public class PehkuiEntitySelectorOptions
 {
@@ -31,7 +32,7 @@ public class PehkuiEntitySelectorOptions
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("scale").toString().replace(':', '.'),
 			r -> cast(r).pehkui_setScaleRange(NumberRange.DoubleRange.parse(r.getReader())),
-			r -> cast(r).pehkui_getScaleRange().isDummy(),
+			r -> ReflectionUtils.isDummy(cast(r).pehkui_getScaleRange()),
 			SCALE_RANGE_DESCRIPTION
 		);
 		
@@ -45,7 +46,7 @@ public class PehkuiEntitySelectorOptions
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("computed_scale").toString().replace(':', '.'),
 			r -> cast(r).pehkui_setComputedScaleRange(NumberRange.DoubleRange.parse(r.getReader())),
-			r -> cast(r).pehkui_getComputedScaleRange().isDummy(),
+			r -> ReflectionUtils.isDummy(cast(r).pehkui_getComputedScaleRange()),
 			SCALE_RANGE_DESCRIPTION
 		);
 		

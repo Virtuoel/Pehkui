@@ -18,6 +18,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import virtuoel.pehkui.Pehkui;
@@ -25,7 +26,7 @@ import virtuoel.pehkui.Pehkui;
 public final class ReflectionUtils
 {
 	public static final Class<?> ENTITY_DAMAGE_SOURCE;
-	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET;
+	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY;
 	
 	static
 	{
@@ -69,6 +70,10 @@ public final class ReflectionUtils
 				mapped = mappingResolver.mapMethodName("intermediary", is117Plus ? "net.minecraft.class_5629" : "net.minecraft.class_3244", "method_14364", "(Lnet/minecraft/class_2596;)V");
 				m = (is117Plus ? PlayerAssociatedNetworkHandler.class : ServerPlayNetworkHandler.class).getMethod(mapped, Packet.class);
 				h.put(4, lookup.unreflect(m));
+				
+				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2096", "method_9041", "()Z");
+				m = NumberRange.class.getMethod(mapped);
+				h.put(5, lookup.unreflect(m));
 			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
@@ -83,6 +88,7 @@ public final class ReflectionUtils
 		SET_FLYING_SPEED = h.get(2);
 		GET_MOUNTED_HEIGHT_OFFSET = h.get(3);
 		SEND_PACKET = h.get(4);
+		IS_DUMMY = h.get(5);
 	}
 	
 	public static @Nullable Entity getAttacker(final DamageSource source)
@@ -172,6 +178,23 @@ public final class ReflectionUtils
 		}
 		
 		handler.sendPacket(packet);
+	}
+	
+	public static boolean isDummy(final NumberRange<?> range)
+	{
+		if (IS_DUMMY != null)
+		{
+			try
+			{
+				return (boolean) IS_DUMMY.invoke(range);
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return range.isDummy();
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)
