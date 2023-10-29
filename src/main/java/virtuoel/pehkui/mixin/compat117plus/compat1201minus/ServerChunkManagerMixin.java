@@ -21,7 +21,7 @@ public abstract class ServerChunkManagerMixin
 	@Shadow
 	abstract ChunkHolder getChunkHolder(long pos);
 	
-	@Inject(method = "getChunk", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/util/profiler/Profiler;visit(Ljava/lang/String;)V"), cancellable = true)
+	@Inject(method = "getChunk", require = 0, expect = 0, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/util/profiler/Profiler;visit(Ljava/lang/String;)V"), cancellable = true)
 	private void pehkui$getChunk$visit(int x, int z, ChunkStatus leastStatus, boolean create, CallbackInfoReturnable<Chunk> info)
 	{
 		final ChunkHolderAccessor h = (ChunkHolderAccessor) getChunkHolder(ChunkPos.toLong(x, z));
