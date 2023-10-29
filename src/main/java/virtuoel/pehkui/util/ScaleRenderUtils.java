@@ -33,7 +33,7 @@ import virtuoel.pehkui.api.PehkuiConfig;
 public class ScaleRenderUtils
 {
 	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES;
-
+	
 	static
 	{
 		final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();

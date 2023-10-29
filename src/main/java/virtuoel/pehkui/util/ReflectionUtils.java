@@ -25,7 +25,7 @@ import virtuoel.pehkui.Pehkui;
 
 public final class ReflectionUtils
 {
-	public static final Class<?> ENTITY_DAMAGE_SOURCE;
+	public static final Class<?> LITERAL_TEXT, ENTITY_DAMAGE_SOURCE;
 	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY;
 	
 	static
@@ -35,23 +35,30 @@ public final class ReflectionUtils
 		
 		final Lookup lookup = MethodHandles.lookup();
 		String mapped = "unset";
-		Class<?> clazz = null;
+		Class<?>[] c = new Class<?>[2];
 		Method m;
 		Field f;
 		
 		try
 		{
 			final boolean is117Plus = VersionUtils.MINOR >= 17;
+			final boolean is118Minus = VersionUtils.MINOR <= 18;
 			final boolean is1193Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 3);
 			final boolean is1201Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 1);
+			
+			if (is118Minus)
+			{
+				mapped = mappingResolver.mapClassName("intermediary", "net.minecraft.class_2585");
+				c[0] = Class.forName(mapped);
+			}
 			
 			if (is1193Minus)
 			{
 				mapped = mappingResolver.mapClassName("intermediary", "net.minecraft.class_1285");
-				clazz = Class.forName(mapped);
+				c[1] = Class.forName(mapped);
 				
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_1285", "method_5529", "()Lnet/minecraft/class_1297;");
-				m = clazz.getMethod(mapped);
+				m = c[1].getMethod(mapped);
 				h.put(0, lookup.unreflect(m));
 				
 				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_1309", "field_6281", "F");
@@ -82,7 +89,8 @@ public final class ReflectionUtils
 			Pehkui.LOGGER.catching(e);
 		}
 		
-		ENTITY_DAMAGE_SOURCE = clazz;
+		LITERAL_TEXT = c[0];
+		ENTITY_DAMAGE_SOURCE = c[1];
 		GET_ATTACKER = h.get(0);
 		GET_FLYING_SPEED = h.get(1);
 		SET_FLYING_SPEED = h.get(2);

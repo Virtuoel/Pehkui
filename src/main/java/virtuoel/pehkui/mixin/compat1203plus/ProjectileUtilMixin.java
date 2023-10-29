@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat120plus;
+package virtuoel.pehkui.mixin.compat1203plus;
 
 import java.util.function.Predicate;
 
@@ -16,8 +16,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ProjectileUtil.class)
 public class ProjectileUtilMixin
 {
-	@ModifyArg(method = "getCollision(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/world/World;)Lnet/minecraft/util/hit/HitResult;", index = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/EntityHitResult;"))
-	private static Box pehkui$getCollision$expand(World world, Entity entity, Vec3d vec3d, Vec3d vec3d2, Box box, Predicate<Entity> predicate)
+	@ModifyArg(method = "getCollision(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/world/World;F)Lnet/minecraft/util/hit/HitResult;", index = 4, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;F)Lnet/minecraft/util/hit/EntityHitResult;"))
+	private static Box pehkui$getCollision$expand(World world, Entity entity, Vec3d min, Vec3d max, Box box, Predicate<Entity> predicate, float margin)
 	{
 		final float width = ScaleUtils.getBoundingBoxWidthScale(entity);
 		final float height = ScaleUtils.getBoundingBoxHeightScale(entity);
