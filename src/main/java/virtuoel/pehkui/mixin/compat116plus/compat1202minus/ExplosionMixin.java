@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat116plus;
+package virtuoel.pehkui.mixin.compat116plus.compat1202minus;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
