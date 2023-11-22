@@ -51,7 +51,7 @@ if(project.hasProperty("neoforge_version") && !project.hasProperty("forge_versio
 	version += "-neoforge"
 }
 else if(project.hasProperty("forge_version")) {
-	version += project.hasProperty("neoforge_version") ? "-neoforge" : "-forge"
+	version += "-forge"
 	
 	loom {
 		forge {
