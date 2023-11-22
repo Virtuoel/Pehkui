@@ -51,7 +51,6 @@ public class MixinConstants
 	private static final String METHOD_18029 = "method_18029";
 	private static final String METHOD_1348 = "method_1348";
 	private static final String METHOD_3956 = "method_3956";
-	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
 	private static final String CLASS_1937 = "net/minecraft/class_1937";
@@ -84,7 +83,6 @@ public class MixinConstants
 	private static final String CLASS_238 = "net/minecraft/class_238";
 	private static final String CLASS_289 = "net/minecraft/class_289";
 	private static final String CLASS_898 = "net/minecraft/class_898";
-	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
 	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
@@ -237,4 +235,8 @@ public class MixinConstants
 	public static final String GET_MOUNTED_HEIGHT_OFFSET = "getMountedHeightOffset()D"; // COMMIT_READY
 	public static final String GET_HEIGHT_OFFSET = "getHeightOffset()D"; // COMMIT_READY
 	public static final String ON_PLAYER_CONNECT = "onPlayerConnect"; // COMMIT_READY
+	
+	// 1.20 Plus 1.20.2 Minus
+	public static final String GET_HIT_RESULT = "getHitResult"; // COMMIT_READY
+	public static final String GET_ENTITY_COLLISION = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/EntityHitResult;"; // COMMIT_READY
 }

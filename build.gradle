@@ -1,10 +1,9 @@
 plugins {
-	id "dev.architectury.loom" version "1.3.+"
+	id "dev.architectury.loom" version "1.4.+"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.4.1"
 	id "org.ajoberstar.grgit.service" version "5.2.0"
-	id "io.github.juuxel.loom-vineflower" version "1.11.0"
 	id "io.github.CDAGaming.cursegradle" version "1.6.1"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -48,8 +47,11 @@ group = project.maven_group
 base.archivesName = project.archives_base_name
 version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + (project.hasProperty("metadata_minecraft_versions") ? project.metadata_minecraft_versions : project.minecraft_version)
 
-if(project.hasProperty("neoforge_version") || project.hasProperty("forge_version")) {
-	version += project.hasProperty("forge_version") ? "-forge" : "-neoforge"
+if(project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
+	version += "-neoforge"
+}
+else if(project.hasProperty("forge_version")) {
+	version += "-forge"
 	
 	loom {
 		forge {
@@ -57,25 +59,16 @@ if(project.hasProperty("neoforge_version") || project.hasProperty("forge_version
 		}
 	}
 }
-else {
-	loom {
-		def access_widener_file = file("src/main/resources/${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.accesswidener");
-		if (access_widener_file.exists()) {
-			accessWidenerPath = access_widener_file
-		}
-	}
-}
 
 loom {
-	mixin {
-		defaultRefmapName = "${archives_base_name}-refmap.json"
+	def access_widener_file = file("src/main/resources/${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.accesswidener");
+	if (access_widener_file.exists()) {
+		accessWidenerPath = access_widener_file
 	}
-}
-
-vineflower {
-	addToRuntimeClasspath = !project.hasProperty("forge_version")
-	preferences {
-		ind = "\t"
+	if(!project.hasProperty("neoforge_version") || project.hasProperty("forge_version")) {
+		mixin {
+			defaultRefmapName = "${archives_base_name}-refmap.json"
+		}
 	}
 }
 
@@ -100,7 +93,10 @@ dependencies {
 		}
 	}
 	
-	if(project.hasProperty("neoforge_version")) {
+	if(project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
+		neoForge "net.neoforged:neoforge:${neoforge_version}"
+	}
+	else if(project.hasProperty("neoforge_version")) {
 		forge "net.neoforged:forge:${neoforge_version}"
 	}
 	else if(project.hasProperty("forge_version")) {
