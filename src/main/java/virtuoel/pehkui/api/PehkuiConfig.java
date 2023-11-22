@@ -9,10 +9,10 @@ import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
-import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.event.config.ModConfigEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.event.config.ModConfigEvent;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.ClampingScaleModifier;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -21,13 +21,13 @@ import virtuoel.pehkui.util.VersionUtils;
 public class PehkuiConfig
 {
 	@ApiStatus.Internal
-	public static final ForgeConfigSpec clientSpec;
+	public static final ModConfigSpec clientSpec;
 	public static final Client CLIENT;
 	@ApiStatus.Internal
-	public static final ForgeConfigSpec commonSpec;
+	public static final ModConfigSpec commonSpec;
 	public static final Common COMMON;
 	@ApiStatus.Internal
-	public static final ForgeConfigSpec serverSpec;
+	public static final ModConfigSpec serverSpec;
 	public static final Server SERVER;
 	
 	@ApiStatus.Internal
@@ -50,10 +50,10 @@ public class PehkuiConfig
 	
 	static
 	{
-		final ForgeConfigSpec.Builder client, common, server;
-		client = new ForgeConfigSpec.Builder();
-		common = new ForgeConfigSpec.Builder();
-		server = new ForgeConfigSpec.Builder();
+		final ModConfigSpec.Builder client, common, server;
+		client = new ModConfigSpec.Builder();
+		common = new ModConfigSpec.Builder();
+		server = new ModConfigSpec.Builder();
 		
 		CLIENT = new Client(client);
 		COMMON = new Common(common);
@@ -66,9 +66,9 @@ public class PehkuiConfig
 	
 	public static class Client
 	{
-		public final ForgeConfigSpec.DoubleValue minimumCameraDepth;
+		public final ModConfigSpec.DoubleValue minimumCameraDepth;
 		
-		Client(ForgeConfigSpec.Builder builder)
+		Client(ModConfigSpec.Builder builder)
 		{
 			builder
 				.comment("Client only settings, mostly things related to rendering")
@@ -82,22 +82,22 @@ public class PehkuiConfig
 	
 	public static class Common
 	{
-		public final ForgeConfigSpec.BooleanValue scaledFallDamage;
-		public final ForgeConfigSpec.BooleanValue scaledMotion;
-		public final ForgeConfigSpec.BooleanValue scaledReach;
-		public final ForgeConfigSpec.BooleanValue scaledAttack;
-		public final ForgeConfigSpec.BooleanValue scaledDefense;
-		public final ForgeConfigSpec.BooleanValue scaledHealth;
-		public final ForgeConfigSpec.BooleanValue scaledItemDrops;
-		public final ForgeConfigSpec.BooleanValue scaledProjectiles;
-		public final ForgeConfigSpec.BooleanValue scaledExplosions;
-		public final ForgeConfigSpec.BooleanValue keepAllScalesOnRespawn;
+		public final ModConfigSpec.BooleanValue scaledFallDamage;
+		public final ModConfigSpec.BooleanValue scaledMotion;
+		public final ModConfigSpec.BooleanValue scaledReach;
+		public final ModConfigSpec.BooleanValue scaledAttack;
+		public final ModConfigSpec.BooleanValue scaledDefense;
+		public final ModConfigSpec.BooleanValue scaledHealth;
+		public final ModConfigSpec.BooleanValue scaledItemDrops;
+		public final ModConfigSpec.BooleanValue scaledProjectiles;
+		public final ModConfigSpec.BooleanValue scaledExplosions;
+		public final ModConfigSpec.BooleanValue keepAllScalesOnRespawn;
 		public final ConfigValue<List<? extends String>> scalesKeptOnRespawn;
-		public final ForgeConfigSpec.BooleanValue accurateNetherPortals;
-		public final ForgeConfigSpec.BooleanValue enableCommands;
-		public final ForgeConfigSpec.BooleanValue enableDebugCommands;
+		public final ModConfigSpec.BooleanValue accurateNetherPortals;
+		public final ModConfigSpec.BooleanValue enableCommands;
+		public final ModConfigSpec.BooleanValue enableDebugCommands;
 		
-		Common(ForgeConfigSpec.Builder builder)
+		Common(ModConfigSpec.Builder builder)
 		{
 			builder
 				.comment("General configuration settings")
@@ -171,7 +171,7 @@ public class PehkuiConfig
 	
 	public static class Server
 	{
-		Server(ForgeConfigSpec.Builder builder)
+		Server(ModConfigSpec.Builder builder)
 		{
 			builder
 				.comment("Server configuration settings")
@@ -183,7 +183,7 @@ public class PehkuiConfig
 			String namespace, path;
 			ScaleType type;
 			double defaultMin, defaultMax;
-			ForgeConfigSpec.DoubleValue min, max;
+			ModConfigSpec.DoubleValue min, max;
 			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 			{
 				id = entry.getKey();

@@ -71,7 +71,7 @@ public abstract class InventoryScreenMixin
 		entity.setBoundingBox(pehkui$BOX.get());
 	}
 	
-	@Redirect(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIIIIFFFLnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHeight()F"))
+	@Redirect(method = "renderEntityInInventoryFollowsAngle(Lnet/minecraft/client/gui/DrawContext;IIIIIFFFLnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHeight()F"))
 	private static float pehkui$drawEntity$getHeight(LivingEntity obj)
 	{
 		final float value = obj.getHeight();

@@ -33,7 +33,7 @@ public final class ReflectionUtils
 	
 	public static double getMountedHeightOffset(final Entity entity)
 	{
-		return entity.getMountedHeightOffset();
+		return entity.getDimensions(entity.getPose()).height * 0.75;
 	}
 	
 	public static void sendPacket(final ServerPlayNetworkHandler handler, final Packet<?> packet)

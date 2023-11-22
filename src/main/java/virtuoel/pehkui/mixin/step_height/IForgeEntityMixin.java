@@ -6,11 +6,11 @@ import org.spongepowered.asm.mixin.Overwrite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
-import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.common.extensions.IForgeEntity;
+import net.neoforged.neoforge.common.NeoForgeMod;
+import net.neoforged.neoforge.common.extensions.IEntityExtension;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(IForgeEntity.class)
+@Mixin(IEntityExtension.class)
 public interface IForgeEntityMixin
 {
 	@Overwrite(remap = false)
@@ -20,7 +20,7 @@ public interface IForgeEntityMixin
 		float step = self.getStepHeight();
 		if (self instanceof LivingEntity)
 		{
-			final EntityAttributeInstance attribute = ((LivingEntity) self).getAttributeInstance(ForgeMod.STEP_HEIGHT_ADDITION.get());
+			final EntityAttributeInstance attribute = ((LivingEntity) self).getAttributeInstance(NeoForgeMod.STEP_HEIGHT.value());
 			if (attribute != null)
 			{
 				step = (float) Math.max(0.0, (double) step + attribute.getValue());

@@ -31,7 +31,7 @@ public class PehkuiEntitySelectorOptions
 	{
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("scale").toString().replace(':', '.'),
-			r -> cast(r).pehkui_setScaleRange(NumberRange.FloatRange.parse(r.getReader())),
+			r -> cast(r).pehkui_setScaleRange(NumberRange.DoubleRange.parse(r.getReader())),
 			r -> ReflectionUtils.isDummy(cast(r).pehkui_getScaleRange()),
 			SCALE_RANGE_DESCRIPTION
 		);
@@ -45,7 +45,7 @@ public class PehkuiEntitySelectorOptions
 		
 		EntitySelectorOptionsInvoker.callPutOption(
 			Pehkui.id("computed_scale").toString().replace(':', '.'),
-			r -> cast(r).pehkui_setComputedScaleRange(NumberRange.FloatRange.parse(r.getReader())),
+			r -> cast(r).pehkui_setComputedScaleRange(NumberRange.DoubleRange.parse(r.getReader())),
 			r -> ReflectionUtils.isDummy(cast(r).pehkui_getComputedScaleRange()),
 			SCALE_RANGE_DESCRIPTION
 		);

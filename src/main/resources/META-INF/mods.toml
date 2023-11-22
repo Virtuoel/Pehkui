@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[28,)"
+loaderVersion="[1,)"
 license="MIT"
 issueTrackerURL="https://github.com/Virtuoel/Pehkui/issues"
 [[mods]]
@@ -12,3 +12,5 @@ authors="Virtuoel"
 description='''
 Allows resizing of most entities.
 '''
+[[mixins]]
+config="pehkui.mixins.json"

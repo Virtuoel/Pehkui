@@ -8,10 +8,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Box;
-import net.minecraftforge.common.extensions.IForgeItem;
+import net.neoforged.neoforge.common.extensions.IItemExtension;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(IForgeItem.class)
+@Mixin(IItemExtension.class)
 public interface IForgeItemMixin
 {
 	@Overwrite(remap = false)

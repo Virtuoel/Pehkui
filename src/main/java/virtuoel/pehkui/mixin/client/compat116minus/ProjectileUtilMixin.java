@@ -24,9 +24,9 @@ public class ProjectileUtilMixin
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final double scaledXLength = bounds.getXLength() * 0.5D * (interactionWidth - 1.0F);
-			final double scaledYLength = bounds.getYLength() * 0.5D * (interactionHeight - 1.0F);
-			final double scaledZLength = bounds.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledXLength = bounds.getLengthX() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledYLength = bounds.getLengthY() * 0.5D * (interactionHeight - 1.0F);
+			final double scaledZLength = bounds.getLengthZ() * 0.5D * (interactionWidth - 1.0F);
 			final double scaledMarginWidth = margin * (interactionWidth - 1.0F);
 			final double scaledMarginHeight = margin * (interactionHeight - 1.0F);
 			

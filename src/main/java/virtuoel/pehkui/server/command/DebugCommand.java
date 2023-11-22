@@ -27,8 +27,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.network.NetworkDirection;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.network.PlayNetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.network.DebugPacket;
 import virtuoel.pehkui.network.PehkuiPacketHandler;
@@ -84,7 +84,7 @@ public class DebugCommand
 						.executes(context ->
 						{
 							context.getSource().getPlayer().networkHandler.sendPacket(
-								PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.GARBAGE_COLLECT), NetworkDirection.PLAY_TO_CLIENT)
+								PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.GARBAGE_COLLECT), PlayNetworkDirection.PLAY_TO_CLIENT)
 							);
 							
 							System.gc();
@@ -185,7 +185,7 @@ public class DebugCommand
 		if (executor instanceof ServerPlayerEntity)
 		{
 			((ServerPlayerEntity) executor).networkHandler.sendPacket(
-				PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), NetworkDirection.PLAY_TO_CLIENT)
+				PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), PlayNetworkDirection.PLAY_TO_CLIENT)
 			);
 		}
 		

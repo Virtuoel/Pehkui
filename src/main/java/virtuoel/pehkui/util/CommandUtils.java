@@ -19,8 +19,8 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
 import virtuoel.pehkui.command.argument.ScaleModifierArgumentType;
@@ -60,7 +60,7 @@ public class CommandUtils
 		<T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier);
 	}
 	
-	public static boolean testFloatRange(NumberRange.FloatRange range, float value)
+	public static boolean testFloatRange(NumberRange.DoubleRange range, float value)
 	{
 		return range.test(value);
 	}

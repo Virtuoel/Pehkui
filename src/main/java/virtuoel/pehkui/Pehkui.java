@@ -5,12 +5,12 @@ import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
 import net.minecraft.util.Identifier;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleTypes;
@@ -36,8 +36,8 @@ public class Pehkui
 		ScaleTypes.INVALID.getClass();
 		ScaleOperations.NOOP.getClass();
 		
-		MinecraftForge.EVENT_BUS.register(this);
-		MinecraftForge.EVENT_BUS.register(PehkuiConfig.class);
+		NeoForge.EVENT_BUS.register(this);
+		NeoForge.EVENT_BUS.register(PehkuiConfig.class);
 		
 		ModLoadingContext ctx = ModLoadingContext.get();
 		ctx.registerConfig(ModConfig.Type.CLIENT, PehkuiConfig.clientSpec);

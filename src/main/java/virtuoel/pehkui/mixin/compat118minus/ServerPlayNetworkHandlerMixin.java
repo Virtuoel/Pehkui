@@ -27,9 +27,9 @@ public class ServerPlayNetworkHandlerMixin
 		
 		if (interactionWidth != 1.0F || interactionHeight != 1.0F)
 		{
-			final double scaledXLength = box.getXLength() * 0.5D * (interactionWidth - 1.0F);
-			final double scaledYLength = box.getYLength() * 0.5D * (interactionHeight - 1.0F);
-			final double scaledZLength = box.getZLength() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledXLength = box.getLengthX() * 0.5D * (interactionWidth - 1.0F);
+			final double scaledYLength = box.getLengthY() * 0.5D * (interactionHeight - 1.0F);
+			final double scaledZLength = box.getLengthZ() * 0.5D * (interactionWidth - 1.0F);
 			final double scaledMarginWidth = margin * (interactionWidth - 1.0F);
 			final double scaledMarginHeight = margin * (interactionHeight - 1.0F);
 			

@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.network.NetworkDirection;
+import net.neoforged.neoforge.network.PlayNetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
@@ -249,7 +249,7 @@ public class ScaleUtils
 		
 		if (!syncedScales.isEmpty())
 		{
-			packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(entity, syncedScales), NetworkDirection.PLAY_TO_CLIENT));
+			packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(entity, syncedScales), PlayNetworkDirection.PLAY_TO_CLIENT));
 			syncedScales.clear();
 		}
 	}

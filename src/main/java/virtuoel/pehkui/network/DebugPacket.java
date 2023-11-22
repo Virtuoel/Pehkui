@@ -1,14 +1,12 @@
 package virtuoel.pehkui.network;
 
-import java.util.function.Supplier;
-
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.NetworkEvent;
 import virtuoel.pehkui.util.I18nUtils;
 
 public class DebugPacket
@@ -43,13 +41,13 @@ public class DebugPacket
 		this.type = read;
 	}
 	
-	public static void handle(DebugPacket msg, Supplier<NetworkEvent.Context> ctx)
+	public static void handle(DebugPacket msg, NetworkEvent.Context ctx)
 	{
 		final Type type = msg.type;
 		
-		ctx.get().enqueueWork(() ->
+		ctx.enqueueWork(() ->
 		{
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+			if (FMLEnvironment.dist == Dist.CLIENT)
 			{
 				final MinecraftClient client = MinecraftClient.getInstance();
 				
@@ -66,10 +64,10 @@ public class DebugPacket
 					default:
 						break;
 				}
-			});
+			}
 		});
 		
-		ctx.get().setPacketHandled(true);
+		ctx.setPacketHandled(true);
 	}
 	
 	public void encode(PacketByteBuf buf)

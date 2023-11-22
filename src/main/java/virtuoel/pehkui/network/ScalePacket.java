@@ -1,16 +1,15 @@
 package virtuoel.pehkui.network;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.network.NetworkEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.network.NetworkEvent;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -54,11 +53,11 @@ public class ScalePacket
 		}
 	}
 	
-	public static void handle(ScalePacket msg, Supplier<NetworkEvent.Context> ctx)
+	public static void handle(ScalePacket msg, NetworkEvent.Context ctx)
 	{
-		ctx.get().enqueueWork(() ->
+		ctx.enqueueWork(() ->
 		{
-			DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () ->
+			if (FMLEnvironment.dist == Dist.CLIENT)
 			{
 				final MinecraftClient client = MinecraftClient.getInstance();
 				final Entity entity = client.world.getEntityById(msg.id);
@@ -73,10 +72,10 @@ public class ScalePacket
 						}
 					}
 				}
-			});
+			}
 		});
 		
-		ctx.get().setPacketHandled(true);
+		ctx.setPacketHandled(true);
 	}
 	
 	public void encode(PacketByteBuf buf)
