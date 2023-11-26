@@ -6,11 +6,13 @@ import org.spongepowered.asm.mixin.Overwrite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.extensions.IForgeEntity;
+import virtuoel.pehkui.mixin.PehkuiMixinConfigPlugin;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(IForgeEntity.class)
+@Mixin(value = IForgeEntity.class, priority = 1010)
 public interface IForgeEntityMixin
 {
 	@Overwrite(remap = false)
@@ -23,7 +25,14 @@ public interface IForgeEntityMixin
 			final EntityAttributeInstance attribute = ((LivingEntity) self).getAttributeInstance(ForgeMod.STEP_HEIGHT_ADDITION.get());
 			if (attribute != null)
 			{
-				step = (float) Math.max(0.0, (double) step + attribute.getValue());
+				if (PehkuiMixinConfigPlugin.APOTHIC_ATTRIBUTES_LOADED && self instanceof PlayerEntity)
+				{
+					step = (float) attribute.getValue();
+				}
+				else
+				{
+					step = (float) Math.max(0.0, (double) step + attribute.getValue());
+				}
 			}
 		}
 		

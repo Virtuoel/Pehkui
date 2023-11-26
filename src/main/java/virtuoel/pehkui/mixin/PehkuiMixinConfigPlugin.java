@@ -40,6 +40,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean MAGNA_LOADED = ModLoaderUtils.isModLoaded("magna");
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
 	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true;
+	public static final boolean APOTHIC_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("attributeslib"); 
 	
 	private static final ArtifactVersion FORGE_VERSION = new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString());
 	
