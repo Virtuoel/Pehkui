@@ -3,7 +3,6 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Desc;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
@@ -96,7 +95,7 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? value / scale : value;
 	}
 	
-	@Inject(at = @At("RETURN"), target = @Desc(value = "getDigSpeed", args = { BlockState.class, BlockPos.class }, ret = float.class), cancellable = true)
+	@Inject(at = @At("RETURN"), method = "getDigSpeed", cancellable = true)
 	private void pehkui$getBlockBreakingSpeed(BlockState block, BlockPos pos, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
