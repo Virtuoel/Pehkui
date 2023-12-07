@@ -34,8 +34,16 @@ Library mod for the Quilt, NeoForge, Forge, and Fabric mod loaders that allows m
 <summary>Show/Hide Supported Minecraft Versions</summary><table width=100%><td>
 
 ### Fabric/Quilt Versions
-Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.2`:  
-`1.20.2`, `1.20.1`, `1.19.4`, `1.19.2`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
+Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.4`:  
+`1.20.4`, `1.20.2`, `1.20.1`, `1.19.4`, `1.19.2`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
+
+### NeoForge Versions
+
+Supported Versions of `Pehkui-x.y.z+1.20.4-neoforge`:  
+`1.20.4`
+
+Supported Versions of `Pehkui-x.y.z+1.20.2-neoforge`:  
+`1.20.2`
 
 ### Forge Versions
 
