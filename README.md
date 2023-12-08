@@ -129,13 +129,19 @@ modApi("com.github.Virtuoel:Pehkui:${pehkui_version}", {
 })
 ```
 
+#### Developing on NeoForge with NeoGradle
+
+```groovy
+implementation "com.github.Virtuoel:Pehkui:${pehkui_version}"
+```
+
 #### Developing on Forge with ForgeGradle
 
 ```groovy
 implementation fg.deobf("com.github.Virtuoel:Pehkui:${pehkui_version}")
 ```
 
-#### Developing on Forge with Architectury Loom
+#### Developing on NeoForge/Forge with Architectury Loom
 
 ```groovy
 modApi("com.github.Virtuoel:Pehkui:${pehkui_version}")
