@@ -16,7 +16,7 @@ public interface IForgePlayerMixin
 	{
 		final PlayerEntity self = ((PlayerEntity) this);
 		final double range = self.getAttributeValue(ForgeMod.ENTITY_REACH.get());
-		final double ret = range == 0.0 ? 0.0 : range + (double) (self.isCreative() ? 3 : 0);
+		final double ret = range == 0.0 ? 0.0 : range + (double) (self.isCreative() ? 2 : 0);
 		
 		final float scale = ScaleUtils.getEntityReachScale(self);
 		
