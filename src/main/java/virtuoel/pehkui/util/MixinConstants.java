@@ -78,6 +78,7 @@ public class MixinConstants
 	private static final String METHOD_5865 = "method_5865";
 	private static final String METHOD_8437 = "method_8437";
 	private static final String METHOD_2486 = "method_2486";
+	private static final String METHOD_8454 = "method_8454";
 	private static final String METHOD_48472 = "method_48472";
 	private static final String METHOD_5621 = "method_5621";
 	private static final String METHOD_5678 = "method_5678";
@@ -125,6 +126,8 @@ public class MixinConstants
 	private static final String CLASS_289 = "net/minecraft/class_289";
 	private static final String CLASS_898 = "net/minecraft/class_898";
 	private static final String CLASS_5575 = "net/minecraft/class_5575";
+	private static final String CLASS_1282 = "net/minecraft/class_1282";
+	private static final String CLASS_5362 = "net/minecraft/class_5362";
 	private static final String CLASS_332 = "net/minecraft/class_332";
 	private static final String CLASS_1675 = "net/minecraft/class_1675";
 	private static final String CLASS_3966 = "net/minecraft/class_3966";
@@ -132,6 +135,7 @@ public class MixinConstants
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
 	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
+	private static final String CLASS_1937$CLASS_7867 = "net/minecraft/class_1937$class_7867";
 	
 	// 1.14
 	public static final String DEATH = METHOD_6078;
@@ -270,6 +274,9 @@ public class MixinConstants
 	
 	// 1.19.3 Minus
 	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V"; // COMMIT_READY
+	
+	// 1.19.3 Plus 1.20.2 Minus
+	public static final String CREATE_EXPLOSION_TYPED = "L" + CLASS_1937 + ";" + METHOD_8454 + "(L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1937$CLASS_7867 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
 	
 	// 1.19.4
 	public static final String DRAW_ENTITY_ROTATED = METHOD_48472 + "(L" + CLASS_4587 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
