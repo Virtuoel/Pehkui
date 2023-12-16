@@ -225,6 +225,9 @@ public class MixinConstants
 	// 1.19.3 Minus
 	public static final String DRAW_ENTITY_MOUSE_LOOK = "drawEntity(IIIFFLnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
 	
+	// 1.19.3 Plus 1.20.2 Minus
+	public static final String CREATE_EXPLOSION_TYPED = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;Lnet/minecraft/world/explosion/ExplosionBehavior;DDDFZLnet/minecraft/world/World$ExplosionSourceType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
+	
 	// 1.19.4
 	public static final String DRAW_ENTITY_ROTATED = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
 	
