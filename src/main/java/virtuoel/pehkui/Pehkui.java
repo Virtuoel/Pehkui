@@ -37,9 +37,10 @@ public class Pehkui
 		ScaleOperations.NOOP.getClass();
 		
 		NeoForge.EVENT_BUS.register(this);
-		NeoForge.EVENT_BUS.register(PehkuiConfig.class);
 		
-		ModLoadingContext ctx = ModLoadingContext.get();
+		final ModLoadingContext ctx = ModLoadingContext.get();
+		ctx.getActiveContainer().getEventBus().register(PehkuiConfig.class);
+		
 		ctx.registerConfig(ModConfig.Type.CLIENT, PehkuiConfig.clientSpec);
 		ctx.registerConfig(ModConfig.Type.SERVER, PehkuiConfig.serverSpec);
 		ctx.registerConfig(ModConfig.Type.COMMON, PehkuiConfig.commonSpec);
