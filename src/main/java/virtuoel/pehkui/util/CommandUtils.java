@@ -19,7 +19,7 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.command.argument.ScaleEasingArgumentType;
@@ -33,11 +33,11 @@ public class CommandUtils
 {
 	private static final DeferredRegister<ArgumentSerializer<?, ?>> COMMAND_ARGUMENT_TYPES = DeferredRegister.create(RegistryKeys.COMMAND_ARGUMENT_TYPE, Pehkui.MOD_ID);
 	
-	public static void registerArgumentTypes()
+	public static void registerArgumentTypes(final ModLoadingContext ctx)
 	{
 		registerArgumentTypes(CommandUtils::registerConstantArgumentType);
 		
-		COMMAND_ARGUMENT_TYPES.register(FMLJavaModLoadingContext.get().getModEventBus());
+		COMMAND_ARGUMENT_TYPES.register(ctx.getActiveContainer().getEventBus());
 	}
 	
 	public static void registerCommands(final CommandDispatcher<ServerCommandSource> dispatcher)
