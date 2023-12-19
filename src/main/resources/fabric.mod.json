@@ -23,7 +23,7 @@
 		"sources": "https://github.com/Virtuoel/Pehkui"
 	},
 	"license": "MIT",
-	"icon": "pehkui_icon.png",
+	"icon": "assets/pehkui/icon.png",
 	"environment": "*",
 	"depends":
 	{

@@ -7,7 +7,7 @@ modId="pehkui"
 version="${file.jarVersion}"
 displayName="Pehkui"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/pehkui/"
-logoFile="pehkui_icon.png"
+logoFile="assets/pehkui/icon.png"
 authors="Virtuoel"
 description='''
 Allows resizing of most entities.
