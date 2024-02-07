@@ -289,6 +289,12 @@ public class MixinConstants
 	public static final String GET_HEIGHT_OFFSET = METHOD_5678 + "()D"; // COMMIT_READY
 	public static final String ON_PLAYER_CONNECT = METHOD_14570; // COMMIT_READY
 	
+	// 1.20.2 Minus
+	public static final String PERSISTENT_PROJECTILE_ENTITY_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";L" + CLASS_1937 + ";)V"; // COMMIT_READY
+	
+	// 1.16 Plus 1.20.2 Minus
+	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V"; // COMMIT_READY
+	
 	// 1.20 Plus 1.20.2 Minus
 	public static final String GET_HIT_RESULT = METHOD_49999; // COMMIT_READY
 	public static final String GET_ENTITY_COLLISION = "L" + CLASS_1675 + ";" + METHOD_18077 + "(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_243 + ";L" + CLASS_243 + ";L" + CLASS_238 + ";Ljava/util/function/Predicate;)L" + CLASS_3966 + ";"; // COMMIT_READY

@@ -28,7 +28,7 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.5F))
+	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.5F), remap = false)
 	private float pehkui$camelMountedHeightOffset$sittingFrontOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -36,7 +36,7 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.1F))
+	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.1F), remap = false)
 	private float pehkui$camelMountedHeightOffset$sittingBackOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -44,7 +44,7 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.6F))
+	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.6F), remap = false)
 	private float pehkui$camelMountedHeightOffset$standingFrontOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -52,7 +52,7 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.35F))
+	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.35F), remap = false)
 	private float pehkui$camelMountedHeightOffset$standingBackOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -60,7 +60,7 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 1.43F))
+	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 1.43F), remap = false)
 	private float pehkui$camelMountedHeightOffset$firstMultiplier(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -68,7 +68,7 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.2F))
+	@ModifyConstant(method = "method_45346", constant = @Constant(floatValue = 0.2F), remap = false)
 	private float pehkui$camelMountedHeightOffset$secondMultiplier(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);

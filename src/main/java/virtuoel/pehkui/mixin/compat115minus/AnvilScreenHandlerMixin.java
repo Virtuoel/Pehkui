@@ -14,19 +14,19 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(AnvilScreenHandler.class)
 public class AnvilScreenHandlerMixin
 {
-	@ModifyConstant(method = MixinConstants.ANVIL_CAN_USE_LAMBDA, constant = @Constant(doubleValue = 0.5D, ordinal = 0))
+	@ModifyConstant(method = MixinConstants.ANVIL_CAN_USE_LAMBDA, constant = @Constant(doubleValue = 0.5D, ordinal = 0), remap = false)
 	private static double pehkui$canUse$xOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockXOffset(pos, player);
 	}
 	
-	@ModifyConstant(method = MixinConstants.ANVIL_CAN_USE_LAMBDA, constant = @Constant(doubleValue = 0.5D, ordinal = 1))
+	@ModifyConstant(method = MixinConstants.ANVIL_CAN_USE_LAMBDA, constant = @Constant(doubleValue = 0.5D, ordinal = 1), remap = false)
 	private static double pehkui$canUse$yOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockYOffset(pos, player);
 	}
 	
-	@ModifyConstant(method = MixinConstants.ANVIL_CAN_USE_LAMBDA, constant = @Constant(doubleValue = 0.5D, ordinal = 2))
+	@ModifyConstant(method = MixinConstants.ANVIL_CAN_USE_LAMBDA, constant = @Constant(doubleValue = 0.5D, ordinal = 2), remap = false)
 	private static double pehkui$canUse$zOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockZOffset(pos, player);
