@@ -8,15 +8,12 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
-
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
@@ -25,8 +22,8 @@ import virtuoel.pehkui.Pehkui;
 
 public final class ReflectionUtils
 {
-	public static final Class<?> LITERAL_TEXT, ENTITY_DAMAGE_SOURCE;
-	public static final MethodHandle GET_ATTACKER, GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY;
+	public static final Class<?> LITERAL_TEXT;
+	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY;
 	
 	static
 	{
@@ -35,7 +32,7 @@ public final class ReflectionUtils
 		
 		final Lookup lookup = MethodHandles.lookup();
 		String mapped = "unset";
-		Class<?>[] c = new Class<?>[2];
+		Class<?>[] c = new Class<?>[1];
 		Method m;
 		Field f;
 		
@@ -54,33 +51,26 @@ public final class ReflectionUtils
 			
 			if (is1193Minus)
 			{
-				mapped = mappingResolver.mapClassName("intermediary", "net.minecraft.class_1285");
-				c[1] = Class.forName(mapped);
-				
-				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_1285", "method_5529", "()Lnet/minecraft/class_1297;");
-				m = c[1].getMethod(mapped);
-				h.put(0, lookup.unreflect(m));
-				
 				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_1309", "field_6281", "F");
 				f = LivingEntity.class.getField(mapped);
 				f.setAccessible(true);
-				h.put(1, lookup.unreflectGetter(f));
-				h.put(2, lookup.unreflectSetter(f));
+				h.put(0, lookup.unreflectGetter(f));
+				h.put(1, lookup.unreflectSetter(f));
 			}
 			
 			if (is1201Minus)
 			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_1297", "method_5621", "()D");
 				m = Entity.class.getMethod(mapped);
-				h.put(3, lookup.unreflect(m));
+				h.put(2, lookup.unreflect(m));
 				
 				mapped = mappingResolver.mapMethodName("intermediary", is117Plus ? "net.minecraft.class_5629" : "net.minecraft.class_3244", "method_14364", "(Lnet/minecraft/class_2596;)V");
 				m = (is117Plus ? PlayerAssociatedNetworkHandler.class : ServerPlayNetworkHandler.class).getMethod(mapped, Packet.class);
-				h.put(4, lookup.unreflect(m));
+				h.put(3, lookup.unreflect(m));
 				
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2096", "method_9041", "()Z");
 				m = NumberRange.class.getMethod(mapped);
-				h.put(5, lookup.unreflect(m));
+				h.put(4, lookup.unreflect(m));
 			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
@@ -90,35 +80,11 @@ public final class ReflectionUtils
 		}
 		
 		LITERAL_TEXT = c[0];
-		ENTITY_DAMAGE_SOURCE = c[1];
-		GET_ATTACKER = h.get(0);
-		GET_FLYING_SPEED = h.get(1);
-		SET_FLYING_SPEED = h.get(2);
-		GET_MOUNTED_HEIGHT_OFFSET = h.get(3);
-		SEND_PACKET = h.get(4);
-		IS_DUMMY = h.get(5);
-	}
-	
-	public static @Nullable Entity getAttacker(final DamageSource source)
-	{
-		if (ENTITY_DAMAGE_SOURCE != null)
-		{
-			if (ENTITY_DAMAGE_SOURCE.isInstance(source))
-			{
-				try
-				{
-					return (Entity) GET_ATTACKER.invoke(ENTITY_DAMAGE_SOURCE.cast(source));
-				}
-				catch (final Throwable e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
-			
-			return null;
-		}
-		
-		return source.getAttacker();
+		GET_FLYING_SPEED = h.get(0);
+		SET_FLYING_SPEED = h.get(1);
+		GET_MOUNTED_HEIGHT_OFFSET = h.get(2);
+		SEND_PACKET = h.get(3);
+		IS_DUMMY = h.get(4);
 	}
 	
 	public static float getFlyingSpeed(final LivingEntity entity)
