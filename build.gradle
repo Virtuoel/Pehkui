@@ -66,9 +66,10 @@ loom {
 		accessWidenerPath = access_widener_file
 	}
 	if(!project.hasProperty("neoforge_version") || project.hasProperty("forge_version")) {
-		mixin {
-			defaultRefmapName = "${archives_base_name}-refmap.json"
-		}
+		mixin.defaultRefmapName = "${archives_base_name}-refmap.json"
+	}
+	if(!project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
+		mixin.useLegacyMixinAp = true
 	}
 }
 
