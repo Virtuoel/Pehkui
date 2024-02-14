@@ -84,7 +84,6 @@ public class MixinConstants
 	private static final String METHOD_5678 = "method_5678";
 	private static final String METHOD_14570 = "method_14570";
 	private static final String METHOD_49999 = "method_49999";
-	private static final String METHOD_18077 = "method_18077";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -129,8 +128,6 @@ public class MixinConstants
 	private static final String CLASS_1282 = "net/minecraft/class_1282";
 	private static final String CLASS_5362 = "net/minecraft/class_5362";
 	private static final String CLASS_332 = "net/minecraft/class_332";
-	private static final String CLASS_1675 = "net/minecraft/class_1675";
-	private static final String CLASS_3966 = "net/minecraft/class_3966";
 	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
@@ -246,11 +243,11 @@ public class MixinConstants
 	// 1.16 Plus 1.18 Minus
 	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT_READY
 	
-	// 1.16 Plus 1.19 Minus
-	public static final String GET_COLLISION = METHOD_18074; // COMMIT_READY
-	
 	// 1.16 Plus 1.19.3 Minus
 	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V"; // COMMIT_READY
+	
+	// 1.16 Plus 1.20.2 Minus
+	public static final String GET_COLLISION = METHOD_18074; // COMMIT_READY
 	
 	// 1.17 Plus 1.19.3 Minus Client
 	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V"; // COMMIT_READY
@@ -296,6 +293,5 @@ public class MixinConstants
 	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V"; // COMMIT_READY
 	
 	// 1.20 Plus 1.20.2 Minus
-	public static final String GET_HIT_RESULT = METHOD_49999; // COMMIT_READY
-	public static final String GET_ENTITY_COLLISION = "L" + CLASS_1675 + ";" + METHOD_18077 + "(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_243 + ";L" + CLASS_243 + ";L" + CLASS_238 + ";Ljava/util/function/Predicate;)L" + CLASS_3966 + ";"; // COMMIT_READY
+	public static final String GET_HIT_RESULT = METHOD_49999 + "(L" + CLASS_1309 + ";)L" + CLASS_239 + ";"; // COMMIT_READY
 }
