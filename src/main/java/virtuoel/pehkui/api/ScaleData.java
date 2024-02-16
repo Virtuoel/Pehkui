@@ -717,21 +717,75 @@ public class ScaleData
 	
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
+		boolean changed = false;
+		
 		if (scaleData != this)
 		{
+			float lastScale;
+			int lastTicks;
+			Boolean lastPersistence;
+			Float2FloatFunction lastEasing;
+			
+			lastScale = this.baseScale;
 			this.baseScale = scaleData.getBaseScale();
+			if (this.baseScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastScale = this.prevBaseScale;
 			this.prevBaseScale = scaleData.getPrevBaseScale();
+			if (this.prevBaseScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastScale = this.initialScale;
 			this.initialScale = scaleData.getInitialScale();
+			if (this.initialScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastScale = this.targetScale;
 			this.targetScale = scaleData.getTargetScale();
+			if (this.targetScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastTicks = this.scaleTicks;
 			this.scaleTicks = scaleData.scaleTicks;
+			if (this.scaleTicks != lastTicks)
+			{
+				changed = true;
+			}
+			
+			lastTicks = this.totalScaleTicks;
 			this.totalScaleTicks = scaleData.totalScaleTicks;
+			if (this.totalScaleTicks != lastTicks)
+			{
+				changed = true;
+			}
+			
+			lastPersistence = this.persistent;
 			this.persistent = scaleData.getPersistence();
+			if (this.persistent != lastPersistence)
+			{
+				changed = true;
+			}
+			
+			lastEasing = this.easing;
 			this.easing = scaleData.getEasing();
+			if (this.easing != lastEasing)
+			{
+				changed = true;
+			}
 			
 			invalidateCachedScales();
 		}
 		
-		if (notifyListener)
+		if (notifyListener && changed)
 		{
 			onUpdate();
 		}
