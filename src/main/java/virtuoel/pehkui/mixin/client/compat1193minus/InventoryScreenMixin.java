@@ -2,6 +2,7 @@ package virtuoel.pehkui.mixin.client.compat1193minus;
 
 import java.util.Map;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,7 +27,8 @@ public abstract class InventoryScreenMixin
 	@Unique private static final ScaleData pehkui$IDENTITY = ScaleData.Builder.create().build();
 	@Unique private static final ThreadLocal<Box> pehkui$BOX = new ThreadLocal<>();
 	
-	@Inject(method = MixinConstants.DRAW_ENTITY_MOUSE_LOOK, at = @At(value = "HEAD"), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.DRAW_ENTITY_MOUSE_LOOK, at = @At(value = "HEAD"))
 	private static void pehkui$drawEntity$head(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
@@ -55,7 +57,8 @@ public abstract class InventoryScreenMixin
 		entity.setBoundingBox(box);
 	}
 	
-	@Inject(method = MixinConstants.DRAW_ENTITY_MOUSE_LOOK, at = @At(value = "RETURN"), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.DRAW_ENTITY_MOUSE_LOOK, at = @At(value = "RETURN"))
 	private static void pehkui$drawEntity$return(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();

@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -19,10 +20,12 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(AnimalMateGoal.class)
 public class AnimalMateGoalMixin
 {
-	@Shadow(remap = false)
+	@Dynamic
+	@Shadow
 	protected @Final @Mutable AnimalEntity field_6404; // UNMAPPED_FIELD
 	
-	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
 	private void pehkui$breed(CallbackInfo info, PassiveEntity passiveEntity)
 	{
 		ScaleUtils.loadScale(passiveEntity, field_6404);

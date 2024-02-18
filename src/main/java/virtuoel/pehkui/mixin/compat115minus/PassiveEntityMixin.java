@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -19,7 +20,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PassiveEntity.class)
 public class PassiveEntityMixin
 {
-	@Inject(method = MixinConstants.INTERACT_MOB, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.PASSIVE_ENTITY_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.INTERACT_MOB, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.PASSIVE_ENTITY_REFRESH_POS_AND_ANGLES))
 	private void pehkui$interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<Boolean> info, ItemStack itemStack, Item item, PassiveEntity passiveEntity)
 	{
 		ScaleUtils.loadScale(passiveEntity, (Entity) (Object) this);

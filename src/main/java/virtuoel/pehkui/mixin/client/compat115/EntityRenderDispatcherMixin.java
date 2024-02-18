@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat115;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -19,7 +20,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin
 {
-	@ModifyConstant(method = MixinConstants.RENDER_SHADOW_PART, constant = @Constant(doubleValue = 0.015625D), remap = false)
+	@Dynamic
+	@ModifyConstant(method = MixinConstants.RENDER_SHADOW_PART, constant = @Constant(doubleValue = 0.015625D))
 	private static double pehkui$renderShadowPart$shadowHeight(double value)
 	{
 		return value - 0.0155D;

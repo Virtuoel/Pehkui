@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat120plus.compat1201minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,7 +14,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(SnifferEntity.class)
 public class SnifferEntityMixin
 {
-	@Inject(at = @At("RETURN"), method = MixinConstants.GET_MOUNTED_HEIGHT_OFFSET, cancellable = true, remap = false)
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.GET_MOUNTED_HEIGHT_OFFSET, cancellable = true)
 	private void pehkui$getMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);

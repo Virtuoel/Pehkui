@@ -69,7 +69,7 @@ loom {
 		mixin.defaultRefmapName = "${archives_base_name}-refmap.json"
 	}
 	if(!project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
-		mixin.useLegacyMixinAp = true
+		mixin.useLegacyMixinAp = false
 	}
 }
 

@@ -1,6 +1,7 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,20 +16,24 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin
 {
-	@Shadow(remap = false)
+	@Dynamic
+	@Shadow
 	float field_4673; // UNMAPPED_FIELD
 	
-	@Shadow(remap = false)
+	@Dynamic
+	@Shadow
 	abstract void method_3934(Entity entity, double x, double y, double z, float opacity, float tickDelta); // UNMAPPED_METHOD
 	
-	@Redirect(method = MixinConstants.RENDER_LABEL, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT, remap = false), remap = false)
+	@Dynamic
+	@Redirect(method = MixinConstants.RENDER_LABEL, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT))
 	private float pehkui$renderLabel$getHeight(Entity entity)
 	{
 		final float delta = MinecraftClient.getInstance().getTickDelta();
 		return entity.getHeight() / ScaleUtils.getBoundingBoxHeightScale(entity, delta);
 	}
 	
-	@Redirect(method = MixinConstants.POST_RENDER, at = @At(value = "INVOKE", target = MixinConstants.RENDER_SHADOW, remap = false), remap = false)
+	@Dynamic
+	@Redirect(method = MixinConstants.POST_RENDER, at = @At(value = "INVOKE", target = MixinConstants.RENDER_SHADOW))
 	private void pehkui$postRender$renderShadow(EntityRenderer<Entity> obj, Entity entity, double x, double y, double z, float opacity, float tickDelta)
 	{
 		final float scale = ScaleUtils.getModelWidthScale(entity, tickDelta);

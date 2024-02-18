@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat116.compat1162plus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,7 +20,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ClientPlayNetworkHandler.class)
 public class ClientPlayNetworkHandlerMixin
 {
-	@Inject(method = MixinConstants.ON_PLAYER_RESPAWN, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = MixinConstants.AFTER_SPAWN, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.ON_PLAYER_RESPAWN, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = MixinConstants.AFTER_SPAWN))
 	private void pehkui$onPlayerRespawn(PlayerRespawnS2CPacket packet, CallbackInfo info, RegistryKey<World> dimension, DimensionType dimensionType, ClientPlayerEntity oldPlayer, int id, String brand, ClientPlayerEntity newPlayer)
 	{
 		ScaleUtils.loadScaleOnRespawn(newPlayer, oldPlayer, ScaleRenderUtils.wasPlayerAlive(packet));

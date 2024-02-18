@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat116plus.compat1201minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,7 +13,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ZoglinEntity.class)
 public class ZoglinEntityMixin
 {
-	@Inject(at = @At("RETURN"), method = MixinConstants.GET_MOUNTED_HEIGHT_OFFSET, cancellable = true, remap = false)
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.GET_MOUNTED_HEIGHT_OFFSET, cancellable = true)
 	private void pehkui$getMountedHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final ZoglinEntity self = (ZoglinEntity) (Object) this;

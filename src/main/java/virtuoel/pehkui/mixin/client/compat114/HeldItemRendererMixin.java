@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -13,10 +14,12 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(HeldItemRenderer.class)
 public abstract class HeldItemRendererMixin
 {
-	@Shadow(remap = false)
+	@Dynamic
+	@Shadow
 	MinecraftClient field_4050; // UNMAPPED_FIELD
 	
-	@ModifyConstant(method = MixinConstants.RENDER_OVERLAYS, constant = @Constant(floatValue = 0.1F), remap = false)
+	@Dynamic
+	@ModifyConstant(method = MixinConstants.RENDER_OVERLAYS, constant = @Constant(floatValue = 0.1F))
 	private float pehkui$renderOverlays$offset(float value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(field_4050.player);

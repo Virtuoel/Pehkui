@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat1201minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,7 +31,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 })
 public abstract class EntityVehicleHeightOffsetMixin
 {
-	@Inject(at = @At("RETURN"), method = MixinConstants.GET_HEIGHT_OFFSET, cancellable = true, remap = false)
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.GET_HEIGHT_OFFSET, cancellable = true)
 	private void pehkui$getHeightOffset(CallbackInfoReturnable<Double> info)
 	{
 		final Entity self = (Entity) (Object) this;

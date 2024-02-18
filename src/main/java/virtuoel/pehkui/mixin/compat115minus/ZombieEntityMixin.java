@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -19,13 +20,15 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ZombieEntity.class)
 public class ZombieEntityMixin
 {
-	@Inject(method = MixinConstants.CONVERT_TO, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIE_COPY_POS_AND_ROT, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.CONVERT_TO, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIE_COPY_POS_AND_ROT))
 	private void pehkui$convertTo(EntityType<? extends ZombieEntity> entityType, CallbackInfo info, ZombieEntity zombieEntity)
 	{
 		ScaleUtils.loadScale(zombieEntity, (Entity) (Object) this);
 	}
 	
-	@Inject(method = MixinConstants.ON_KILLED_OTHER, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIE_VILLAGER_COPY_POS_AND_ROT, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.ON_KILLED_OTHER, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIE_VILLAGER_COPY_POS_AND_ROT))
 	private void pehkui$onKilledOther(LivingEntity other, CallbackInfo info, VillagerEntity villagerEntity, ZombieVillagerEntity zombieVillagerEntity)
 	{
 		ScaleUtils.loadScale(zombieVillagerEntity, villagerEntity);

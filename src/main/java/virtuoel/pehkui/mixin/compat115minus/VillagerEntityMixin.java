@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -17,7 +18,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(VillagerEntity.class)
 public class VillagerEntityMixin
 {
-	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.WITCH_REFRESH_POS_AND_ANGLES, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.WITCH_REFRESH_POS_AND_ANGLES))
 	private void pehkui$onStruckByLightning(LightningEntity lightning, CallbackInfo info, WitchEntity witchEntity)
 	{
 		ScaleUtils.loadScale(witchEntity, (Entity) (Object) this);

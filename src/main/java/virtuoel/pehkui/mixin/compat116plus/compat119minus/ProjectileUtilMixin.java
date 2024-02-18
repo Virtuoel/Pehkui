@@ -2,6 +2,7 @@ package virtuoel.pehkui.mixin.compat116plus.compat119minus;
 
 import java.util.function.Predicate;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
@@ -20,7 +21,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ProjectileUtil.class)
 public class ProjectileUtilMixin
 {
-	@WrapOperation(method = MixinConstants.GET_COLLISION, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/EntityHitResult;", remap = true), remap = false)
+	@Dynamic
+	@WrapOperation(method = MixinConstants.GET_COLLISION, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/EntityHitResult;"))
 	private static EntityHitResult pehkui$getCollision$expand(World world, Entity entity, Vec3d min, Vec3d max, Box box, Predicate<Entity> predicate, Operation<EntityHitResult> original)
 	{
 		final float width = ScaleUtils.getBoundingBoxWidthScale(entity);

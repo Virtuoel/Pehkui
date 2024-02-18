@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
@@ -12,7 +13,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(FlyingEntity.class)
 public class FlyingEntityMixin
 {
-	@ModifyConstant(method = MixinConstants.TRAVEL, constant = @Constant(floatValue = 4.0F), remap = false)
+	@Dynamic
+	@ModifyConstant(method = MixinConstants.TRAVEL, constant = @Constant(floatValue = 4.0F))
 	private float pehkui$travel$limbDistance(float value)
 	{
 		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);

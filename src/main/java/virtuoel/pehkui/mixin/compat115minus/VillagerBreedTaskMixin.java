@@ -2,6 +2,7 @@ package virtuoel.pehkui.mixin.compat115minus;
 
 import java.util.Optional;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -17,7 +18,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(VillagerBreedTask.class)
 public class VillagerBreedTaskMixin
 {
-	@Inject(method = MixinConstants.CREATE_CHILD, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.CREATE_CHILD, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
 	private void pehkui$createChild(VillagerEntity villagerEntity, VillagerEntity villagerEntity2, CallbackInfoReturnable<Optional<VillagerEntity>> info, VillagerEntity child)
 	{
 		ScaleUtils.loadAverageScales(child, villagerEntity, villagerEntity2);

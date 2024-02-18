@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -13,13 +14,13 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public abstract class EntityMixin
 {
-	@Shadow(remap = false)
+	@Dynamic @Shadow
 	private double field_5987; // UNMAPPED_FIELD
-	@Shadow(remap = false)
+	@Dynamic @Shadow
 	private double field_6010; // UNMAPPED_FIELD
-	@Shadow(remap = false)
+	@Dynamic @Shadow
 	private double field_6035; // UNMAPPED_FIELD
-	@Shadow(remap = false)
+	@Dynamic @Shadow
 	abstract Vec3d method_5812(); // UNMAPPED_METHOD
 	
 	@Unique

@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -17,7 +18,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EggEntity.class)
 public class EggEntityMixin
 {
-	@Inject(method = MixinConstants.ON_COLLISION, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.ON_COLLISION, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
 	private void pehkui$onCollision(HitResult hitResult, CallbackInfo info, int i, int j, ChickenEntity chickenEntity)
 	{
 		ScaleUtils.loadScale(chickenEntity, (Entity) (Object) this);

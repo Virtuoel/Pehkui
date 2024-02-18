@@ -81,6 +81,7 @@ public class MixinConstants
 	private static final String METHOD_8454 = "method_8454";
 	private static final String METHOD_48472 = "method_48472";
 	private static final String METHOD_5621 = "method_5621";
+	private static final String METHOD_45346 = "method_45346";
 	private static final String METHOD_5678 = "method_5678";
 	private static final String METHOD_14570 = "method_14570";
 	private static final String METHOD_49999 = "method_49999";
@@ -175,6 +176,7 @@ public class MixinConstants
 	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
+	public static final String EXPLOSION_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	public static final String REMOVE_IF_INVALID = METHOD_6959;
 	public static final String TRAVEL = METHOD_6091;
 	public static final String FOX_ENTITY_MATE_GOAL = CLASS_4019$CLASS_4024;
@@ -285,8 +287,15 @@ public class MixinConstants
 	
 	// 1.20.1 Minus
 	public static final String GET_MOUNTED_HEIGHT_OFFSET = METHOD_5621 + "()D"; // COMMIT_READY
+	public static final String GET_PASSENGER_ATTACHMENT_Y = METHOD_45346 + "(ZF)D"; // COMMIT_READY
 	public static final String GET_HEIGHT_OFFSET = METHOD_5678 + "()D"; // COMMIT_READY
 	public static final String ON_PLAYER_CONNECT = METHOD_14570; // COMMIT_READY
+	
+	// 1.20.2 Minus
+	public static final String PERSISTENT_PROJECTILE_ENTITY_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";L" + CLASS_1937 + ";)V"; // COMMIT_READY
+	
+	// 1.16 Plus 1.20.2 Minus
+	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V"; // COMMIT_READY
 	
 	// 1.20 Plus 1.20.2 Minus
 	public static final String GET_HIT_RESULT = METHOD_49999 + "(L" + CLASS_1309 + ";)L" + CLASS_239 + ";"; // COMMIT_READY

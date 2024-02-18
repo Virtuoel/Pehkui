@@ -1,6 +1,8 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -12,7 +14,8 @@ import net.minecraft.entity.passive.FoxEntity;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(targets = MixinConstants.FOX_ENTITY_MATE_GOAL, remap = false)
+@Pseudo
+@Mixin(targets = MixinConstants.FOX_ENTITY_MATE_GOAL)
 public abstract class FoxEntityMateGoalMixin extends AnimalMateGoal
 {
 	private FoxEntityMateGoalMixin()
@@ -20,7 +23,8 @@ public abstract class FoxEntityMateGoalMixin extends AnimalMateGoal
 		super(null, 0);
 	}
 	
-	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
 	private void pehkui$breed(CallbackInfo info, FoxEntity foxEntity)
 	{
 		ScaleUtils.loadAverageScales(foxEntity, this.animal, this.mate);
