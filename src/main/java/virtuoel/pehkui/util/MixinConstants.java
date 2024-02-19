@@ -164,7 +164,6 @@ public class MixinConstants
 	public static final String RENDER_HELD_ITEM = METHOD_4016 + "(L" + CLASS_1799 + ";L" + CLASS_1309 + ";L" + CLASS_809$CLASS_811 + ";Z)V";
 	public static final String RENDER_LEASH = METHOD_4073;
 	public static final String SETUP_TRANSFORMS = METHOD_4058;
-	public static final String WORLD_RENDERER = CLASS_761;
 	
 	// 1.15
 	public static final String EXPLOSIVE_PROJECTILE_ON_COLLISION = METHOD_7469;
@@ -226,7 +225,7 @@ public class MixinConstants
 	public static final String ON_OPEN = METHOD_5435 + "(L" + CLASS_1657 + ";)V"; // COMMIT_READY
 	public static final String ON_CLOSE = METHOD_5432 + "(L" + CLASS_1657 + ";)V"; // COMMIT_READY
 	public static final String COUNT_VIEWERS = METHOD_17765 + "(L" + CLASS_1937 + ";L" + CLASS_2624 + ";III)I"; // COMMIT_READY
-	public static final String GET_BOUNDING_BOX = METHOD_5829 + "()L" + CLASS_238 + ";";
+	public static final String GET_BOUNDING_BOX = "L" + CLASS_1297 + ";" + METHOD_5829 + "()L" + CLASS_238 + ";";
 	public static final String FALL = METHOD_5623 + "(DZL" + CLASS_2680 + ";L" + CLASS_2338 + ";)V"; // COMMIT_READY
 	public static final String ON_LANDED_UPON = "L" + CLASS_2248 + ";" + METHOD_9554 + "(L" + CLASS_1937 + ";L" + CLASS_2338 + ";L" + CLASS_1297 + ";F)V"; // COMMIT_READY
 	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z"; // COMMIT_READY
