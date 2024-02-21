@@ -1,6 +1,5 @@
 package virtuoel.pehkui.mixin;
 
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -11,8 +10,9 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.block.ScaffoldingBlock;
 import net.minecraft.entity.Entity;
@@ -54,8 +54,8 @@ public abstract class LivingEntityMixin
 		return value;
 	}
 	
-	@Inject(method = "getEyeHeight", at = @At("RETURN"), cancellable = true)
-	private void pehkui$getEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getEyeHeight", at = @At("RETURN"))
+	private float pehkui$getEyeHeight(float original, EntityPose pose, EntityDimensions dimensions)
 	{
 		if (pose != EntityPose.SLEEPING)
 		{
@@ -63,9 +63,11 @@ public abstract class LivingEntityMixin
 			
 			if (scale != 1.0F)
 			{
-				info.setReturnValue(info.getReturnValueF() * scale);
+				return original * scale;
 			}
 		}
+		
+		return original;
 	}
 	
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
@@ -117,47 +119,38 @@ public abstract class LivingEntityMixin
 		return value;
 	}
 	
-	@Inject(method = "getMaxHealth", at = @At("RETURN"), cancellable = true)
-	private void pehkui$getMaxHealth(CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getMaxHealth", at = @At("RETURN"))
+	private float pehkui$getMaxHealth(float original)
 	{
 		final float scale = ScaleUtils.getHealthScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(info.getReturnValueF() * scale);
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 	
-	@Inject(method = "getAttackDistanceScalingFactor", at = @At("RETURN"), cancellable = true)
-	private void pehkui$getAttackDistanceScalingFactor(@Nullable Entity entity, CallbackInfoReturnable<Double> info)
+	@ModifyReturnValue(method = "getAttackDistanceScalingFactor", at = @At("RETURN"))
+	private double pehkui$getAttackDistanceScalingFactor(double original)
 	{
 		final float scale = ScaleUtils.getVisibilityScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(info.getReturnValueD() * scale);
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 	
-	@Inject(method = "getJumpVelocity", at = @At("RETURN"), cancellable = true)
-	private void pehkui$getJumpVelocity(CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getJumpVelocity", at = @At("RETURN"))
+	private float pehkui$getJumpVelocity(float original)
 	{
 		final float scale = ScaleUtils.getJumpHeightScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(info.getReturnValueF() * scale);
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 	
-	@Inject(method = "applyClimbingSpeed(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At(value = "RETURN"), cancellable = true)
-	private void pehkui$applyClimbingSpeed(Vec3d motion, CallbackInfoReturnable<Vec3d> info)
+	@ModifyReturnValue(method = "applyClimbingSpeed(Lnet/minecraft/util/math/Vec3d;)Lnet/minecraft/util/math/Vec3d;", at = @At("RETURN"))
+	private Vec3d pehkui$applyClimbingSpeed(Vec3d original)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		
 		if (!self.isClimbing())
 		{
-			return;
+			return original;
 		}
 		
 		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
@@ -180,12 +173,12 @@ public abstract class LivingEntityMixin
 			{
 				if (((PehkuiBlockStateExtensions) self.getEntityWorld().getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
 				{
-					final Vec3d prev = info.getReturnValue();
-					info.setReturnValue(new Vec3d(prev.x, Math.max(self.getVelocity().y, -0.15D), prev.z));
-					break;
+					return new Vec3d(original.x, Math.max(self.getVelocity().y, -0.15D), original.z);
 				}
 			}
 		}
+		
+		return original;
 	}
 	
 	@Redirect(method = "tickCramming", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getBoundingBox()Lnet/minecraft/util/math/Box;"))

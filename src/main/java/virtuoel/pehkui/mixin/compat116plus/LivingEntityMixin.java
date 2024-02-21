@@ -3,8 +3,8 @@ package virtuoel.pehkui.mixin.compat116plus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -17,14 +17,14 @@ public abstract class LivingEntityMixin extends EntityMixin
 {
 	@Unique BlockPos pehkui$initialClimbingPos = null;
 	
-	@Inject(method = "isClimbing()Z", at = @At(value = "RETURN"), cancellable = true)
-	private void pehkui$isClimbing(CallbackInfoReturnable<Boolean> info)
+	@ModifyReturnValue(method = "isClimbing()Z", at = @At("RETURN"))
+	private boolean pehkui$isClimbing(boolean original)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		
-		if (pehkui$initialClimbingPos != null || info.getReturnValueZ() || self.isSpectator())
+		if (pehkui$initialClimbingPos != null || original || self.isSpectator())
 		{
-			return;
+			return original;
 		}
 		
 		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
@@ -50,13 +50,14 @@ public abstract class LivingEntityMixin extends EntityMixin
 				setPosDirectly(pos);
 				if (self.isClimbing())
 				{
-					info.setReturnValue(true);
-					break;
+					return true;
 				}
 			}
 			
 			setPosDirectly(pehkui$initialClimbingPos);
 			pehkui$initialClimbingPos = null;
 		}
+		
+		return original;
 	}
 }

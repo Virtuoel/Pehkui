@@ -16,12 +16,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
@@ -237,16 +238,18 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		}
 	}
 	
-	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void pehkui$getDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
+	@ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))
+	private EntityDimensions pehkui$getDimensions(EntityDimensions original)
 	{
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
-			info.setReturnValue(info.getReturnValue().scaled(widthScale, heightScale));
+			return original.scaled(widthScale, heightScale);
 		}
+		
+		return original;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")

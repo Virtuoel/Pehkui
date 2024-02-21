@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
-import net.minecraft.block.BlockState;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -26,10 +26,18 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin
 {
-	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void pehkui$getDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
+	@ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))
+	private EntityDimensions pehkui$getDimensions(EntityDimensions original)
 	{
-		info.setReturnValue(info.getReturnValue().scaled(ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this), ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this)));
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		
+		if (widthScale != 1.0F || heightScale != 1.0F)
+		{
+			return original.scaled(widthScale, heightScale);
+		}
+		
+		return original;
 	}
 	
 	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
@@ -90,15 +98,12 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? value / scale : value;
 	}
 	
-	@Inject(at = @At("RETURN"), method = "getBlockBreakingSpeed", cancellable = true)
-	private void pehkui$getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getBlockBreakingSpeed", at = @At("RETURN"))
+	private float pehkui$getBlockBreakingSpeed(float original)
 	{
 		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(info.getReturnValueF() * scale);
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 	
 	@ModifyConstant(method = "updateCapeAngles", constant = { @Constant(doubleValue = 10.0D), @Constant(doubleValue = -10.0D) })

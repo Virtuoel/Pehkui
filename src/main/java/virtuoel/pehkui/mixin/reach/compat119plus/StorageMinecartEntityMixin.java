@@ -2,28 +2,31 @@ package virtuoel.pehkui.mixin.reach.compat119plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.StorageMinecartEntity;
-import net.minecraft.entity.vehicle.VehicleInventory;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(StorageMinecartEntity.class)
-public abstract class StorageMinecartEntityMixin implements VehicleInventory
+public abstract class StorageMinecartEntityMixin
 {
-	@Inject(method = "canPlayerUse", at = @At("RETURN"), cancellable = true)
-	private void pehkui$canPlayerUse(PlayerEntity playerEntity, CallbackInfoReturnable<Boolean> info)
+	@ModifyReturnValue(method = "canPlayerUse", at = @At("RETURN"))
+	private boolean pehkui$canPlayerUse(boolean original, PlayerEntity playerEntity)
 	{
-		if (!info.getReturnValueZ())
+		if (!original)
 		{
 			final float scale = ScaleUtils.getEntityReachScale(playerEntity);
 			
-			if (scale > 1.0F && !this.isRemoved() && this.getPos().isInRange(playerEntity.getPos(), 8.0 * scale))
+			final StorageMinecartEntity self = (StorageMinecartEntity) (Object) this;
+			
+			if (scale > 1.0F && !self.isRemoved() && self.getPos().isInRange(playerEntity.getPos(), 8.0 * scale))
 			{
-				info.setReturnValue(true);
+				return true;
 			}
 		}
+		
+		return original;
 	}
 }

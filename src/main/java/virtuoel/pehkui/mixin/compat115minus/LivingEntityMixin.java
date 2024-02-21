@@ -5,9 +5,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -30,14 +30,14 @@ public abstract class LivingEntityMixin extends EntityMixin
 	
 	@Unique Vec3d pehkui$initialClimbingPos = null;
 	
-	@Inject(method = "isClimbing()Z", at = @At(value = "RETURN"), cancellable = true)
-	private void pehkui$isClimbing(CallbackInfoReturnable<Boolean> info)
+	@ModifyReturnValue(method = "isClimbing()Z", at = @At("RETURN"))
+	private boolean pehkui$isClimbing(boolean original)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		
-		if (pehkui$initialClimbingPos != null || info.getReturnValueZ() || self.isSpectator())
+		if (pehkui$initialClimbingPos != null || original || self.isSpectator())
 		{
-			return;
+			return original;
 		}
 		
 		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
@@ -63,13 +63,14 @@ public abstract class LivingEntityMixin extends EntityMixin
 				setPosDirectly(pos.getX(), pos.getY(), pos.getZ());
 				if (self.isClimbing())
 				{
-					info.setReturnValue(true);
-					break;
+					return true;
 				}
 			}
 			
 			setPosDirectly(pehkui$initialClimbingPos.getX(), pehkui$initialClimbingPos.getY(), pehkui$initialClimbingPos.getZ());
 			pehkui$initialClimbingPos = null;
 		}
+		
+		return original;
 	}
 }
