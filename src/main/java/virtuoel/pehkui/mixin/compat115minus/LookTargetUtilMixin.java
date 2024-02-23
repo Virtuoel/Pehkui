@@ -22,8 +22,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class LookTargetUtilMixin
 {
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GIVE_TO_TARGET, at = @At(value = "CONSTANT", args = "doubleValue=0.3D", ordinal = 0))
-	private static double pehkui$give$offset(double value, LivingEntity entity, ItemStack stack, LivingEntity target)
+	@ModifyExpressionValue(method = MixinConstants.GIVE_TO_TARGET, at = @At(value = "CONSTANT", args = "floatValue=0.3F", ordinal = 0))
+	private static float pehkui$give$offset(float value, LivingEntity entity, ItemStack stack, LivingEntity target)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(entity);
 		
