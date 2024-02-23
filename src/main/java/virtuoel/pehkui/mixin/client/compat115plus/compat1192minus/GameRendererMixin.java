@@ -13,6 +13,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -31,7 +32,7 @@ public class GameRendererMixin
 	}
 	
 	@WrapOperation(method = "bobView", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(DDD)V"))
-	private void pehkui$bobView$translate(double x, double y, double z, Operation<Void> original)
+	private void pehkui$bobView$translate(MatrixStack obj, double x, double y, double z, Operation<Void> original)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
 		
@@ -41,6 +42,6 @@ public class GameRendererMixin
 			y *= scale;
 		}
 		
-		original.call(x, y, z);
+		original.call(obj, x, y, z);
 	}
 }

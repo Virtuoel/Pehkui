@@ -285,7 +285,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@WrapOperation(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void pehkui$pushSelfAwayFrom$other(double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) Entity other)
+	private void pehkui$pushSelfAwayFrom$other(Entity obj, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) Entity other)
 	{
 		final float otherScale = ScaleUtils.getMotionScale(other);
 		
@@ -295,11 +295,11 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 			z *= otherScale;
 		}
 		
-		original.call(x, y, z);
+		original.call(obj, x, y, z);
 	}
 	
 	@WrapOperation(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void pehkui$pushSelfAwayFrom$self(double x, double y, double z, Operation<Void> original)
+	private void pehkui$pushSelfAwayFrom$self(Entity obj, double x, double y, double z, Operation<Void> original)
 	{
 		final float ownScale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
@@ -309,7 +309,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 			z *= ownScale;
 		}
 		
-		original.call(x, y, z);
+		original.call(obj, x, y, z);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)
