@@ -8,14 +8,15 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -283,28 +284,32 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return movement;
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void pehkui$pushSelfAwayFrom$other(Args args, Entity other)
+	@WrapOperation(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private void pehkui$pushSelfAwayFrom$other(double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) Entity other)
 	{
 		final float otherScale = ScaleUtils.getMotionScale(other);
 		
 		if (otherScale != 1.0F)
 		{
-			args.set(0, args.<Double>get(0) * otherScale);
-			args.set(2, args.<Double>get(2) * otherScale);
+			x *= otherScale;
+			z *= otherScale;
 		}
+		
+		original.call(x, y, z);
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void pehkui$pushOtherAwayFrom$self(Args args, Entity other)
+	@WrapOperation(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private void pehkui$pushSelfAwayFrom$self(double x, double y, double z, Operation<Void> original)
 	{
 		final float ownScale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		if (ownScale != 1.0F)
 		{
-			args.set(0, args.<Double>get(0) * ownScale);
-			args.set(2, args.<Double>get(2) * ownScale);
+			x *= ownScale;
+			z *= ownScale;
 		}
+		
+		original.call(x, y, z);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)

@@ -5,13 +5,13 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -66,19 +66,24 @@ public abstract class PlayerEntityMixin
 		}
 	}
 	
-	@ModifyArgs(method = "tickMovement()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private void pehkui$tickMovement$expand(Args args)
+	@WrapOperation(method = "tickMovement()V", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$tickMovement$expand(double x, double y, double z, Operation<Box> original)
 	{
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
-		if (widthScale != 1.0F || heightScale != 1.0F)
+		if (widthScale != 1.0F)
 		{
-			final int index = args.get(0) instanceof Box ? 1 : 0;
-			args.set(index, args.<Double>get(index) * widthScale);
-			args.set(index + 1, args.<Double>get(index + 1) * heightScale);
-			args.set(index + 2, args.<Double>get(index + 2) * widthScale);
+			x *= widthScale;
+			z *= widthScale;
 		}
+		
+		if (heightScale != 1.0F)
+		{
+			y *= heightScale;
+		}
+		
+		return original.call(x, y, z);
 	}
 	
 	@ModifyExpressionValue(method = "attack(Lnet/minecraft/entity/Entity;)V", at = { @At(value = "CONSTANT", args = "floatValue=0.5F", ordinal = 1), @At(value = "CONSTANT", args = "floatValue=0.5F", ordinal = 2), @At(value = "CONSTANT", args = "floatValue=0.5F", ordinal = 3) })
