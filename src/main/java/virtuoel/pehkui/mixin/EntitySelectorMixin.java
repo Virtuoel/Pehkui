@@ -2,7 +2,10 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
@@ -12,11 +15,9 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntitySelector.class)
 public class EntitySelectorMixin
 {
-	@Redirect(method = "method_9810", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$method_9810$getBoundingBox(Entity obj)
+	@WrapOperation(method = "method_9810", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;intersects(Lnet/minecraft/util/math/Box;)Z"))
+	private static boolean pehkui$method_9810$intersects(Box bounds, Operation<Boolean> original, @Local(argsOnly = true) Entity obj)
 	{
-		final Box bounds = obj.getBoundingBox();
-		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
 		
@@ -26,9 +27,9 @@ public class EntitySelectorMixin
 			final double scaledYLength = bounds.getLengthY() * 0.5D * (interactionHeight - 1.0F);
 			final double scaledZLength = bounds.getLengthZ() * 0.5D * (interactionWidth - 1.0F);
 			
-			return bounds.expand(scaledXLength, scaledYLength, scaledZLength);
+			bounds = bounds.expand(scaledXLength, scaledYLength, scaledZLength);
 		}
 		
-		return bounds;
+		return original.call(bounds);
 	}
 }
