@@ -3,10 +3,10 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.HorseScreenHandler;
@@ -23,7 +23,7 @@ public class HorseScreenHandlerMixin
 		pehkui$REACH_SCALE.set(ScaleUtils.getEntityReachScale(player));
 	}
 	
-	@ModifyConstant(method = "canUse", constant = @Constant(floatValue = 8.0F))
+	@ModifyExpressionValue(method = "canUse", at = @At(value = "CONSTANT", args = "floatValue=8.0F"))
 	private float pehkui$canUse$distance(float value)
 	{
 		final float scale = pehkui$REACH_SCALE.get();

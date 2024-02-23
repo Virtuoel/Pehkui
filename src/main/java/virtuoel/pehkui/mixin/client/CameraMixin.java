@@ -3,9 +3,9 @@ package virtuoel.pehkui.mixin.client;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
@@ -23,7 +23,7 @@ public abstract class CameraMixin
 		return desiredCameraDistance * ScaleUtils.getThirdPersonScale(focusedEntity, MinecraftClient.getInstance().getTickDelta());
 	}
 	
-	@ModifyConstant(method = "clipToSpace", constant = @Constant(floatValue = 0.1F))
+	@ModifyExpressionValue(method = "clipToSpace", at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
 	private float pehkui$clipToSpace$offset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(focusedEntity);

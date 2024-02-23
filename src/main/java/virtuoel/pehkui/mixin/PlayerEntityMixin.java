@@ -3,15 +3,14 @@ package virtuoel.pehkui.mixin;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.Entity;
@@ -82,7 +81,7 @@ public abstract class PlayerEntityMixin
 		}
 	}
 	
-	@ModifyConstant(method = "attack(Lnet/minecraft/entity/Entity;)V", constant = { @Constant(floatValue = 0.5F, ordinal = 1), @Constant(floatValue = 0.5F, ordinal = 2), @Constant(floatValue = 0.5F, ordinal = 3) })
+	@ModifyExpressionValue(method = "attack(Lnet/minecraft/entity/Entity;)V", at = { @At(value = "CONSTANT", args = "floatValue=0.5F", ordinal = 1), @At(value = "CONSTANT", args = "floatValue=0.5F", ordinal = 2), @At(value = "CONSTANT", args = "floatValue=0.5F", ordinal = 3) })
 	private float pehkui$attack$knockback(float value)
 	{
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
@@ -90,7 +89,7 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "getAttackCooldownProgressPerTick", constant = @Constant(doubleValue = 20.0D))
+	@ModifyExpressionValue(method = "getAttackCooldownProgressPerTick", at = @At(value = "CONSTANT", args = "doubleValue=20.0D"))
 	private double pehkui$getAttackCooldownProgressPerTick$multiplier(double value)
 	{
 		final float scale = ScaleUtils.getAttackSpeedScale((Entity) (Object) this);
@@ -106,7 +105,7 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? original * scale : original;
 	}
 	
-	@ModifyConstant(method = "updateCapeAngles", constant = { @Constant(doubleValue = 10.0D), @Constant(doubleValue = -10.0D) })
+	@ModifyExpressionValue(method = "updateCapeAngles", at = { @At(value = "CONSTANT", args = "doubleValue=10.0D"), @At(value = "CONSTANT", args = "doubleValue=-10.0D") })
 	private double pehkui$updateCapeAngles$limits(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
