@@ -3,8 +3,9 @@ package virtuoel.pehkui.mixin.compat115minus;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
@@ -18,7 +19,7 @@ public abstract class FishingBobberEntityMixin
 	PlayerEntity field_7177; // UNMAPPED_FIELD
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.REMOVE_IF_INVALID, constant = @Constant(doubleValue = 1024.0D))
+	@ModifyExpressionValue(method = MixinConstants.REMOVE_IF_INVALID, at = @At(value = "CONSTANT", args = "doubleValue=1024.0D"))
 	private double pehkui$removeIfInvalid$distance(double value)
 	{
 		final float scale = ScaleUtils.getProjectileScale(field_7177);

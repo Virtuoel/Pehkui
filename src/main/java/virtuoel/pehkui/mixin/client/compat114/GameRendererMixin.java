@@ -6,10 +6,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -57,28 +57,28 @@ public class GameRendererMixin
 	}
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.APPLY_CAMERA_TRANSFORMATIONS, constant = @Constant(floatValue = 0.05F))
+	@ModifyExpressionValue(method = MixinConstants.APPLY_CAMERA_TRANSFORMATIONS, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$applyCameraTransformations$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.RENDER_HAND, constant = @Constant(floatValue = 0.05F))
+	@ModifyExpressionValue(method = MixinConstants.RENDER_HAND, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$renderHand$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.RENDER_CENTER, constant = @Constant(floatValue = 0.05F))
+	@ModifyExpressionValue(method = MixinConstants.RENDER_CENTER, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$renderCenter$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
 	}
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.RENDER_ABOVE_CLOUDS, constant = @Constant(floatValue = 0.05F))
+	@ModifyExpressionValue(method = MixinConstants.RENDER_ABOVE_CLOUDS, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$renderAboveClouds$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepthByHeight(value, client.getCameraEntity(), client.getTickDelta());

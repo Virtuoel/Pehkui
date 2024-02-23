@@ -6,10 +6,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -25,7 +25,7 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.GET_BASIC_PROJECTION_MATRIX, constant = @Constant(floatValue = 0.05F))
+	@ModifyExpressionValue(method = MixinConstants.GET_BASIC_PROJECTION_MATRIX, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$getBasicProjectionMatrix$depth(float value)
 	{
 		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());

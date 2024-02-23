@@ -5,10 +5,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
@@ -70,7 +70,7 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 	}
 	
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.COUNT_VIEWERS, constant = @Constant(floatValue = 5.0F))
+	@ModifyExpressionValue(method = MixinConstants.COUNT_VIEWERS, at = @At(value = "CONSTANT", args = "floatValue=5.0F"))
 	private static float pehkui$countViewers$distance(float value, World world, LockableContainerBlockEntity container, int x, int y, int z)
 	{
 		if (container instanceof ViewerCountingBlockEntityExtensions)

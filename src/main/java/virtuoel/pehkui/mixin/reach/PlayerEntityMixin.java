@@ -1,8 +1,9 @@
 package virtuoel.pehkui.mixin.reach;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin
 {
-	@ModifyConstant(method = "attack", constant = @Constant(doubleValue = 9.0D))
+	@ModifyExpressionValue(method = "attack", at = @At(value = "CONSTANT", args = "doubleValue=9.0F"))
 	private double pehkui$attack$distance(double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale((Entity) (Object) this);

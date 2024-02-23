@@ -3,11 +3,11 @@ package virtuoel.pehkui.mixin.compat115minus;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -22,7 +22,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class LookTargetUtilMixin
 {
 	@Dynamic
-	@ModifyConstant(method = MixinConstants.GIVE_TO_TARGET, constant = @Constant(doubleValue = 0.3F, ordinal = 0))
+	@ModifyExpressionValue(method = MixinConstants.GIVE_TO_TARGET, at = @At(value = "CONSTANT", args = "doubleValue=0.3D", ordinal = 0))
 	private static double pehkui$give$offset(double value, LivingEntity entity, ItemStack stack, LivingEntity target)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(entity);

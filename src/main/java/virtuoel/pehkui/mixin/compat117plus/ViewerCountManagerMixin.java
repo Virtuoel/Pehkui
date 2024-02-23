@@ -4,10 +4,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.ViewerCountManager;
@@ -59,7 +59,7 @@ public class ViewerCountManagerMixin
 		}
 	}
 	
-	@ModifyConstant(method = "getInRangeViewerCount", constant = @Constant(floatValue = 5.0F))
+	@ModifyExpressionValue(method = "getInRangeViewerCount", at = @At(value = "CONSTANT", args = "floatValue=5.0F"))
 	private float pehkui$getInRangeViewerCount$range(float value)
 	{
 		return viewerSearchRange;
