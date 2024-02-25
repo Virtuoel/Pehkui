@@ -7,9 +7,10 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -25,19 +26,19 @@ public class GameRendererMixin
 	MinecraftClient client;
 	
 	@Dynamic
-	@Redirect(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.HORIZONTAL_SPEED))
-	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj)
+	@WrapOperation(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.HORIZONTAL_SPEED))
+	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj, Operation<Float> original)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, 1.0F);
-		return scale != 1.0F ? ScaleUtils.divideClamped(obj.horizontalSpeed, scale) : obj.horizontalSpeed;
+		return scale != 1.0F ? ScaleUtils.divideClamped(original.call(obj), scale) : original.call(obj);
 	}
 	
 	@Dynamic
-	@Redirect(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.PREV_HORIZONTAL_SPEED))
-	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj)
+	@WrapOperation(method = MixinConstants.BOB_VIEW, at = @At(value = "FIELD", target = MixinConstants.PREV_HORIZONTAL_SPEED))
+	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj, Operation<Float> original)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, 0.0F);
-		return scale != 1.0F ? ScaleUtils.divideClamped(obj.prevHorizontalSpeed, scale) : obj.prevHorizontalSpeed;
+		return scale != 1.0F ? ScaleUtils.divideClamped(original.call(obj), scale) : original.call(obj);
 	}
 	
 	@Dynamic

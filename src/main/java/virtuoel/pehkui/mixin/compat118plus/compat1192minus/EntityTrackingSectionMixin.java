@@ -3,7 +3,9 @@ package virtuoel.pehkui.mixin.compat118plus.compat1192minus;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
@@ -16,10 +18,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class EntityTrackingSectionMixin
 {
 	@Dynamic
-	@Redirect(method = MixinConstants.FOR_EACH, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private Box pehkui$forEach$getBoundingBox(EntityLike obj)
+	@WrapOperation(method = MixinConstants.FOR_EACH, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$forEach$getBoundingBox(EntityLike obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		if (obj instanceof Entity)
 		{
@@ -42,10 +44,10 @@ public class EntityTrackingSectionMixin
 	}
 	
 	@Dynamic
-	@Redirect(method = MixinConstants.FOR_EACH_FILTERED, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private Box pehkui$forEach$getBoundingBox$filtered(EntityLike obj)
+	@WrapOperation(method = MixinConstants.FOR_EACH_FILTERED, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$forEach$getBoundingBox$filtered(EntityLike obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		if (obj instanceof Entity)
 		{

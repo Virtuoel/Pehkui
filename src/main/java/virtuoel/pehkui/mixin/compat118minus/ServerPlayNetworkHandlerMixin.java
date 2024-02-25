@@ -2,7 +2,9 @@ package virtuoel.pehkui.mixin.compat118minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -14,8 +16,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ServerPlayNetworkHandler.class)
 public class ServerPlayNetworkHandlerMixin
 {
-	@Redirect(method = "onPlayerInteractEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;squaredDistanceTo(Lnet/minecraft/entity/Entity;)D"))
-	private double pehkui$onPlayerInteractEntity$squaredDistanceTo(ServerPlayerEntity player, Entity entity)
+	@WrapOperation(method = "onPlayerInteractEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayerEntity;squaredDistanceTo(Lnet/minecraft/entity/Entity;)D"))
+	private double pehkui$onPlayerInteractEntity$squaredDistanceTo(ServerPlayerEntity player, Entity entity, Operation<Double> original)
 	{
 		final Vec3d eyePos = ScaleUtils.getEyePos(player);
 		final float margin = entity.getTargetingMargin();

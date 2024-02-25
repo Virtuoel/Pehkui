@@ -5,7 +5,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -18,17 +20,17 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;horizontalSpeed:F"))
-	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj)
+	@WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;horizontalSpeed:F"))
+	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj, Operation<Float> original)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, 1.0F);
-		return scale != 1.0F ? ScaleUtils.divideClamped(obj.horizontalSpeed, scale) : obj.horizontalSpeed;
+		return scale != 1.0F ? ScaleUtils.divideClamped(original.call(obj), scale) : original.call(obj);
 	}
 	
-	@Redirect(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;prevHorizontalSpeed:F"))
-	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj)
+	@WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;prevHorizontalSpeed:F"))
+	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj, Operation<Float> original)
 	{
 		final float scale = ScaleUtils.getViewBobbingScale(obj, 0.0F);
-		return scale != 1.0F ? ScaleUtils.divideClamped(obj.prevHorizontalSpeed, scale) : obj.prevHorizontalSpeed;
+		return scale != 1.0F ? ScaleUtils.divideClamped(original.call(obj), scale) : original.call(obj);
 	}
 }

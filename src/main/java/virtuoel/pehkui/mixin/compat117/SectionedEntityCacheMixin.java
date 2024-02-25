@@ -3,7 +3,9 @@ package virtuoel.pehkui.mixin.compat117;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
@@ -15,10 +17,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class SectionedEntityCacheMixin
 {
 	@Dynamic
-	@Redirect(method = "method_31776", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$intersecting$getBoundingBox(EntityLike obj)
+	@WrapOperation(method = "method_31776", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private static Box pehkui$intersecting$getBoundingBox(EntityLike obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		if (obj instanceof Entity)
 		{
