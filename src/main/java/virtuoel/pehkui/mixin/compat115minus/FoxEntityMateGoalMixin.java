@@ -7,7 +7,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.entity.ai.goal.AnimalMateGoal;
 import net.minecraft.entity.passive.FoxEntity;
@@ -24,8 +25,8 @@ public abstract class FoxEntityMateGoalMixin extends AnimalMateGoal
 	}
 	
 	@Dynamic
-	@Inject(method = MixinConstants.BREED, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
-	private void pehkui$breed(CallbackInfo info, FoxEntity foxEntity)
+	@Inject(method = MixinConstants.BREED, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
+	private void pehkui$breed(CallbackInfo info, @Local FoxEntity foxEntity)
 	{
 		ScaleUtils.loadAverageScales(foxEntity, this.animal, this.mate);
 	}

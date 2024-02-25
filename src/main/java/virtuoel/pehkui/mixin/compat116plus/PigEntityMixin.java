@@ -5,7 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
@@ -17,8 +18,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PigEntity.class)
 public class PigEntityMixin
 {
-	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/ZombifiedPiglinEntity;refreshPositionAndAngles(DDDFF)V"))
-	private void pehkui$onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo info, ZombifiedPiglinEntity zombifiedPiglinEntity)
+	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/ZombifiedPiglinEntity;refreshPositionAndAngles(DDDFF)V"))
+	private void pehkui$onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo info, @Local ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
 		ScaleUtils.loadScale(zombifiedPiglinEntity, (Entity) (Object) this);
 	}

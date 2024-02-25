@@ -5,16 +5,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.brain.task.LookTargetUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
@@ -31,8 +29,8 @@ public class LookTargetUtilMixin
 	}
 	
 	@Dynamic
-	@Inject(method = MixinConstants.GIVE_TO_TARGET, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
-	private static void pehkui$give(LivingEntity entity, ItemStack stack, LivingEntity target, CallbackInfo info, double d, ItemEntity itemEntity, BlockPos blockPos, BlockPos blockPos2, float f, Vec3d vec3d)
+	@Inject(method = MixinConstants.GIVE_TO_TARGET, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ItemEntity;setToDefaultPickupDelay()V"))
+	private static void pehkui$give(LivingEntity entity, ItemStack stack, LivingEntity target, CallbackInfo info, @Local ItemEntity itemEntity)
 	{
 		ScaleUtils.setScaleOfDrop(itemEntity, entity);
 	}

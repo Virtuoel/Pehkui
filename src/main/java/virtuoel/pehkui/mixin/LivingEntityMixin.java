@@ -8,10 +8,10 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.block.ScaffoldingBlock;
 import net.minecraft.entity.Entity;
@@ -69,8 +69,8 @@ public abstract class LivingEntityMixin
 		return original;
 	}
 	
-	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER), locals = LocalCapture.CAPTURE_FAILHARD)
-	private void pehkui$tickMovement$minVelocity(CallbackInfo info, Vec3d velocity)
+	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER))
+	private void pehkui$tickMovement$minVelocity(CallbackInfo info, @Local Vec3d velocity)
 	{
 		final LivingEntity self = (LivingEntity) (Object) this;
 		
