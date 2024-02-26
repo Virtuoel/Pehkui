@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.objects.ObjectAVLTreeSet;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.NbtCompound;
@@ -507,22 +506,21 @@ public class ScaleData
 		
 		baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
 		
-		if (tag.contains("baseValueModifiers"))
+		if (tag.contains("baseValueModifiers", NbtElement.LIST_TYPE))
 		{
-			final NbtList modifiers = tag.getList("baseValueModifiers", NbtType.STRING);
+			final NbtList modifiers = (NbtList) tag.get("baseValueModifiers");
+			final byte elementType = modifiers.getHeldType();
 			
 			Identifier id;
 			ScaleModifier modifier;
-			NbtElement element;
 			for (int i = 0; i < modifiers.size(); i++)
 			{
-				element = modifiers.get(i);
-				if (element.getType() == NbtElement.STRING_TYPE)
+				if (elementType == NbtElement.STRING_TYPE)
 				{
 					id = Identifier.tryParse(modifiers.getString(i));
 					modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
 				}
-				else if (element.getType() == NbtElement.COMPOUND_TYPE)
+				else if (elementType == NbtElement.COMPOUND_TYPE)
 				{
 					final NbtCompound compound = modifiers.getCompound(i);
 					id = Identifier.tryParse(compound.getString("id"));
