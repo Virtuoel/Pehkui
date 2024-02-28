@@ -191,6 +191,10 @@ eclipse {
 tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 	options.compilerArgs += [ "-Xmaxwarns", "0" ]
+	
+	javaCompiler = javaToolchains.compilerFor {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
 }
 
 tasks.withType(AbstractArchiveTask) {
