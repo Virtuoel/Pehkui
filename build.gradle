@@ -2,8 +2,8 @@ plugins {
 	id "fabric-loom" version "1.5.+"
 	id "eclipse"
 	id "maven-publish"
-	id "com.github.breadmoirai.github-release" version "2.4.1"
-	id "org.ajoberstar.grgit.service" version "5.2.0"
+	id "com.github.breadmoirai.github-release" version "2.5.2"
+	id "org.ajoberstar.grgit.service" version "5.2.2"
 	id "io.github.CDAGaming.cursegradle" version "1.6.1"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -61,7 +61,7 @@ else if(project.hasProperty("forge_version")) {
 }
 
 loom {
-	def access_widener_file = file("src/main/resources/${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.accesswidener");
+	def access_widener_file = file("src/main/resources/${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.accesswidener")
 	if(access_widener_file.exists()) {
 		accessWidenerPath = access_widener_file
 	}
@@ -181,7 +181,7 @@ eclipse {
 		}
 	}
 	else {
-		def minor = (minecraft_version.split(/\./, -1)[1] as Integer);
+		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
 		jdt {
 			javaRuntimeName = "JavaSE-${minor >= 18 ? 17 : minor >= 17 ? 16 : 1.8}"
 		}
@@ -206,7 +206,7 @@ java {
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}
 	else {
-		def minor = (minecraft_version.split(/\./, -1)[1] as Integer);
+		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
 		if(minor >= 18) {
 			sourceCompatibility = JavaVersion.VERSION_17
 			targetCompatibility = JavaVersion.VERSION_17
@@ -356,34 +356,34 @@ String generateMarkdownChangelog() {
 }
 
 githubRelease {
-	token project.hasProperty("github_releases_token") ? project.github_releases_token : ""
+	token = project.hasProperty("github_releases_token") ? project.github_releases_token : ""
 	
 	if(project.hasProperty("github_repository_owner")) {
-		owner project.github_repository_owner
+		owner = project.github_repository_owner
 	}
 	
 	if(project.hasProperty("github_repository")) {
-		repo project.github_repository
+		repo = project.github_repository
 	}
 	
 	if(project.hasProperty("forge_version")) {
-		tagName "${project.mod_version}-${project.minecraft_version}-forge"
+		tagName = "${project.mod_version}-${project.minecraft_version}-forge"
 	}
 	else if(project.hasProperty("neoforge_version")) {
-		tagName "${project.mod_version}-${project.minecraft_version}-neoforge"
+		tagName = "${project.mod_version}-${project.minecraft_version}-neoforge"
 	}
 	
 	if(project.hasProperty("fabric_loader_version")) {
-		tagName project.mod_version
+		tagName = project.mod_version
 	}
 	
-	targetCommitish { grgitService.service.get().grgit.branch.current().name }
+	targetCommitish = grgitService.service.get().grgit.branch.current().name
 	
-	body generateMarkdownChangelog()
+	body = generateMarkdownChangelog()
 	
-	overwrite true
+	overwrite = true
 	
-	releaseName project.version
+	releaseName = project.version
 	
 	releaseAssets = files("${project.buildDir}/libs/${base.archivesName.get()}-${version}.jar", "${project.buildDir}/libs/${base.archivesName.get()}-${version}-sources.jar").files
 }
