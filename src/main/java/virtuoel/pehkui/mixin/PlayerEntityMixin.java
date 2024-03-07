@@ -39,13 +39,6 @@ public abstract class PlayerEntityMixin
 		return original;
 	}
 	
-	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(FF)F"))
-	private float pehkui$tickMovement$minVelocity(float value)
-	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
-		return scale != 1.0F ? ScaleUtils.divideClamped(value, scale) : value;
-	}
-	
 	@Inject(at = @At("RETURN"), method = "dropItem(Lnet/minecraft/item/ItemStack;ZZ)Lnet/minecraft/entity/ItemEntity;")
 	private void pehkui$dropItem(ItemStack stack, boolean spread, boolean thrown, CallbackInfoReturnable<ItemEntity> info)
 	{

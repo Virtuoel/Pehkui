@@ -5,13 +5,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.MathHelper;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(GameRenderer.class)
@@ -20,17 +21,20 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;horizontalSpeed:F"))
-	private float pehkui$bobView$horizontalSpeed(PlayerEntity obj, Operation<Float> original)
+	@Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;bobView(Lnet/minecraft/client/util/math/MatrixStack;F)V"))
+	private void pehkui$renderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo info)
 	{
-		final float scale = ScaleUtils.getViewBobbingScale(obj, 1.0F);
-		return scale != 1.0F ? ScaleUtils.divideClamped(original.call(obj), scale) : original.call(obj);
-	}
-	
-	@WrapOperation(method = "bobView", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerEntity;prevHorizontalSpeed:F"))
-	private float pehkui$bobView$prevHorizontalSpeed(PlayerEntity obj, Operation<Float> original)
-	{
-		final float scale = ScaleUtils.getViewBobbingScale(obj, 0.0F);
-		return scale != 1.0F ? ScaleUtils.divideClamped(original.call(obj), scale) : original.call(obj);
+		final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
+		
+		if (scale != 1.0F)
+		{
+			final float multiplier = scale - 1.0F;
+			
+			final PlayerEntity playerEntity = (PlayerEntity) client.getCameraEntity();
+			final float speedLerp = -(playerEntity.horizontalSpeed + ((playerEntity.horizontalSpeed - playerEntity.prevHorizontalSpeed) * tickDelta));
+			final float strideLerp = MathHelper.lerp(tickDelta, playerEntity.prevStrideDistance, playerEntity.strideDistance);
+			
+			matrices.translate(multiplier * MathHelper.sin(speedLerp * (float) Math.PI) * strideLerp * 0.5F, multiplier * -Math.abs(MathHelper.cos(speedLerp * (float) Math.PI) * strideLerp), 0.0D);
+		}
 	}
 }

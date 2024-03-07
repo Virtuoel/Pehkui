@@ -91,6 +91,7 @@ public class MixinConstants
 	private static final String CLASS_1937 = "net/minecraft/class_1937";
 	private static final String CLASS_1297 = "net/minecraft/class_1297";
 	private static final String CLASS_287 = "net/minecraft/class_287";
+	private static final String CLASS_757 = "net/minecraft/class_757";
 	private static final String CLASS_4184 = "net/minecraft/class_4184";
 	private static final String CLASS_3532 = "net/minecraft/class_3532";
 	private static final String CLASS_1690 = "net/minecraft/class_1690";
@@ -151,7 +152,7 @@ public class MixinConstants
 	public static final String RENDER_SHADOW = "L" + CLASS_897 + ";" + METHOD_3934 + "(L" + CLASS_1297 + ";DDDFF)V";
 	public static final String FIELD_5973 = "field_5973";
 	public static final String HORIZONTAL_SPEED = "L" + CLASS_1657 + ";" + FIELD_5973 + ":F";
-	public static final String BOB_VIEW = METHOD_3186 + "(F)V";
+	public static final String BOB_VIEW = "L" + CLASS_757 + ";" + METHOD_3186 + "(F)V";
 	public static final String FIELD_6039 = "field_6039";
 	public static final String PREV_HORIZONTAL_SPEED = "L" + CLASS_1657 + ";" + FIELD_6039 + ":F";
 	public static final String APPLY_CAMERA_TRANSFORMATIONS = METHOD_3185 + "(F)V";
