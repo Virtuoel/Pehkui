@@ -13,6 +13,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
+import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(GameRenderer.class)
@@ -28,7 +29,7 @@ public class GameRendererMixin
 		
 		if (scale != 1.0F)
 		{
-			final float multiplier = scale - 1.0F;
+			final double multiplier = (scale - 1.0F) * ImmersivePortalsCompatibility.INSTANCE.getViewBobbingOffsetMultiplier();
 			
 			final PlayerEntity playerEntity = (PlayerEntity) client.getCameraEntity();
 			final float speedLerp = -(playerEntity.horizontalSpeed + ((playerEntity.horizontalSpeed - playerEntity.prevHorizontalSpeed) * tickDelta));
