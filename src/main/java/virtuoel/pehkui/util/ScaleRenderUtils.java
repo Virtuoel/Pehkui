@@ -3,6 +3,7 @@ package virtuoel.pehkui.util;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +15,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -32,7 +35,7 @@ import virtuoel.pehkui.api.PehkuiConfig;
 
 public class ScaleRenderUtils
 {
-	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES;
+	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES, PERSPECTIVE;
 	
 	static
 	{
@@ -42,11 +45,13 @@ public class ScaleRenderUtils
 		final Lookup lookup = MethodHandles.lookup();
 		String mapped = "unset";
 		Method m;
+		Field f;
 		
 		try
 		{
 			final boolean is114Minus = VersionUtils.MINOR <= 14;
 			final boolean is116Plus = VersionUtils.MINOR >= 16;
+			final boolean is1161Minus = VersionUtils.MINOR < 16 || (VersionUtils.MINOR == 16 && VersionUtils.PATCH <= 1);
 			final boolean is1192Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 2);
 			
 			if (is114Minus && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
@@ -62,8 +67,15 @@ public class ScaleRenderUtils
 				m = PlayerRespawnS2CPacket.class.getMethod(mapped);
 				h.put(1, lookup.unreflect(m));
 			}
+			
+			if (is1161Minus)
+			{
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_315", "field_1850", "F");
+				f = GameOptions.class.getField(mapped);
+				h.put(2, lookup.unreflectGetter(f));
+			}
 		}
-		catch (NoSuchMethodException | SecurityException | IllegalAccessException e)
+		catch (NoSuchMethodException | SecurityException | IllegalAccessException | NoSuchFieldException e)
 		{
 			Pehkui.LOGGER.error("Current name lookup: {}", mapped);
 			Pehkui.LOGGER.catching(e);
@@ -71,6 +83,26 @@ public class ScaleRenderUtils
 		
 		DRAW_BOX_OUTLINE = h.get(0);
 		SHOULD_KEEP_PLAYER_ATTRIBUTES = h.get(1);
+		PERSPECTIVE = h.get(2);
+	}
+	
+	public static boolean isFirstPerson()
+	{
+		final MinecraftClient client = MinecraftClient.getInstance();
+		
+		if (VersionUtils.MINOR < 16 || (VersionUtils.MINOR == 16 && VersionUtils.PATCH <= 1))
+		{
+			try
+			{
+				return (int) PERSPECTIVE.invoke(client.options) == 0;
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return client.options.getPerspective().isFirstPerson();
 	}
 	
 	public static boolean wasPlayerAlive(final PlayerRespawnS2CPacket packet)
