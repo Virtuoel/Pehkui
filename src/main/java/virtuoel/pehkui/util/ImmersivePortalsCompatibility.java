@@ -58,6 +58,11 @@ public class ImmersivePortalsCompatibility
 	{
 		if (this.enabled)
 		{
+			if (VersionUtils.MINOR == 17)
+			{
+				return 0.0D;
+			}
+			
 			if (this.getViewBobbingOffsetMultiplier.isPresent())
 			{
 				try
@@ -66,7 +71,6 @@ public class ImmersivePortalsCompatibility
 				}
 				catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
 				{
-					e.printStackTrace();
 					return 1.0D;
 				}
 			}
@@ -79,7 +83,6 @@ public class ImmersivePortalsCompatibility
 				}
 				catch (IllegalAccessException | IllegalArgumentException e)
 				{
-					e.printStackTrace();
 					return 1.0D;
 				}
 			}
