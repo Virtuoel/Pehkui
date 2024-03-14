@@ -220,7 +220,6 @@
 		"client.compat115.EntityRendererMixin",
 		"client.compat115minus.OtherClientPlayerEntityMixin",
 		"client.compat115plus.EntityRenderDispatcherMixin",
-		"client.compat115plus.GameRendererMixin",
 		"client.compat115plus.InGameOverlayRendererMixin",
 		"client.compat115plus.ItemFrameEntityRendererMixin",
 		"client.compat115plus.MobEntityRendererMixin",
