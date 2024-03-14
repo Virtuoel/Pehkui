@@ -154,6 +154,7 @@
 		"compat1201minus.PlayerManagerMixin",
 		"compat1201minus.SkeletonHorseEntityMixin",
 		"compat1202minus.PersistentProjectileEntityMixin",
+		"compat120plus.EntityMixin",
 		"compat120plus.compat1201minus.AbstractHorseEntityMixin",
 		"compat120plus.compat1201minus.BoatEntityMixin",
 		"compat120plus.compat1201minus.CamelEntityMixin",
