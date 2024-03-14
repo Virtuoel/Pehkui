@@ -29,9 +29,9 @@ public abstract class EntityTrackerEntryMixin
 	@ModifyExpressionValue(method = "tick", at = @At(value = "CONSTANT", args = "doubleValue=7.62939453125E-6D"))
 	private double pehkui$tick$minimumSquaredDistance(double value)
 	{
-		final double scale = ScaleUtils.getMotionScale(entity);
+		final float scale = ScaleUtils.getMotionScale(entity);
 		
-		return scale < 1.0D ? value * scale * scale : value;
+		return scale < 1.0F ? value * scale * scale : value;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "syncEntityData")
