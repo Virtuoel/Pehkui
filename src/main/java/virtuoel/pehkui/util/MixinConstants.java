@@ -271,7 +271,7 @@ public class MixinConstants
 	
 	// 1.19.2 Minus
 	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
-	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
+	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
 	
 	// 1.19.3 Minus
 	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V"; // COMMIT_READY
