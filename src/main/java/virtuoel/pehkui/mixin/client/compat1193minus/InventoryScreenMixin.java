@@ -9,6 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.EntityDimensions;
@@ -25,11 +28,10 @@ public abstract class InventoryScreenMixin
 {
 	@Unique private static final ThreadLocal<Map<ScaleType, ScaleData>> pehkui$SCALES = ThreadLocal.withInitial(Object2ObjectLinkedOpenHashMap::new);
 	@Unique private static final ScaleData pehkui$IDENTITY = ScaleData.Builder.create().build();
-	@Unique private static final ThreadLocal<Box> pehkui$BOX = new ThreadLocal<>();
 	
 	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_MOUSE_LOOK, at = @At(value = "HEAD"))
-	private static void pehkui$drawEntity$head(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
+	private static void pehkui$drawEntity$head(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -43,7 +45,7 @@ public abstract class InventoryScreenMixin
 			data.fromScale(pehkui$IDENTITY, false);
 		}
 		
-		pehkui$BOX.set(entity.getBoundingBox());
+		bounds.set(entity.getBoundingBox());
 		
 		final EntityDimensions dims = entity.getDimensions(entity.getPose());
 		final Vec3d pos = entity.getPos();
@@ -59,7 +61,7 @@ public abstract class InventoryScreenMixin
 	
 	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_MOUSE_LOOK, at = @At(value = "RETURN"))
-	private static void pehkui$drawEntity$return(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info)
+	private static void pehkui$drawEntity$return(int x, int y, int size, float mouseX, float mouseY, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -68,6 +70,6 @@ public abstract class InventoryScreenMixin
 			type.getScaleData(entity).fromScale(scales.get(type), false);
 		}
 		
-		entity.setBoundingBox(pehkui$BOX.get());
+		entity.setBoundingBox(bounds.get());
 	}
 }

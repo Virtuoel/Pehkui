@@ -13,6 +13,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
 import net.minecraft.client.gui.DrawContext;
@@ -31,10 +33,9 @@ public abstract class InventoryScreenMixin
 {
 	@Unique private static final ThreadLocal<Map<ScaleType, ScaleData>> pehkui$SCALES = ThreadLocal.withInitial(Object2ObjectLinkedOpenHashMap::new);
 	@Unique private static final ScaleData pehkui$IDENTITY = ScaleData.Builder.create().build();
-	@Unique private static final ThreadLocal<Box> pehkui$BOX = new ThreadLocal<>();
 	
 	@Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "HEAD"))
-	private static void pehkui$drawEntity$head(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
+	private static void pehkui$drawEntity$head(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -48,7 +49,7 @@ public abstract class InventoryScreenMixin
 			data.fromScale(pehkui$IDENTITY, false);
 		}
 		
-		pehkui$BOX.set(entity.getBoundingBox());
+		bounds.set(entity.getBoundingBox());
 		
 		final EntityDimensions dims = entity.getDimensions(entity.getPose());
 		final Vec3d pos = entity.getPos();
@@ -63,7 +64,7 @@ public abstract class InventoryScreenMixin
 	}
 	
 	@Inject(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V", at = @At(value = "RETURN"))
-	private static void pehkui$drawEntity$return(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info)
+	private static void pehkui$drawEntity$return(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -72,7 +73,7 @@ public abstract class InventoryScreenMixin
 			type.getScaleData(entity).fromScale(scales.get(type), false);
 		}
 		
-		entity.setBoundingBox(pehkui$BOX.get());
+		entity.setBoundingBox(bounds.get());
 	}
 	
 	@WrapOperation(method = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIIIIFFFLnet/minecraft/entity/LivingEntity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHeight()F"))

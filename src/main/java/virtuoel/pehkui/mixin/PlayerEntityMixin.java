@@ -1,17 +1,15 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
@@ -111,31 +109,23 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@Unique private static final ThreadLocal<Float> pehkui$WIDTH_SCALE = ThreadLocal.withInitial(() -> 1.0F);
-	@Unique private static final ThreadLocal<Float> pehkui$HEIGHT_SCALE = ThreadLocal.withInitial(() -> 1.0F);
-	
-	@Inject(method = "attack", at = @At("HEAD"))
-	private void pehkui$attack(Entity target, CallbackInfo info)
+	@WrapOperation(method = "attack(Lnet/minecraft/entity/Entity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$attack$expand(Box obj, double x, double y, double z, Operation<Box> original, @Local(argsOnly = true) Entity target)
 	{
-		pehkui$WIDTH_SCALE.set(ScaleUtils.getBoundingBoxWidthScale(target));
-		pehkui$HEIGHT_SCALE.set(ScaleUtils.getBoundingBoxHeightScale(target));
-	}
-	
-	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$attack$expand$x(double value)
-	{
-		return value * pehkui$WIDTH_SCALE.get();
-	}
-	
-	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$attack$expand$y(double value)
-	{
-		return value * pehkui$HEIGHT_SCALE.get();
-	}
-	
-	@ModifyArg(method = "attack(Lnet/minecraft/entity/Entity;)V", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$attack$expand$z(double value)
-	{
-		return value * pehkui$WIDTH_SCALE.get();
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(target);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(target);
+		
+		if (widthScale != 1.0F)
+		{
+			x *= widthScale;
+			z *= widthScale;
+		}
+		
+		if (heightScale != 1.0F)
+		{
+			y *= heightScale;
+		}
+		
+		return original.call(obj, x, y, z);
 	}
 }
