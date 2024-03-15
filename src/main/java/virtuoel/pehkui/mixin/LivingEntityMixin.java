@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
@@ -169,9 +170,11 @@ public abstract class LivingEntityMixin
 			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
 			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
 			
+			final World world = self.getEntityWorld();
+			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (((PehkuiBlockStateExtensions) self.getEntityWorld().getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
+				if (((PehkuiBlockStateExtensions) world.getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
 				{
 					return new Vec3d(original.x, Math.max(self.getVelocity().y, -0.15D), original.z);
 				}
