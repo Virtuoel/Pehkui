@@ -6,21 +6,22 @@ import java.util.Map.Entry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyArgs;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
@@ -237,16 +238,18 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		}
 	}
 	
-	@Inject(at = @At("RETURN"), method = "getDimensions", cancellable = true)
-	private void pehkui$getDimensions(EntityPose pose, CallbackInfoReturnable<EntityDimensions> info)
+	@ModifyReturnValue(method = "getDimensions", at = @At("RETURN"))
+	private EntityDimensions pehkui$getDimensions(EntityDimensions original)
 	{
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
-			info.setReturnValue(info.getReturnValue().scaled(widthScale, heightScale));
+			return original.scaled(widthScale, heightScale);
 		}
+		
+		return original;
 	}
 	
 	@Inject(at = @At("HEAD"), method = "onStartedTrackingBy")
@@ -262,7 +265,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return entity;
 	}
 	
-	@ModifyConstant(method = "move", constant = @Constant(doubleValue = 1.0E-7D))
+	@ModifyExpressionValue(method = "move", at = @At(value = "CONSTANT", args = "doubleValue=1.0E-7D"))
 	private double pehkui$move$minVelocity(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
@@ -281,28 +284,32 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 		return movement;
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void pehkui$pushSelfAwayFrom$other(Args args, Entity other)
+	@WrapOperation(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 0, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private void pehkui$pushSelfAwayFrom$other(Entity obj, double x, double y, double z, Operation<Void> original, @Local(argsOnly = true) Entity other)
 	{
 		final float otherScale = ScaleUtils.getMotionScale(other);
 		
 		if (otherScale != 1.0F)
 		{
-			args.set(0, args.<Double>get(0) * otherScale);
-			args.set(2, args.<Double>get(2) * otherScale);
+			x *= otherScale;
+			z *= otherScale;
 		}
+		
+		original.call(obj, x, y, z);
 	}
 	
-	@ModifyArgs(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
-	private void pehkui$pushOtherAwayFrom$self(Args args, Entity other)
+	@WrapOperation(method = "pushAwayFrom", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/entity/Entity;addVelocity(DDD)V"))
+	private void pehkui$pushSelfAwayFrom$self(Entity obj, double x, double y, double z, Operation<Void> original)
 	{
 		final float ownScale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		if (ownScale != 1.0F)
 		{
-			args.set(0, args.<Double>get(0) * ownScale);
-			args.set(2, args.<Double>get(2) * ownScale);
+			x *= ownScale;
+			z *= ownScale;
 		}
+		
+		original.call(obj, x, y, z);
 	}
 	
 	@Inject(at = @At("HEAD"), method = "spawnSprintingParticles", cancellable = true)

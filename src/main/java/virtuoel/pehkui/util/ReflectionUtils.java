@@ -12,6 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.network.Packet;
+import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 
 public final class ReflectionUtils
@@ -44,6 +45,11 @@ public final class ReflectionUtils
 	public static void sendPacket(final ServerPlayNetworkHandler handler, final Packet<?> packet)
 	{
 		handler.sendPacket(packet);
+	}
+	
+	public static boolean isDummy(final NumberRange<?> range)
+	{
+		return range.isDummy();
 	}
 	
 	public static Optional<Field> getField(final Optional<Class<?>> classObj, final String fieldName)

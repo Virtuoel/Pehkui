@@ -2,7 +2,9 @@ package virtuoel.pehkui.mixin.compat1193plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
@@ -15,10 +17,10 @@ public class EntityTrackingSectionMixin
 {
 	// TODO 1.19.3
 	/*
-	@Redirect(method = "forEach(Lnet/minecraft/util/math/Box;Lnet/minecraft/util/function/LazyIterationConsumer;)Lnet/minecraft/util/function/LazyIterationConsumer$NextIteration;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private Box pehkui$forEach$getBoundingBox(EntityLike obj)
+	@WrapOperation(method = "forEach(Lnet/minecraft/util/math/Box;Lnet/minecraft/util/function/LazyIterationConsumer;)Lnet/minecraft/util/function/LazyIterationConsumer$NextIteration;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$forEach$getBoundingBox(EntityLike obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		if (obj instanceof Entity)
 		{
@@ -40,10 +42,10 @@ public class EntityTrackingSectionMixin
 		return bounds;
 	}
 	
-	@Redirect(method = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Lnet/minecraft/util/function/LazyIterationConsumer;)Lnet/minecraft/util/function/LazyIterationConsumer$NextIteration;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private Box pehkui$forEach$getBoundingBox$filtered(EntityLike obj)
+	@WrapOperation(method = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Lnet/minecraft/util/function/LazyIterationConsumer;)Lnet/minecraft/util/function/LazyIterationConsumer$NextIteration;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$forEach$getBoundingBox$filtered(EntityLike obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		if (obj instanceof Entity)
 		{

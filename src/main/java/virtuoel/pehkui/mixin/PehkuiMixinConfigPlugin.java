@@ -7,6 +7,8 @@ import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
+
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
@@ -23,6 +25,11 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 				String.format("Invalid package: Expected \"%s\", but found \"%s\".", MIXIN_PACKAGE, mixinPackage)
 			);
 		}
+		
+		if (VersionUtils.MINOR < 18)
+		{
+			MixinExtrasBootstrap.init();
+		}
 	}
 	
 	@Override
@@ -36,7 +43,6 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
 	private static final boolean MAGNA_LOADED = ModLoaderUtils.isModLoaded("magna");
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
-	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true;
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -56,10 +62,6 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		if (mixinClassName.endsWith("InGameOverlayRendererMixin"))
 		{
 			return OPTIFABRIC_LOADED == mixinClassName.contains(".optifine.compat.");
-		}
-		else if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
-		{
-			return PATCHWORK_ENTITY_EVENTS_LOADED == mixinClassName.contains(".patchwork.compat.");
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))

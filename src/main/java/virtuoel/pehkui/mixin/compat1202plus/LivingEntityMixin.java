@@ -2,9 +2,9 @@ package virtuoel.pehkui.mixin.compat1202plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -20,14 +20,11 @@ public abstract class LivingEntityMixin
 		return scale == 1.0F ? value : value * scale;
 	}
 	
-	@Inject(at = @At("RETURN"), method = "getRidingOffset", cancellable = true)
-	private void pehkui$getRidingOffset(CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getRidingOffset", at = @At("RETURN"))
+	private float pehkui$getRidingOffset(float original)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(info.getReturnValueF() * scale);
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 }

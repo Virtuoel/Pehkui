@@ -1,10 +1,10 @@
 package virtuoel.pehkui.mixin.reach.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
-import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.Vec3d;
@@ -16,8 +16,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Item.class)
 public class ItemMixin
 {
-	/*
-	@ModifyVariable(method = MixinConstants.ITEM_RAYCAST, ordinal = 1, at = @At(value = "STORE"), remap = false)
+	@Dynamic
+	@ModifyVariable(method = MixinConstants.ITEM_RAYCAST, ordinal = 1, at = @At(value = "STORE"))
 	private static Vec3d pehkui$raycast$end(Vec3d value, World world, PlayerEntity player, RaycastContext.FluidHandling fluidHandling)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
@@ -30,7 +30,6 @@ public class ItemMixin
 			return eyePos.add(distance.multiply(scale));
 		}
 		
-		return reach.getValue();
+		return value;
 	}
-	*/
 }

@@ -1,7 +1,11 @@
 package virtuoel.pehkui.mixin.reach.compat118minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
@@ -13,7 +17,8 @@ public class ServerPlayerInteractionManagerMixin
 {
 	@Shadow ServerPlayerEntity player;
 	/*
-	@ModifyConstant(method = MixinConstants.PROCESS_BLOCK_BREAKING_ACTION, constant = @Constant(doubleValue = 36.0D))
+	@Dynamic
+	@ModifyExpressionValue(method = MixinConstants.PROCESS_BLOCK_BREAKING_ACTION, at = @At(value = "CONSTANT", args = "doubleValue=36.0D"))
 	private double pehkui$processBlockBreakingAction$distance(double value)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
