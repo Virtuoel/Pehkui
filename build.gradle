@@ -4,6 +4,7 @@ plugins {
 	id "maven-publish"
 	id "com.github.breadmoirai.github-release" version "2.5.2"
 	id "org.ajoberstar.grgit.service" version "5.2.2"
+	id "com.github.johnrengelman.shadow" version "8.1.0" apply false
 	id "io.github.CDAGaming.cursegradle" version "1.6.1"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -58,6 +59,23 @@ else if(project.hasProperty("forge_version")) {
 			mixinConfig "${archives_base_name.replaceAll( /([A-Z])/, /_$1/ ).toLowerCase().replaceAll( /^_/, '' )}.mixins.json"
 		}
 	}
+	
+	if (project.hasProperty("mixin_extras_version")) {
+		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
+		if (minor < 18) {
+			apply plugin: "com.github.johnrengelman.shadow"
+			
+			configurations {
+				implementation.extendsFrom shadow
+			}
+			
+			shadowJar {
+				configurations = [ project.configurations.shadow ]
+				relocate("com.llamalad7.mixinextras", "${project.group}.mixinextras")
+				mergeServiceFiles()
+			}
+		}
+	}
 }
 
 loom {
@@ -97,11 +115,24 @@ dependencies {
 	if(project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
 		neoForge "net.neoforged:neoforge:${neoforge_version}"
 	}
-	else if(project.hasProperty("neoforge_version")) {
-		forge "net.neoforged:forge:${neoforge_version}"
-	}
 	else if(project.hasProperty("forge_version")) {
-		forge "net.minecraftforge:forge:${forge_version}"
+		if(project.hasProperty("neoforge_version")) {
+			forge "net.neoforged:forge:${neoforge_version}"
+		}
+		else {
+			forge "net.minecraftforge:forge:${forge_version}"
+		}
+		
+		if (project.hasProperty("mixin_extras_version")) {
+			def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
+			if (minor >= 18) {
+				compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+				implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))
+			}
+			else {
+				shadow(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+			}
+		}
 	}
 	else if(project.hasProperty("fabric_loader_version")) {
 		modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
