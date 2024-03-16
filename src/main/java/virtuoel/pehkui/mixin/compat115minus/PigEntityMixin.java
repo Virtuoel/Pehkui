@@ -21,7 +21,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class PigEntityMixin
 {
 	@Dynamic
-	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES))
+	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES), remap = false)
 	private void pehkui$onStruckByLightning(LightningEntity lightning, CallbackInfo info, @Local ZombifiedPiglinEntity zombifiedPiglinEntity)
 	{
 		ScaleUtils.loadScale(zombifiedPiglinEntity, (Entity) (Object) this);
