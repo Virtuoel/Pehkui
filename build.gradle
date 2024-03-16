@@ -228,27 +228,11 @@ java {
 
 jar {
 	from "LICENSE"
-	manifest
-	{
-		attributes "Implementation-Title": base.archivesName.get()
-		attributes "Implementation-Version": project.version
-		attributes "Maven-Artifact": "${project.group}:${base.archivesName.get()}:${project.version}"
-		attributes "Built-On-Minecraft": "${project.minecraft_version}"
-		attributes "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
-	}
 }
 
 tasks.named("sourcesJar") {
 	exclude "fabric.mod.json"
 	exclude "META-INF/mods.toml"
-	manifest
-	{
-		attributes "Implementation-Title": base.archivesName.get() + "-sources"
-		attributes "Implementation-Version": project.version
-		attributes "Maven-Artifact": "${project.group}:${base.archivesName.get()}:${project.version}:sources"
-		attributes "Built-On-Minecraft": "${project.minecraft_version}"
-		attributes "Built-On-Java": "${System.getProperty("java.vm.version")} (${System.getProperty("java.vm.vendor")})"
-	}
 }
 
 publishing {
