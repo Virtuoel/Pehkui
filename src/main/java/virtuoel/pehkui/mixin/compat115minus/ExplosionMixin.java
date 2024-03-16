@@ -19,11 +19,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Explosion.class)
 public abstract class ExplosionMixin
 {
-	@Dynamic
-	@Shadow
-	@Final
-	@Mutable
-	float field_9190; // UNMAPPED_FIELD
+	@Shadow @Final @Mutable
+	float power;
 	
 	@Dynamic
 	@Inject(at = @At("RETURN"), method = MixinConstants.EXPLOSION_INIT)
@@ -35,7 +32,7 @@ public abstract class ExplosionMixin
 			
 			if (scale != 1.0F)
 			{
-				this.field_9190 *= scale;
+				this.power *= scale;
 			}
 		}
 	}
