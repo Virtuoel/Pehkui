@@ -3,8 +3,8 @@ package virtuoel.pehkui.mixin.step_height.compat.compat1194plus;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -13,14 +13,11 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "dev.emi.stepheightentityattribute.StepHeightEntityAttributeMain", remap = false)
 public class StepHeightEntityAttributeMainMixin
 {
-	@Inject(method = "getStepHeight", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void pehkui$getStepHeight(float baseStepHeight, LivingEntity entity, CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getStepHeight", at = @At("RETURN"), remap = false)
+	private static float pehkui$getStepHeight(float original, float baseStepHeight, LivingEntity entity)
 	{
 		final float scale = ScaleUtils.getStepHeightScale(entity);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(scale * info.getReturnValueF());
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 }

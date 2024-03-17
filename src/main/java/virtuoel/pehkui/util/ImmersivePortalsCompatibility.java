@@ -8,6 +8,8 @@ public class ImmersivePortalsCompatibility
 	
 	public static final ImmersivePortalsCompatibility INSTANCE = new ImmersivePortalsCompatibility();
 	
+	private final Optional<Class<?>> globalClass;
+	
 	private boolean enabled;
 	
 	private ImmersivePortalsCompatibility()
@@ -16,16 +18,20 @@ public class ImmersivePortalsCompatibility
 		
 		if (this.enabled)
 		{
-			final Optional<Class<?>> globalClass = ReflectionUtils.getClass(
+			this.globalClass = ReflectionUtils.getClass(
 				"qouteall.imm_ptl.core.IPGlobal",
 				"qouteall.imm_ptl.core.Global",
 				"com.qouteall.immersive_portals.Global"
 			);
 			
-			if (globalClass.isPresent())
+			if (this.globalClass.isPresent())
 			{
 				ReflectionUtils.setField(globalClass, "enableDepthClampForPortalRendering", null, true);
 			}
+		}
+		else
+		{
+			this.globalClass = Optional.empty();
 		}
 	}
 }

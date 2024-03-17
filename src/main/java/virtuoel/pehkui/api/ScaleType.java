@@ -55,19 +55,19 @@ public class ScaleType
 	{
 		return defaultPersistence;
 	}
-
+	
 	private Float2FloatFunction defaultEasing;
-
+	
 	public void setDefaultEasing(Float2FloatFunction defaultEasing)
 	{
 		this.defaultEasing = defaultEasing;
 	}
-
+	
 	public Float2FloatFunction getDefaultEasing()
 	{
 		return defaultEasing;
 	}
-
+	
 	private float defaultBaseScale;
 	
 	public final float getDefaultBaseScale()
@@ -210,7 +210,7 @@ public class ScaleType
 			this.defaultPersistence = defaultPersistence;
 			return this;
 		}
-
+		
 		public Builder defaultEasing(Float2FloatFunction defaultEasing)
 		{
 			this.defaultEasing = defaultEasing;

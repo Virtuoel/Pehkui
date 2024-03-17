@@ -2,9 +2,9 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.thrown.PotionEntity;
@@ -31,7 +31,7 @@ public class PotionEntityMixin
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 	}
 	
-	@ModifyConstant(method = "damageEntitiesHurtByWater", constant = @Constant(doubleValue = 16.0D))
+	@ModifyExpressionValue(method = "damageEntitiesHurtByWater", at = @At(value = "CONSTANT", args = "doubleValue=16.0D"))
 	private double pehkui$applyWater$maxDist(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
@@ -57,7 +57,7 @@ public class PotionEntityMixin
 		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
 	}
 	
-	@ModifyConstant(method = "applySplashPotion", constant = @Constant(doubleValue = 16.0D))
+	@ModifyExpressionValue(method = "applySplashPotion", at = @At(value = "CONSTANT", args = "doubleValue=16.0D"))
 	private double pehkui$applySplashPotion$maxSquaredDist(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
@@ -65,7 +65,7 @@ public class PotionEntityMixin
 		return scale != 1.0F ? scale * scale * value : value;
 	}
 	
-	@ModifyConstant(method = "applySplashPotion", constant = @Constant(doubleValue = 4.0D, ordinal = 2))
+	@ModifyExpressionValue(method = "applySplashPotion", at = @At(value = "CONSTANT", args = "doubleValue=4.0F", ordinal = 2))
 	private double pehkui$applySplashPotion$maxDist(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);

@@ -1,8 +1,9 @@
 package virtuoel.pehkui.mixin.reach.compat1193minus;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.block.entity.EnderChestBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EnderChestBlockEntity.class)
 public abstract class EnderChestBlockEntityMixin
 {
-	@ModifyConstant(method = "canPlayerUse", constant = @Constant(doubleValue = 64.0D))
+	@ModifyExpressionValue(method = "canPlayerUse", at = @At(value = "CONSTANT", args = "doubleValue=64.0D"))
 	private double pehkui$canPlayerUse$distance(double value, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);

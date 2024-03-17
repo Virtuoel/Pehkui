@@ -1,11 +1,13 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -17,8 +19,9 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EggEntity.class)
 public class EggEntityMixin
 {
-	@Inject(method = MixinConstants.ON_COLLISION, locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY, remap = false), remap = false)
-	private void pehkui$onCollision(HitResult hitResult, CallbackInfo info, int i, int j, ChickenEntity chickenEntity)
+	@Dynamic
+	@Inject(method = MixinConstants.ON_COLLISION, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.SPAWN_ENTITY))
+	private void pehkui$onCollision(HitResult hitResult, CallbackInfo info, @Local ChickenEntity chickenEntity)
 	{
 		ScaleUtils.loadScale(chickenEntity, (Entity) (Object) this);
 	}

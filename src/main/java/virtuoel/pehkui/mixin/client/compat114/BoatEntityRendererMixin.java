@@ -1,6 +1,7 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
@@ -15,7 +16,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(BoatEntityRenderer.class)
 public abstract class BoatEntityRendererMixin
 {
-	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.RENDER_PASS))
 	private void pehkui$renderSecondPass$before(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		final float widthScale = ScaleUtils.getModelWidthScale(boatEntity, tickDelta);
@@ -28,7 +30,8 @@ public abstract class BoatEntityRendererMixin
 		GL11.glPushMatrix();
 	}
 	
-	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.AFTER, target = MixinConstants.RENDER_PASS, remap = false), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_SECOND_PASS, at = @At(value = "INVOKE", shift = Shift.AFTER, target = MixinConstants.RENDER_PASS))
 	private void pehkui$renderSecondPass$after(BoatEntity boatEntity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		GL11.glPopMatrix();
