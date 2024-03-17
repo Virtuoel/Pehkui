@@ -73,6 +73,12 @@ else if(project.hasProperty("forge_version")) {
 				configurations = [ project.configurations.shadow ]
 				relocate("com.llamalad7.mixinextras", "${project.group}.mixinextras")
 				mergeServiceFiles()
+				from "LICENSE"
+			}
+			
+			remapJar {
+				input.set shadowJar.archiveFile
+				dependsOn shadowJar
 			}
 		}
 	}
