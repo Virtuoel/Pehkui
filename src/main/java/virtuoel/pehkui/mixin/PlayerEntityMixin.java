@@ -63,7 +63,6 @@ public abstract class PlayerEntityMixin
 	private Box pehkui$tickMovement$expand(Box obj, double x, double y, double z, Operation<Box> original)
 	{
 		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
-		
 		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		if (widthScale != 1.0F)
