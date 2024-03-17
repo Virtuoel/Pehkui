@@ -60,24 +60,6 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyExpressionValue(method = "updateTargetedEntity", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=3.0D"))
-	private double pehkui$updateTargetedEntity$distance(double value, float tickDelta)
-	{
-		final Entity entity = client.getCameraEntity();
-		
-		if (entity != null)
-		{
-			final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
-			
-			if (scale != 1.0F)
-			{
-				return scale * value;
-			}
-		}
-		
-		return value;
-	}
-	
 	@ModifyExpressionValue(method = "updateTargetedEntity", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=6.0D"))
 	private double pehkui$updateTargetedEntity$extendedDistance(double value, float tickDelta)
 	{
