@@ -137,6 +137,7 @@ dependencies {
 			}
 			else {
 				shadow(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+				forgeRuntimeLibrary("io.github.llamalad7:mixinextras-common:${mixin_extras_version}")
 			}
 		}
 	}
