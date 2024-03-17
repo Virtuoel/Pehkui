@@ -2,7 +2,9 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
@@ -12,11 +14,9 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntitySelector.class)
 public class EntitySelectorMixin
 {
-	@Redirect(method = { "method_9810", "func_197344_a", "m_121141_" }, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$method_9810$getBoundingBox(Entity obj)
+	@ModifyArg(method = { "method_9810", "func_197344_a", "m_121141_" }, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;intersects(Lnet/minecraft/util/math/Box;)Z"))
+	private static Box pehkui$method_9810$intersects(Box bounds, @Local(argsOnly = true) Entity obj)
 	{
-		final Box bounds = obj.getBoundingBox();
-		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
 		

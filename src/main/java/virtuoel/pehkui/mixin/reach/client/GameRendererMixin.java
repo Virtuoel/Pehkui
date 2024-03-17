@@ -6,9 +6,9 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
@@ -60,25 +60,7 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyConstant(method = "updateTargetedEntity", require = 0, expect = 0, constant = @Constant(doubleValue = 3.0D))
-	private double pehkui$updateTargetedEntity$distance(double value, float tickDelta)
-	{
-		final Entity entity = client.getCameraEntity();
-		
-		if (entity != null)
-		{
-			final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
-			
-			if (scale != 1.0F)
-			{
-				return scale * value;
-			}
-		}
-		
-		return value;
-	}
-	
-	@ModifyConstant(method = "updateTargetedEntity", require = 0, expect = 0, constant = @Constant(doubleValue = 6.0D))
+	@ModifyExpressionValue(method = "updateTargetedEntity", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=6.0D"))
 	private double pehkui$updateTargetedEntity$extendedDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
@@ -96,7 +78,7 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyConstant(method = "updateTargetedEntity", require = 0, expect = 0, constant = @Constant(doubleValue = 9.0D))
+	@ModifyExpressionValue(method = "updateTargetedEntity", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=9.0D"))
 	private double pehkui$updateTargetedEntity$squaredMaxDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();

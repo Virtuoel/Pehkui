@@ -1,8 +1,9 @@
 package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.CrossbowItem;
@@ -14,7 +15,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(CrossbowItem.class)
 public class CrossbowItemMixin
 {
-	@ModifyConstant(method = "shoot", constant = @Constant(doubleValue = 0.15000000596046448D))
+	@ModifyExpressionValue(method = "shoot", at = @At(value = "CONSTANT", args = "doubleValue=0.15000000596046448D"))
 	private static double pehkui$shoot$yOffset(double value, World world, LivingEntity shooter, Hand hand, ItemStack crossbow, ItemStack projectile, float soundPitch, boolean creative, float speed, float divergence, float simulated)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(shooter);

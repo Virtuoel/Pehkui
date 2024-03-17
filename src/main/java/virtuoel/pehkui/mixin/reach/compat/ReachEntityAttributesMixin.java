@@ -3,8 +3,8 @@ package virtuoel.pehkui.mixin.reach.compat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -13,25 +13,19 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(targets = "com.jamieswhiteshirt.reachentityattributes.ReachEntityAttributes", remap = false)
 public class ReachEntityAttributesMixin
 {
-	@Inject(method = "getReachDistance", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void pehkui$getBlockDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	@ModifyReturnValue(method = "getReachDistance", at = @At("RETURN"), remap = false)
+	private static double pehkui$getBlockDistance(double original, LivingEntity entity, double value)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(entity);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(scale * info.getReturnValueD());
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 	
-	@Inject(method = "getAttackRange", at = @At(value = "RETURN"), cancellable = true, remap = false)
-	private static void pehkui$getEntityDistance(LivingEntity entity, double value, CallbackInfoReturnable<Double> info)
+	@ModifyReturnValue(method = "getAttackRange", at = @At("RETURN"), remap = false)
+	private static double pehkui$getEntityDistance(double original, LivingEntity entity, double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale(entity);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(scale * info.getReturnValueD());
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 }
