@@ -55,7 +55,7 @@ public abstract class PlayerEntityMixin
 			{
 				final Vec3d pos = entity.getPos();
 				
-				entity.updatePosition(pos.x, pos.y + ((1.0F - scale) * 0.3D), pos.z);
+				entity.setPosition(pos.x, pos.y + ((1.0F - scale) * 0.3D), pos.z);
 			}
 		}
 	}

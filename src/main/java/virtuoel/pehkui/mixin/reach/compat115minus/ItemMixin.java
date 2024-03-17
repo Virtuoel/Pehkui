@@ -16,8 +16,9 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Item.class)
 public class ItemMixin
 {
+	/*
 	@Dynamic
-	@ModifyVariable(method = MixinConstants.ITEM_RAYCAST, ordinal = 1, at = @At(value = "STORE"), remap = false)
+	@ModifyVariable(method = MixinConstants.ITEM_RAYCAST, ordinal = 1, at = @At(value = "STORE"))
 	private static Vec3d pehkui$raycast$end(Vec3d value, World world, PlayerEntity player, RaycastContext.FluidHandling fluidHandling)
 	{
 		final float scale = ScaleUtils.getBlockReachScale(player);
@@ -32,4 +33,5 @@ public class ItemMixin
 		
 		return value;
 	}
+	*/
 }

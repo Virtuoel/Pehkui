@@ -29,7 +29,7 @@ public class ItemMixin
 			return eyePos.add(distance.multiply(scale));
 		}
 		
-		return reach.getValue();
+		return value;
 	}
 	*/
 }

@@ -12,6 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(StorageMinecartEntity.class)
 public abstract class StorageMinecartEntityMixin
 {
+	/* // TODO 1.19
 	@ModifyReturnValue(method = "canPlayerUse", at = @At("RETURN"))
 	private boolean pehkui$canPlayerUse(boolean original, PlayerEntity playerEntity)
 	{
@@ -21,8 +22,7 @@ public abstract class StorageMinecartEntityMixin
 			
 			final StorageMinecartEntity self = (StorageMinecartEntity) (Object) this;
 			
-			// TODO 1.19
-		//	if (scale > 1.0F && !self.isRemoved() && self.getPos().isInRange(playerEntity.getPos(), 8.0 * scale))
+			if (scale > 1.0F && !self.isRemoved() && self.getPos().isInRange(playerEntity.getPos(), 8.0 * scale))
 			{
 				return true;
 			}
@@ -30,4 +30,5 @@ public abstract class StorageMinecartEntityMixin
 		
 		return original;
 	}
+	*/
 }

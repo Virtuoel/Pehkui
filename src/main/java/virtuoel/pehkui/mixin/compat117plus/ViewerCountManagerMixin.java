@@ -61,11 +61,7 @@ public class ViewerCountManagerMixin
 		}
 	}
 	
-<<<<<<< HEAD
-	@ModifyConstant(method = "getInRangeViewerCount", require = 0, expect = 0, constant = @Constant(floatValue = 5.0F))
-=======
 	@ModifyExpressionValue(method = "getInRangeViewerCount", at = @At(value = "CONSTANT", args = "floatValue=5.0F"))
->>>>>>> fabric/1.14.4-1.x.x
 	private float pehkui$getInRangeViewerCount$range(float value)
 	{
 		return viewerSearchRange;

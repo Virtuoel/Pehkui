@@ -33,7 +33,7 @@ public class ServerPlayNetworkHandlerMixin
 	}
 	*/
 	
-	@ModifyExpressionValue(method = "onPlayerInteractEntity", at = @At(value = "CONSTANT", args = "doubleValue=36.0D"))
+	@ModifyExpressionValue(method = "onPlayerInteractEntity", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=36.0D"))
 	private double pehkui$onPlayerInteractEntity$distance(double value)
 	{
 		final float scale = ScaleUtils.getEntityReachScale(player);

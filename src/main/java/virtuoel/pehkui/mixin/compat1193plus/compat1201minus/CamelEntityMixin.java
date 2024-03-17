@@ -32,8 +32,9 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
+	/*
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.5F"), remap = false)
+	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.5F"))
 	private float pehkui$camelMountedHeightOffset$sittingFrontOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -42,7 +43,7 @@ public class CamelEntityMixin
 	}
 	
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.1F"), remap = false)
+	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
 	private float pehkui$camelMountedHeightOffset$sittingBackOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -51,7 +52,7 @@ public class CamelEntityMixin
 	}
 	
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.6F"), remap = false)
+	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.6F"))
 	private float pehkui$camelMountedHeightOffset$standingFrontOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -60,7 +61,7 @@ public class CamelEntityMixin
 	}
 	
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.35F"), remap = false)
+	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.35F"))
 	private float pehkui$camelMountedHeightOffset$standingBackOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -69,7 +70,7 @@ public class CamelEntityMixin
 	}
 	
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=1.43F"), remap = false)
+	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=1.43F"))
 	private float pehkui$camelMountedHeightOffset$firstMultiplier(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
@@ -78,11 +79,12 @@ public class CamelEntityMixin
 	}
 	
 	@Dynamic
-	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.2F"), remap = false)
+	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.2F"))
 	private float pehkui$camelMountedHeightOffset$secondMultiplier(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
 	}
+	*/
 }
