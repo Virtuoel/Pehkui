@@ -19,6 +19,6 @@ public interface IForgeItemMixin
 	default Box getSweepHitBox(@NotNull ItemStack stack, @NotNull PlayerEntity player, @NotNull Entity target)
 	{
 		final float width = ScaleUtils.getBoundingBoxWidthScale(target);
-		return target.getBoundingBox().expand(width, ScaleUtils.getBoundingBoxHeightScale(target), width);
+		return target.getBoundingBox().expand(width, 0.25D * ScaleUtils.getBoundingBoxHeightScale(target), width);
 	}
 }

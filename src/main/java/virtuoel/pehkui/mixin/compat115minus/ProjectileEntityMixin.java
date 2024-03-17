@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -13,7 +14,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PersistentProjectileEntity.class)
 public abstract class ProjectileEntityMixin
 {
-	@ModifyArg(method = MixinConstants.SET_VELOCITY, at = @At(value = "INVOKE", target = MixinConstants.MULTIPLY, remap = false), remap = false)
+	@Dynamic
+	@ModifyArg(method = MixinConstants.SET_VELOCITY, at = @At(value = "INVOKE", target = MixinConstants.MULTIPLY))
 	private double pehkui$setVelocity$multiply(double value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
@@ -21,7 +23,8 @@ public abstract class ProjectileEntityMixin
 		return scale != 1.0F ? value * scale : value;
 	}
 	
-	@ModifyVariable(method = MixinConstants.ON_ENTITY_HIT, at = @At(value = "STORE"), remap = false)
+	@Dynamic
+	@ModifyVariable(method = MixinConstants.ON_ENTITY_HIT, at = @At(value = "STORE"))
 	private float pehkui$onEntityHit(float value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
