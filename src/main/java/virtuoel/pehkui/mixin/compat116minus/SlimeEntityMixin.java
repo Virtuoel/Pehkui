@@ -1,10 +1,11 @@
 package virtuoel.pehkui.mixin.compat116minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -14,7 +15,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(SlimeEntity.class)
 public class SlimeEntityMixin
 {
-	@ModifyArg(method = MixinConstants.REMOVE, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	@Dynamic
+	@ModifyArg(method = MixinConstants.REMOVE, at = @At(value = "INVOKE", target = MixinConstants.SPAWN_ENTITY))
 	private Entity pehkui$remove$spawnEntity(Entity entity)
 	{
 		ScaleUtils.loadScale(entity, (Entity) (Object) this);
@@ -22,7 +24,8 @@ public class SlimeEntityMixin
 		return entity;
 	}
 	
-	@ModifyConstant(method = MixinConstants.REMOVE, constant = @Constant(floatValue = 4.0F))
+	@Dynamic
+	@ModifyExpressionValue(method = MixinConstants.REMOVE, at = @At(value = "CONSTANT", args = "floatValue=4.0F"))
 	private float pehkui$remove$horizontalOffset(float value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
@@ -35,7 +38,8 @@ public class SlimeEntityMixin
 		return value;
 	}
 	
-	@ModifyConstant(method = MixinConstants.REMOVE, constant = @Constant(doubleValue = 0.5D))
+	@Dynamic
+	@ModifyExpressionValue(method = MixinConstants.REMOVE, at = @At(value = "CONSTANT", args = "doubleValue=0.5D"))
 	private double pehkui$remove$verticalOffset(double value)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);

@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
@@ -13,7 +14,7 @@ import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
 @Mixin(BlockState.class)
 public abstract class BlockStateMixin implements PehkuiBlockStateExtensions
 {
-	@Shadow(remap = false)
+	@Dynamic @Shadow
 	abstract VoxelShape method_17770(BlockView world, BlockPos pos); // UNMAPPED_METHOD
 	
 	@Override
@@ -22,7 +23,7 @@ public abstract class BlockStateMixin implements PehkuiBlockStateExtensions
 		return method_17770(world, pos);
 	}
 	
-	@Shadow(remap = false)
+	@Dynamic @Shadow
 	abstract Block method_11614();
 	
 	@Override

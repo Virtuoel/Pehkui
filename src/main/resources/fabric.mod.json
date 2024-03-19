@@ -27,6 +27,10 @@
 	"environment": "*",
 	"depends":
 	{
+		"forge": "*"
+	},
+	"recommends":
+	{
 		"neoforge": "*"
 	},
 	"entrypoints":

@@ -1,8 +1,9 @@
 package virtuoel.pehkui.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
@@ -11,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ClientPlayerEntity.class)
 public class ClientPlayerEntityMixin
 {
-	@ModifyConstant(method = "tickMovement", constant = @Constant(floatValue = 3.0F))
+	@ModifyExpressionValue(method = "tickMovement", at = @At(value = "CONSTANT", args = "floatValue=3.0F"))
 	private float pehkui$tickMovement$flightSpeed(float value)
 	{
 		final float scale = ScaleUtils.getFlightScale((Entity) (Object) this);
@@ -19,7 +20,7 @@ public class ClientPlayerEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyConstant(method = "autoJump", constant = { @Constant(floatValue = 1.2F), @Constant(floatValue = 0.75F) })
+	@ModifyExpressionValue(method = "autoJump", at = { @At(value = "CONSTANT", args = "floatValue=1.2F"), @At(value = "CONSTANT", args = "floatValue=0.75F") })
 	private float pehkui$autoJump$heightAndBoost(float value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);

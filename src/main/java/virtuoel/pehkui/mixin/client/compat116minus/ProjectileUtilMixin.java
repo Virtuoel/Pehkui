@@ -1,8 +1,11 @@
 package virtuoel.pehkui.mixin.client.compat116minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -13,10 +16,11 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ProjectileUtil.class)
 public class ProjectileUtilMixin
 {
-	@Redirect(method = MixinConstants.PROJECTILE_RAYCAST, require = 0, expect = 0, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
-	private static Box pehkui$raycast$getBoundingBox(Entity obj)
+	@Dynamic
+	@WrapOperation(method = MixinConstants.PROJECTILE_RAYCAST, require = 0, expect = 0, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
+	private static Box pehkui$raycast$getBoundingBox(Entity obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		final float margin = obj.getTargetingMargin();
 		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);

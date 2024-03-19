@@ -1,6 +1,7 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,7 +16,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(MobEntityRenderer.class)
 public class MobEntityRendererMixin<T extends MobEntity>
 {
-	@Inject(method = MixinConstants.RENDER_LEASH, at = @At(value = "HEAD"), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_LEASH, at = @At(value = "HEAD"))
 	private void pehkui$renderLeash$head(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		final Entity attached = entity.getHoldingEntity();
@@ -31,7 +33,8 @@ public class MobEntityRendererMixin<T extends MobEntity>
 		}
 	}
 	
-	@Inject(method = MixinConstants.RENDER_LEASH, at = @At(value = "RETURN"), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_LEASH, at = @At(value = "RETURN"))
 	private void pehkui$renderLeash$return(T entity, double x, double y, double z, float yaw, float tickDelta, CallbackInfo info)
 	{
 		if (entity.getHoldingEntity() != null)

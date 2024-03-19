@@ -306,7 +306,7 @@ public class ScaleData
 		final float progress = (float) ticks + delta;
 		final int total = getScaleTickDelay();
 		final float range = getTargetScale() - this.initialScale;
-		final float perTick = total == 0 ? 1.0F : (easing.apply(progress / total));
+		final float perTick = total == 0 ? 1.0F : (easing.apply(Math.min(progress / total, 1.0F)));
 		final float next = this.initialScale + (perTick * range);
 		
 		return next;
@@ -506,22 +506,21 @@ public class ScaleData
 		
 		baseValueModifiers.addAll(type.getDefaultBaseValueModifiers());
 		
-		if (tag.contains("baseValueModifiers"))
+		if (tag.contains("baseValueModifiers", NbtElement.LIST_TYPE))
 		{
-			final NbtList modifiers = tag.getList("baseValueModifiers", NbtElement.STRING_TYPE);
+			final NbtList modifiers = (NbtList) tag.get("baseValueModifiers");
+			final byte elementType = modifiers.getHeldType();
 			
 			Identifier id;
 			ScaleModifier modifier;
-			NbtElement element;
 			for (int i = 0; i < modifiers.size(); i++)
 			{
-				element = modifiers.get(i);
-				if (element.getType() == NbtElement.STRING_TYPE)
+				if (elementType == NbtElement.STRING_TYPE)
 				{
 					id = Identifier.tryParse(modifiers.getString(i));
 					modifier = ScaleRegistries.getEntry(ScaleRegistries.SCALE_MODIFIERS, id);
 				}
-				else if (element.getType() == NbtElement.COMPOUND_TYPE)
+				else if (elementType == NbtElement.COMPOUND_TYPE)
 				{
 					final NbtCompound compound = modifiers.getCompound(i);
 					id = Identifier.tryParse(compound.getString("id"));
@@ -716,21 +715,75 @@ public class ScaleData
 	
 	public ScaleData fromScale(ScaleData scaleData, boolean notifyListener)
 	{
+		boolean changed = false;
+		
 		if (scaleData != this)
 		{
+			float lastScale;
+			int lastTicks;
+			Boolean lastPersistence;
+			Float2FloatFunction lastEasing;
+			
+			lastScale = this.baseScale;
 			this.baseScale = scaleData.getBaseScale();
+			if (this.baseScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastScale = this.prevBaseScale;
 			this.prevBaseScale = scaleData.getPrevBaseScale();
+			if (this.prevBaseScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastScale = this.initialScale;
 			this.initialScale = scaleData.getInitialScale();
+			if (this.initialScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastScale = this.targetScale;
 			this.targetScale = scaleData.getTargetScale();
+			if (this.targetScale != lastScale)
+			{
+				changed = true;
+			}
+			
+			lastTicks = this.scaleTicks;
 			this.scaleTicks = scaleData.scaleTicks;
+			if (this.scaleTicks != lastTicks)
+			{
+				changed = true;
+			}
+			
+			lastTicks = this.totalScaleTicks;
 			this.totalScaleTicks = scaleData.totalScaleTicks;
+			if (this.totalScaleTicks != lastTicks)
+			{
+				changed = true;
+			}
+			
+			lastPersistence = this.persistent;
 			this.persistent = scaleData.getPersistence();
+			if (this.persistent != lastPersistence)
+			{
+				changed = true;
+			}
+			
+			lastEasing = this.easing;
 			this.easing = scaleData.getEasing();
+			if (this.easing != lastEasing)
+			{
+				changed = true;
+			}
 			
 			invalidateCachedScales();
 		}
 		
-		if (notifyListener)
+		if (notifyListener && changed)
 		{
 			onUpdate();
 		}

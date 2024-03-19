@@ -2,8 +2,8 @@ package virtuoel.pehkui.mixin.client.compat115plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.entity.PlayerEntityRenderer;
@@ -13,13 +13,14 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PlayerEntityRenderer.class)
 public abstract class PlayerEntityRendererMixin
 {
-	@Inject(at = @At("RETURN"), method = "getPositionOffset", cancellable = true)
-	private void pehkui$getPositionOffset(AbstractClientPlayerEntity entity, float tickDelta, CallbackInfoReturnable<Vec3d> info)
+	@ModifyReturnValue(method = "getPositionOffset", at = @At("RETURN"))
+	private Vec3d pehkui$getPositionOffset(Vec3d original, AbstractClientPlayerEntity entity, float tickDelta)
 	{
-		final Vec3d ret = info.getReturnValue();
-		if (ret != Vec3d.ZERO)
+		if (original != Vec3d.ZERO)
 		{
-			info.setReturnValue(ret.multiply(ScaleUtils.getModelHeightScale(entity, tickDelta)));
+			return original.multiply(ScaleUtils.getModelHeightScale(entity, tickDelta));
 		}
+		
+		return original;
 	}
 }

@@ -1,9 +1,10 @@
 package virtuoel.pehkui.mixin.compat1201minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.RavagerEntity;
@@ -17,14 +18,12 @@ import virtuoel.pehkui.util.ScaleUtils;
 })
 public abstract class EntityMountedHeightOffsetMixin
 {
-	@Inject(at = @At("RETURN"), method = MixinConstants.GET_MOUNTED_HEIGHT_OFFSET, cancellable = true)
-	private void pehkui$getMountedHeightOffset(CallbackInfoReturnable<Double> info)
+	@Dynamic
+	@ModifyReturnValue(method = MixinConstants.GET_MOUNTED_HEIGHT_OFFSET, at = @At("RETURN"))
+	private double pehkui$getMountedHeightOffset(double original)
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
-		if (scale != 1.0F)
-		{
-			info.setReturnValue(info.getReturnValue() * scale);
-		}
+		return scale != 1.0F ? original * scale : original;
 	}
 }
