@@ -253,5 +253,4 @@ public class MixinConstants
 	
 	// 1.20 Plus 1.20.2 Minus
 	public static final String GET_HIT_RESULT = "getHitResult(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/util/hit/HitResult;"; // COMMIT_READY
-	public static final String GET_ENTITY_COLLISION = "Lnet/minecraft/entity/projectile/ProjectileUtil;getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/EntityHitResult;"; // COMMIT_READY
 }
