@@ -74,7 +74,7 @@ public class DebugPacket implements CustomPayload
 	@Override
 	public Identifier id()
 	{
-		return Pehkui.SCALE_PACKET;
+		return Pehkui.DEBUG_PACKET;
 	}
 	
 	@Override
