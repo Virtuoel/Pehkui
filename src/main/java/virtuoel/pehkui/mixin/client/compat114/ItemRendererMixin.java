@@ -1,6 +1,7 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Coerce;
@@ -18,7 +19,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(value = ItemRenderer.class, priority = 1010)
 public class ItemRendererMixin
 {
-	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "HEAD"))
 	private void pehkui$renderHeldItem$head(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		if (ScaleRenderUtils.shouldSkipHeadItemScaling(entity, stack, type))
@@ -46,7 +48,8 @@ public class ItemRendererMixin
 		ScaleRenderUtils.saveLastRenderedItem(stack);
 	}
 	
-	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "RETURN"), remap = false)
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_HELD_ITEM, at = @At(value = "RETURN"))
 	private void pehkui$renderHeldItem$return(ItemStack stack, LivingEntity entity, @Coerce Object type, boolean leftHanded, CallbackInfo info)
 	{
 		if (ScaleRenderUtils.shouldSkipHeadItemScaling(entity, stack, type))

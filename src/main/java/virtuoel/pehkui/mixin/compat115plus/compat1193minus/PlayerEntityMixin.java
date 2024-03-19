@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.compat115plus;
+package virtuoel.pehkui.mixin.compat115plus.compat1193minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

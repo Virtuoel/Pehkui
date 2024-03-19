@@ -39,7 +39,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
 	private static final boolean MAGNA_LOADED = ModLoaderUtils.isModLoaded("magna");
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
-	private static final boolean PATCHWORK_ENTITY_EVENTS_LOADED = true;
+	public static final boolean APOTHEOSIS_LOADED = ModLoaderUtils.isModLoaded("apotheosis");
 	
 	private static final ArtifactVersion FORGE_VERSION = new DefaultArtifactVersion(FMLLoader.getLoadingModList().getModFileById("forge").versionString());
 	
@@ -61,10 +61,6 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		if (mixinClassName.endsWith("InGameOverlayRendererMixin"))
 		{
 			return OPTIFABRIC_LOADED == mixinClassName.contains(".optifine.compat.");
-		}
-		else if (mixinClassName.endsWith("EntityCalculateDimensionsMixin"))
-		{
-			return PATCHWORK_ENTITY_EVENTS_LOADED == mixinClassName.contains(".patchwork.compat.");
 		}
 		else if (mixinClassName.endsWith("IForgeEntityMixin"))
 		{

@@ -2,8 +2,9 @@ package virtuoel.pehkui.mixin.compat116plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
@@ -15,7 +16,7 @@ public abstract class FishingBobberEntityMixin
 	@Shadow
 	abstract PlayerEntity getPlayerOwner();
 	
-	@ModifyConstant(method = "removeIfInvalid", constant = @Constant(doubleValue = 1024.0D))
+	@ModifyExpressionValue(method = "removeIfInvalid", at = @At(value = "CONSTANT", args = "doubleValue=1024.0D"))
 	private double pehkui$removeIfInvalid$distance(double value)
 	{
 		final float scale = ScaleUtils.getProjectileScale(getPlayerOwner());

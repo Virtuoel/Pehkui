@@ -5,7 +5,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+
+import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LightningEntity;
@@ -17,8 +18,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(VillagerEntity.class)
 public class VillagerEntityMixin
 {
-	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/WitchEntity;refreshPositionAndAngles(DDDFF)V"))
-	private void pehkui$onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo info, WitchEntity witchEntity)
+	@Inject(method = "onStruckByLightning(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/entity/LightningEntity;)V", at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/mob/WitchEntity;refreshPositionAndAngles(DDDFF)V"))
+	private void pehkui$onStruckByLightning(ServerWorld world, LightningEntity lightning, CallbackInfo info, @Local WitchEntity witchEntity)
 	{
 		ScaleUtils.loadScale(witchEntity, (Entity) (Object) this);
 	}

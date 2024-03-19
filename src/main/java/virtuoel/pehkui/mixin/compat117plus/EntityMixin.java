@@ -4,6 +4,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -25,5 +27,44 @@ public class EntityMixin
 		}
 		
 		return distance;
+	}
+	
+	@ModifyExpressionValue(method = "move", at = @At(value = "CONSTANT", ordinal = 0, args = "doubleValue=0.6D"))
+	private double pehkui$move$flapping(double value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			return value / scale;
+		}
+		
+		return value;
+	}
+	
+	@ModifyExpressionValue(method = "move", at = @At(value = "CONSTANT", ordinal = 0, args = "floatValue=0.6F"))
+	private float pehkui$move$bobbing(float value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			return value / scale;
+		}
+		
+		return value;
+	}
+	
+	@ModifyExpressionValue(method = "move", at = @At(value = "CONSTANT", ordinal = 1, args = "floatValue=0.6F"))
+	private float pehkui$move$step(float value)
+	{
+		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
+		
+		if (scale != 1.0F)
+		{
+			return value / scale;
+		}
+		
+		return value;
 	}
 }

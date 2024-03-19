@@ -4,7 +4,9 @@ import java.util.function.Predicate;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -16,10 +18,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ProjectileUtil.class)
 public class ProjectileUtilMixin
 {
-	@Redirect(method = "getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;F)Lnet/minecraft/util/hit/EntityHitResult;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$getEntityCollision$getBoundingBox(Entity obj, World world, Entity except, Vec3d vec3d, Vec3d vec3d2, Box box, Predicate<Entity> predicate, float value)
+	@WrapOperation(method = "getEntityCollision(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/util/math/Box;Ljava/util/function/Predicate;F)Lnet/minecraft/util/hit/EntityHitResult;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private static Box pehkui$getEntityCollision$getBoundingBox(Entity obj, Operation<Box> original, World world, Entity except, Vec3d vec3d, Vec3d vec3d2, Box box, Predicate<Entity> predicate, float value)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		final float width = ScaleUtils.getBoundingBoxWidthScale(obj);
 		final float height = ScaleUtils.getBoundingBoxHeightScale(obj);
@@ -39,10 +41,10 @@ public class ProjectileUtilMixin
 		return bounds;
 	}
 	
-	@Redirect(method = "raycast", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
-	private static Box pehkui$raycast$getBoundingBox(Entity obj)
+	@WrapOperation(method = "raycast", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	private static Box pehkui$raycast$getBoundingBox(Entity obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		final float margin = obj.getTargetingMargin();
 		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);

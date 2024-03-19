@@ -18,6 +18,7 @@ body:
       You may select more than one."
       multiple: true
       options:
+        - 1.20.4
         - 1.20.2
         - 1.20.1
         - 1.19.4
@@ -54,8 +55,8 @@ body:
     id: mod_loader_version
     attributes:
       label: Mod loader version
-      description: What Forge version, Fabric Loader version (not Fabric API), or Quilt Loader version (not QSL) were you using?
-      placeholder: (e.g. Fabric Loader 0.11.6, e.g. Forge 36.1.62, e.g. Quilt Loader 0.18.10)
+      description: What Forge version, NeoForge version, Fabric Loader version (not Fabric API), or Quilt Loader version (not QSL) were you using?
+      placeholder: (e.g. Fabric Loader 0.14.24, e.g. Quilt Loader 0.22.0, e.g. NeoForge 20.2.88, e.g. Forge 36.1.62)
     validations:
       required: true
   - type: input

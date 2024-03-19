@@ -2,9 +2,9 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
@@ -13,7 +13,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin
 {
-	@ModifyConstant(method = "tryAttack(Lnet/minecraft/entity/Entity;)Z", constant = @Constant(floatValue = 0.5F))
+	@ModifyExpressionValue(method = "tryAttack(Lnet/minecraft/entity/Entity;)Z", at = @At(value = "CONSTANT", args = "floatValue=0.5F"))
 	private float pehkui$tryAttack$knockback(float value)
 	{
 		final float scale = ScaleUtils.getKnockbackScale((Entity) (Object) this);
