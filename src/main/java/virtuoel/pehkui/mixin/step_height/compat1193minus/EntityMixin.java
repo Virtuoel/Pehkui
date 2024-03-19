@@ -15,7 +15,7 @@ public abstract class EntityMixin
 	@WrapOperation(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	private float pehkui$adjustMovementForCollisions$stepHeight(Entity obj, Operation<Float> original)
 	{
-		final float scale = ScaleUtils.getStepHeightScale((Entity) (Object) this);
+		final float scale = ScaleUtils.getStepHeightScale(obj);
 		
 		return scale != 1.0F ? original.call(obj) * scale : original.call(obj);
 	}
