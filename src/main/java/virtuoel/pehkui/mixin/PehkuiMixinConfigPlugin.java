@@ -3,12 +3,10 @@ package virtuoel.pehkui.mixin;
 import java.util.List;
 import java.util.Set;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
-import virtuoel.pehkui.util.BackwardsCompatibility;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
@@ -38,6 +36,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	private static final boolean IDENTITY_LOADED = ModLoaderUtils.isModLoaded("identity");
 	private static final boolean MAGNA_LOADED = ModLoaderUtils.isModLoaded("magna");
 	private static final boolean OPTIFABRIC_LOADED = ModLoaderUtils.isModLoaded("optifabric");
+	public static final boolean APOTHIC_ATTRIBUTES_LOADED = ModLoaderUtils.isModLoaded("attributeslib"); 
 	
 	@Override
 	public boolean shouldApplyMixin(String targetClassName, String mixinClassName)
@@ -57,6 +56,18 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 		if (mixinClassName.endsWith("InGameOverlayRendererMixin"))
 		{
 			return OPTIFABRIC_LOADED == mixinClassName.contains(".optifine.compat.");
+		}
+		else if (mixinClassName.endsWith("IForgeEntityMixin"))
+		{
+			return true;
+		}
+		else if (mixinClassName.endsWith("IForgePlayerMixin"))
+		{
+			return true;
+		}
+		else if (mixinClassName.equals(MIXIN_PACKAGE + ".reach.client.ClientPlayerInteractionManagerMixin") || mixinClassName.equals(MIXIN_PACKAGE + ".reach.client.GameRendererMixin"))
+		{
+			return false;
 		}
 		
 		if (mixinClassName.startsWith(MIXIN_PACKAGE + ".reach"))
@@ -94,10 +105,7 @@ public class PehkuiMixinConfigPlugin implements IMixinConfigPlugin
 	@Override
 	public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo)
 	{
-		if (mixinClassName.equals(MIXIN_PACKAGE + ".pehkui.compat.ScaleTypeMixin"))
-		{
-			BackwardsCompatibility.addFieldsIfNeeded(name -> targetClass.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, name, "L" + targetClass.name + ";", null, null));
-		}
+		
 	}
 	
 	@Override

@@ -9,13 +9,14 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -93,12 +94,15 @@ public abstract class PlayerEntityMixin
 		return scale != 1.0F ? value / scale : value;
 	}
 	
-	@ModifyReturnValue(method = "getBlockBreakingSpeed", at = @At("RETURN"))
-	private float pehkui$getBlockBreakingSpeed(float original)
+	@Inject(at = @At("RETURN"), method = "getDigSpeed", cancellable = true)
+	private void pehkui$getBlockBreakingSpeed(BlockState block, BlockPos pos, CallbackInfoReturnable<Float> info)
 	{
 		final float scale = ScaleUtils.getMiningSpeedScale((Entity) (Object) this);
 		
-		return scale != 1.0F ? original * scale : original;
+		if (scale != 1.0F)
+		{
+			info.setReturnValue(info.getReturnValueF() * scale);
+		}
 	}
 	
 	@ModifyExpressionValue(method = "updateCapeAngles", at = { @At(value = "CONSTANT", args = "doubleValue=10.0D"), @At(value = "CONSTANT", args = "doubleValue=-10.0D") })
@@ -107,25 +111,5 @@ public abstract class PlayerEntityMixin
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@WrapOperation(method = "attack(Lnet/minecraft/entity/Entity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private Box pehkui$attack$expand(Box obj, double x, double y, double z, Operation<Box> original, @Local(argsOnly = true) Entity target)
-	{
-		final float widthScale = ScaleUtils.getBoundingBoxWidthScale(target);
-		final float heightScale = ScaleUtils.getBoundingBoxHeightScale(target);
-		
-		if (widthScale != 1.0F)
-		{
-			x *= widthScale;
-			z *= widthScale;
-		}
-		
-		if (heightScale != 1.0F)
-		{
-			y *= heightScale;
-		}
-		
-		return original.call(obj, x, y, z);
 	}
 }

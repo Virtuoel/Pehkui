@@ -15,16 +15,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -32,13 +27,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import virtuoel.pehkui.Pehkui;
+import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.network.PacketDistributor;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.network.DebugPacket;
 import virtuoel.pehkui.util.CommandUtils;
-import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
-import virtuoel.pehkui.util.ReflectionUtils;
 
 public class DebugCommand
 {
@@ -48,11 +43,7 @@ public class DebugCommand
 			CommandManager.literal("scale")
 			.requires(source -> source.hasPermissionLevel(2));
 		
-		builder.then(CommandManager.literal("debug")
-			.then(ConfigSyncUtils.registerConfigCommands())
-		);
-		
-		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableCommands.get())
+		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableCommands.get())
 		{
 			builder
 				.then(CommandManager.literal("debug")
@@ -91,11 +82,8 @@ public class DebugCommand
 					.then(CommandManager.literal("garbage_collect")
 						.executes(context ->
 						{
-							ReflectionUtils.sendPacket(context.getSource().getPlayerOrThrow().networkHandler,
-								(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
-									new PacketByteBuf(Unpooled.buffer())
-									.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
-								)
+							PacketDistributor.PLAYER.with(context.getSource().getPlayer()).send(
+								new DebugPacket(DebugPacket.Type.GARBAGE_COLLECT)
 							);
 							
 							System.gc();
@@ -106,7 +94,7 @@ public class DebugCommand
 				);
 		}
 		
-		if (FabricLoader.getInstance().isDevelopmentEnvironment() || PehkuiConfig.COMMON.enableDebugCommands.get())
+		if (!FMLLoader.isProduction() || PehkuiConfig.COMMON.enableDebugCommands.get())
 		{
 			builder
 				.then(CommandManager.literal("debug")
@@ -190,23 +178,13 @@ public class DebugCommand
 		return 1;
 	}
 	
-	public static enum DebugPacketType
-	{
-		MIXIN_AUDIT,
-		GARBAGE_COLLECT
-		;
-	}
-	
 	private static int runMixinTests(CommandContext<ServerCommandSource> context) throws CommandSyntaxException
 	{
 		final Entity executor = context.getSource().getEntity();
 		if (executor instanceof ServerPlayerEntity)
 		{
-			ReflectionUtils.sendPacket(((ServerPlayerEntity) executor).networkHandler,
-				(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
-					new PacketByteBuf(Unpooled.buffer())
-					.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
-				)
+			PacketDistributor.PLAYER.with((ServerPlayerEntity) executor).send(
+				new DebugPacket(DebugPacket.Type.MIXIN_AUDIT)
 			);
 		}
 		

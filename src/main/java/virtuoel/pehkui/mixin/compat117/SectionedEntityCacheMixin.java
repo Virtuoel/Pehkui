@@ -17,7 +17,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class SectionedEntityCacheMixin
 {
 	@Dynamic
-	@WrapOperation(method = "method_31776", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
+	@WrapOperation(method = { "method_31776", "m_156874_" }, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/EntityLike;getBoundingBox()Lnet/minecraft/util/math/Box;"))
 	private static Box pehkui$intersecting$getBoundingBox(EntityLike obj, Operation<Box> original)
 	{
 		final Box bounds = original.call(obj);

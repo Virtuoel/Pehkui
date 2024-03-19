@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(ViewerCountManager.class)
+@Mixin(value = ViewerCountManager.class, priority = 1010)
 public class ViewerCountManagerMixin
 {
 	@Shadow

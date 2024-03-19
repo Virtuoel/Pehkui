@@ -16,7 +16,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ServerPlayerInteractionManagerMixin
 {
 	@Shadow ServerPlayerEntity player;
-	
+	/*
 	@Dynamic
 	@ModifyExpressionValue(method = MixinConstants.PROCESS_BLOCK_BREAKING_ACTION, at = @At(value = "CONSTANT", args = "doubleValue=36.0D"))
 	private double pehkui$processBlockBreakingAction$distance(double value)
@@ -25,4 +25,5 @@ public class ServerPlayerInteractionManagerMixin
 		
 		return scale != 1.0F ? scale * scale * value : value;
 	}
+	*/
 }

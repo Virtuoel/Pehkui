@@ -1,11 +1,11 @@
 package virtuoel.pehkui.util;
 
-import net.fabricmc.loader.api.FabricLoader;
+import net.neoforged.fml.loading.FMLLoader;
 
 public class ModLoaderUtils
 {
 	public static boolean isModLoaded(final String modId)
 	{
-		return FabricLoader.getInstance().isModLoaded(modId);
+		return FMLLoader.getLoadingModList().getModFileById(modId) != null;
 	}
 }

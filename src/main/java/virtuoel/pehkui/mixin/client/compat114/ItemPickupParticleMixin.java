@@ -20,6 +20,7 @@ public class ItemPickupParticleMixin
 	@Dynamic @Shadow @Final @Mutable Entity field_3821; // UNMAPPED_FIELD
 	@Dynamic @Shadow @Final @Mutable float field_3822; // UNMAPPED_FIELD
 	
+	/*
 	@Dynamic
 	@ModifyArg(method = MixinConstants.BUILD_GEOMETRY, index = 2, at = @At(value = "INVOKE", target = MixinConstants.LERP, ordinal = 4))
 	private double pehkui$buildGeometry$offset(double value)
@@ -33,4 +34,5 @@ public class ItemPickupParticleMixin
 		
 		return value;
 	}
+	*/
 }

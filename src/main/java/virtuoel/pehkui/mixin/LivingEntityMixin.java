@@ -14,7 +14,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import net.minecraft.block.ScaffoldingBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -27,7 +26,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
-import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(LivingEntity.class)
@@ -174,9 +172,49 @@ public abstract class LivingEntityMixin
 			
 			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
 			{
-				if (((PehkuiBlockStateExtensions) world.getBlockState(pos)).pehkui_getBlock() instanceof ScaffoldingBlock)
+				if (world.getBlockState(pos).isScaffolding(self))
 				{
 					return new Vec3d(original.x, Math.max(self.getVelocity().y, -0.15D), original.z);
+				}
+			}
+		}
+		
+		return original;
+	}
+	
+	@ModifyReturnValue(method = "isClimbing()Z", at = @At("RETURN"))
+	private boolean pehkui$isClimbing(boolean original)
+	{
+		final LivingEntity self = (LivingEntity) (Object) this;
+		
+		if (original || self.isSpectator())
+		{
+			return original;
+		}
+		
+		final float width = ScaleUtils.getBoundingBoxWidthScale(self);
+		
+		if (width > 1.0F)
+		{
+			final Box bounds = self.getBoundingBox();
+			
+			final double halfUnscaledXLength = (bounds.getLengthX() / width) / 2.0D;
+			final int minX = MathHelper.floor(bounds.minX + halfUnscaledXLength);
+			final int maxX = MathHelper.floor(bounds.maxX - halfUnscaledXLength);
+			
+			final int minY = MathHelper.floor(bounds.minY);
+			
+			final double halfUnscaledZLength = (bounds.getLengthZ() / width) / 2.0D;
+			final int minZ = MathHelper.floor(bounds.minZ + halfUnscaledZLength);
+			final int maxZ = MathHelper.floor(bounds.maxZ - halfUnscaledZLength);
+			
+			final World world = self.getEntityWorld();
+			
+			for (final BlockPos pos : BlockPos.iterate(minX, minY, minZ, maxX, minY, maxZ))
+			{
+				if (world.getBlockState(pos).isLadder(world, pos, self))
+				{
+					return true;
 				}
 			}
 		}

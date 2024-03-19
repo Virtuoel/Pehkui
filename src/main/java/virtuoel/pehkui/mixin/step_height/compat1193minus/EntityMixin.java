@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public abstract class EntityMixin
 {
-	@WrapOperation(method = "adjustMovementForCollisions", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
+	@WrapOperation(method = "adjustMovementForCollisions", require = 0, expect = 0, at = @At(value = "FIELD", target = "Lnet/minecraft/entity/Entity;stepHeight:F"))
 	private float pehkui$adjustMovementForCollisions$stepHeight(Entity obj, Operation<Float> original)
 	{
 		final float scale = ScaleUtils.getStepHeightScale(obj);
