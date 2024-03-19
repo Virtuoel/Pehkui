@@ -9,12 +9,11 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
-// import net.minecraft.item.BrushItem;
-import net.minecraft.item.Item;
+import net.minecraft.item.BrushItem;
 import net.minecraft.util.hit.HitResult;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(/*Brush*/Item.class) // TODO 1.20.3
+@Mixin(BrushItem.class)
 public class BrushItemMixin
 {
 	@WrapOperation(method = "getHitResult(Lnet/minecraft/entity/player/PlayerEntity;)Lnet/minecraft/util/hit/HitResult;", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/projectile/ProjectileUtil;getCollision(Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;D)Lnet/minecraft/util/hit/HitResult;"))
