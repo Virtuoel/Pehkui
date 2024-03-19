@@ -2,8 +2,8 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
@@ -14,8 +14,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ShulkerEntity.class)
 public class ShulkerEntityMixin
 {
-	@Inject(method = "getActiveEyeHeight", at = @At("RETURN"), cancellable = true)
-	private void pehkui$getActiveEyeHeight(EntityPose pose, EntityDimensions dimensions, CallbackInfoReturnable<Float> info)
+	@ModifyReturnValue(method = "getActiveEyeHeight", at = @At("RETURN"))
+	private float pehkui$getActiveEyeHeight(float original, EntityPose pose, EntityDimensions dimensions)
 	{
 		final ShulkerEntity entity = (ShulkerEntity) (Object) this;
 		
@@ -27,13 +27,15 @@ public class ShulkerEntityMixin
 			{
 				if (face == Direction.UP)
 				{
-					info.setReturnValue(ScaleUtils.divideClamped(1.0F, scale) - info.getReturnValueF());
+					return ScaleUtils.divideClamped(1.0F, scale) - original;
 				}
 				else
 				{
-					info.setReturnValue(ScaleUtils.divideClamped(1.0F - info.getReturnValueF(), scale));
+					return ScaleUtils.divideClamped(1.0F - original, scale);
 				}
 			}
 		}
+		
+		return original;
 	}
 }

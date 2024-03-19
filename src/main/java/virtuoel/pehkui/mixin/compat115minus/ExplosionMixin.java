@@ -1,6 +1,7 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -18,12 +19,11 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Explosion.class)
 public abstract class ExplosionMixin
 {
-	@Shadow(remap = false)
-	@Final
-	@Mutable
-	float field_9190; // UNMAPPED_FIELD
+	@Shadow @Final @Mutable
+	float power;
 	
-	@Inject(at = @At("RETURN"), method = MixinConstants.EXPLOSION_INIT, remap = false)
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.EXPLOSION_INIT)
 	private void pehkui$construct(World world, @Nullable Entity entity, double x, double y, double z, float power, boolean createFire, Explosion.DestructionType blockDestructionType, CallbackInfo info)
 	{
 		if (entity != null)
@@ -32,7 +32,7 @@ public abstract class ExplosionMixin
 			
 			if (scale != 1.0F)
 			{
-				this.field_9190 *= scale;
+				this.power *= scale;
 			}
 		}
 	}

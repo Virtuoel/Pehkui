@@ -1,8 +1,11 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
@@ -13,10 +16,11 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(WorldChunk.class)
 public class WorldChunkMixin
 {
-	@Redirect(method = MixinConstants.GET_ENTITIES, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX, ordinal = 0, remap = false), remap = false)
-	private Box pehkui$getEntities$getBoundingBox(Entity obj)
+	@Dynamic
+	@WrapOperation(method = MixinConstants.GET_ENTITIES, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX, ordinal = 0))
+	private Box pehkui$getEntities$getBoundingBox(Entity obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
@@ -33,10 +37,11 @@ public class WorldChunkMixin
 		return bounds;
 	}
 	
-	@Redirect(method = MixinConstants.GET_ENTITIES_ENTITY_TYPE, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX, remap = false), remap = false)
-	private Box pehkui$getEntities$getBoundingBox$type(Entity obj)
+	@Dynamic
+	@WrapOperation(method = MixinConstants.GET_ENTITIES_ENTITY_TYPE, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
+	private Box pehkui$getEntities$getBoundingBox$type(Entity obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
@@ -53,10 +58,11 @@ public class WorldChunkMixin
 		return bounds;
 	}
 	
-	@Redirect(method = MixinConstants.GET_ENTITIES_CLASS, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX, remap = false), remap = false)
-	private Box pehkui$getEntities$getBoundingBox$class(Entity obj)
+	@Dynamic
+	@WrapOperation(method = MixinConstants.GET_ENTITIES_CLASS, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
+	private Box pehkui$getEntities$getBoundingBox$class(Entity obj, Operation<Box> original)
 	{
-		final Box bounds = obj.getBoundingBox();
+		final Box bounds = original.call(obj);
 		
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);
 		final float interactionHeight = ScaleUtils.getInteractionBoxHeightScale(obj);
