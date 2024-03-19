@@ -30,10 +30,12 @@ public class ScalePacket
 		
 		this.scaleData = scales.toArray(new ScaleData[quantity]);
 		this.typeIds = new Identifier[quantity];
+		this.nbt = new NbtCompound[quantity];
 		
 		for (int i = 0; i < quantity; i++)
 		{
-			typeIds[i] = ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, scaleData[i].getScaleType());
+			this.typeIds[i] = ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, this.scaleData[i].getScaleType());
+			this.scaleData[i].writeNbt(this.nbt[i] = new NbtCompound());
 		}
 	}
 	
