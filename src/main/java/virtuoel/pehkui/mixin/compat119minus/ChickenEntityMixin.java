@@ -1,8 +1,10 @@
 package virtuoel.pehkui.mixin.compat119minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -12,7 +14,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ChickenEntity.class)
 public abstract class ChickenEntityMixin
 {
-	@ModifyConstant(method = MixinConstants.UPDATE_PASSENGER_POSITION, constant = @Constant(floatValue = 0.1F))
+	@Dynamic
+	@ModifyExpressionValue(method = MixinConstants.UPDATE_PASSENGER_POSITION, at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
 	private float pehkui$updatePassengerPosition$offset(float value, Entity passenger)
 	{
 		final float scale = ScaleUtils.getBoundingBoxWidthScale(passenger);

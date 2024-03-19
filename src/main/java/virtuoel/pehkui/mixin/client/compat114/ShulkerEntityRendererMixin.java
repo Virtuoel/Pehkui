@@ -1,6 +1,7 @@
 package virtuoel.pehkui.mixin.client.compat114;
 
 import org.lwjgl.opengl.GL11;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,7 +17,8 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ShulkerEntityRenderer.class)
 public class ShulkerEntityRendererMixin
 {
-	@Inject(at = @At("RETURN"), method = MixinConstants.SETUP_TRANSFORMS, remap = false)
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.SETUP_TRANSFORMS)
 	private void pehkui$setupTransforms(LivingEntity entity, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
 	{
 		final Direction face = entity instanceof ShulkerEntity ? ((ShulkerEntity) entity).getAttachedFace() : Direction.DOWN;

@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat116minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -16,8 +17,8 @@ import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 @Mixin(BarrelBlockEntity.class)
 public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensions
 {
-	@Shadow(remap = false)
-	int field_17583;
+	@Dynamic @Shadow
+	int viewerCount;
 	
 	@Unique
 	float viewerSearchRange = 5.0F;
@@ -28,12 +29,13 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		return viewerSearchRange;
 	}
 	
+	@Dynamic
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN)
 	private void pehkui$onOpen(PlayerEntity player, CallbackInfo info)
 	{
-		if (field_17583 < 0)
+		if (viewerCount < 0)
 		{
-			field_17583 = 0;
+			viewerCount = 0;
 			
 			viewerSearchRange = 5.0F;
 		}
@@ -51,12 +53,13 @@ public class BarrelBlockEntityMixin implements ViewerCountingBlockEntityExtensio
 		}
 	}
 	
+	@Dynamic
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE)
 	private void pehkui$onClose(PlayerEntity player, CallbackInfo info)
 	{
-		if (field_17583 <= 1)
+		if (viewerCount <= 1)
 		{
-			field_17583 = 1;
+			viewerCount = 1;
 			
 			viewerSearchRange = 5.0F;
 		}

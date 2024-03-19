@@ -1,8 +1,9 @@
 package virtuoel.pehkui.mixin.compat115minus;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -10,7 +11,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(Entity.class)
 public abstract class EntityMixin
 {
-	@ModifyConstant(method = "isInsideWall()Z", constant = @Constant(floatValue = 0.1F))
+	@ModifyExpressionValue(method = "isInsideWall()Z", at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
 	private float pehkui$isInsideWall$offset(float value)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
