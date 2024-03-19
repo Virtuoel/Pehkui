@@ -15,7 +15,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ServerPlayerInteractionManager.class)
 public class ServerPlayerInteractionManagerMixin
 {
-	/*
 	@Shadow ServerPlayerEntity player;
 	
 	@WrapOperation(method = "processBlockBreakingAction", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;MAX_BREAK_SQUARED_DISTANCE:D"))
@@ -24,5 +23,4 @@ public class ServerPlayerInteractionManagerMixin
 		final float scale = ScaleUtils.getBlockReachScale(player);
 		return scale <= 1.0F ? original.call() : original.call() * scale * scale;
 	}
-	*/
 }

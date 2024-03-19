@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
 	"id": "pehkui",
-	"name": "Pehkui (NeoForge Version)",
-	"version": "0.0.0+neoforge",
-	"description": "NeoForge version of Pehkui, but you are playing on a Fabric or Quilt instance! Did you download the wrong mod .jar?",
+	"name": "Pehkui",
+	"version": "${version}",
+	"description": "Allows resizing of most entities.",
 	"authors":
 	[
 		"Virtuoel"
@@ -27,13 +27,33 @@
 	"environment": "*",
 	"depends":
 	{
-		"neoforge": "*"
+		"fabricloader": ">=0.15.7",
+		"fabric-api-base": "*",
+		"kanos_config": ">=0.4.1"
 	},
 	"entrypoints":
 	{
 		"main":
 		[
-			"virtuoel.pehkui.util.FabricEntrypoint::onInitialize"
+			"virtuoel.pehkui.Pehkui"
+		],
+		"client":
+		[
+			"virtuoel.pehkui.PehkuiClient"
 		]
+	},
+	"mixins":
+	[
+		"pehkui.mixins.json"
+	],
+	"custom":
+	{
+		"multiconnect":
+		{
+			"custom_payloads":
+			{
+				"allowed_clientbound": "pehkui:*"
+			}
+		}
 	}
 }

@@ -20,7 +20,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(PigEntity.class)
 public class PigEntityMixin
 {
-	/*
 	@Dynamic
 	@Inject(method = MixinConstants.ON_STRUCK_BY_LIGHTNING, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = MixinConstants.ZOMBIFIED_PIGLIN_REFRESH_POS_AND_ANGLES))
 	private void pehkui$onStruckByLightning(LightningEntity lightning, CallbackInfo info, @Local ZombifiedPiglinEntity zombifiedPiglinEntity)
@@ -34,5 +33,4 @@ public class PigEntityMixin
 	{
 		return ScaleUtils.modifyLimbDistance(value, (Entity) (Object) this);
 	}
-	*/
 }

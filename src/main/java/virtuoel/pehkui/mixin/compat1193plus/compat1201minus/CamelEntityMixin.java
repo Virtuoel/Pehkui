@@ -32,7 +32,6 @@ public class CamelEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	/*
 	@Dynamic
 	@ModifyExpressionValue(method = MixinConstants.GET_PASSENGER_ATTACHMENT_Y, at = @At(value = "CONSTANT", args = "floatValue=0.5F"))
 	private float pehkui$camelMountedHeightOffset$sittingFrontOffset(float value)
@@ -86,5 +85,4 @@ public class CamelEntityMixin
 		
 		return scale != 1.0F ? scale * value : value;
 	}
-	*/
 }

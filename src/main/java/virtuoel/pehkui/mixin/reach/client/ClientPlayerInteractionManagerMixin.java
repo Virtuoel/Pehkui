@@ -1,22 +1,32 @@
 package virtuoel.pehkui.mixin.reach.client;
 
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.sugar.Local;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
+import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class ClientPlayerInteractionManagerMixin
 {
+	@Shadow @Final MinecraftClient client;
+	
 	@ModifyReturnValue(method = "getReachDistance", at = @At("RETURN"))
-	private float pehkui$getReachDistance(float original, @Local(ordinal = 0) float attrib)
+	private float pehkui$getReachDistance(float original)
 	{
-		if (original == attrib - 0.5F)
+		if (client.player != null)
 		{
-			return attrib * 0.9F;
+			final float scale = ScaleUtils.getBlockReachScale(client.player);
+			
+			if (scale != 1.0F)
+			{
+				return original * scale;
+			}
 		}
 		
 		return original;

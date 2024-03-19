@@ -434,7 +434,7 @@ public class ScaleData
 	{
 		invalidateCachedScales();
 		markForSync(true);
-		getScaleType().getScaleChangedEvent().forEach(s -> s.onEvent(this));
+		getScaleType().getScaleChangedEvent().invoker().onEvent(this);
 	}
 	
 	private void invalidateCachedModifiers()

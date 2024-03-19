@@ -22,7 +22,7 @@ import virtuoel.pehkui.util.ViewerCountingBlockEntityExtensions;
 public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtensions
 {
 	@Dynamic @Shadow
-	int viewerCount;
+	int field_11928; // UNMAPPED_FIELD
 	
 	@Unique
 	float viewerSearchRange = 5.0F;
@@ -37,9 +37,9 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_OPEN)
 	private void pehkui$onOpen(PlayerEntity player, CallbackInfo info)
 	{
-		if (viewerCount < 0)
+		if (field_11928 < 0)
 		{
-			viewerCount = 0;
+			field_11928 = 0;
 			
 			viewerSearchRange = 5.0F;
 		}
@@ -61,9 +61,9 @@ public class ChestBlockEntityMixin implements ViewerCountingBlockEntityExtension
 	@Inject(at = @At("HEAD"), method = MixinConstants.ON_CLOSE)
 	private void pehkui$onClose(PlayerEntity player, CallbackInfo info)
 	{
-		if (viewerCount <= 1)
+		if (field_11928 <= 1)
 		{
-			viewerCount = 1;
+			field_11928 = 1;
 			
 			viewerSearchRange = 5.0F;
 		}

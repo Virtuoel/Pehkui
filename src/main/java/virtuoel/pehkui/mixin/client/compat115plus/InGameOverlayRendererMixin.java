@@ -12,7 +12,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(InGameOverlayRenderer.class)
 public abstract class InGameOverlayRendererMixin
 {
-	@ModifyExpressionValue(method = "getOverlayBlock", at = @At(value = "CONSTANT", args = "floatValue=0.1F"), remap = false)
+	@ModifyExpressionValue(method = "getInWallBlockState", at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
 	private static float pehkui$getInWallBlockState$offset(float value, PlayerEntity player)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(player);

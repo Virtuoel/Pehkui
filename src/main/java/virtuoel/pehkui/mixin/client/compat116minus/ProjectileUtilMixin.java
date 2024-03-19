@@ -17,7 +17,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class ProjectileUtilMixin
 {
 	@Dynamic
-	@WrapOperation(method = MixinConstants.PROJECTILE_RAYCAST, require = 0, expect = 0, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
+	@WrapOperation(method = MixinConstants.PROJECTILE_RAYCAST, at = @At(value = "INVOKE", target = MixinConstants.GET_BOUNDING_BOX))
 	private static Box pehkui$raycast$getBoundingBox(Entity obj, Operation<Box> original)
 	{
 		final Box bounds = original.call(obj);

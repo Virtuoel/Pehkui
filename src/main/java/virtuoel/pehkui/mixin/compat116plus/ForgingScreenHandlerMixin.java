@@ -14,19 +14,19 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(ForgingScreenHandler.class)
 public class ForgingScreenHandlerMixin
 {
-	@ModifyExpressionValue(method = { "method_24924", "func_234646_a", "m_39783_" }, require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 0))
+	@ModifyExpressionValue(method = "method_24924", at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 0))
 	private double pehkui$canUse$xOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockXOffset(pos, player);
 	}
 	
-	@ModifyExpressionValue(method = { "method_24924", "func_234646_a", "m_39783_" }, require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 1))
+	@ModifyExpressionValue(method = "method_24924", at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 1))
 	private double pehkui$canUse$yOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockYOffset(pos, player);
 	}
 	
-	@ModifyExpressionValue(method = { "method_24924", "func_234646_a", "m_39783_" }, require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 2))
+	@ModifyExpressionValue(method = "method_24924", at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 2))
 	private double pehkui$canUse$zOffset(double value, PlayerEntity player, World world, BlockPos pos)
 	{
 		return ScaleUtils.getBlockZOffset(pos, player);

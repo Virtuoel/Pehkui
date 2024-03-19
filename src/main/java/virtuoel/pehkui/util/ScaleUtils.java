@@ -9,6 +9,9 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -16,20 +19,19 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
-import virtuoel.pehkui.network.ScalePacket;
 
 public class ScaleUtils
 {
@@ -37,9 +39,9 @@ public class ScaleUtils
 	{
 		final ScaleType type = data.getScaleType();
 		
-		type.getPreTickEvent().forEach(s -> s.onEvent(data));
+		type.getPreTickEvent().invoker().onEvent(data);
 		data.tick();
-		type.getPostTickEvent().forEach(s -> s.onEvent(data));
+		type.getPostTickEvent().invoker().onEvent(data);
 	}
 	
 	public static void loadAverageScales(Entity target, Entity source, Entity... sources)
@@ -227,6 +229,8 @@ public class ScaleUtils
 		return !scaleData.hasDefaultValues();
 	}
 	
+	private static final boolean NETWORKING_API_LOADED = ModLoaderUtils.isModLoaded("fabric-networking-api-v1");
+	
 	private static final ThreadLocal<Collection<ScaleData>> SYNCED_SCALE_DATA = ThreadLocal.withInitial(ArrayList::new);
 	
 	public static void syncScales(Entity entity, Consumer<Packet<?>> packetSender, Predicate<ScaleData> condition, boolean unmark)
@@ -248,7 +252,22 @@ public class ScaleUtils
 		
 		if (!syncedScales.isEmpty())
 		{
-			packetSender.accept(new CustomPayloadS2CPacket(new ScalePacket(entity, syncedScales)));
+			if (NETWORKING_API_LOADED)
+			{
+				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+				
+				buffer.writeVarInt(entity.getId());
+				((ByteBuf) buffer).writeInt(syncedScales.size());
+				
+				for (final ScaleData s : syncedScales)
+				{
+					buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, s.getScaleType()));
+					s.toPacket(buffer);
+				}
+				
+				packetSender.accept(ServerPlayNetworking.createS2CPacket(Pehkui.SCALE_PACKET, buffer));
+			}
+			
 			syncedScales.clear();
 		}
 	}

@@ -14,7 +14,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(EntitySelector.class)
 public class EntitySelectorMixin
 {
-	@ModifyArg(method = { "method_9810", "func_197344_a", "m_121141_" }, require = 0, expect = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;intersects(Lnet/minecraft/util/math/Box;)Z"))
+	@ModifyArg(method = "method_9810", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;intersects(Lnet/minecraft/util/math/Box;)Z"))
 	private static Box pehkui$method_9810$intersects(Box bounds, @Local(argsOnly = true) Entity obj)
 	{
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(obj);

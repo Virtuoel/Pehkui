@@ -12,26 +12,26 @@ import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = {
+@Mixin({
 	AbstractFurnaceBlockEntity.class,
 	BrewingStandBlockEntity.class,
 	LootableContainerBlockEntity.class,
-}, priority = 1010)
+})
 public abstract class BlockEntityUseDistanceMixin
 {
-	@ModifyExpressionValue(method = "canPlayerUse", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 0))
+	@ModifyExpressionValue(method = "canPlayerUse", at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 0))
 	private double pehkui$canPlayerUse$xOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockXOffset(((BlockEntity) (Object) this).getPos(), player);
 	}
 	
-	@ModifyExpressionValue(method = "canPlayerUse", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 1))
+	@ModifyExpressionValue(method = "canPlayerUse", at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 1))
 	private double pehkui$canPlayerUse$yOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockYOffset(((BlockEntity) (Object) this).getPos(), player);
 	}
 	
-	@ModifyExpressionValue(method = "canPlayerUse", require = 0, expect = 0, at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 2))
+	@ModifyExpressionValue(method = "canPlayerUse", at = @At(value = "CONSTANT", args = "doubleValue=0.5D", ordinal = 2))
 	private double pehkui$canPlayerUse$zOffset(double value, PlayerEntity player)
 	{
 		return ScaleUtils.getBlockZOffset(((BlockEntity) (Object) this).getPos(), player);

@@ -11,7 +11,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = AbstractHorseEntity.class, priority = 1010)
+@Mixin(AbstractHorseEntity.class)
 public abstract class AbstractHorseEntityMixin
 {
 	@Dynamic

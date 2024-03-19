@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
-@Mixin(value = LivingEntity.class, priority = 1010)
+@Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin
 {
 	@Dynamic

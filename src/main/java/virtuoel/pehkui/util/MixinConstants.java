@@ -4,6 +4,7 @@ public class MixinConstants
 {
 	private static final String METHOD_6078 = "method_6078";
 	private static final String METHOD_6108 = "method_6108";
+	private static final String METHOD_8649 = "method_8649";
 	private static final String METHOD_3074 = "method_3074";
 	private static final String METHOD_16436 = "method_16436";
 	private static final String METHOD_3887 = "method_3887";
@@ -24,9 +25,12 @@ public class MixinConstants
 	private static final String METHOD_4073 = "method_4073";
 	private static final String METHOD_4058 = "method_4058";
 	private static final String METHOD_7469 = "method_7469";
+	private static final String METHOD_8537 = "method_8537";
 	private static final String METHOD_5992 = "method_5992";
 	private static final String METHOD_5808 = "method_5808";
 	private static final String METHOD_6249 = "method_6249";
+	private static final String METHOD_23883 = "method_23883";
+	private static final String METHOD_22973 = "method_22973";
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_6959 = "method_6959";
 	private static final String METHOD_6091 = "method_6091";
@@ -44,13 +48,43 @@ public class MixinConstants
 	private static final String METHOD_17366 = "method_17366";
 	private static final String METHOD_7872 = "method_7872";
 	private static final String METHOD_6194 = "method_6194";
+	private static final String METHOD_1760 = "method_1760";
+	private static final String METHOD_6067 = "method_6067";
+	private static final String METHOD_18075 = "method_18075";
 	private static final String METHOD_3926 = "method_3926";
 	private static final String METHOD_23163 = "method_23163";
+	private static final String METHOD_23177 = "method_23177";
+	private static final String METHOD_5757 = "method_5757";
+	private static final String METHOD_5650 = "method_5650";
+	private static final String METHOD_5435 = "method_5435";
+	private static final String METHOD_5432 = "method_5432";
+	private static final String METHOD_17765 = "method_17765";
+	private static final String METHOD_5623 = "method_5623";
+	private static final String METHOD_9554 = "method_9554";
+	private static final String METHOD_11117 = "method_11117";
+	private static final String METHOD_5823 = "method_5823";
+	private static final String METHOD_18074 = "method_18074";
+	private static final String METHOD_29242 = "method_29242";
+	private static final String METHOD_33191 = "method_33191";
+	private static final String METHOD_14263 = "method_14263";
 	private static final String METHOD_12205 = "method_12205";
 	private static final String METHOD_12210 = "method_12210";
 	private static final String METHOD_18029 = "method_18029";
+	private static final String METHOD_5829 = "method_5829";
 	private static final String METHOD_1348 = "method_1348";
 	private static final String METHOD_3956 = "method_3956";
+	private static final String METHOD_31765 = "method_31765";
+	private static final String METHOD_31762 = "method_31762";
+	private static final String METHOD_5865 = "method_5865";
+	private static final String METHOD_8437 = "method_8437";
+	private static final String METHOD_2486 = "method_2486";
+	private static final String METHOD_8454 = "method_8454";
+	private static final String METHOD_48472 = "method_48472";
+	private static final String METHOD_5621 = "method_5621";
+	private static final String METHOD_45346 = "method_45346";
+	private static final String METHOD_5678 = "method_5678";
+	private static final String METHOD_14570 = "method_14570";
+	private static final String METHOD_49999 = "method_49999";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -65,6 +99,7 @@ public class MixinConstants
 	private static final String CLASS_897 = "net/minecraft/class_897";
 	private static final String CLASS_1657 = "net/minecraft/class_1657";
 	private static final String CLASS_761 = "net/minecraft/class_761";
+	private static final String CLASS_1927 = "net/minecraft/class_1927";
 	private static final String CLASS_1268 = "net/minecraft/class_1268";
 	private static final String CLASS_1296 = "net/minecraft/class_1296";
 	private static final String CLASS_1642 = "net/minecraft/class_1642";
@@ -82,13 +117,24 @@ public class MixinConstants
 	private static final String CLASS_4587 = "net/minecraft/class_4587";
 	private static final String CLASS_4597 = "net/minecraft/class_4597";
 	private static final String CLASS_1799 = "net/minecraft/class_1799";
+	private static final String CLASS_2624 = "net/minecraft/class_2624";
+	private static final String CLASS_2680 = "net/minecraft/class_2680";
+	private static final String CLASS_2338 = "net/minecraft/class_2338";
+	private static final String CLASS_2248 = "net/minecraft/class_2248";
+	private static final String CLASS_2724 = "net/minecraft/class_2724";
+	private static final String CLASS_746 = "net/minecraft/class_746";
 	private static final String CLASS_238 = "net/minecraft/class_238";
 	private static final String CLASS_289 = "net/minecraft/class_289";
 	private static final String CLASS_898 = "net/minecraft/class_898";
+	private static final String CLASS_5575 = "net/minecraft/class_5575";
+	private static final String CLASS_1282 = "net/minecraft/class_1282";
+	private static final String CLASS_5362 = "net/minecraft/class_5362";
+	private static final String CLASS_332 = "net/minecraft/class_332";
 	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
 	private static final String CLASS_3959$CLASS_242 = "net/minecraft/class_3959$class_242";
+	private static final String CLASS_1937$CLASS_7867 = "net/minecraft/class_1937$class_7867";
 	
 	// 1.14
 	public static final String DEATH = METHOD_6078;
@@ -165,92 +211,92 @@ public class MixinConstants
 	public static final String GET_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_17682 + "()F";
 	
 	// 1.15 Plus 1.16 Minus
-	public static final String DROP_XP = "dropXp"; // COMMIT_READY
+	public static final String DROP_XP = METHOD_23883; // COMMIT_READY
 	
 	// 1.15 Plus 1.16 Minus Client
-	public static final String RENDER_ITEM = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V"; // COMMIT_READY
+	public static final String RENDER_ITEM = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";II)V"; // COMMIT_READY
 	
 	// 1.15 Plus 1.19.2 Minus Client
-	public static final String GET_BASIC_PROJECTION_MATRIX = "getBasicProjectionMatrix"; // COMMIT_READY
+	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973; // COMMIT_READY
 	
 	// 1.16
-	public static final String IS_INSIDE_WALL = "isInsideWall()Z"; // COMMIT_READY
+	public static final String IS_INSIDE_WALL = METHOD_5757 + "()Z"; // COMMIT_READY
 	
 	// 1.16 Minus
-	public static final String ON_OPEN = "onOpen(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT_READY
-	public static final String ON_CLOSE = "onClose(Lnet/minecraft/entity/player/PlayerEntity;)V"; // COMMIT_READY
-	public static final String COUNT_VIEWERS = "countViewers(Lnet/minecraft/world/World;Lnet/minecraft/block/entity/LockableContainerBlockEntity;III)I"; // COMMIT_READY
-	public static final String GET_BOUNDING_BOX = "Lnet/minecraft/entity/Entity;getBoundingBox()Lnet/minecraft/util/math/Box;";
-	public static final String FALL = "fall"; // COMMIT_READY
-	public static final String ON_LANDED_UPON = "Lnet/minecraft/block/Block;onLandedUpon(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/Entity;F)V"; // COMMIT_READY
-	public static final String SPAWN_ENTITY = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"; // COMMIT_READY
-	public static final String REMOVE = "remove"; // COMMIT_READY
+	public static final String ON_OPEN = METHOD_5435 + "(L" + CLASS_1657 + ";)V"; // COMMIT_READY
+	public static final String ON_CLOSE = METHOD_5432 + "(L" + CLASS_1657 + ";)V"; // COMMIT_READY
+	public static final String COUNT_VIEWERS = METHOD_17765 + "(L" + CLASS_1937 + ";L" + CLASS_2624 + ";III)I"; // COMMIT_READY
+	public static final String GET_BOUNDING_BOX = "L" + CLASS_1297 + ";" + METHOD_5829 + "()L" + CLASS_238 + ";";
+	public static final String FALL = METHOD_5623 + "(DZL" + CLASS_2680 + ";L" + CLASS_2338 + ";)V"; // COMMIT_READY
+	public static final String ON_LANDED_UPON = "L" + CLASS_2248 + ";" + METHOD_9554 + "(L" + CLASS_1937 + ";L" + CLASS_2338 + ";L" + CLASS_1297 + ";F)V"; // COMMIT_READY
+	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z"; // COMMIT_READY
+	public static final String REMOVE = METHOD_5650; // COMMIT_READY
 	
 	// 1.16 Minus Client
-	public static final String RENDER_STATUS_BARS = "renderStatusBars"; // COMMIT_READY
-	public static final String GET_ABSORPTION_AMOUNT = "Lnet/minecraft/entity/player/PlayerEntity;getAbsorptionAmount()F"; // COMMIT_READY
-	public static final String PROJECTILE_RAYCAST = "raycast"; // COMMIT_READY
+	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT_READY
+	public static final String GET_ABSORPTION_AMOUNT = "L" + CLASS_1657 + ";" + METHOD_6067 + "()F"; // COMMIT_READY
+	public static final String PROJECTILE_RAYCAST = METHOD_18075; // COMMIT_READY
 	
 	// 1.16.2 - 1.16.5 Client
-	public static final String ON_PLAYER_RESPAWN = "onPlayerRespawn"; // COMMIT_READY
-	public static final String AFTER_SPAWN = "Lnet/minecraft/client/network/ClientPlayerEntity;afterSpawn()V"; // COMMIT_READY
+	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT_READY
+	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.18 Minus
-	public static final String GIVE_TO_VEC3D = "give(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/util/math/Vec3d;)V"; // COMMIT_READY
+	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.19 Minus
-	public static final String GET_COLLISION = "getCollision(Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;)Lnet/minecraft/util/hit/HitResult;"; // COMMIT_READY
+	public static final String GET_COLLISION = METHOD_18074 + "(L" + CLASS_1297 + ";Ljava/util/function/Predicate;)L" + CLASS_239  + ";"; // COMMIT_READY
 	
 	// 1.16 Plus 1.19.3 Minus
-	public static final String UPDATE_LIMBS = "updateLimbs(Lnet/minecraft/entity/LivingEntity;Z)V"; // COMMIT_READY
+	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.20.2 Minus
-	public static final String GET_COLLISION_FROM_POSITION = "getCollision(Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/entity/Entity;Ljava/util/function/Predicate;Lnet/minecraft/util/math/Vec3d;Lnet/minecraft/world/World;)Lnet/minecraft/util/hit/HitResult;"; // COMMIT_READY
+	public static final String GET_COLLISION_FROM_POSITION = METHOD_18074 + "(L" + CLASS_243 + ";L" + CLASS_1297 + ";Ljava/util/function/Predicate;L" + CLASS_243 + ";L" + CLASS_1937 + ";)L" + CLASS_239  + ";"; // COMMIT_READY
 	
 	// 1.17 Plus 1.19.3 Minus Client
-	public static final String RENDER_ITEM_WITH_SEED = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V"; // COMMIT_READY
+	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V"; // COMMIT_READY
 	
 	// 1.17 Plus 1.20.1 Minus
-	public static final String SQUARED_ATTACK_RANGE = "squaredAttackRange"; // COMMIT_READY
+	public static final String SQUARED_ATTACK_RANGE = METHOD_33191; // COMMIT_READY
 	
 	// 1.18 Minus
-	public static final String PROCESS_BLOCK_BREAKING_ACTION = "processBlockBreakingAction"; // COMMIT_READY
+	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263; // COMMIT_READY
 	
 	// 1.18 Plus 1.19.2 Minus
-	public static final String FOR_EACH = "forEach(Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
-	public static final String FOR_EACH_FILTERED = "forEach(Lnet/minecraft/util/TypeFilter;Lnet/minecraft/util/math/Box;Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	public static final String FOR_EACH = METHOD_31765 + "(L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	public static final String FOR_EACH_FILTERED = METHOD_31762 + "(L" + CLASS_5575 + ";L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
 	
 	// 1.19 Minus
-	public static final String UPDATE_PASSENGER_POSITION = "updatePassengerPosition"; // COMMIT_READY
+	public static final String UPDATE_PASSENGER_POSITION = METHOD_5865; // COMMIT_READY
 	
 	// 1.19.2 Minus
-	public static final String CREATE_EXPLOSION = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
-	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
+	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
+	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
 	
 	// 1.19.3 Minus
-	public static final String DRAW_ENTITY_MOUSE_LOOK = "drawEntity(IIIFFLnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
+	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V"; // COMMIT_READY
 	
 	// 1.19.3 Plus 1.20.2 Minus
-	public static final String CREATE_EXPLOSION_TYPED = "Lnet/minecraft/world/World;createExplosion(Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;Lnet/minecraft/world/explosion/ExplosionBehavior;DDDFZLnet/minecraft/world/World$ExplosionSourceType;)Lnet/minecraft/world/explosion/Explosion;"; // COMMIT_READY
+	public static final String CREATE_EXPLOSION_TYPED = "L" + CLASS_1937 + ";" + METHOD_8454 + "(L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1937$CLASS_7867 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
 	
 	// 1.19.4
-	public static final String DRAW_ENTITY_ROTATED = "drawEntity(Lnet/minecraft/client/util/math/MatrixStack;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
+	public static final String DRAW_ENTITY_ROTATED = METHOD_48472 + "(L" + CLASS_4587 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
 	
 	// 1.20 - 1.20.1
-	public static final String DRAW_ENTITY_NO_TRANSLATION = "drawEntity(Lnet/minecraft/client/gui/DrawContext;IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;Lnet/minecraft/entity/LivingEntity;)V"; // COMMIT_READY
+	public static final String DRAW_ENTITY_NO_TRANSLATION = METHOD_48472 + "(L" + CLASS_332 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
 	
 	// 1.20.1 Minus
-	public static final String GET_MOUNTED_HEIGHT_OFFSET = "getMountedHeightOffset()D"; // COMMIT_READY
-	public static final String GET_PASSENGER_ATTACHMENT_Y = "getPassengerAttachmentY(ZF)D"; // COMMIT_READY
-	public static final String GET_HEIGHT_OFFSET = "getHeightOffset()D"; // COMMIT_READY
-	public static final String ON_PLAYER_CONNECT = "onPlayerConnect"; // COMMIT_READY
+	public static final String GET_MOUNTED_HEIGHT_OFFSET = METHOD_5621 + "()D"; // COMMIT_READY
+	public static final String GET_PASSENGER_ATTACHMENT_Y = METHOD_45346 + "(ZF)D"; // COMMIT_READY
+	public static final String GET_HEIGHT_OFFSET = METHOD_5678 + "()D"; // COMMIT_READY
+	public static final String ON_PLAYER_CONNECT = METHOD_14570; // COMMIT_READY
 	
 	// 1.20.2 Minus
-	public static final String PERSISTENT_PROJECTILE_ENTITY_INIT = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V"; // COMMIT_READY
+	public static final String PERSISTENT_PROJECTILE_ENTITY_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";L" + CLASS_1937 + ";)V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.20.2 Minus
-	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(Lnet/minecraft/world/World;Lnet/minecraft/entity/Entity;Lnet/minecraft/entity/damage/DamageSource;Lnet/minecraft/world/explosion/ExplosionBehavior;DDDFZLnet/minecraft/world/explosion/Explosion$DestructionType;)V"; // COMMIT_READY
+	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V"; // COMMIT_READY
 	
 	// 1.20 Plus 1.20.2 Minus
-	public static final String GET_HIT_RESULT = "getHitResult(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/util/hit/HitResult;"; // COMMIT_READY
+	public static final String GET_HIT_RESULT = METHOD_49999 + "(L" + CLASS_1309 + ";)L" + CLASS_239 + ";"; // COMMIT_READY
 }

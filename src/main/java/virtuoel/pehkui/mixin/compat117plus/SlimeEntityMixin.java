@@ -13,10 +13,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(SlimeEntity.class)
 public class SlimeEntityMixin
 {
-	@ModifyArg(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "INVOKE", target = "Ljava/util/ArrayList;add(Ljava/lang/Object;)Z"))
-	private Object pehkui$remove$spawnEntity(Object entity)
+	@ModifyArg(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z"))
+	private Entity pehkui$remove$spawnEntity(Entity entity)
 	{
-		ScaleUtils.loadScale((Entity) entity, (Entity) (Object) this);
+		ScaleUtils.loadScale(entity, (Entity) (Object) this);
 		
 		return entity;
 	}

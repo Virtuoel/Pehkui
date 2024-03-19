@@ -3,11 +3,11 @@ package virtuoel.pehkui.mixin.client.compat1194;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -34,7 +34,7 @@ public abstract class InventoryScreenMixin
 	
 	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_ROTATED, at = @At(value = "HEAD"))
-	private static void pehkui$drawEntity$head(MatrixStack matrixStack, int x, int y, int size, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
+	private static void pehkui$drawEntity$head(MatrixStack matrixStack, int x, int y, int size, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -64,7 +64,7 @@ public abstract class InventoryScreenMixin
 	
 	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_ROTATED, at = @At(value = "RETURN"))
-	private static void pehkui$drawEntity$return(MatrixStack matrixStack, int x, int y, int size, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
+	private static void pehkui$drawEntity$return(MatrixStack matrixStack, int x, int y, int size, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		

@@ -3,11 +3,11 @@ package virtuoel.pehkui.mixin.client.compat120plus.compat1201minus;
 import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
+import org.joml.Quaternionf;
 import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -15,6 +15,7 @@ import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.LivingEntity;
@@ -33,7 +34,7 @@ public abstract class InventoryScreenMixin
 	
 	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_NO_TRANSLATION, at = @At(value = "HEAD"))
-	private static void pehkui$drawEntity$head(@Coerce Object drawContext, int x, int y, int k, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
+	private static void pehkui$drawEntity$head(DrawContext drawContext, int x, int y, int k, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		
@@ -63,7 +64,7 @@ public abstract class InventoryScreenMixin
 	
 	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_NO_TRANSLATION, at = @At(value = "RETURN"))
-	private static void pehkui$drawEntity$return(@Coerce Object drawContext, int i, int j, int k, @Coerce Object quaternionf, @Nullable @Coerce Object quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
+	private static void pehkui$drawEntity$return(DrawContext drawContext, int i, int j, int k, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
 		final Map<ScaleType, ScaleData> scales = pehkui$SCALES.get();
 		

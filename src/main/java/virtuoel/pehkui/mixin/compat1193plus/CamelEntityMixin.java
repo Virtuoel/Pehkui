@@ -19,7 +19,7 @@ public class CamelEntityMixin
 	{
 		if (pose == EntityPose.SITTING)
 		{
-			original = original.scaled(ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this), ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this));
+			return original.scaled(ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this), ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this));
 		}
 		
 		return original;
