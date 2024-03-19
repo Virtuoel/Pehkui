@@ -2,9 +2,9 @@ plugins {
 	id "fabric-loom" version "1.5.+"
 	id "eclipse"
 	id "maven-publish"
+	id "com.github.johnrengelman.shadow" version "8.1.1" apply false
 	id "com.github.breadmoirai.github-release" version "2.5.2"
 	id "org.ajoberstar.grgit.service" version "5.2.2"
-	id "com.github.johnrengelman.shadow" version "8.1.0" apply false
 	id "io.github.CDAGaming.cursegradle" version "1.6.1"
 	id "com.modrinth.minotaur" version "2.+"
 }
@@ -137,6 +137,7 @@ dependencies {
 			}
 			else {
 				shadow(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
+				forgeRuntimeLibrary("io.github.llamalad7:mixinextras-common:${mixin_extras_version}")
 			}
 		}
 	}
