@@ -16,20 +16,19 @@ import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.Packet;
+import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.neoforged.neoforge.network.PlayNetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
-import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.network.ScalePacket;
 
 public class ScaleUtils
@@ -249,7 +248,7 @@ public class ScaleUtils
 		
 		if (!syncedScales.isEmpty())
 		{
-			packetSender.accept(PehkuiPacketHandler.INSTANCE.toVanillaPacket(new ScalePacket(entity, syncedScales), PlayNetworkDirection.PLAY_TO_CLIENT));
+			packetSender.accept(new CustomPayloadS2CPacket(new ScalePacket(entity, syncedScales)));
 			syncedScales.clear();
 		}
 	}

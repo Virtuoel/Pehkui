@@ -6,15 +6,17 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.util.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.util.ScaleUtils;
 
-public class ScalePacket
+public class ScalePacket implements CustomPayload
 {
 	final int id, quantity;
 	final Identifier[] typeIds;
@@ -53,9 +55,9 @@ public class ScalePacket
 		}
 	}
 	
-	public static void handle(ScalePacket msg, NetworkEvent.Context ctx)
+	public static void handle(ScalePacket msg, PlayPayloadContext ctx)
 	{
-		ctx.enqueueWork(() ->
+		ctx.workHandler().execute(() ->
 		{
 			if (FMLEnvironment.dist == Dist.CLIENT)
 			{
@@ -74,11 +76,16 @@ public class ScalePacket
 				}
 			}
 		});
-		
-		ctx.setPacketHandled(true);
 	}
 	
-	public void encode(PacketByteBuf buf)
+	@Override
+	public Identifier id()
+	{
+		return Pehkui.SCALE_PACKET;
+	}
+	
+	@Override
+	public void write(PacketByteBuf buf)
 	{
 		buf.writeVarInt(id);
 		buf.writeInt(quantity);

@@ -4,12 +4,15 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.util.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.loading.FMLEnvironment;
-import net.neoforged.neoforge.network.NetworkEvent;
+import net.neoforged.neoforge.network.handling.PlayPayloadContext;
+import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.util.I18nUtils;
 
-public class DebugPacket
+public class DebugPacket implements CustomPayload
 {
 	public static enum Type
 	{
@@ -41,11 +44,11 @@ public class DebugPacket
 		this.type = read;
 	}
 	
-	public static void handle(DebugPacket msg, NetworkEvent.Context ctx)
+	public static void handle(DebugPacket msg, PlayPayloadContext ctx)
 	{
 		final Type type = msg.type;
 		
-		ctx.enqueueWork(() ->
+		ctx.workHandler().execute(() ->
 		{
 			if (FMLEnvironment.dist == Dist.CLIENT)
 			{
@@ -66,11 +69,16 @@ public class DebugPacket
 				}
 			}
 		});
-		
-		ctx.setPacketHandled(true);
 	}
 	
-	public void encode(PacketByteBuf buf)
+	@Override
+	public Identifier id()
+	{
+		return Pehkui.SCALE_PACKET;
+	}
+	
+	@Override
+	public void write(PacketByteBuf buf)
 	{
 		buf.writeEnumConstant(type);
 	}

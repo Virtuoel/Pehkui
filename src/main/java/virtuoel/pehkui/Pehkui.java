@@ -49,7 +49,7 @@ public class Pehkui
 		
 		PehkuiEntitySelectorOptions.register();
 		
-		PehkuiPacketHandler.init();
+		ctx.getActiveContainer().getEventBus().register(PehkuiPacketHandler.class);
 		
 		GravityChangerCompatibility.INSTANCE.getClass();
 		IdentityCompatibility.INSTANCE.getClass();

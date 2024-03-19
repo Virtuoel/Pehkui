@@ -28,10 +28,9 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.neoforged.fml.loading.FMLLoader;
-import net.neoforged.neoforge.network.PlayNetworkDirection;
+import net.neoforged.neoforge.network.PacketDistributor;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.network.DebugPacket;
-import virtuoel.pehkui.network.PehkuiPacketHandler;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
@@ -83,8 +82,8 @@ public class DebugCommand
 					.then(CommandManager.literal("garbage_collect")
 						.executes(context ->
 						{
-							context.getSource().getPlayer().networkHandler.sendPacket(
-								PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.GARBAGE_COLLECT), PlayNetworkDirection.PLAY_TO_CLIENT)
+							PacketDistributor.PLAYER.with(context.getSource().getPlayer()).send(
+								new DebugPacket(DebugPacket.Type.GARBAGE_COLLECT)
 							);
 							
 							System.gc();
@@ -184,8 +183,8 @@ public class DebugCommand
 		final Entity executor = context.getSource().getEntity();
 		if (executor instanceof ServerPlayerEntity)
 		{
-			((ServerPlayerEntity) executor).networkHandler.sendPacket(
-				PehkuiPacketHandler.INSTANCE.toVanillaPacket(new DebugPacket(DebugPacket.Type.MIXIN_AUDIT), PlayNetworkDirection.PLAY_TO_CLIENT)
+			PacketDistributor.PLAYER.with((ServerPlayerEntity) executor).send(
+				new DebugPacket(DebugPacket.Type.MIXIN_AUDIT)
 			);
 		}
 		
