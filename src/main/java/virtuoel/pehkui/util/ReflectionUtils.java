@@ -5,22 +5,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 
 public final class ReflectionUtils
 {
-	public static @Nullable Entity getAttacker(final DamageSource source)
-	{
-		return source.getAttacker();
-	}
-	
 	public static float getFlyingSpeed(final LivingEntity entity)
 	{
 		throw new NoSuchMethodError();
