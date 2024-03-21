@@ -2,12 +2,14 @@ package virtuoel.pehkui.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.math.Box;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(MobEntity.class)
@@ -21,27 +23,23 @@ public abstract class MobEntityMixin
 		return scale != 1.0F ? scale * value : value;
 	}
 	
-	@ModifyArg(method = "tickMovement", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tickMovement$expand$x(double value)
+	@WrapOperation(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$tickMovement$expand(Box obj, double x, double y, double z, Operation<Box> original)
 	{
-		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
 		
-		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@ModifyArg(method = "tickMovement", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tickMovement$expand$y(double value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		if (widthScale != 1.0F)
+		{
+			x *= widthScale;
+			z *= widthScale;
+		}
 		
-		return scale != 1.0F ? scale * value : value;
-	}
-	
-	@ModifyArg(method = "tickMovement", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tickMovement$expand$z(double value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		if (heightScale != 1.0F)
+		{
+			y *= heightScale;
+		}
 		
-		return scale != 1.0F ? scale * value : value;
+		return original.call(obj, x, y, z);
 	}
 }
