@@ -13,22 +13,23 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ServerPlayNetworkHandler.class)
-public class ServerPlayNetworkHandlerMixin
+public abstract class ServerPlayNetworkHandlerMixin
 {
-	@Shadow ServerPlayerEntity player;
-	
 	/*
+	@Shadow
+	abstract ServerPlayerEntity getPlayer();
+	
 	@WrapOperation(method = "onPlayerInteractBlock", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;MAX_BREAK_SQUARED_DISTANCE:D"))
 	private double pehkui$onPlayerInteractBlock$distance(Operation<Double> original)
 	{
-		final float scale = ScaleUtils.getBlockReachScale(player);
+		final float scale = ScaleUtils.getBlockReachScale(getPlayer());
 		return scale <= 1.0F ? original.call() : original.call() * scale * scale;
 	}
 	
 	@WrapOperation(method = "onPlayerInteractEntity", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;MAX_BREAK_SQUARED_DISTANCE:D"))
 	private double pehkui$onPlayerInteractEntity$distance(Operation<Double> original)
 	{
-		final float scale = ScaleUtils.getEntityReachScale(player);
+		final float scale = ScaleUtils.getEntityReachScale(getPlayer());
 		return scale <= 1.0F ? original.call() : original.call() * scale * scale;
 	}
 	*/
