@@ -6,30 +6,35 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.util.math.Box;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(BoatEntity.class)
 public abstract class BoatEntityMixin
 {
-	@ModifyArg(method = "tick", index = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tick$expand$x(double value)
+	@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
+	private Box pehkui$tick$expand(Box obj, double x, double y, double z, Operation<Box> original)
 	{
-		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
-	}
-	
-	@ModifyArg(method = "tick", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tick$expand$y(double value)
-	{
-		return value * ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
-	}
-	
-	@ModifyArg(method = "tick", index = 2, at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Box;expand(DDD)Lnet/minecraft/util/math/Box;"))
-	private double pehkui$tick$expand$z(double value)
-	{
-		return value * ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float widthScale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
+		final float heightScale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
+		
+		if (widthScale != 1.0F)
+		{
+			x *= widthScale;
+			z *= widthScale;
+		}
+		
+		if (heightScale != 1.0F)
+		{
+			y *= heightScale;
+		}
+		
+		return original.call(obj, x, y, z);
 	}
 	
 	@ModifyArg(method = "checkBoatInWater", at = @At(value = "INVOKE", ordinal = 1, target = "Lnet/minecraft/util/math/MathHelper;ceil(D)I"))
