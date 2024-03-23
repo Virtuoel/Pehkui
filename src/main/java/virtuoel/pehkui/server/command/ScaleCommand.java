@@ -1100,7 +1100,7 @@ public class ScaleCommand
 	private static Text persistenceText(@Nullable Boolean persist, ScaleType type)
 	{
 		final String unlocalized = "commands.pehkui.scale.persist." + (persist != null ? persist : ("default." + type.getDefaultPersistence()));
-		final String message = "Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")"  : persist);
+		final String message = "Persistent: " + (persist == null ? "default (" + type.getDefaultPersistence() + ")" : persist);
 		return I18nUtils.translate(unlocalized, message);
 	}
 	
