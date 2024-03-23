@@ -245,13 +245,13 @@ public class MixinConstants
 	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.19 Minus
-	public static final String GET_COLLISION = METHOD_18074 + "(L" + CLASS_1297 + ";Ljava/util/function/Predicate;)L" + CLASS_239  + ";"; // COMMIT_READY
+	public static final String GET_COLLISION = METHOD_18074 + "(L" + CLASS_1297 + ";Ljava/util/function/Predicate;)L" + CLASS_239 + ";"; // COMMIT_READY
 	
 	// 1.16 Plus 1.19.3 Minus
 	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V"; // COMMIT_READY
 	
 	// 1.16 Plus 1.20.2 Minus
-	public static final String GET_COLLISION_FROM_POSITION = METHOD_18074 + "(L" + CLASS_243 + ";L" + CLASS_1297 + ";Ljava/util/function/Predicate;L" + CLASS_243 + ";L" + CLASS_1937 + ";)L" + CLASS_239  + ";"; // COMMIT_READY
+	public static final String GET_COLLISION_FROM_POSITION = METHOD_18074 + "(L" + CLASS_243 + ";L" + CLASS_1297 + ";Ljava/util/function/Predicate;L" + CLASS_243 + ";L" + CLASS_1937 + ";)L" + CLASS_239 + ";"; // COMMIT_READY
 	
 	// 1.17 Plus 1.19.3 Minus Client
 	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V"; // COMMIT_READY
