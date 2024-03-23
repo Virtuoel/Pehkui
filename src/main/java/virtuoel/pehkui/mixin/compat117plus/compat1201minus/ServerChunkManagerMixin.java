@@ -15,7 +15,7 @@ import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.chunk.WorldChunk;
 import virtuoel.pehkui.mixin.compat116plus.compat1201minus.ChunkHolderAccessor;
 
-@Mixin(value =  ServerChunkManager.class, priority = 1010)
+@Mixin(value = ServerChunkManager.class, priority = 1010)
 public abstract class ServerChunkManagerMixin
 {
 	@Shadow
