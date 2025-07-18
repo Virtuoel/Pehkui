@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.6.+"
+	id "fabric-loom" version "1.11-SNAPSHOT"
 	id "eclipse"
 	id "maven-publish"
 	id "com.github.johnrengelman.shadow" version "8.1.1" apply false
@@ -269,8 +269,8 @@ java {
 	withSourcesJar()
 	
 	if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		sourceCompatibility = JavaVersion.VERSION_21
+		targetCompatibility = JavaVersion.VERSION_21
 	}
 	else {
 		def minor = minecraftVersionNumber.getMinor()
