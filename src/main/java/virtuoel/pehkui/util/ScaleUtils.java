@@ -25,6 +25,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.network.NetworkDirection;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleData;
+import virtuoel.pehkui.api.ScaleEventCallback;
 import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
@@ -38,9 +39,17 @@ public class ScaleUtils
 	{
 		final ScaleType type = data.getScaleType();
 		
-		type.getPreTickEvent().forEach(s -> s.onEvent(data));
+		final Collection<ScaleEventCallback> preTick = type.getPreTickEvent();
+		if (!preTick.isEmpty())
+		{
+			preTick.forEach(s -> s.onEvent(data));
+		}
 		data.tick();
-		type.getPostTickEvent().forEach(s -> s.onEvent(data));
+		final Collection<ScaleEventCallback> postTick = type.getPostTickEvent();
+		if (!postTick.isEmpty())
+		{
+			postTick.forEach(s -> s.onEvent(data));
+		}
 	}
 	
 	public static void loadAverageScales(Entity target, Entity source, Entity... sources)
